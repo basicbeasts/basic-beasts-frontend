@@ -1,5 +1,5 @@
 import { FC, createContext, useContext, useState, useEffect } from 'react'
-import useFUSD from 'framework/hooks/use-fusd-balance.hook'
+import useFUSD from '@framework/hooks/use-fusd.hook'
 import useCurrentUser from "framework/hooks/use-current-user.hook"
 
 export interface State {}

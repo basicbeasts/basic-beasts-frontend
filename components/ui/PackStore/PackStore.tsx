@@ -1,9 +1,10 @@
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 import styled from 'styled-components'
-import BuyCard from '../BuyCard'
+import { useUser } from '@components/user/UserProvider'
+import { useAuth } from '@components/auth/AuthProvider'
 
 const Container = styled.div`
-    padding: 10em 3em;
+    padding: 18em 3em;
     position: relative;
     -webkit-box-pack: center;
     justify-content: center;
@@ -22,13 +23,362 @@ const Content = styled.div`
     top: -9.5em;
 `
 
+const CardContainer = styled.div`
+    position: relative;
+    color: rgb(255, 255, 255);
+    max-width: 100%;
+    margin: 1.5em 2em 0.5em;
+    width: 30em;
+    height: 55em;
+    background: #424F66;
+    border-radius: 1px;
+`
+
+const StarterCardContainer = styled(CardContainer)`
+
+`
+
+const CursedBlackCardContainer = styled(CardContainer)`
+    box-shadow: 0px 0px 10px 0px #fff;
+    background: #30008F;
+`
+
+const ShinyGoldCardContainer = styled(CardContainer)`
+    box-shadow: 0px 0px 15px 1px #E2D430;
+    background: #A75806;
+    color: #F3CB23;
+`
+
+
+const CardTitle = styled.h3`
+    font-weight: 400;
+    text-align: center;
+    font-size: 46px;
+`
+
+const ShinyGoldCardTitle = styled(CardTitle)`
+    color: #F3CB23;
+`
+
+const CardContent = styled.div`
+    position: relative;
+    color: rgb(255, 255, 255);
+    margin: 1em 2.5em 0.5em;
+    height: 37em;
+    background: #111823;
+    border-radius: 4px;
+    padding: 30px 40px;
+
+`
+
+const CursedBlackCardContent = styled(CardContent)`
+    background: #131A36;
+`
+
+const ShinyGoldCardContent = styled(CardContent)`
+    background: #F3CB23;
+    color: #A75806;
+`
+
+const Headline = styled.div`
+    font-size: 30px;
+`
+
+const DescriptionList = styled.ul`
+    padding-inline-start: 20px;
+    font-size: 22px;
+    line-height: 26px;
+`
+
+const ReservationOption = styled.div`
+    cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
+			14 0,
+		pointer !important;
+    user-select: none;
+    font-size: 22px;
+    line-height: 26px;
+
+    &:hover {
+        text-decoration: underline;
+    }
+`
+
+const PurchaseContent = styled.div`
+    display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: column;
+`
+
+const QuantitySelector = styled.div`
+    display: flex;
+    margin: 30px 0;
+`
+
+const QuantityButton = styled.button`
+    position: absolute;
+    text-transform: uppercase;
+    //margin:150px auto;
+    width: 40px;
+    height: 40px;
+    padding: 0px 10px 10px 12px;
+    background-color: #FEFF95;
+    color: #A75806;
+    font-size: 36px;
+    box-shadow: -3px 0px 0px 0px #A15813, 
+    0px -3px 0px 0px #A15813, 
+    0px 3px 0px 0px #A15813, 
+    3px 0px 0px 0px #A15813,
+    inset -3px -3px #F3CB23;
+    border:none;
+    transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -webkit-transition: all 0.3s ease 0s;
+    top: 345px;
+`
+
+const Increment = styled(QuantityButton)`
+    right: 120px;
+`
+
+const Decrement = styled(QuantityButton)`
+    left: 120px;
+`
+
+const OutputText = styled.span`
+    font-size: 36px;
+`
+
+
+const TotalPrice = styled.div`
+    font-size: 46px;
+    margin-bottom: 30px;
+`
+
+const Button = styled.button`
+    text-transform: uppercase;
+    padding: 6px 12px 10px 14px;
+    font-size: 36px;
+    background-color: #FEFF95;
+    box-shadow: -3px 0px 0px 0px #A15813, 
+    0px -3px 0px 0px #A15813, 
+    0px 3px 0px 0px #A15813, 
+    3px 0px 0px 0px #A15813,
+    inset -3px -3px #F3CB23;
+    color: #A75806;
+    border:none;
+    transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -webkit-transition: all 0.3s ease 0s;
+`
+
+const SubmitButton = styled(Button)`
+    width: 170px;
+`
+
+const SubmitButtonDisabled = styled(SubmitButton)`
+    background-color: #fdff9597;
+    box-shadow: -3px 0px 0px 0px #a1581397, 
+    0px -3px 0px 0px #a1581397, 
+    0px 3px 0px 0px #a1581397, 
+    3px 0px 0px 0px #a1581397,
+    inset -3px -3px #f3c92350;
+    color: #a7590697;
+`
+
+const ConnectWallet = styled(Button)`
+    width: 250px;
+`
+
+
+const AlertText = styled.div`
+    margin-top: 10px;
+
+    font-size: 22px;
+    line-height: 26px;
+    color: red;
+    a {
+        text-decoration: underline;
+    }
+`
+
+const Input = styled.input.attrs({ type: 'checkbox' })`
+    margin: 0 6px 0 0;
+        /*
+    
+    margin: 0px 6px 0px 0px;
+    -webkit-appearance: none;
+	//background-color: #111823;
+	border: 1px solid #fff;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
+	padding: 9px;
+	border-radius: 3px;
+	display: inline-block;
+	position: relative;
+    &:checked {
+        border: 1px solid #adb8c0;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);
+        color: #99a1a7;
+    }*/
+  
+`
+
+const DetailsText = styled.div`
+    padding: 0px 50px;
+    margin: 10px 0;
+    font-size: 18px;
+    line-height: 26px;
+`
+
+
+const HeadlineText = "Place your order for a chance to receive a 1-star beast or more"
+
+type DescProps = {
+    SpecificItem: String;
+}
+
+const Description: FC<DescProps> = ({SpecificItem}) => {
+    return (
+        <>
+            <DescriptionList>
+                <li>{SpecificItem}</li>
+                <li>Become the First Owner</li>
+                <li>Chance for 1 of 1 Mythic Diamond skin</li>
+            </DescriptionList>
+        </>
+    )
+}
+
+type BuyProps = {
+    maxQuantity: number;
+    price: number;
+    address: String;
+}
+
+const Purchase: FC<BuyProps> = ({maxQuantity, price, address}) => {
+
+    const [checkboxValue, setCheckboxValue] = useState(false)
+
+    const [quantity, setQuantity] = useState(1)
+
+    const { logIn, loggedIn } = useAuth()
+
+    const { balance, purchase } = useUser()
+
+    const incrementQuantity = () => {
+        if(quantity < maxQuantity) {
+        setQuantity(quantity + 1)
+        }
+    }
+
+    const decrementQuantity = () => {
+        if(quantity > 1) {
+        setQuantity(quantity - 1)
+        }
+    }
+    
+    const calculateTotalPrice = () => {
+        return quantity * price
+    }
+
+    const totalPrice = calculateTotalPrice().toFixed(2)
+
+    
+
+    return (
+        <>
+            <ReservationOption onClick={() => setCheckboxValue(!checkboxValue)}>
+                <Input checked={checkboxValue} onChange={() => setCheckboxValue(!checkboxValue)} type="checkbox"/>
+                If I don’t win this draw, I want to use my order as a reservation for the next sale 
+            </ReservationOption>
+            <PurchaseContent>
+                <>
+                <QuantitySelector>
+                    <Decrement onClick={() => decrementQuantity()}>-</Decrement>
+                    <OutputText>{quantity}</OutputText>
+                    <Increment onClick={() => incrementQuantity()}>+</Increment>
+                </QuantitySelector>
+                <TotalPrice>{calculateTotalPrice()} FUSD</TotalPrice>
+                { (!loggedIn) ? (
+                    <ConnectWallet onClick={() => logIn()}>Connect wallet</ConnectWallet>
+                ) : (
+                    <>
+                    { (balance > calculateTotalPrice()) ? (
+                        <SubmitButton onClick={() => purchase(totalPrice, address)}>Submit</SubmitButton>
+                    ) : (
+                    <>
+                        <SubmitButtonDisabled>Submit</SubmitButtonDisabled>
+                        <AlertText>You don't have enough FUSD. <a>Get FUSD</a></AlertText>
+                    </>
+                    ) }
+                    </>
+                )}
+                </>
+            </PurchaseContent>
+            
+        </>
+    )
+}
+
+type DetailProps = {
+    availStock: number;
+}
+
+const Details: FC<DetailProps> = ({availStock}) => {
+    return (
+        <>
+            <DetailsText>
+                Available stock: {availStock}
+            </DetailsText>
+            <DetailsText>
+                You can place your order between Oct 22-25, 12PM PST
+                <br/>
+                We will announce winners and distribute/reserve/refund before 
+                Oct 31st end of the day
+            </DetailsText>
+        </>
+    )
+}
+
 const PackStore: FC = () => {
+
+
     return (
         <Container>
             <Content>
-                <BuyCard/>
-                <BuyCard/>
-                <BuyCard/>
+                <StarterCardContainer>
+                    <CardTitle>
+                            Starter Pack
+                    </CardTitle>
+                    <CardContent>
+                        <Headline>{HeadlineText}</Headline>
+                        <Description SpecificItem={"1 random Normal skin 1-Star Beast"}/>
+                        <Purchase maxQuantity={450} price={10} address={"0xac70648174bc9884"}/>
+                    </CardContent>
+                    <Details availStock={450}/>
+                </StarterCardContainer>
+                <CursedBlackCardContainer>
+                    <CardTitle>
+                        Cursed Black Pack
+                    </CardTitle>
+                    <CursedBlackCardContent>
+                        <Headline>{HeadlineText}</Headline>
+                        <Description SpecificItem={"1 random Cursed Black 1-Star Beast"}/>
+                        <Purchase maxQuantity={90} price={300} address={"0xac70648174bc9884"}/>
+                    </CursedBlackCardContent>
+                    <Details availStock={90}/>
+                </CursedBlackCardContainer>
+                <ShinyGoldCardContainer>
+                    <ShinyGoldCardTitle>
+                        Shiny Gold Pack
+                    </ShinyGoldCardTitle>
+                    <ShinyGoldCardContent>
+                        <Headline>{HeadlineText}</Headline>
+                        <Description SpecificItem={"1 random Shiny Gold 1-Star Beast"}/>
+                        <Purchase maxQuantity={22} price={999} address={"0xac70648174bc9884"}/>
+                    </ShinyGoldCardContent>
+                    <Details availStock={22}/>
+                </ShinyGoldCardContainer>
             </Content>
         </Container>
     )
