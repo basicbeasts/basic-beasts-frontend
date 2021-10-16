@@ -23,7 +23,7 @@ const Content = styled.div`
     top: -9.5em;
 `
 
-const CardContainer = styled.div`
+const StarterCardContainer = styled.div`
     position: relative;
     color: rgb(255, 255, 255);
     max-width: 100%;
@@ -34,16 +34,25 @@ const CardContainer = styled.div`
     border-radius: 1px;
 `
 
-const StarterCardContainer = styled(CardContainer)`
-
-`
-
-const CursedBlackCardContainer = styled(CardContainer)`
+const CursedBlackCardContainer = styled.div`
+    position: relative;
+    color: rgb(255, 255, 255);
+    max-width: 100%;
+    margin: 1.5em 2em 0.5em;
+    width: 30em;
+    height: 55em;
+    border-radius: 1px;
     box-shadow: 0px 0px 10px 0px #fff;
     background: #30008F;
 `
 
-const ShinyGoldCardContainer = styled(CardContainer)`
+const ShinyGoldCardContainer = styled.div`
+    position: relative;
+    max-width: 100%;
+    margin: 1.5em 2em 0.5em;
+    width: 30em;
+    height: 55em;
+    border-radius: 1px;
     box-shadow: 0px 0px 15px 1px #E2D430;
     background: #A75806;
     color: #F3CB23;
