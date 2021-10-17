@@ -140,10 +140,20 @@ const QuantityButton = styled.button`
     3px 0px 0px 0px #A15813,
     inset -3px -3px #F3CB23;
     border:none;
-    transition: all 0.3s ease 0s;
-    -moz-transition: all 0.3s ease 0s;
-    -webkit-transition: all 0.3s ease 0s;
+    transition: all 0.1s ease 0s;
+    -moz-transition: all 0.1s ease 0s;
+    -webkit-transition: all 0.1s ease 0s;
     top: 345px;
+    &:active {
+        transition: all 0.1s ease 0s;
+        -moz-transition: all 0.1s ease 0s;
+        -webkit-transition: all 0.1s ease 0s;
+        box-shadow: -3px 0px 0px 0px #A15813, 
+        0px -3px 0px 0px #A15813, 
+        0px 3px 0px 0px #A15813, 
+        3px 0px 0px 0px #A15813,
+        inset 3px 3px #F3CB23;
+    }
 `
 
 const Increment = styled(QuantityButton)`
@@ -176,13 +186,23 @@ const Button = styled.button`
     inset -3px -3px #F3CB23;
     color: #A75806;
     border:none;
-    transition: all 0.3s ease 0s;
-    -moz-transition: all 0.3s ease 0s;
-    -webkit-transition: all 0.3s ease 0s;
+    transition: all 0.1s ease 0s;
+    -moz-transition: all 0.1s ease 0s;
+    -webkit-transition: all 0.1s ease 0s;
 `
 
 const SubmitButton = styled(Button)`
     width: 170px;
+    &:active {
+        transition: all 0.1s ease 0s;
+        -moz-transition: all 0.1s ease 0s;
+        -webkit-transition: all 0.1s ease 0s;
+        box-shadow: -3px 0px 0px 0px #A15813, 
+        0px -3px 0px 0px #A15813, 
+        0px 3px 0px 0px #A15813, 
+        3px 0px 0px 0px #A15813,
+        inset 3px 3px #F3CB23;
+    }
 `
 
 const SubmitButtonDisabled = styled(SubmitButton)`
@@ -193,6 +213,7 @@ const SubmitButtonDisabled = styled(SubmitButton)`
     3px 0px 0px 0px #a1581397,
     inset -3px -3px #f3c92350;
     color: #a7590697;
+    
 `
 
 const ConnectWallet = styled(Button)`
