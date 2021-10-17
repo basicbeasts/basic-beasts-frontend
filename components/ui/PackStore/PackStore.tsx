@@ -1,7 +1,8 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { useUser } from '@components/user/UserProvider'
 import { useAuth } from '@components/auth/AuthProvider'
+import Spinner from '../Spinner'
 
 const Container = styled.div`
     padding: 18em 3em;
@@ -166,12 +167,17 @@ const Decrement = styled(QuantityButton)`
 
 const OutputText = styled.span`
     font-size: 36px;
+    user-select: none;
 `
 
 
 const TotalPrice = styled.div`
     font-size: 46px;
     margin-bottom: 30px;
+`
+
+const Currency = styled.span`
+    font-size: 33px;
 `
 
 const Button = styled.button`
@@ -294,6 +300,10 @@ const Purchase: FC<BuyProps> = ({maxQuantity, price, address}) => {
     const { logIn, loggedIn } = useAuth()
 
     const { balance, purchase } = useUser()
+/*
+    useEffect(() => {
+        console.log(loading)
+    })*/
 
     const incrementQuantity = () => {
         if(quantity < maxQuantity) {
@@ -328,7 +338,7 @@ const Purchase: FC<BuyProps> = ({maxQuantity, price, address}) => {
                     <OutputText>{quantity}</OutputText>
                     <Increment onClick={() => incrementQuantity()}>+</Increment>
                 </QuantitySelector>
-                <TotalPrice>{calculateTotalPrice()} FUSD</TotalPrice>
+                <TotalPrice>{calculateTotalPrice().toLocaleString()} <Currency>₣USD</Currency></TotalPrice>
                 { (!loggedIn) ? (
                     <ConnectWallet onClick={() => logIn()}>Connect wallet</ConnectWallet>
                 ) : (
@@ -345,6 +355,8 @@ const Purchase: FC<BuyProps> = ({maxQuantity, price, address}) => {
                 )}
                 </>
             </PurchaseContent>
+
+
             
         </>
     )
@@ -372,9 +384,11 @@ const Details: FC<DetailProps> = ({availStock}) => {
 
 const PackStore: FC = () => {
 
+    const { loading } = useUser()
 
     return (
         <Container>
+            { (loading) ? (<Spinner/>) : (<></>)}
             <Content>
                 <StarterCardContainer>
                     <CardTitle>

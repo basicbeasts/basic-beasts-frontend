@@ -10,7 +10,7 @@ const Context = createContext<State | any>(initialState)
 
 const UserProvider: FC = ({ children }) => {
     const [user]:any =  useCurrentUser()
-    const { data: balance, getFUSDBalance, purchase } = useFUSD(user)
+    const { data: balance, getFUSDBalance, purchase, loading } = useFUSD(user)
 
     return (
         <Context.Provider 
@@ -18,6 +18,7 @@ const UserProvider: FC = ({ children }) => {
                 balance,
                 getFUSDBalance,
                 purchase,
+                loading,
                 
             }}
         >

@@ -36,13 +36,16 @@ export default function useFUSD(user: any) {
 	  }
 
       //TODO: Try and catch
-	  /*
-	  const purchaseStarter = async (amount: any, address: any) => {
+
+	const purchase = async (amount: any, address: any) => {
+		dispatch({ type: 'PROCESSING' })
+
+		try {
 			const res = await send([
 				transaction(PURCHASE),
 				args([
 					arg(amount, FlowTypes.UFix64),
-				  	arg("0xac70648174bc9884", FlowTypes.Address) //send to fixed wallet address
+					arg(address, FlowTypes.Address) //send to fixed wallet address
 			]),
 				payer(authz),
 				proposer(authz),
@@ -51,29 +54,18 @@ export default function useFUSD(user: any) {
 			])
 			.then(decode);
 			return tx(res).onceSealed();
-	  };
-	  */
 
-	  const purchase = async (amount: any, address: any) => {
-		const res = await send([
-			transaction(PURCHASE),
-			args([
-				arg(amount, FlowTypes.UFix64),
-				arg(address, FlowTypes.Address) //send to fixed wallet address
-		]),
-			payer(authz),
-			proposer(authz),
-			authorizations([authz]),
-			limit(9999),
-		])
-		.then(decode);
-		return tx(res).onceSealed();
-  };
+		} catch (err) {
+			dispatch({ type: 'ERROR' })
+			console.log(err)
+		}
+		
+	};
 
-	  return {
+	return {
 		...state,
 		getFUSDBalance,
 		purchase
-	  }
+	}
 
 }
