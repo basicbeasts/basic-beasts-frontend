@@ -387,8 +387,6 @@ const Purchase: FC<BuyProps> = ({maxQuantity, price, addressReservable, addressR
         if(quantity < maxQuantity) {
         setQuantity(quantity + 1)
         }
-        console.log("Balance:" + balance)
-        console.log("LoggedIn:" + loggedIn)
     }
 
     const decrementQuantity = () => {
