@@ -13,15 +13,20 @@ const Container = styled.div`
     min-height: 50vh;
     border: solid 15px #93A4BE;
     background: #424F66;
+    @media (max-width: 900px) {
+        flex-direction: column;
+    }
 `
 
 const Content = styled.div`
     //padding: 4rem 0;
     flex: 1;
     display: flex;
-    flex-direction: row;
     justify-content: center;
     align-items: center;
+    @media (max-width: 899px) {
+        flex-direction: column;
+    }
 `
 
 const HeroImage = styled.img`
@@ -34,24 +39,33 @@ const HeroImage = styled.img`
     -moz-user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
+    @media (max-width: 899px) {
+        width: 100px;
+        margin: 0px;
+    }
 `
 
 const Description = styled.div`
-    width: 600px;
+    max-width: 600px;
     user-select: none;
-`
-
-const H1 = styled.h1`
-    margin: 0;
-    line-height: 1.15;
-    font-size: 4rem;
-    color: #fff;
+    @media (max-width: 1010px) {
+        max-width: 500px;
+    }
 `
 
 const P = styled.p`
     color: #fff;
     line-height: 40px;
     font-size: 36px;
+    @media (max-width: 1010px) {
+        line-height: 30px;
+        font-size: 26px;
+    }
+    @media (max-width: 600px) {
+        line-height: 24px;
+        font-size: 20px;
+        margin: 20px;
+    }
 `
 
 const Hero: FC = () => {

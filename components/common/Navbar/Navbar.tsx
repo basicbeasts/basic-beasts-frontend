@@ -48,18 +48,18 @@ const MobileIcon = styled(FontAwesomeIcon)`
     top: 0;
     right: 0%;
     transform: translate(-100%, 60%);
-    font-size: 6.8rem;
+    font-size: 2.8rem;
     cursor: pointer;
     color: #fff;
     z-index: 3;
-    @media (min-width: 768px) {
+    @media (min-width: 900px) {
         display: none;
     }
 `
 
 const NavMenu = styled.ul`
     display: none;
-    @media (min-width: 768px) {
+    @media (min-width: 900px) {
         display: flex;
         align-items: center;
         list-style: none;
@@ -77,9 +77,13 @@ const A = styled.a`
     padding: 0 1rem;
     height: 100%;
     cursor: pointer;
+    @media (max-width: 1010px) {
+        padding: 0 0.5rem;
+    }
 `
 
 const WalletConnect = styled.div`
+    
 `
 
 const BtnLink = styled.a`
@@ -132,6 +136,11 @@ const BtnLink = styled.a`
         bottom: -6px;
         right: -6px;
     }
+
+    @media (max-width: 899px) {
+        display: none;
+    }
+    
 `
 
 const RemoveTopCorners = styled.div`
@@ -166,7 +175,7 @@ const RemoveTopCorners = styled.div`
 
 const RightNav = styled.div`
     display: flex;
-    @media (min-width: 768px) {
+    @media (min-width: 900px) {
         display: flex;
         align-items: center;
         list-style: none;
@@ -195,6 +204,9 @@ const LoggedInContainer = styled.div`
     &:after {
         display: table;
         clear: both;
+    }
+    @media (max-width: 899px) {
+        padding-top: 15px;
     }
 `
 

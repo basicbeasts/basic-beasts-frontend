@@ -5,58 +5,72 @@ import { useAuth } from '@components/auth/AuthProvider'
 import Spinner from '../Spinner'
 
 const Container = styled.div`
-    padding: 18em 3em;
+    padding: 6em 6em 3em;
     position: relative;
     -webkit-box-pack: center;
     justify-content: center;
-    padding-bottom: 0.5em;
-    top: -9.5em;
+    @media (max-width: 899px) {
+        padding: 0;
+    }
+    
 `
 
 const Content = styled.div`
-    padding: 10em 3em;
     position: relative;
     display: flex;
     flex-flow: row wrap;
     -webkit-box-pack: center;
     justify-content: center;
-    padding-bottom: 0.5em;
-    top: -9.5em;
 `
 
 const StarterCardContainer = styled.div`
     position: relative;
     color: rgb(255, 255, 255);
     max-width: 100%;
-    margin: 1.5em 2em 0.5em;
+    margin: 1.5em 2em 4.5em;
     width: 30em;
     height: 55em;
     background: #424F66;
     border-radius: 1px;
+    @media (max-width: 899px) {
+        width: 100%;
+        margin: 1.5em;
+        height: 100%
+    }
 `
 
 const CursedBlackCardContainer = styled.div`
     position: relative;
     color: rgb(255, 255, 255);
     max-width: 100%;
-    margin: 1.5em 2em 0.5em;
+    margin: 1.5em 2em 4.5em;
     width: 30em;
     height: 55em;
     border-radius: 1px;
     box-shadow: 0px 0px 10px 0px #fff;
     background: #30008F;
+    @media (max-width: 899px) {
+        width: 100%;
+        margin: 1.5em;
+        height: 100%
+    }
 `
 
 const ShinyGoldCardContainer = styled.div`
     position: relative;
     max-width: 100%;
-    margin: 1.5em 2em 0.5em;
+    margin: 1.5em 2em 4.5em;
     width: 30em;
     height: 55em;
     border-radius: 1px;
     box-shadow: 0px 0px 15px 1px #E2D430;
     background: #A75806;
     color: #F3CB23;
+    @media (max-width: 899px) {
+        width: 100%;
+        margin: 1.5em;
+        height: 100%
+    }
 `
 
 
@@ -78,6 +92,12 @@ const CardContent = styled.div`
     background: #111823;
     border-radius: 4px;
     padding: 30px 40px;
+    @media (max-width: 899px) {
+        height: 55vh;
+    }
+    @media (max-width: 799px) {
+        height: 39em;
+    }
 
 `
 
@@ -128,7 +148,6 @@ const QuantitySelector = styled.div`
 const QuantityButton = styled.button`
     position: absolute;
     text-transform: uppercase;
-    //margin:150px auto;
     width: 40px;
     height: 40px;
     padding: 0px 10px 10px 12px;
@@ -155,19 +174,62 @@ const QuantityButton = styled.button`
         3px 0px 0px 0px #A15813,
         inset 3px 3px #F3CB23;
     }
+    @media (max-width: 899px) {
+        top: 26.5vh;
+    }
+    @media (max-width: 897px) {
+        top: 30vh;
+    }
+    @media (max-width: 878px) {
+        top: 32.5vh;
+    }
+    @media (max-width: 699px) {
+        top: 33vh;
+    }
+    @media (max-width: 563px) {
+        top: 36vh;
+    }
+    @media (max-width: 563px) {
+        top: 39vh;
+    }
+    @media (max-width: 521px) {
+        top: 42vh;
+    }
+    @media (max-width: 490px) {
+        top: 44.5vh;
+    }
 `
 
 const Increment = styled(QuantityButton)`
     right: 120px;
+    @media (max-width: 899px) {
+        right: 32vw;
+    }
+    @media (max-width: 700px) {
+        right: 25vw;
+    }
+    @media (max-width: 500px) {
+        right: 21vw;
+    }
 `
 
 const Decrement = styled(QuantityButton)`
     left: 120px;
+    @media (max-width: 899px) {
+        left: 32vw;
+    }
+    @media (max-width: 700px) {
+        left: 25vw;
+    }
+    @media (max-width: 500px) {
+        left: 21vw;
+    }
 `
 
 const OutputText = styled.span`
     font-size: 36px;
     user-select: none;
+    
 `
 
 
