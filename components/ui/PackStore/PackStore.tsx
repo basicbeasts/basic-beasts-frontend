@@ -211,7 +211,10 @@ const SubmitButton = styled(Button)`
     }
 `
 
-const SubmitButtonDisabled = styled(SubmitButton)`
+const SubmitButtonDisabled = styled(Button)`
+    width: 170px;
+    cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABFklEQVRYR9WXURLDIAhE6/0PbSdOtUpcd1Gnpv1KGpTHBpCE1/cXq+vrMph7dGvXZTtpfW10DCA5jrH1H0Jhs5E0hnZdCR+vb5S8Nn8mQCeS9BdSalYJqMBjAGzq59xAESN7VFVUgV8AZB/dZBR7QTFDCqGquvUBVVoEtgIwpQRzmANSFHgWQKExHdIrPeuMvQNDarXe6nC/AutgV3JW+6bgqQLeV8FekRtgV+ToDKEKnACYKsfZjjkam7a0ZpYTytwmgainpC3HvwBocgKOxqRjehoR9DFKNFYtOwCGYCszobeCbl26N6yyQ6g8X/Wex/rBPsNEV6qAMaJPMynIHQCoSqS9JSMmwef51LflTgCRszU7DvAGiV6mHWfsaVUAAAAASUVORK5CYII=),
+		auto !important;
     background-color: #fdff9597;
     box-shadow: -3px 0px 0px 0px #a1581397, 
     0px -3px 0px 0px #a1581397, 
@@ -288,10 +291,11 @@ const Description: FC<DescProps> = ({SpecificItem}) => {
 type BuyProps = {
     maxQuantity: number;
     price: number;
-    address: String;
+    addressReservable: String;
+    addressRefundable: String;
 }
 
-const Purchase: FC<BuyProps> = ({maxQuantity, price, address}) => {
+const Purchase: FC<BuyProps> = ({maxQuantity, price, addressReservable, addressRefundable}) => {
 
     const [checkboxValue, setCheckboxValue] = useState(false)
 
@@ -300,10 +304,6 @@ const Purchase: FC<BuyProps> = ({maxQuantity, price, address}) => {
     const { logIn, loggedIn } = useAuth()
 
     const { balance, purchase } = useUser()
-/*
-    useEffect(() => {
-        console.log(loading)
-    })*/
 
     const incrementQuantity = () => {
         if(quantity < maxQuantity) {
@@ -322,8 +322,6 @@ const Purchase: FC<BuyProps> = ({maxQuantity, price, address}) => {
     }
 
     const totalPrice = calculateTotalPrice().toFixed(2)
-
-    
 
     return (
         <>
@@ -344,11 +342,17 @@ const Purchase: FC<BuyProps> = ({maxQuantity, price, address}) => {
                 ) : (
                     <>
                     { (balance > calculateTotalPrice()) ? (
-                        <SubmitButton onClick={() => purchase(totalPrice, address)}>Submit</SubmitButton>
+                        <>
+                            { (checkboxValue) ? (
+                                <SubmitButton onClick={() => purchase(totalPrice, addressReservable)}>Submit</SubmitButton>
+                            ) : (
+                                <SubmitButton onClick={() => purchase(totalPrice, addressRefundable)}>Submit</SubmitButton>
+                            )}
+                        </>
                     ) : (
                     <>
                         <SubmitButtonDisabled>Submit</SubmitButtonDisabled>
-                        <AlertText>You don't have enough FUSD. <a>Get FUSD</a></AlertText>
+                        <AlertText>You don't have enough FUSD. <a href="https://blocto.portto.io/" target="_blank">Get FUSD</a></AlertText>
                     </>
                     ) }
                     </>
@@ -397,7 +401,7 @@ const PackStore: FC = () => {
                     <CardContent>
                         <Headline>{HeadlineText}</Headline>
                         <Description SpecificItem={"1 random Normal skin 1-Star Beast"}/>
-                        <Purchase maxQuantity={450} price={10} address={"0xac70648174bc9884"}/>
+                        <Purchase maxQuantity={450} price={10} addressReservable={"0xac70648174bc9884"} addressRefundable={"0xac70648174bc9884"}/>
                     </CardContent>
                     <Details availStock={450}/>
                 </StarterCardContainer>
@@ -408,7 +412,7 @@ const PackStore: FC = () => {
                     <CursedBlackCardContent>
                         <Headline>{HeadlineText}</Headline>
                         <Description SpecificItem={"1 random Cursed Black 1-Star Beast"}/>
-                        <Purchase maxQuantity={90} price={300} address={"0xac70648174bc9884"}/>
+                        <Purchase maxQuantity={90} price={300} addressReservable={"0xac70648174bc9884"} addressRefundable={"0xac70648174bc9884"}/>
                     </CursedBlackCardContent>
                     <Details availStock={90}/>
                 </CursedBlackCardContainer>
@@ -419,7 +423,7 @@ const PackStore: FC = () => {
                     <ShinyGoldCardContent>
                         <Headline>{HeadlineText}</Headline>
                         <Description SpecificItem={"1 random Shiny Gold 1-Star Beast"}/>
-                        <Purchase maxQuantity={22} price={999} address={"0xac70648174bc9884"}/>
+                        <Purchase maxQuantity={22} price={999} addressReservable={"0xac70648174bc9884"} addressRefundable={"0xac70648174bc9884"}/>
                     </ShinyGoldCardContent>
                     <Details availStock={22}/>
                 </ShinyGoldCardContainer>

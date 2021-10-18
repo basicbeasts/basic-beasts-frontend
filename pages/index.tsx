@@ -1,17 +1,13 @@
 import type { NextPage } from 'next'
-import ComingSoon from "@components/ui/ComingSoon"
 import Head from 'next/head'
 import PackStore from '@components/ui/PackStore'
+import Hero from '@components/ui/Hero'
+import favicon from 'public/saber001_reverse.ico'
 
 const Home: NextPage = () => {
     return (
       	<div>
-			<Head>
-				<title>Basic Beasts</title>
-				<meta name="description" content="Basic Beasts" />
-				<link rel="icon" href="/favicon.ico" />
-			</Head>
-        	<ComingSoon description="Welcome to Basic Beasts! Brought to you by the Delta variant."/>
+			<Hero/>
 			<PackStore/>
       	</div>
     )
