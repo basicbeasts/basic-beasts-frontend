@@ -344,7 +344,9 @@ const DetailsText = styled.div`
     line-height: 26px;
 `
 
-
+const Spacing = styled.div`
+    margin: 30px;
+`
 const HeadlineText = "Place your order for a chance to receive a 1-star beast or more"
 
 type DescProps = {
@@ -408,12 +410,19 @@ const Purchase: FC<BuyProps> = ({maxQuantity, price, addressReservable, addressR
                 If I don’t win this draw, I want to use my order as a reservation for the next sale 
             </ReservationOption>
             <PurchaseContent>
-                <>
-                    <QuantitySelector>
+                <>  
+                
+                    { (!available) ? (
+                        <Spacing/>
+                        
+                    ) : (
+                        <>
+                        <QuantitySelector>
                         <Decrement onClick={() => decrementQuantity()}>-</Decrement>
                         <OutputText>{quantity}</OutputText>
                         <Increment onClick={() => incrementQuantity()}>+</Increment>
-                    </QuantitySelector>
+                        </QuantitySelector></>
+                    ) }
                     <TotalPrice>{calculateTotalPrice().toLocaleString()} <Currency>₣USD</Currency></TotalPrice>
                     <>
 
