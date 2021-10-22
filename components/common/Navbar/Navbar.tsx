@@ -252,14 +252,14 @@ const Navbar: FC<FuncProps> = ({toggle}) => {
                             </NextLink>
                         </NavItem>
                         <NavItem>
-                            <NextLink href="/evolution">
-                                <A>Evolution</A>
-                            </NextLink>
-                        </NavItem>
-                        <NavItem>
                             <NextLink href="/dexicon">
                                 <A>Dexicon</A>
                             </NextLink>
+                        </NavItem>
+                        <NavItem>
+                            <A target="_blank" href="https://discord.gg/xgFtWhwSaR">
+                                Discord
+                            </A>
                         </NavItem>
                     </NavMenu>
                     <RightNav>

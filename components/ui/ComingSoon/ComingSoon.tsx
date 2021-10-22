@@ -36,16 +36,17 @@ const P = styled.p`
 `
 
 type FuncProps = {
+    title: String;
     description: String;
 }
 
-const ComingSoon: FC<FuncProps> = ({description}) => {
+const ComingSoon: FC<FuncProps> = ({title, description}) => {
     return (
         <Container>
 
       <Content>
             <H1>
-                Coming soon!
+                {title}
             </H1>
 
             <P>

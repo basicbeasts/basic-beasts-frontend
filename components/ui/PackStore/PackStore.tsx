@@ -29,7 +29,7 @@ const StarterCardContainer = styled.div`
     max-width: 100%;
     margin: 1.5em 2em 4.5em;
     width: 30em;
-    height: 55em;
+    height: 58em;
     background: #424F66;
     border-radius: 1px;
     @media (max-width: 899px) {
@@ -45,7 +45,7 @@ const CursedBlackCardContainer = styled.div`
     max-width: 100%;
     margin: 1.5em 2em 4.5em;
     width: 30em;
-    height: 55em;
+    height: 58em;
     border-radius: 1px;
     box-shadow: 0px 0px 10px 0px #fff;
     background: #30008F;
@@ -61,7 +61,7 @@ const ShinyGoldCardContainer = styled.div`
     max-width: 100%;
     margin: 1.5em 2em 4.5em;
     width: 30em;
-    height: 55em;
+    height: 58em;
     border-radius: 1px;
     box-shadow: 0px 0px 15px 1px #E2D430;
     background: #A75806;
@@ -198,6 +198,11 @@ const QuantityButton = styled.button`
     @media (max-width: 490px) {
         top: 44.5vh;
     }
+    @media (max-width: 799px) {
+        top: 44.5vh;
+        display:none;
+    }
+
 `
 
 const Increment = styled(QuantityButton)`
@@ -337,6 +342,10 @@ const Input = styled.input.attrs({ type: 'checkbox' })`
   
 `
 
+const A = styled.a`
+    text-decoration: underline;
+`
+
 const DetailsText = styled.div`
     padding: 0px 50px;
     margin: 10px 0;
@@ -383,7 +392,7 @@ const Purchase: FC<BuyProps> = ({maxQuantity, price, addressReservable, addressR
     const { balance, purchase } = useUser()
 
     //Open up for sale
-    const available = false
+    const available = true
 
     const incrementQuantity = () => {
         if(quantity < maxQuantity) {
@@ -470,6 +479,16 @@ type DetailProps = {
 }
 
 const Details: FC<DetailProps> = ({availStock}) => {
+
+    const { loggedIn } = useAuth()
+
+    const [flowScanUrl, setFlowScanUrl] = useState("")
+
+    const flowScan = () => {
+
+        setFlowScanUrl("")
+    }
+    
     return (
         <>
             <DetailsText>
@@ -480,6 +499,14 @@ const Details: FC<DetailProps> = ({availStock}) => {
                 <br/>
                 We will announce winners and distribute/reserve/refund before 
                 Oct 31st end of the day
+                <br/>
+                { (!loggedIn) ? (
+                    <></>
+                ) : (
+                    <>
+                    If you have placed an order. See if it went through here <A target="_blank" href="https://flowscan.org/">on Flowscan</A> by searching for your address and transfers.
+                    </>
+                )}
             </DetailsText>
         </>
     )
@@ -500,7 +527,7 @@ const PackStore: FC = () => {
                     <CardContent>
                         <Headline>{HeadlineText}</Headline>
                         <Description SpecificItem={"1 random Normal skin 1-Star Beast"}/>
-                        <Purchase maxQuantity={450} price={10} addressReservable={"0xac70648174bc9884"} addressRefundable={"0xac70648174bc9884"}/>
+                        <Purchase maxQuantity={450} price={10} addressReservable={"0x6ec745e460cc646c"} addressRefundable={"0xdca2fbd53ec45907"}/>
                     </CardContent>
                     <Details availStock={450}/>
                 </StarterCardContainer>
@@ -511,7 +538,7 @@ const PackStore: FC = () => {
                     <CursedBlackCardContent>
                         <Headline>{HeadlineText}</Headline>
                         <Description SpecificItem={"1 random Cursed Black 1-Star Beast"}/>
-                        <Purchase maxQuantity={90} price={300} addressReservable={"0xac70648174bc9884"} addressRefundable={"0xac70648174bc9884"}/>
+                        <Purchase maxQuantity={90} price={300} addressReservable={"0xaba9241acafae206"} addressRefundable={"0x470d62928ea8efd7"}/>
                     </CursedBlackCardContent>
                     <Details availStock={90}/>
                 </CursedBlackCardContainer>
@@ -522,7 +549,7 @@ const PackStore: FC = () => {
                     <ShinyGoldCardContent>
                         <Headline>{HeadlineText}</Headline>
                         <Description SpecificItem={"1 random Shiny Gold 1-Star Beast"}/>
-                        <Purchase maxQuantity={22} price={999} addressReservable={"0xac70648174bc9884"} addressRefundable={"0xac70648174bc9884"}/>
+                        <Purchase maxQuantity={22} price={999} addressReservable={"0x5c0fe1b8a445ba22"} addressRefundable={"0x6391a3fdd3253bf8"}/>
                     </ShinyGoldCardContent>
                     <Details availStock={22}/>
                 </ShinyGoldCardContainer>

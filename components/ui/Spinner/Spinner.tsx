@@ -16,6 +16,7 @@ export default function Spinner() {
     <>
     <Overlay></Overlay>
     <div className="lds-ring"></div>
+    <div>If stuck please refresh site.</div>
     </>
   )
 }

@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import Image from 'next/image'
 import styled from 'styled-components'
-import HeroImg from 'public/saber001_reverse.png'
+import HeroImg from 'public/010_reverse.png'
 
 const Container = styled.div`
     padding: 0 0.5rem;
@@ -24,6 +24,7 @@ const Content = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 200px;
     @media (max-width: 899px) {
         flex-direction: column;
     }
