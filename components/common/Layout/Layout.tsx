@@ -5,26 +5,13 @@ import SideNavbar from '@components/common/SideNavbar'
 import * as fcl from '@onflow/fcl'
 import Head from "next/head"
 
-// Configure FCL for Flow testnet.
-/*
+//Configure FCL
 fcl
   .config()
-  .put('accessNode.api', 'https://access-testnet.onflow.org')
-  .put('challenge.handshake', 'https://flow-wallet-testnet.blocto.app/authn')
-  .put("0xFungibleToken", "0x9a0766d93b6608b7")
-  .put("0xFUSD", "0xe223d8a629e49c68")
-*/
-//Configure FCL for Flow mainnet.
-fcl
-  .config()
-  .put('accessNode.api', 'https://access-mainnet-beta.onflow.org')
-  .put('challenge.handshake', 'https://flow-wallet.blocto.app/authn')
-  .put("0xFungibleToken", "0xf233dcee88fe0abe")
-  .put("0xFUSD", "0x3c5959b568896393")
-
-//<SideNavbar isSideNavbarOpen={isSideNavbarOpen} toggle={toggle} />
-
-//<Navbar toggle={toggle}/>
+  .put('accessNode.api', process.env.NEXT_PUBLIC_ACCESS_NODE_API)
+  .put('challenge.handshake', process.env.NEXT_PUBLIC_CHALLENGE_HANDSHAKE)
+  .put("0xFungibleToken", process.env.NEXT_PUBLIC_FUNGIBLE_TOKEN_ADDRESS)
+  .put("0xFUSD", process.env.NEXT_PUBLIC_FUSD_ADDRESS)
 
 const Layout: FC = ({children}) => {
     const [isSideNavbarOpen, setIsSideNavbarOpen] = useState(false)
