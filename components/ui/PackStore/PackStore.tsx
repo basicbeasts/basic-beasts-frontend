@@ -351,17 +351,10 @@ const Description: FC<DescProps> = ({ SpecificItem }) => {
 }
 
 type BuyProps = {
-<<<<<<< HEAD
   maxQuantity: number
   price: number
   addressReservable: string
   addressRefundable: string
-=======
-    maxQuantity: number;
-    price: number;
-    addressReservable: string;
-    addressRefundable: string;
->>>>>>> 6802340 (feat: setup env variables for different addresses)
 }
 
 const Purchase: FC<BuyProps> = ({
@@ -463,8 +456,12 @@ const Purchase: FC<BuyProps> = ({
                       <>
                         <SubmitButtonDisabled>Submit</SubmitButtonDisabled>
                         <AlertText>
-                          You don't have enough FUSD.{" "}
-                          <a href="https://blocto.portto.io/" target="_blank">
+                          You don&apos;t have enough FUSD.{" "}
+                          <a
+                            href="https://blocto.portto.io/"
+                            target="_blank"
+                            rel="noreferrer"
+                          >
                             Get FUSD
                           </a>
                         </AlertText>
