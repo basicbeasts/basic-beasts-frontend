@@ -432,7 +432,7 @@ const Purchase: FC<BuyProps> = ({
                   </ConnectWallet>
                 ) : (
                   <>
-                    {balance > calculateTotalPrice() ? (
+                    {balance >= calculateTotalPrice() ? (
                       <>
                         {checkboxValue ? (
                           <SubmitButton
