@@ -351,10 +351,17 @@ const Description: FC<DescProps> = ({ SpecificItem }) => {
 }
 
 type BuyProps = {
+<<<<<<< HEAD
   maxQuantity: number
   price: number
   addressReservable: string
   addressRefundable: string
+=======
+    maxQuantity: number;
+    price: number;
+    addressReservable: string;
+    addressRefundable: string;
+>>>>>>> 6802340 (feat: setup env variables for different addresses)
 }
 
 const Purchase: FC<BuyProps> = ({
