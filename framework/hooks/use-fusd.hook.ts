@@ -63,7 +63,11 @@ export default function useFUSD(user: any) {
         authorizations([authz]),
         limit(9999),
       ]).then(decode)
-      return tx(res).onceSealed()
+      // wait for transaction to be mined
+      await tx(res).onceSealed()
+      // this will refetch the balance once transaction is mined
+      // TODO: Need to improve the UX to show a success toast.
+      getFUSDBalance()
     } catch (err) {
       dispatch({ type: "ERROR" })
       console.log(err)
