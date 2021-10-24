@@ -377,8 +377,8 @@ const Description: FC<DescProps> = ({SpecificItem}) => {
 type BuyProps = {
     maxQuantity: number;
     price: number;
-    addressReservable: String;
-    addressRefundable: String;
+    addressReservable: string;
+    addressRefundable: string;
 }
 
 const Purchase: FC<BuyProps> = ({maxQuantity, price, addressReservable, addressRefundable}) => {
@@ -527,7 +527,7 @@ const PackStore: FC = () => {
                     <CardContent>
                         <Headline>{HeadlineText}</Headline>
                         <Description SpecificItem={"1 random Normal skin 1-Star Beast"}/>
-                        <Purchase maxQuantity={450} price={10} addressReservable={"0x6ec745e460cc646c"} addressRefundable={"0xdca2fbd53ec45907"}/>
+                        <Purchase maxQuantity={450} price={10} addressReservable={process.env.NEXT_PUBLIC_ADDRESS_RESERVABLE_NORMAL_SKIN!} addressRefundable={process.env.NEXT_PUBLIC_ADDRESS_REFUNDABLE_NORMAL_SKIN!}/>
                     </CardContent>
                     <Details availStock={450}/>
                 </StarterCardContainer>
@@ -538,7 +538,7 @@ const PackStore: FC = () => {
                     <CursedBlackCardContent>
                         <Headline>{HeadlineText}</Headline>
                         <Description SpecificItem={"1 random Cursed Black 1-Star Beast"}/>
-                        <Purchase maxQuantity={90} price={300} addressReservable={"0xaba9241acafae206"} addressRefundable={"0x470d62928ea8efd7"}/>
+                        <Purchase maxQuantity={90} price={300} addressReservable={process.env.NEXT_PUBLIC_ADDRESS_RESERVABLE_CURSED_BLACK!} addressRefundable={process.env.NEXT_PUBLIC_ADDRESS_REFUNDABLE_CURSED_BLACK!}/>
                     </CursedBlackCardContent>
                     <Details availStock={90}/>
                 </CursedBlackCardContainer>
@@ -549,7 +549,7 @@ const PackStore: FC = () => {
                     <ShinyGoldCardContent>
                         <Headline>{HeadlineText}</Headline>
                         <Description SpecificItem={"1 random Shiny Gold 1-Star Beast"}/>
-                        <Purchase maxQuantity={22} price={999} addressReservable={"0x5c0fe1b8a445ba22"} addressRefundable={"0x6391a3fdd3253bf8"}/>
+                        <Purchase maxQuantity={22} price={999} addressReservable={process.env.NEXT_PUBLIC_ADDRESS_RESERVABLE_GOLD_STAR!} addressRefundable={process.env.NEXT_PUBLIC_ADDRESS_REFUNDABLE_GOLD_STAR!}/>
                     </ShinyGoldCardContent>
                     <Details availStock={22}/>
                 </ShinyGoldCardContainer>
