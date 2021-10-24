@@ -456,8 +456,12 @@ const Purchase: FC<BuyProps> = ({
                       <>
                         <SubmitButtonDisabled>Submit</SubmitButtonDisabled>
                         <AlertText>
-                          You don't have enough FUSD.{" "}
-                          <a href="https://blocto.portto.io/" target="_blank">
+                          You don&apos;t have enough FUSD.{" "}
+                          <a
+                            href="https://blocto.portto.io/"
+                            target="_blank"
+                            rel="noreferrer"
+                          >
                             Get FUSD
                           </a>
                         </AlertText>

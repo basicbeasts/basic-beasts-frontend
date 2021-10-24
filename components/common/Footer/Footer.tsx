@@ -90,7 +90,7 @@ const Footer: FC = () => {
             <Image src={DiscordImage} width="40px" height="40px" />
           </SocialLink>
         </Socials>
-        <a href="https://www.onflow.org/" target="_blank">
+        <a href="https://www.onflow.org/" target="_blank" rel="noreferrer">
           Built on Flow Blockchain
         </a>
         {/*<LegalLinks>
