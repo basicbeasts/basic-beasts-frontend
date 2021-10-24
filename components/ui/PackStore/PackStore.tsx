@@ -1,5 +1,7 @@
-import React, { FC, useState, useEffect } from "react"
+import React, { FC, useState } from "react"
 import styled from "styled-components"
+import { toast, ToastContainer } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 import { useUser } from "@components/user/UserProvider"
 import { useAuth } from "@components/auth/AuthProvider"
 import Spinner from "../Spinner"
@@ -433,25 +435,21 @@ const Purchase: FC<BuyProps> = ({
                 ) : (
                   <>
                     {balance >= calculateTotalPrice() ? (
-                      <>
-                        {checkboxValue ? (
-                          <SubmitButton
-                            onClick={() =>
-                              purchase(totalPrice, addressReservable)
-                            }
-                          >
-                            Submit
-                          </SubmitButton>
-                        ) : (
-                          <SubmitButton
-                            onClick={() =>
-                              purchase(totalPrice, addressRefundable)
-                            }
-                          >
-                            Submit
-                          </SubmitButton>
-                        )}
-                      </>
+                      <SubmitButton
+                        onClick={async () => {
+                          const address = checkboxValue
+                            ? addressReservable
+                            : addressRefundable
+                          const tx = await purchase(totalPrice, address)
+                          if (tx) {
+                            toast.success(
+                              "Congratulations! Your journey to becoming a Beast Hunter has begun!",
+                            )
+                          }
+                        }}
+                      >
+                        Submit
+                      </SubmitButton>
                     ) : (
                       <>
                         <SubmitButtonDisabled>Submit</SubmitButtonDisabled>
@@ -521,6 +519,12 @@ const PackStore: FC = () => {
 
   return (
     <Container>
+      <ToastContainer
+        autoClose={4000}
+        hideProgressBar
+        position="top-center"
+        theme="dark"
+      />
       {loading ? <Spinner /> : <></>}
       <Content>
         <StarterCardContainer>
