@@ -6,7 +6,7 @@ const Dexicon: NextPage = () => {
     <div>
       <ComingSoon
         title="Coming Soon!"
-        description="Dexicon shows all unique Basic Beasts"
+        description="Dexicon shows all discovered Basic Beasts"
       />
     </div>
   )
