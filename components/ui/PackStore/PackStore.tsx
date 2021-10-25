@@ -262,14 +262,21 @@ const SubmitButton = styled(Button)`
   }
 `
 
-const SubmitButtonDisabled = styled(Button)`
+const SubmitButtonDisabled = styled.button`
+  text-transform: uppercase;
+  padding: 6px 12px 10px 14px;
+  font-size: 36px;
+  border: none;
+  transition: all 0.1s ease 0s;
+  -moz-transition: all 0.1s ease 0s;
+  -webkit-transition: all 0.1s ease 0s;
   width: 170px;
   cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABFklEQVRYR9WXURLDIAhE6/0PbSdOtUpcd1Gnpv1KGpTHBpCE1/cXq+vrMph7dGvXZTtpfW10DCA5jrH1H0Jhs5E0hnZdCR+vb5S8Nn8mQCeS9BdSalYJqMBjAGzq59xAESN7VFVUgV8AZB/dZBR7QTFDCqGquvUBVVoEtgIwpQRzmANSFHgWQKExHdIrPeuMvQNDarXe6nC/AutgV3JW+6bgqQLeV8FekRtgV+ToDKEKnACYKsfZjjkam7a0ZpYTytwmgainpC3HvwBocgKOxqRjehoR9DFKNFYtOwCGYCszobeCbl26N6yyQ6g8X/Wex/rBPsNEV6qAMaJPMynIHQCoSqS9JSMmwef51LflTgCRszU7DvAGiV6mHWfsaVUAAAAASUVORK5CYII=),
     auto !important;
   background-color: #fdff9597;
   box-shadow: -3px 0px 0px 0px #a1581397, 0px -3px 0px 0px #a1581397,
     0px 3px 0px 0px #a1581397, 3px 0px 0px 0px #a1581397,
-    inset -3px -3px #f3c92350;
+    inset -3px -3px #f3c92350 !important;
   color: #a7590697;
 `
 
