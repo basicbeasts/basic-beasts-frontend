@@ -381,7 +381,7 @@ const Purchase: FC<BuyProps> = ({
   const { balance, purchase } = useUser()
 
   //Open up for sale
-  const available = false
+  const available = true
 
   const incrementQuantity = () => {
     if (quantity < maxQuantity) {
