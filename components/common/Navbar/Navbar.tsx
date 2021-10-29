@@ -246,11 +246,20 @@ const Navbar: FC<FuncProps> = ({ toggle }) => {
                 <A>Marketplace</A>
               </NextLink>
             </NavItem>
-            <NavItem>
-              <NextLink href="/dexicon">
-                <A>Dexicon</A>
-              </NextLink>
-            </NavItem>
+            {!loggedIn ? (
+              <NavItem>
+                <NextLink href="/dexicon">
+                  <A>Dexicon</A>
+                </NextLink>
+              </NavItem>
+            ) : (
+              <NavItem>
+                <NextLink href="/collection">
+                  <A>Collection</A>
+                </NextLink>
+              </NavItem>
+            )}
+
             <NavItem>
               <A target="_blank" href="https://discord.gg/xgFtWhwSaR">
                 Discord
