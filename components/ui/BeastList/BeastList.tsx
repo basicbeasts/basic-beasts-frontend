@@ -20,9 +20,15 @@ type FuncProps = {
 const BeastList: FC<FuncProps> = ({ beasts }) => {
   return (
     <Container>
-      {beasts.map((beast: any, i: any) => (
-        <BeastCard key={i} beast={beast} />
-      ))}
+      {beasts.length > 0 ? (
+        <>
+          {beasts.map((beast: any, i: any) => (
+            <BeastCard key={i} beast={beast} />
+          ))}
+        </>
+      ) : (
+        <div>Beast Collection is empty</div>
+      )}
     </Container>
   )
 }

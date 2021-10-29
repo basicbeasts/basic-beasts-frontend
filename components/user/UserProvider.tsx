@@ -12,7 +12,12 @@ const Context = createContext<State | any>(initialState)
 const UserProvider: FC = ({ children }) => {
   const [user]: any = useCurrentUser()
   const { data: balance, getFUSDBalance, purchase, loading } = useFUSD(user)
-  const { data: userBeasts, fetchUserBeasts } = useUserBeasts(user)
+  const {
+    data: userBeasts,
+    fetchUserBeasts,
+    transferBeast,
+    loadingBeast,
+  } = useUserBeasts(user)
 
   return (
     <Context.Provider
@@ -23,6 +28,8 @@ const UserProvider: FC = ({ children }) => {
         loading,
         userBeasts,
         fetchUserBeasts,
+        transferBeast,
+        loadingBeast,
       }}
     >
       {children}

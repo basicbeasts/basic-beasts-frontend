@@ -15,12 +15,11 @@ export const GET_COLLECTION_OWNED_BEASTS = `
         var beasts: [&BasicBeast.NFT] = []
         
         while i < beastIDs.length {
-            for beastID in beastIDs {
-                let token = collectionRef.borrowBeast(id: beastID)
-                    ?? panic("Couldn't borrow a reference to the specified beast")
+            let token = collectionRef.borrowBeast(id: beastIDs[i])
+                ?? panic("Couldn't borrow a reference to the specified beast")
 
-                beasts.insert(at:i, token)
-            }
+            beasts.insert(at:i, token)
+            
             i = i + 1
         }
 

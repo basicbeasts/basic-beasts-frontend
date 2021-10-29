@@ -10,7 +10,7 @@ const Collection: NextPage = () => {
     <div>
       <ComingSoon
         title="Collection"
-        description="Collection shows all discovered Basic Beasts"
+        description="The collection shows the Beasts you own"
       />
       <button onClick={() => fetchUserBeasts()}>update</button>
       <BeastList beasts={userBeasts} />

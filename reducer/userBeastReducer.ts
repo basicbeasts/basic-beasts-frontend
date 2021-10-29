@@ -3,25 +3,20 @@ export const userBeastReducer = (state: any, action: any) => {
     case "PROCESSING":
       return {
         ...state,
-        loading: true,
+        loadingBeast: true,
         error: false,
       }
     case "SUCCESS":
       return {
         ...state,
-        loading: false,
+        loadingBeast: false,
         error: false,
         data: action.payload,
-      }
-    case "ADD":
-      return {
-        ...state,
-        data: [...state.data, action.payload],
       }
     case "ERROR":
       return {
         ...state,
-        loading: false,
+        loadingBeast: false,
         error: true,
       }
     default:
