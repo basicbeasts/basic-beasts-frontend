@@ -3,11 +3,18 @@ import React, { FC } from "react"
 import styled from "styled-components"
 import star from "public/basic_starLevel.png"
 
-const Container = styled.div`
+const Container = styled.div<Omit<Unknown, "beastTemplate">>`
   width: 400px;
   background: #fff;
   margin: 30px 20px;
   font-size: 18px;
+  opacity: ${({ unknown }) => (!unknown ? "1" : "0.8")};
+  user-drag: none;
+  -webkit-user-drag: none;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
 `
 
 // -----------------------------------------------------------------------
@@ -18,14 +25,14 @@ const Container = styled.div`
 const Header = styled.div<Omit<Color, "background">>`
   height: 235px;
   background: ${(props) => props.colorCode};
-  box-shadow: 0px -6px 5px 4px ${(props) => props.colorCode || "white"};
-  padding: 35px;
+  box-shadow: 0px -6px 5px 4px ${(props) => props.colorCode || "white"}; //Here to adjust how close header and content should be
+  padding: 28px 35px;
   color: #fff;
 `
 
 const BeastName = styled.h3`
   margin: 0;
-  font-size: 60px;
+  font-size: 65px;
   font-weight: normal;
 `
 
@@ -33,10 +40,24 @@ const HeaderDetails = styled.div`
   display: table;
   clear: both;
   width: 100%;
+  margin-top: 10px;
 `
 
-const Type = styled.div`
+const Type = styled.div<Omit<Button, "background">>`
   float: left;
+  background-color: ${(props) => props.backgroundColor || "#FFE595"};
+  box-shadow: -3px 0px 0px 0px ${(props) => props.outset || "#B3A068"},
+    0px -3px 0px 0px ${(props) => props.outset || "#B3A068"},
+    0px 3px 0px 0px ${(props) => props.outset || "#B3A068"},
+    3px 0px 0px 0px ${(props) => props.outset || "#B3A068"},
+    inset -3px 0px ${(props) => props.inset || "#E6CE86"};
+  padding-top: 0px;
+  padding-bottom: 2px;
+  padding-left: 8px;
+  padding-right: 8px;
+  width: 70px;
+  margin-top: 10px;
+  margin-left: 1px;
 `
 
 const DexNumber = styled.div`
@@ -66,6 +87,8 @@ const Img = styled.img`
   left: 75px;
   top: -10px;
   position: relative;
+  user-drag: none;
+  -webkit-user-drag: none;
 `
 
 const Description = styled.div`
@@ -77,6 +100,8 @@ const StarImg = styled.img`
   float: right;
   margin-right: 5px;
   margin-top: 1px;
+  user-drag: none;
+  -webkit-user-drag: none;
 `
 
 const StarLevel = styled.div`
@@ -160,14 +185,19 @@ type Props = {
 
 const BeastCard: FC<Props> = ({ beastTemplate }) => {
   const unknown = beastTemplate.name == "???"
-  console.log(unknown)
 
   return (
-    <Container>
+    <Container unknown={unknown}>
       <Header colorCode={beastTemplate.color}>
         <BeastName>{beastTemplate.name}</BeastName>
         <HeaderDetails>
-          <Type>{beastTemplate.type}</Type>
+          <Type
+            backgroundColor={beastTemplate.typeTagBackground}
+            outset={beastTemplate.typeTagOutset}
+            inset={beastTemplate.typeTagInset}
+          >
+            {beastTemplate.type}
+          </Type>
           <DexNumber>
             {"#" + ("00" + beastTemplate.dexNumber).slice(-3)}
           </DexNumber>

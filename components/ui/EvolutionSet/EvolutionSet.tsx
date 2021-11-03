@@ -12,7 +12,10 @@ const Container = styled.div`
   flex-flow: row wrap;
   -webkit-box-pack: center;
   justify-content: center;
-  margin-bottom: 300px;
+  margin-bottom: 120px;
+  @media (min-width: 1750px) {
+    width: 1400px;
+  }
 `
 
 const EvolutionSet: FC = () => {

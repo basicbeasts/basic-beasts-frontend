@@ -13,4 +13,7 @@ export type BeastTemplate = {
   buttonBackground: string
   buttonOutset: string
   buttonInset: string
+  typeTagBackground: string
+  typeTagOutset: string
+  typeTagInset: string
 }
