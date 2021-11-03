@@ -6,7 +6,7 @@ const Dexicon: NextPage = () => {
   return (
     <div>
       <ComingSoon
-        title="Coming Soon!"
+        title="Dexicon"
         description="Dexicon shows all discovered Basic Beasts"
       />
       <EvolutionSet />

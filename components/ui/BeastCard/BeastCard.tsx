@@ -6,7 +6,7 @@ const Container = styled.div`
   width: 400px;
   background: #fff;
   margin: 20px 12px;
-  font-size: 23px;
+  font-size: 18px;
 `
 
 const Header = styled.div<Omit<Color, "beastTemplate">>`
@@ -22,7 +22,7 @@ const Content = styled.div`
 `
 
 const ContentWrapper = styled.div<Omit<Unknown, "beastTemplate">>`
-  top: ${({ unknown }) => (!unknown ? "-150px" : "0")};
+  top: ${({ unknown }) => (!unknown ? "-150px" : "30px")};
   position: relative;
 `
 
@@ -67,7 +67,13 @@ const BeastCard: FC<Props> = ({ beastTemplate }) => {
           {unknown ? <></> : <Img src={beastTemplate.image?.url} />}
           <Description>{beastTemplate.description}</Description>
           <div>star level</div>
+          {Array.from(Array(beastTemplate.starLevel), (e, i) => {
+            return <div key={i}>X</div>
+          })}
           <div>basic skills</div>
+          {beastTemplate.basicSkills.map((skill: any) => (
+            <div>{skill}</div>
+          ))}
           <div>ultimate skill</div>
         </ContentWrapper>
       </Content>
