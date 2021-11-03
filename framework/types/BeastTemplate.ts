@@ -10,4 +10,7 @@ export type BeastTemplate = {
   ultimateSkill: string
   image?: Image
   color: string
+  buttonBackground: string
+  buttonOutset: string
+  buttonInset: string
 }

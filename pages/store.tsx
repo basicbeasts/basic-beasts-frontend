@@ -6,7 +6,7 @@ const Store: NextPage = () => {
   return (
     <div>
       <ComingSoon
-        title="Store is Open"
+        title="Store Closed"
         description="Buy a Basic Beast. Evolve it, use it for breeding, flex it."
       />
       <PackStore />
