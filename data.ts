@@ -14,7 +14,7 @@ const data = {
           basicSkills: ["Triple Kick", "Gravity Pull", "Moon Shock"],
           ultimateSkill: "Mega Volt Crash",
           image: {
-            url: "https://bafkreic6t7y5pfph5v6pqx556dr3qv7wsip62nyxjbpc2povll5t5mxv4i.ipfs.dweb.link/",
+            url: "https://raw.githubusercontent.com/basicbeasts/basic-beasts-frontend/main/public/001_normal.png",
           },
           color: "#ffd966",
           buttonBackground: "#FFE595",
@@ -72,7 +72,7 @@ const data = {
           basicSkills: ["Frenzy", "Water Drop", "Saber Bite"],
           ultimateSkill: "Supersonic Wave",
           image: {
-            url: "https://bafkreibqzbk77wqsvl7v7cqjef2l3tnmnge6afhriwaslwzv7qrhtynjbi.ipfs.dweb.link/",
+            url: "https://raw.githubusercontent.com/basicbeasts/basic-beasts-frontend/main/public/004_normal.png",
           },
           color: "#A4C2F4",
           buttonBackground: "#A4C2F4",
@@ -129,7 +129,7 @@ const data = {
           basicSkills: ["Camouflage", "Magic Dust", "Petal Wish"],
           ultimateSkill: "Tackle",
           image: {
-            url: "https://bafkreiffxvsww3vrrjisatw2ykouhif3wbmw6gv57dclzcd6gmvtadhk5q.ipfs.dweb.link/",
+            url: "https://raw.githubusercontent.com/basicbeasts/basic-beasts-frontend/main/public/007_normal.png",
           },
           color: "#B7D7A8",
           buttonBackground: "#B7D7A8",
@@ -187,7 +187,7 @@ const data = {
           basicSkills: ["Overheat", "Blazing Strike", "Fire Ball"],
           ultimateSkill: "Phantom Force",
           image: {
-            url: "https://bafkreihdeh2ritfc55kuvjmkgd3nbxqbiwyap7dvtjjn762bchzydzotuy.ipfs.dweb.link/",
+            url: "https://raw.githubusercontent.com/basicbeasts/basic-beasts-frontend/main/public/010_normal.png",
           },
           color: "#EA9999",
           buttonBackground: "#EA9999",
@@ -244,7 +244,7 @@ const data = {
           basicSkills: ["Silent Fart", "Frustration", "Depression"],
           ultimateSkill: "Hyper Room",
           image: {
-            url: "https://bafkreihuijcqetjfppzpbabxs25wafzk6dscdmbw2gwnqyxkycpauowzce.ipfs.dweb.link/",
+            url: "https://raw.githubusercontent.com/basicbeasts/basic-beasts-frontend/main/public/013_normal.png",
           },
           color: "#D5A6BD",
           buttonBackground: "#D5A6BD",
