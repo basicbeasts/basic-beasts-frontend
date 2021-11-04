@@ -20,11 +20,15 @@ const Content = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 0 20vw;
+  @media (max-width: 900px) {
+    padding: 0;
+  }
 `
 
 const H1 = styled.h1`
-  margin: 0;
-  line-height: 1.15;
+  margin: 30px 0 0;
+  line-height: 0.5;
   font-size: 4rem;
   color: #fff;
 `
@@ -32,7 +36,10 @@ const H1 = styled.h1`
 const P = styled.p`
   color: #fff;
   line-height: 1.5;
-  font-size: 1.5rem;
+  font-size: 2.5rem;
+  @media (max-width: 700px) {
+    font-size: 1.5rem;
+  }
 `
 
 type FuncProps = {

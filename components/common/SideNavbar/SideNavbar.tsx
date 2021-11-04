@@ -190,12 +190,12 @@ const SideNavbar: FC<Props> = ({ isSideNavbarOpen, toggle }: Props) => {
           <NextLink href="/marketplace">
             <A onClick={toggle}>Marketplace</A>
           </NextLink>
-          <NextLink href="/evolution">
-            <A onClick={toggle}>Evolution</A>
-          </NextLink>
           <NextLink href="/dexicon">
             <A onClick={toggle}>Dexicon</A>
           </NextLink>
+          <A target="_blank" href="https://discord.gg/xgFtWhwSaR">
+            Discord
+          </A>
         </SideNavbarMenu>
         {!loggedIn ? (
           <WalletConnect>
