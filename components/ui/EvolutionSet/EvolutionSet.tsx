@@ -23,11 +23,13 @@ const EvolutionSet: FC = () => {
 
   return (
     <Container>
-      {EvolutionSets.map((Set: any) =>
-        Set.BeastTemplates.map((Template: any) => (
-          <BeastCard beastTemplate={Template} />
-        )),
-      )}
+      {EvolutionSets.map((Set: any, i: any) => (
+        <React.Fragment key={i}>
+          {Set.BeastTemplates.map((Template: any, i: any) => (
+            <BeastCard key={i} beastTemplate={Template} />
+          ))}
+        </React.Fragment>
+      ))}
     </Container>
   )
 }

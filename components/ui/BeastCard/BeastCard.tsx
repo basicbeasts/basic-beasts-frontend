@@ -237,8 +237,8 @@ const BeastCard: FC<Props> = ({ beastTemplate }) => {
           <BasicSkills>
             <BasicSkillsLabel>Basic Skills</BasicSkillsLabel>
             <Skills>
-              {beastTemplate.basicSkills.map((skill: any) => (
-                <Skill>{skill}</Skill>
+              {beastTemplate.basicSkills.map((skill: any, i: any) => (
+                <Skill key={i}>{skill}</Skill>
               ))}
             </Skills>
           </BasicSkills>
