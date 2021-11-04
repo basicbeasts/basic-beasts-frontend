@@ -1,7 +1,8 @@
-import { BeastTemplate } from "@framework/types/beastTemplate"
+//import { BeastTemplate } from "@framework/types/beastTemplate"
 import React, { FC } from "react"
 import styled from "styled-components"
 import star from "public/basic_starLevel.png"
+import { Image } from "@framework/types/common"
 
 const Container = styled.div<Omit<Unknown, "beastTemplate">>`
   width: 400px;
@@ -177,6 +178,24 @@ type Button = {
   backgroundColor: string
   outset: string
   inset: string
+}
+
+type BeastTemplate = {
+  dexNumber: number
+  name: string
+  type: string
+  description: string
+  starLevel: number
+  basicSkills: [string]
+  ultimateSkill: string
+  image?: Image
+  color: string
+  buttonBackground: string
+  buttonOutset: string
+  buttonInset: string
+  typeTagBackground: string
+  typeTagOutset: string
+  typeTagInset: string
 }
 
 type Props = {
