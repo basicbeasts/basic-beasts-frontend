@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faExternalLinkAlt, faTimes } from "@fortawesome/free-solid-svg-icons"
 import NextLink from "next/link"
 import { useAuth } from "@components/auth/AuthProvider"
+import externalLinkIcon from "public/basic_external_link.png"
 
 const SideNavbarContainer = styled.aside<Omit<Props, "toggle">>`
   position: fixed;
@@ -65,7 +66,7 @@ const A = styled.a`
   cursor: pointer;
 
   &:hover {
-    color: #ff0;
+    color: #f3cb23;
     transition: 0.2s ease-in-out;
   }
 `
@@ -111,7 +112,7 @@ const BtnLink = styled.a`
 
   &:hover {
     transition: all 0.1s;
-    //background: #f5f500;
+    //background: #f3cb23;
     color: #a15813;
   }
   &:active {
