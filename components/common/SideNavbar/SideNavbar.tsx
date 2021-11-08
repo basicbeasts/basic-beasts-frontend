@@ -188,9 +188,16 @@ const SideNavbar: FC<Props> = ({ isSideNavbarOpen, toggle }: Props) => {
           <NextLink href="/store">
             <A onClick={toggle}>Store</A>
           </NextLink>
-          <NextLink href="/marketplace">
-            <A onClick={toggle}>Marketplace</A>
-          </NextLink>
+
+          {!loggedIn ? (
+            <NextLink href="/marketplace">
+              <A onClick={toggle}>Marketplace</A>
+            </NextLink>
+          ) : (
+            <NextLink href="/collection">
+              <A onClick={toggle}>Collection</A>
+            </NextLink>
+          )}
           <NextLink href="/dexicon">
             <A onClick={toggle}>Dexicon</A>
           </NextLink>

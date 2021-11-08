@@ -65,6 +65,7 @@ const NavMenu = styled.ul`
     align-items: center;
     list-style: none;
     text-align: center;
+    margin-left: 18px;
   }
 `
 
