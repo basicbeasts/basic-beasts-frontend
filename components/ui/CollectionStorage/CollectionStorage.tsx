@@ -10,6 +10,7 @@ const Container = styled.div`
   margin-top: 50px;
   box-shadow: 0px -6px 5px 4px #272727;
   padding: 25px 40px 25px;
+  z-index: 1;
 `
 
 const Header = styled.div`
@@ -29,6 +30,8 @@ const FilterButtons = styled.div`
   float: right;
 `
 
+const BeastThumbnail = styled.div``
+
 const CollectionStorage: FC = () => {
   return (
     <Container>
@@ -46,7 +49,9 @@ const CollectionStorage: FC = () => {
           <FilterBeastButton buttonText={"Beasts"} />
         </FilterButtons>
       </Header>
-      <div>BeastList</div>
+      <div>
+        <BeastThumbnail></BeastThumbnail>
+      </div>
     </Container>
   )
 }

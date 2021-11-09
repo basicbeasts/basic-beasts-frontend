@@ -7,7 +7,6 @@ const Container = styled.div`
   position: relative;
   margin-left: auto;
   margin-right: auto;
-  padding-top: 70px;
   display: flex;
   flex-flow: row wrap;
   -webkit-box-pack: center;

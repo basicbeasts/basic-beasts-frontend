@@ -6,6 +6,8 @@ import ShowcaseBeast from "@components/ui/ShowcaseBeast"
 import ShowcaseNoBeastFound from "@components/ui/ShowcaseNoBeastFound"
 import ShowcaseNoItemFound from "@components/ui/ShowcaseNoItemFound"
 import ShowcaseNoPackFound from "@components/ui/ShowcaseNoPackFound"
+import ShowcaseItem from "../ShowcaseItem"
+import ShowcasePack from "../ShowcasePack"
 
 const Container = styled.div`
   color: #fff;
@@ -48,7 +50,13 @@ const MyCollection: FC = () => {
 
         {/*When Beasts are in the collection. Showcase first BeastThumbnail by default*/}
         {/*<ShowcaseBeast />*/}
-        <ShowcaseBeast />
+
+        {/*When Items are in the inventory. Showcase first ItemThumbnail by default*/}
+        {/*<ShowcaseItem />*/}
+
+        {/*When Packs are in the inventory. Showcase first PackThumbnail by default*/}
+        {/*<ShowcasePack />*/}
+        <ShowcasePack />
 
         <CollectionStorage />
       </Bg>

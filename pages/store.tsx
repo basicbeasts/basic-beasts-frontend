@@ -1,11 +1,11 @@
 import type { NextPage } from "next"
-import ComingSoon from "@components/ui/ComingSoon"
+import DefaultHeroSection from "@components/ui/DefaultHeroSection"
 import PackStore from "@components/ui/PackStore"
 
 const Store: NextPage = () => {
   return (
     <div>
-      <ComingSoon
+      <DefaultHeroSection
         title="Store Closed"
         description="Join Discord to receive drop updates"
       />
