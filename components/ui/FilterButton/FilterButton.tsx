@@ -2,9 +2,9 @@ import React, { FC } from "react"
 import styled from "styled-components"
 
 const Button = styled.button`
-  padding: 8px 24px 12px 26px;
-  margin-right: 2px;
-  font-size: 26px;
+  padding: 4px 34px 8px 36px;
+  margin-left: 20px;
+  font-size: 1.1em;
   background-color: #feff95;
   box-shadow: -3px 0px 0px 0px #a15813, 0px -3px 0px 0px #a15813,
     0px 3px 0px 0px #a15813, 3px 0px 0px 0px #a15813, inset -3px -3px #f3cb23;

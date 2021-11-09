@@ -16,8 +16,12 @@ const Container = styled.div`
 const Bg = styled.div`
   display: flex;
   flex-wrap: wrap;
-  min-width: 1200px;
-  min-height: 500px;
+  min-height: 600px;
+  min-width: 1400px;
+  @media (max-width: 1300px) {
+    min-width: auto;
+    justify-content: center;
+  }
 `
 
 const BeastDisplay: FC = () => {
