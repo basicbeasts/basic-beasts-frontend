@@ -24,15 +24,15 @@ const Text = styled.div`
   margin-bottom: 25px;
 `
 
-const ShowcaseThumbnail: FC = () => {
+const ShowcaseNoPackFound: FC = () => {
   return (
     <Container>
       <Text>
-        Your Beast Collection is empty <br />
-        Get yours now!
+        You'll see unopened packs here. <br />
+        Get your packs today!
       </Text>
-      <BuyButton buttonText={"Buy Beasts"} />
+      <BuyButton buttonText={"Buy Packs"} />
     </Container>
   )
 }
-export default ShowcaseThumbnail
+export default ShowcaseNoPackFound

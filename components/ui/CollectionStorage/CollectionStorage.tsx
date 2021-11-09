@@ -1,6 +1,7 @@
 import React, { FC } from "react"
 import styled from "styled-components"
 import BuyButton from "../BuyButton"
+import FilterBeastButton from "../FilterBeastButton"
 import FilterButton from "../FilterButton"
 
 const Container = styled.div`
@@ -32,10 +33,17 @@ const CollectionStorage: FC = () => {
   return (
     <Container>
       <Header>
-        <Count>Showing 0</Count>
+        {/*
+            Should display number of items/beasts/packs listed in collection storage depending on which filter/tab is currently selected. 
+            */}
+        <Count>Showing {0}</Count>
         <FilterButtons>
+          {/*
+            Should display only two buttons and hide the one what is currently being displayed
+            */}
           <FilterButton buttonText={"Packs"} />
           <FilterButton buttonText={"Items"} />
+          <FilterBeastButton buttonText={"Beasts"} />
         </FilterButtons>
       </Header>
       <div>BeastList</div>

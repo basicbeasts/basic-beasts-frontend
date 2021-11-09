@@ -1,8 +1,6 @@
 import React, { FC } from "react"
 import styled from "styled-components"
 import ShowcaseThumbnail from "@components/ui/ShowcaseThumbnail"
-import BeastCard from "@components/ui/BeastCard"
-import data from "data"
 import CollectionStorage from "@components/ui/CollectionStorage"
 
 const Container = styled.div`

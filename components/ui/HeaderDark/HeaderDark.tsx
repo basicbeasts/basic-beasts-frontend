@@ -10,6 +10,7 @@ const Container = styled.div`
   align-items: center;
   border: solid 25px #111111;
   background: #111823;
+  z-index: 9999;
   @media (max-width: 700px) {
     border: solid 15px #111111;
   }
