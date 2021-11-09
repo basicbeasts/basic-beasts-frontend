@@ -14,7 +14,6 @@ const Collection: NextPage = () => {
         description="See your magnificent Beasts"
       />
       <MyCollection />
-      <BeastList beasts={userBeasts} />
     </div>
   )
 }
