@@ -6,6 +6,8 @@ import FilterButton from "../FilterButton"
 import star from "public/basic_starLevel.png"
 import BeastThumbnail from "../BeastThumbnail"
 import { useQuery } from "../../../gqty"
+import ItemThumbnail from "../ItemThumbnail"
+import PackThumbnail from "../PackThumbnail"
 
 const Container = styled.div`
   background: #111823; //Should change color depending on which filter/tab that has been selected
@@ -61,6 +63,13 @@ const BeastThumbnailLast = styled.div`
   cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
       14 0,
     pointer !important;
+`
+
+const ThumbnailList = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-bottom: 35px;
 `
 
 type CollectionStorageProps = {
@@ -119,6 +128,16 @@ const CollectionStorage: FC<CollectionStorageProps> = ({
             ))}
           </BeastThumbnailList>
         ))}
+      <ThumbnailList>
+        <ItemThumbnail />
+        <ItemThumbnail />
+        <ItemThumbnail />
+      </ThumbnailList>
+      <ThumbnailList>
+        <PackThumbnail />
+        <PackThumbnail />
+        <PackThumbnail />
+      </ThumbnailList>
     </Container>
   )
 }

@@ -26,8 +26,8 @@ const Bg = styled.div`
   min-width: 1400px;
 
   // !!!!!
-  background: #ffd966; //Should change color depending on state and beast, item, pack that is being displayed
-  box-shadow: 0px 0px 5px 4px #ffd966; //Should change color depending on state and beast, item, pack that is being displayed
+  background: #272727; //Should change color depending on state and beast, item, pack that is being displayed
+  box-shadow: 0px 0px 5px 4px #272727; //Should change color depending on state and beast, item, pack that is being displayed
   // !!!!!
 
   //272727
