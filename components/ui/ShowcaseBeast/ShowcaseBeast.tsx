@@ -98,13 +98,14 @@ const Description = styled.div`
   text-align: left;
   position: relative;
   margin-top: -20px;
+  height: 100px;
 `
 
 const StarImg = styled.img`
   width: 25px;
   float: right;
   margin-right: 5px;
-  margin-top: 1px;
+  margin-top: 10px;
   user-drag: none;
   -webkit-user-drag: none;
 `
@@ -112,7 +113,7 @@ const StarImg = styled.img`
 const StarLevel = styled.div`
   display: table;
   clear: both;
-  height: 40px;
+  height: 60px;
 `
 
 const StarLevelLabel = styled.div`
@@ -125,20 +126,22 @@ const BasicSkills = styled.div`
   display: table;
   clear: both;
   height: 95px;
+  text-align: left;
 `
 
 const Skills = styled.div`
   float: right;
   margin-top: 5px;
+  height: 140px;
 `
 
 const Skill = styled.div`
-  height: 25px;
+  height: 30px;
 `
 
 const BasicSkillsLabel = styled.div`
   float: left;
-  margin-right: 45px;
+  margin-right: 40px;
   font-size: 25px;
 `
 
@@ -161,13 +164,12 @@ const UltimateSkill = styled.div<Omit<Button, "background">>`
 const UltimateSkillLabel = styled.div`
   float: left;
   font-size: 25px;
-  margin-right: 32px;
+  margin-right: 120px;
 `
 
 const SkillName = styled.div`
   float: right;
-  width: 150px;
-  margin-top: 3px;
+  width: 180px;
 `
 
 type Color = {
