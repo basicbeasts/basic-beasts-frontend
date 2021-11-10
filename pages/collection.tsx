@@ -10,6 +10,9 @@ const Container = styled.div`
   border-bottom: 0px;
   border-left: 0px;
   border-right: 0px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
 `
 
 const Collection: NextPage = () => {

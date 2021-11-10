@@ -41,13 +41,6 @@ const Name = styled.h3`
   font-weight: normal;
 `
 
-const HeaderDetails = styled.div`
-  display: table;
-  clear: both;
-  width: 100%;
-  margin-top: 10px;
-`
-
 // -----------------------------------------------------------------------
 // Content
 // Styling for the content of a Beast Card
@@ -94,7 +87,7 @@ const ShowcasePack: FC = () => {
           <Img src={packImg.src} />
           <Description>
             {
-              "Inside this pack contains a magical Beast that awaits its master. Summon your Beast and become its first owner."
+              "Inside this pack is a magical Beast that awaits its master. Summon your Beast and become its first owner."
             }
           </Description>
           <BuyButton buttonText={"Summon Beast"} />

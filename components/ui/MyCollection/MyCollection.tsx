@@ -29,6 +29,9 @@ const Bg = styled.div`
   box-shadow: 0px 0px 5px 4px #ffd966; //Should change color depending on state and beast, item, pack that is being displayed
   // !!!!!
 
+  //272727
+  //ffd966
+
   @media (max-width: 1200px) {
     min-width: auto;
     justify-content: center;
@@ -56,7 +59,8 @@ const MyCollection: FC = () => {
 
         {/*When Packs are in the inventory. Showcase first PackThumbnail by default*/}
         {/*<ShowcasePack />*/}
-        <ShowcasePack />
+
+        <ShowcaseBeast />
 
         <CollectionStorage />
       </Bg>
