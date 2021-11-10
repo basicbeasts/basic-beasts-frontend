@@ -3,10 +3,8 @@ import styled from "styled-components"
 import BuyButton from "../BuyButton"
 import FilterBeastButton from "../FilterBeastButton"
 import FilterButton from "../FilterButton"
-import BeastThumbnailImg from "public/BeastThumbnailExample.png"
 import star from "public/basic_starLevel.png"
 import BeastThumbnail from "../BeastThumbnail"
-import BeastThumbnailSelected from "../BeastThumbnailSelected"
 
 const Container = styled.div`
   background: #111823; //Should change color depending on which filter/tab that has been selected
@@ -82,17 +80,20 @@ const CollectionStorage: FC = () => {
         </FilterButtons>
       </Header>
       <BeastThumbnailList>
-        <BeastThumbnailSelected />
-        <BeastThumbnail />
-        <BeastThumbnail />
-        <BeastThumbnail />
+        <BeastThumbnail
+          selected
+          id="QmVhc3Q6Y2t2b2oydjNmMDAwMGQyOXh2cW1yam42aQ=="
+        />
+        <BeastThumbnail id="QmVhc3Q6Y2t2b2oydjNmMDAwMGQyOXh2cW1yam42aQ==" />
+        <BeastThumbnail id="QmVhc3Q6Y2t2b2oydjNmMDAwMGQyOXh2cW1yam42aQ==" />
+        <BeastThumbnail id="QmVhc3Q6Y2t2b2oydjNmMDAwMGQyOXh2cW1yam42aQ==" />
         <BeastThumbnailLast></BeastThumbnailLast>
       </BeastThumbnailList>
       <BeastThumbnailList>
-        <BeastThumbnail />
-        <BeastThumbnail />
-        <BeastThumbnail />
-        <BeastThumbnail />
+        <BeastThumbnail id="QmVhc3Q6Y2t2b2oydjNmMDAwMGQyOXh2cW1yam42aQ==" />
+        <BeastThumbnail id="QmVhc3Q6Y2t2b2oydjNmMDAwMGQyOXh2cW1yam42aQ==" />
+        <BeastThumbnail id="QmVhc3Q6Y2t2b2oydjNmMDAwMGQyOXh2cW1yam42aQ==" />
+        <BeastThumbnail id="QmVhc3Q6Y2t2b2oydjNmMDAwMGQyOXh2cW1yam42aQ==" />
         <BeastThumbnailLast></BeastThumbnailLast>
       </BeastThumbnailList>
     </Container>

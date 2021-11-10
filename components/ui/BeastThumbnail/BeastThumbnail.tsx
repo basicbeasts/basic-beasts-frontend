@@ -1,16 +1,20 @@
 import React, { FC } from "react"
 import styled from "styled-components"
 
-import BeastThumbnailImg from "public/BeastThumbnailExample.png"
 import star from "public/basic_starLevel.png"
+import { useQuery } from "../../../gqty"
 
-const Container = styled.div`
+const Container = styled.div<{ selected?: boolean }>`
   width: 110px;
   height: 110px;
   background: #fff;
+  color: #000;
   margin-right: 30px;
-  box-shadow: -3px 0px 0px 0px #b3a068, 0px -3px 0px 0px #b3a068,
-    0px 3px 0px 0px #b3a068, 3px 0px 0px 0px #b3a068;
+
+  box-shadow: ${(props) =>
+    props.selected
+      ? "0px 0px 5px 4px #fff"
+      : "-3px 0px 0px 0px #b3a068, 0px -3px 0px 0px #b3a068, 0px 3px 0px 0px #b3a068, 3px 0px 0px 0px #b3a068;"};
   cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
       14 0,
     pointer !important;
@@ -29,7 +33,7 @@ const BeastThumbnailLast = styled.div`
 `
 
 const Img = styled.img`
-  max-width: 110px;
+  max-width: 85px;
 
   user-drag: none;
   -webkit-user-drag: none;
@@ -60,18 +64,37 @@ const ThumbnailLabel = styled.div`
   float: right;
 `
 
-const BeastThumbnail: FC = () => {
+type BeastThumbnailProps = {
+  id: string
+  selected?: boolean
+}
+
+const BeastThumbnail: FC<BeastThumbnailProps> = ({
+  id,
+  selected,
+}: BeastThumbnailProps) => {
+  const query = useQuery()
+  const beast = query.beast({ id })
+
   return (
-    <Container>
-      <Img src={BeastThumbnailImg.src} />
-      <ThumbnailDetails>
-        <StarLevel>
-          <StarImg src={star.src} />
-          <StarImg src={star.src} />
-          <StarImg src={star.src} />
-        </StarLevel>
-        <ThumbnailLabel>Moon</ThumbnailLabel>
-      </ThumbnailDetails>
+    <Container selected={selected}>
+      {query.$state.isLoading ? (
+        <div>Loading...</div>
+      ) : (
+        <>
+          <Img src={beast?.imageUrl} />
+          <ThumbnailDetails>
+            <StarLevel>
+              {Array(beast?.starLevel)
+                .fill(0)
+                .map((_, i) => (
+                  <StarImg key={i} src={star.src} />
+                ))}
+            </StarLevel>
+            <ThumbnailLabel>{beast?.name}</ThumbnailLabel>
+          </ThumbnailDetails>
+        </>
+      )}
     </Container>
   )
 }
