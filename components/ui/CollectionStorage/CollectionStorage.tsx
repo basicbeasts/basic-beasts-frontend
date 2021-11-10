@@ -1,10 +1,11 @@
-import React, { FC } from "react"
+import React, { Dispatch, FC, SetStateAction } from "react"
 import styled from "styled-components"
 import BuyButton from "../BuyButton"
 import FilterBeastButton from "../FilterBeastButton"
 import FilterButton from "../FilterButton"
 import star from "public/basic_starLevel.png"
 import BeastThumbnail from "../BeastThumbnail"
+import { useQuery } from "../../../gqty"
 
 const Container = styled.div`
   background: #111823; //Should change color depending on which filter/tab that has been selected
@@ -62,14 +63,41 @@ const BeastThumbnailLast = styled.div`
     pointer !important;
 `
 
-const CollectionStorage: FC = () => {
+type CollectionStorageProps = {
+  selectBeast: Dispatch<SetStateAction<string | null>>
+}
+
+// https://stackoverflow.com/a/60832642/11321732
+function arrayChunk<T>(array: Array<T>, chunkSize: number): Array<Array<T>> {
+  const arrayOfArrays = []
+
+  if (array.length <= chunkSize) {
+    arrayOfArrays.push(array)
+  } else {
+    for (let i = 0; i < array.length; i += chunkSize) {
+      arrayOfArrays.push(array.slice(i, i + chunkSize))
+    }
+  }
+  return arrayOfArrays
+}
+
+const CollectionStorage: FC<CollectionStorageProps> = ({
+  selectBeast,
+}: CollectionStorageProps) => {
+  const query = useQuery()
+  const user = query.user({ walletAddress: "0xdcdb8c9861a8e9d6" })
+  const beasts = user
+    ?.unopenedPacks()
+    ?.edges?.map((edge) => edge?.node?.beast?.id!)
+    .filter(Boolean)
+
   return (
     <Container>
       <Header>
         {/*
             Should display number of items/beasts/packs listed in collection storage depending on which filter/tab is currently selected. 
             */}
-        <Count>Showing {0}</Count>
+        {beasts && <Count>Showing {beasts?.length}</Count>}
         <FilterButtons>
           {/*
             Should display only two buttons and hide the one what is currently being displayed
@@ -79,23 +107,18 @@ const CollectionStorage: FC = () => {
           <FilterBeastButton buttonText={"Beasts"} />
         </FilterButtons>
       </Header>
-      <BeastThumbnailList>
-        <BeastThumbnail
-          selected
-          id="QmVhc3Q6Y2t2b2oydjNmMDAwMGQyOXh2cW1yam42aQ=="
-        />
-        <BeastThumbnail id="QmVhc3Q6Y2t2b2oydjNmMDAwMGQyOXh2cW1yam42aQ==" />
-        <BeastThumbnail id="QmVhc3Q6Y2t2b2oydjNmMDAwMGQyOXh2cW1yam42aQ==" />
-        <BeastThumbnail id="QmVhc3Q6Y2t2b2oydjNmMDAwMGQyOXh2cW1yam42aQ==" />
-        <BeastThumbnailLast></BeastThumbnailLast>
-      </BeastThumbnailList>
-      <BeastThumbnailList>
-        <BeastThumbnail id="QmVhc3Q6Y2t2b2oydjNmMDAwMGQyOXh2cW1yam42aQ==" />
-        <BeastThumbnail id="QmVhc3Q6Y2t2b2oydjNmMDAwMGQyOXh2cW1yam42aQ==" />
-        <BeastThumbnail id="QmVhc3Q6Y2t2b2oydjNmMDAwMGQyOXh2cW1yam42aQ==" />
-        <BeastThumbnail id="QmVhc3Q6Y2t2b2oydjNmMDAwMGQyOXh2cW1yam42aQ==" />
-        <BeastThumbnailLast></BeastThumbnailLast>
-      </BeastThumbnailList>
+      {beasts &&
+        arrayChunk(beasts, 5).map((innerArray, i) => (
+          <BeastThumbnailList key={innerArray[0] + i}>
+            {innerArray.map((beastId, j) => (
+              <BeastThumbnail
+                key={beastId + j + i}
+                id={beastId}
+                onClick={() => selectBeast(beastId)}
+              />
+            ))}
+          </BeastThumbnailList>
+        ))}
     </Container>
   )
 }

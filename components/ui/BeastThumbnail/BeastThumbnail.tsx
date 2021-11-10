@@ -67,17 +67,18 @@ const ThumbnailLabel = styled.div`
 type BeastThumbnailProps = {
   id: string
   selected?: boolean
+  onClick?: () => void
 }
 
 const BeastThumbnail: FC<BeastThumbnailProps> = ({
   id,
-  selected,
+  ...props
 }: BeastThumbnailProps) => {
   const query = useQuery()
   const beast = query.beast({ id })
 
   return (
-    <Container selected={selected}>
+    <Container {...props}>
       {query.$state.isLoading ? (
         <div>Loading...</div>
       ) : (
