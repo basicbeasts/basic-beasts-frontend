@@ -1,8 +1,7 @@
 import React, { FC } from "react"
 import styled from "styled-components"
-import beastImg from "public/001_normal.png"
 import star from "public/basic_starLevel.png"
-
+import { useQuery } from "../../../gqty"
 const Container = styled.div`
   padding: 10px;
   min-width: 600px;
@@ -181,53 +180,68 @@ type Button = {
   inset: string
 }
 
-const ShowcaseBeast: FC = () => {
+type ShowcaseBeastProps = {
+  id: string
+}
+
+const ShowcaseBeast: FC<ShowcaseBeastProps> = ({ id }: ShowcaseBeastProps) => {
+  const query = useQuery({ suspense: false })
+
+  const beast = query.beast({ id })
+
   return (
     <Container>
-      <Header>
-        <BeastName>Moon</BeastName>
-        <HeaderDetails>
-          <Type
-            backgroundColor={"#E6CE86"}
-            outset={"#B3A068"}
-            inset={"#E6CE86"}
-          >
-            {"Electric"}
-          </Type>
-          <DexNumber>{"#" + ("00" + 1).slice(-3)}</DexNumber>
-        </HeaderDetails>
-      </Header>
-      <Content>
-        <ContentWrapper>
-          <Img src={beastImg.src} />
-          <Description>
-            A Moon slightly resembles a bunny. With strange ears on it’s head it
-            shocks everything around it.
-          </Description>
-          <StarLevel>
-            <StarLevelLabel>Star Level</StarLevelLabel>
-            <StarImg src={star.src} />
-          </StarLevel>
+      {query.$state.isLoading ? (
+        <div>Loading...</div>
+      ) : (
+        <>
+          <Header>
+            <BeastName>{beast?.name}</BeastName>
+            <HeaderDetails>
+              <Type
+                backgroundColor={"#E6CE86"}
+                outset={"#B3A068"}
+                inset={"#E6CE86"}
+              >
+                {beast?.elementType}
+              </Type>
+              <DexNumber>{"#" + ("00" + beast?.dexNumber).slice(-3)}</DexNumber>
+            </HeaderDetails>
+          </Header>
+          <Content>
+            <ContentWrapper>
+              <Img src={beast?.imageUrl} />
+              <Description>{beast?.description}</Description>
+              <StarLevel>
+                <StarLevelLabel>Star Level</StarLevelLabel>
+                {Array(beast?.starLevel)
+                  .fill(0)
+                  .map((_, i) => (
+                    <StarImg key={i} src={star.src} />
+                  ))}
+              </StarLevel>
 
-          <BasicSkills>
-            <BasicSkillsLabel>Basic Skills</BasicSkillsLabel>
-            <Skills>
-              <Skill>Triple Kick</Skill>
-              <Skill>Gravity Pull</Skill>
-              <Skill>Moon Shock</Skill>
-            </Skills>
-          </BasicSkills>
+              <BasicSkills>
+                <BasicSkillsLabel>Basic Skills</BasicSkillsLabel>
+                <Skills>
+                  {beast?.basicSkills?.map((skill) => (
+                    <Skill key={skill}>{skill}</Skill>
+                  ))}
+                </Skills>
+              </BasicSkills>
 
-          <UltimateSkill
-            backgroundColor={"#FFE595"}
-            outset={"#B3A068"}
-            inset={"#CCB777"}
-          >
-            <UltimateSkillLabel>Ultimate Skill</UltimateSkillLabel>
-            <SkillName>{"Mega Volt Crash"}</SkillName>
-          </UltimateSkill>
-        </ContentWrapper>
-      </Content>
+              <UltimateSkill
+                backgroundColor={"#FFE595"}
+                outset={"#B3A068"}
+                inset={"#CCB777"}
+              >
+                <UltimateSkillLabel>Ultimate Skill</UltimateSkillLabel>
+                <SkillName>{beast?.ultimateSkill}</SkillName>
+              </UltimateSkill>
+            </ContentWrapper>
+          </Content>
+        </>
+      )}
     </Container>
   )
 }

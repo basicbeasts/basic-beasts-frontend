@@ -60,7 +60,7 @@ const MyCollection: FC = () => {
         {/*When Packs are in the inventory. Showcase first PackThumbnail by default*/}
         {/*<ShowcasePack />*/}
 
-        <ShowcaseBeast />
+        <ShowcaseBeast id="QmVhc3Q6Y2t2b2oydjNmMDAwMGQyOXh2cW1yam42aQ==" />
 
         <CollectionStorage />
       </Bg>
