@@ -1,4 +1,4 @@
-import React, { Dispatch, FC, SetStateAction, useEffect } from "react"
+import React, { Dispatch, FC, SetStateAction, useEffect, useState } from "react"
 import styled from "styled-components"
 import BuyButton from "../BuyButton"
 import FilterBeastButton from "../FilterBeastButton"
@@ -90,9 +90,13 @@ function arrayChunk<T>(array: Array<T>, chunkSize: number): Array<Array<T>> {
   return arrayOfArrays
 }
 
-const CollectionStorage: FC<CollectionStorageProps> = ({
+const ShowBeasts = ({
   selectBeast,
-}: CollectionStorageProps) => {
+  count,
+}: {
+  selectBeast: Dispatch<SetStateAction<string | null>>
+  count: Dispatch<SetStateAction<number>>
+}) => {
   const query = useQuery()
   const user = query.user({ walletAddress: "0xdcdb8c9861a8e9d6" })
   const beasts = user
@@ -104,6 +108,7 @@ const CollectionStorage: FC<CollectionStorageProps> = ({
   useEffect(() => {
     if (beasts && beasts.length > 0) {
       selectBeast(beasts[0])
+      count(beasts.length)
     }
     // This will re-run when the query updates with data
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -111,20 +116,6 @@ const CollectionStorage: FC<CollectionStorageProps> = ({
 
   return (
     <Container>
-      <Header>
-        {/*
-            Should display number of items/beasts/packs listed in collection storage depending on which filter/tab is currently selected. 
-            */}
-        {beasts && <Count>Showing {beasts?.length}</Count>}
-        <FilterButtons>
-          {/*
-            Should display only two buttons and hide the one what is currently being displayed
-            */}
-          <FilterButton buttonText={"Packs"} />
-          <FilterButton buttonText={"Items"} />
-          <FilterBeastButton buttonText={"Beasts"} />
-        </FilterButtons>
-      </Header>
       {beasts &&
         arrayChunk(beasts, 5).map((innerArray, i) => (
           <BeastThumbnailList key={innerArray[0] + i}>
@@ -137,6 +128,32 @@ const CollectionStorage: FC<CollectionStorageProps> = ({
             ))}
           </BeastThumbnailList>
         ))}
+    </Container>
+  )
+}
+
+const CollectionStorage: FC<CollectionStorageProps> = ({
+  selectBeast,
+}: CollectionStorageProps) => {
+  const [count, setCount] = useState(0)
+
+  return (
+    <Container>
+      <Header>
+        {/*
+            Should display number of items/beasts/packs listed in collection storage depending on which filter/tab is currently selected. 
+            */}
+        <Count>Showing {count}</Count>
+        <FilterButtons>
+          {/*
+            Should display only two buttons and hide the one what is currently being displayed
+            */}
+          <FilterButton buttonText={"Packs"} />
+          <FilterButton buttonText={"Items"} />
+          <FilterBeastButton buttonText={"Beasts"} />
+        </FilterButtons>
+      </Header>
+      <ShowBeasts selectBeast={selectBeast} count={setCount} />
       {/* <ThumbnailList>
         <ItemThumbnail />
         <ItemThumbnail />
