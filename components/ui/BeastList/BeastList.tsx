@@ -23,6 +23,7 @@ const BeastList: FC<FuncProps> = ({ beasts }) => {
       {beasts.length > 0 ? (
         <>
           {beasts.map((beast: any, i: any) => (
+            // @ts-expect-error TODO: add strong typings
             <BeastThumbnail key={i} beast={beast} />
           ))}
         </>

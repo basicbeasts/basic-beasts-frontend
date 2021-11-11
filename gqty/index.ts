@@ -1,6 +1,6 @@
-import { createClient } from "gqty"
+// @ts-expect-error TODO: investigate why we get circular dependency here
+import { createClient, QueryFetcher } from "gqty"
 import { createReactClient } from "@gqty/react"
-import type { QueryFetcher } from "gqty"
 import type {
   GeneratedSchema,
   SchemaObjectTypes,
@@ -8,8 +8,7 @@ import type {
 } from "./schema.generated"
 import { generatedSchema, scalarsEnumsHash } from "./schema.generated"
 
-const queryFetcher: QueryFetcher = async function (query, variables) {
-  // Modify "/api/graphql" if needed
+const queryFetcher: QueryFetcher = async function (query: any, variables: any) {
   const response = await fetch(process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT!, {
     method: "POST",
     headers: {

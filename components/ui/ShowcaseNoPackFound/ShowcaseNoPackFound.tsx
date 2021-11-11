@@ -28,7 +28,7 @@ const ShowcaseNoPackFound: FC = () => {
   return (
     <Container>
       <Text>
-        You'll see unopened packs here. <br />
+        You&apos;ll see unopened packs here. <br />
         Get your packs today!
       </Text>
       <BuyButton buttonText={"Buy Packs"} />

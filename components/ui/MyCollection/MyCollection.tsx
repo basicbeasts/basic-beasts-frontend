@@ -1,6 +1,5 @@
 import React, { FC, useState } from "react"
 import styled from "styled-components"
-import BeastDisplay from "@components/ui/BeastDisplay"
 import CollectionStorage from "@components/ui/CollectionStorage"
 import ShowcaseBeast from "@components/ui/ShowcaseBeast"
 import ShowcaseNoBeastFound from "@components/ui/ShowcaseNoBeastFound"
