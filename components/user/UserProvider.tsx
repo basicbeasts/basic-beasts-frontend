@@ -1,6 +1,7 @@
 import { FC, createContext, useContext, useEffect } from "react"
 import * as fcl from "@onflow/fcl"
 import useFUSD from "@framework/hooks/use-fusd.hook"
+import useUserBeasts from "@framework/hooks/use-user-beasts.hook"
 import useCurrentUser from "framework/hooks/use-current-user.hook"
 import useCookie from "framework/hooks/use-cookie.hook"
 
@@ -17,6 +18,11 @@ const UserProvider: FC = ({ children }) => {
   )
 
   const { data: balance, getFUSDBalance, purchase, loading } = useFUSD(user)
+  const {
+    data: userBeasts,
+    fetchUserBeasts,
+    loadingBeast,
+  } = useUserBeasts(user)
 
   useEffect(() => {
     if (compositeSignature) return
@@ -42,6 +48,9 @@ const UserProvider: FC = ({ children }) => {
         purchase,
         loading,
         compositeSignature,
+        userBeasts,
+        fetchUserBeasts,
+        loadingBeast,
       }}
     >
       {children}

@@ -22,6 +22,7 @@ const FooterContent = styled.div`
   -webkit-box-align: center;
   align-items: center;
   padding: 3em 0px 4em;
+  z-index: 11;
 `
 
 const NavLogo = styled.a`
@@ -29,7 +30,6 @@ const NavLogo = styled.a`
   cursor: pointer;
   font-size: 50px;
   line-height: 30px;
-  margin-left: 20px;
   margin-top: 10px;
   text-transform: capitalize;
 `

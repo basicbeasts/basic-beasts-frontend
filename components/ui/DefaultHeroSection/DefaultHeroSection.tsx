@@ -9,8 +9,10 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   height: 50vh;
-  border: solid 15px #93a4be;
-  background: #424f66;
+  border: solid 25px #111111;
+  @media (max-width: 700px) {
+    border: solid 15px #111111;
+  }
 `
 
 const Content = styled.div`
@@ -47,7 +49,7 @@ type FuncProps = {
   description: String
 }
 
-const ComingSoon: FC<FuncProps> = ({ title, description }) => {
+const DefaultHeroSection: FC<FuncProps> = ({ title, description }) => {
   return (
     <Container>
       <Content>
@@ -58,4 +60,4 @@ const ComingSoon: FC<FuncProps> = ({ title, description }) => {
     </Container>
   )
 }
-export default ComingSoon
+export default DefaultHeroSection
