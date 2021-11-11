@@ -11,7 +11,7 @@ import { useAuth } from "@components/auth/AuthProvider"
 const Container = styled.div`
   background: #111823; //Should change color depending on which filter/tab that has been selected
   box-shadow: 0px -6px 5px 4px #111823; //Should change color depending on which filter/tab that has been selected
-  //#272727 - Color for when 1) Beast Collection is empty else
+  //#272727 - Color for when 1) Beast Collection is empty else TODO
   // #111823 - for every other case
   width: 55%;
   margin-top: 50px;
