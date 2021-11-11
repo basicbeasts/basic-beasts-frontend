@@ -66,9 +66,9 @@ const StarImg = styled.img`
 
 const BeastImg = styled.img`
   position: absolute;
-  bottom: 260px;
-  right: clamp(15%, 700px, 0%);
-  width: 750px;
+  bottom: 200px;
+  right: 10px;
+  width: 700px;
 `
 
 const CloseIcon = styled.div`

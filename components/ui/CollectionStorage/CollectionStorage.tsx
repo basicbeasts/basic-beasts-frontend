@@ -23,11 +23,25 @@ const Container = styled.div`
   user-select: none;
 `
 
+const Wrapper = styled.div`
+  background: #111823; //Should change color depending on which filter/tab that has been selected
+  box-shadow: 0px -6px 5px 4px #111823; //Should change color depending on which filter/tab that has been selected
+  //#272727 - Color for when 1) Beast Collection is empty else TODO
+  // #111823 - for every other case
+  width: 55%;
+  padding: 35px 20px 0px;
+  z-index: 1;
+
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+`
+
 const Header = styled.div`
   display: table;
   clear: both;
   width: 100%;
-  margin-bottom: 40px;
+  margin-bottom: 0px;
   padding: 0 20px;
 `
 
@@ -105,7 +119,7 @@ const ShowBeasts = ({
   }, [query.$state.isLoading])
 
   return (
-    <Container>
+    <Wrapper>
       {beasts &&
         arrayChunk(beasts, 5).map((innerArray, i) => (
           <BeastThumbnailList key={innerArray[0] + i}>
@@ -118,7 +132,7 @@ const ShowBeasts = ({
             ))}
           </BeastThumbnailList>
         ))}
-    </Container>
+    </Wrapper>
   )
 }
 
@@ -134,13 +148,13 @@ const ShowItems = ({
   }, [])
 
   return (
-    <Container>
+    <Wrapper>
       <ThumbnailList>
         <ItemThumbnail />
         <ItemThumbnail />
         <ItemThumbnail />
       </ThumbnailList>
-    </Container>
+    </Wrapper>
   )
 }
 
@@ -156,13 +170,13 @@ const ShowPacks = ({
   }, [])
 
   return (
-    <Container>
+    <Wrapper>
       <ThumbnailList>
         <PackThumbnail />
         <PackThumbnail />
         <PackThumbnail />
       </ThumbnailList>
-    </Container>
+    </Wrapper>
   )
 }
 

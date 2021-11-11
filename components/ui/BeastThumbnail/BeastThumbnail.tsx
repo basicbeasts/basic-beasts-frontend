@@ -7,7 +7,7 @@ import { useQuery } from "../../../gqty"
 const Container = styled.div<{ selected?: boolean }>`
   width: 110px;
   height: 110px;
-  background: #fff;
+  background: #fdf8f4;
   color: #000;
   margin-right: 30px;
 
