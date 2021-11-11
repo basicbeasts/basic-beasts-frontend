@@ -1,10 +1,9 @@
 import React, { Dispatch, FC, SetStateAction, useEffect, useState } from "react"
 import styled from "styled-components"
+import { useQuery } from "../../../gqty"
 import BuyButton from "../BuyButton"
 import FilterButton from "../FilterButton"
-import star from "public/basic_starLevel.png"
 import BeastThumbnail from "../BeastThumbnail"
-import { useQuery } from "../../../gqty"
 import ItemThumbnail from "../ItemThumbnail"
 import PackThumbnail from "../PackThumbnail"
 
@@ -73,6 +72,8 @@ const ThumbnailList = styled.div`
 
 type CollectionStorageProps = {
   selectBeast: Dispatch<SetStateAction<string | null>>
+  selectItem: Dispatch<SetStateAction<string | null>>
+  selectPack: Dispatch<SetStateAction<string | null>>
   selectFilter: Dispatch<SetStateAction<"beasts" | "items" | "packs">>
   filter: "beasts" | "items" | "packs"
 }
@@ -133,10 +134,53 @@ const ShowBeasts = ({
   )
 }
 
+const ShowItems = ({
+  selectItem,
+  count,
+}: {
+  selectItem: Dispatch<SetStateAction<string | null>>
+  count: Dispatch<SetStateAction<number>>
+}) => {
+  useEffect(() => {
+    count(6)
+  }, [])
+
+  return (
+    <Container>
+      <ThumbnailList>
+        <ItemThumbnail />
+        <ItemThumbnail />
+        <ItemThumbnail />
+      </ThumbnailList>
+      <ThumbnailList>
+        <PackThumbnail />
+        <PackThumbnail />
+        <PackThumbnail />
+      </ThumbnailList>
+    </Container>
+  )
+}
+
+const ShowPacks = ({
+  selectPack,
+  count,
+}: {
+  selectPack: Dispatch<SetStateAction<string | null>>
+  count: Dispatch<SetStateAction<number>>
+}) => {
+  useEffect(() => {
+    count(0)
+  }, [])
+
+  return <Container></Container>
+}
+
 const CollectionStorage: FC<CollectionStorageProps> = ({
   selectBeast,
   filter,
   selectFilter,
+  selectItem,
+  selectPack,
 }: CollectionStorageProps) => {
   const [count, setCount] = useState(0)
 
@@ -172,18 +216,10 @@ const CollectionStorage: FC<CollectionStorageProps> = ({
         <ShowBeasts selectBeast={selectBeast} count={setCount} />
       )}
       {filter === "items" && (
-        <>
-          <ThumbnailList>
-            <ItemThumbnail />
-            <ItemThumbnail />
-            <ItemThumbnail />
-          </ThumbnailList>
-          <ThumbnailList>
-            <PackThumbnail />
-            <PackThumbnail />
-            <PackThumbnail />
-          </ThumbnailList>
-        </>
+        <ShowItems selectItem={selectItem} count={setCount} />
+      )}
+      {filter === "packs" && (
+        <ShowPacks selectPack={selectPack} count={setCount} />
       )}
     </Container>
   )

@@ -40,32 +40,31 @@ const Bg = styled.div`
 
 const MyCollection: FC = () => {
   const [selectedBeast, setSelectedBeast] = useState<string | null>(null)
+  const [selectedItem, setSelectedItem] = useState<string | null>(null)
+  const [selectedPack, setSelectedPack] = useState<string | null>(null)
   const [filter, setFilter] = useState<"beasts" | "items" | "packs">("beasts")
 
   return (
     <Container>
       <Bg>
         {/*When Beast Collection is empty. Otherwise show first beast*/}
-        {selectedBeast ? (
-          <ShowcaseBeast id={selectedBeast} />
-        ) : (
-          <ShowcaseNoBeastFound />
-        )}
+        {filter === "beasts" &&
+          (selectedBeast ? (
+            <ShowcaseBeast id={selectedBeast} />
+          ) : (
+            <ShowcaseNoBeastFound />
+          ))}
 
-        {/*When Item Inventory is empty. Otherwise show first item*/}
-        {/*<ShowcaseNoItemFound />*/}
+        {filter === "items" &&
+          (selectedItem ? <ShowcaseItem /> : <ShowcaseNoItemFound />)}
 
-        {/*When Pack Inventory is empty. Otherwise show first pack*/}
-        {/*<ShowcaseNoPackFound />*/}
-
-        {/*When Items are in the inventory. Showcase first ItemThumbnail by default*/}
-        {/*<ShowcaseItem />*/}
-
-        {/*When Packs are in the inventory. Showcase first PackThumbnail by default*/}
-        {/*<ShowcasePack />*/}
+        {filter === "packs" &&
+          (selectedPack ? <ShowcasePack /> : <ShowcaseNoPackFound />)}
 
         <CollectionStorage
           selectBeast={setSelectedBeast}
+          selectItem={setSelectedItem}
+          selectPack={setSelectedPack}
           filter={filter}
           selectFilter={setFilter}
         />
