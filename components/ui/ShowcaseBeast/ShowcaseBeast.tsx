@@ -48,12 +48,12 @@ const HeaderDetails = styled.div`
 
 const Type = styled.div<Omit<Button, "background">>`
   float: left;
-  background-color: ${(props) => props.backgroundColor || "#FFE595"};
+  background-color: ${(props) => props.backgroundColor || "#E6CE86"};
   box-shadow: -3px 0px 0px 0px ${(props) => props.outset || "#B3A068"},
     0px -3px 0px 0px ${(props) => props.outset || "#B3A068"},
     0px 3px 0px 0px ${(props) => props.outset || "#B3A068"},
     3px 0px 0px 0px ${(props) => props.outset || "#B3A068"},
-    inset -3px 0px ${(props) => props.inset || "#E6CE86"};
+    inset -3px 0px ${(props) => props.inset || "#CCB777"};
   padding-left: 8px;
   padding-right: 8px;
   width: 70px;
@@ -203,7 +203,7 @@ const ShowcaseBeast: FC<ShowcaseBeastProps> = ({ id }: ShowcaseBeastProps) => {
               <Type
                 backgroundColor={"#E6CE86"}
                 outset={"#B3A068"}
-                inset={"#E6CE86"}
+                inset={"#CCB777"}
               >
                 {beast?.elementType}
               </Type>
