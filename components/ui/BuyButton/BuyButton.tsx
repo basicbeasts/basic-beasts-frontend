@@ -1,5 +1,6 @@
 import React, { FC } from "react"
 import styled from "styled-components"
+import NextLink from "next/link"
 
 const Button = styled.button`
   padding: 8px 24px 12px 26px;
@@ -27,6 +28,10 @@ type FuncProps = {
 }
 
 const BuyButton: FC<FuncProps> = ({ buttonText }) => {
-  return <Button>{buttonText}</Button>
+  return (
+    <Button>
+      <NextLink href="/store">{buttonText}</NextLink>
+    </Button>
+  )
 }
 export default BuyButton

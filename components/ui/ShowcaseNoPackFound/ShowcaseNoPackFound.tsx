@@ -1,6 +1,11 @@
-import React, { FC } from "react"
+import React, { FC, useState } from "react"
 import styled from "styled-components"
 import BuyButton from "@components/ui/BuyButton"
+
+//For BeastRevealModal
+import FilterButton from "../FilterButton"
+import { motion } from "framer-motion"
+import BeastRevealModal from "../BeastRevealModal"
 
 const Container = styled.div`
   padding: 10px;
@@ -24,7 +29,11 @@ const Text = styled.div`
   margin-bottom: 25px;
 `
 
-const ShowcaseNoPackFound: FC = () => {
+type FuncProps = {
+  RevealModalOpen: () => void
+}
+
+const ShowcaseNoPackFound: FC<FuncProps> = ({ RevealModalOpen }) => {
   return (
     <Container>
       <Text>
@@ -32,6 +41,11 @@ const ShowcaseNoPackFound: FC = () => {
         Get your packs today!
       </Text>
       <BuyButton buttonText={"Buy Packs"} />
+      <br />
+      <FilterButton
+        buttonText={"Temp Button Summon Beast"}
+        onClick={() => RevealModalOpen()}
+      ></FilterButton>
     </Container>
   )
 }

@@ -8,6 +8,11 @@ import ShowcaseNoPackFound from "@components/ui/ShowcaseNoPackFound"
 import ShowcaseItem from "../ShowcaseItem"
 import ShowcasePack from "../ShowcasePack"
 
+//For BeastRevealModal
+import FilterButton from "../FilterButton"
+import { motion } from "framer-motion"
+import BeastRevealModal from "../BeastRevealModal"
+
 const Container = styled.div`
   color: #fff;
   display: flex;
@@ -21,7 +26,7 @@ const Bg = styled.div`
   display: flex;
   flex-wrap: wrap;
   min-height: 600px;
-  min-width: 1400px;
+  width: 1400px;
 
   // !!!!!
   background: #272727; //Should change color depending on state and beast, item, pack that is being displayed
@@ -43,9 +48,23 @@ const MyCollection: FC = () => {
   const [selectedPack, setSelectedPack] = useState<string | null>(null)
   const [filter, setFilter] = useState<"beasts" | "items" | "packs">("beasts")
 
+  //Modal
+  const [RevealModalOpen, setRevealModalOpen] = useState(false)
+
+  const close = () => setRevealModalOpen(false)
+
+  const open = () => setRevealModalOpen(true)
+
   return (
     <Container>
       <Bg>
+        {RevealModalOpen && (
+          <BeastRevealModal
+            RevealModalOpen={RevealModalOpen}
+            handleClose={close}
+            text={""}
+          />
+        )}
         {/*When Beast Collection is empty. Otherwise show first beast*/}
         {filter === "beasts" &&
           (selectedBeast ? (
@@ -58,7 +77,11 @@ const MyCollection: FC = () => {
           (selectedItem ? <ShowcaseItem /> : <ShowcaseNoItemFound />)}
 
         {filter === "packs" &&
-          (selectedPack ? <ShowcasePack /> : <ShowcaseNoPackFound />)}
+          (selectedPack ? (
+            <ShowcasePack />
+          ) : (
+            <ShowcaseNoPackFound RevealModalOpen={open} />
+          ))}
 
         <CollectionStorage
           selectBeast={setSelectedBeast}
