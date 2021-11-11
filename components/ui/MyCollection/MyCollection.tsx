@@ -40,6 +40,7 @@ const Bg = styled.div`
 
 const MyCollection: FC = () => {
   const [selectedBeast, setSelectedBeast] = useState<string | null>(null)
+  const [filter, setFilter] = useState<"beasts" | "items" | "packs">("beasts")
 
   return (
     <Container>
@@ -63,7 +64,11 @@ const MyCollection: FC = () => {
         {/*When Packs are in the inventory. Showcase first PackThumbnail by default*/}
         {/*<ShowcasePack />*/}
 
-        <CollectionStorage selectBeast={setSelectedBeast} />
+        <CollectionStorage
+          selectBeast={setSelectedBeast}
+          filter={filter}
+          selectFilter={setFilter}
+        />
       </Bg>
     </Container>
   )

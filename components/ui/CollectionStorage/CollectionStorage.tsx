@@ -1,7 +1,6 @@
 import React, { Dispatch, FC, SetStateAction, useEffect, useState } from "react"
 import styled from "styled-components"
 import BuyButton from "../BuyButton"
-import FilterBeastButton from "../FilterBeastButton"
 import FilterButton from "../FilterButton"
 import star from "public/basic_starLevel.png"
 import BeastThumbnail from "../BeastThumbnail"
@@ -74,6 +73,8 @@ const ThumbnailList = styled.div`
 
 type CollectionStorageProps = {
   selectBeast: Dispatch<SetStateAction<string | null>>
+  selectFilter: Dispatch<SetStateAction<"beasts" | "items" | "packs">>
+  filter: "beasts" | "items" | "packs"
 }
 
 // https://stackoverflow.com/a/60832642/11321732
@@ -134,6 +135,8 @@ const ShowBeasts = ({
 
 const CollectionStorage: FC<CollectionStorageProps> = ({
   selectBeast,
+  filter,
+  selectFilter,
 }: CollectionStorageProps) => {
   const [count, setCount] = useState(0)
 
@@ -148,22 +151,40 @@ const CollectionStorage: FC<CollectionStorageProps> = ({
           {/*
             Should display only two buttons and hide the one what is currently being displayed
             */}
-          <FilterButton buttonText={"Packs"} />
-          <FilterButton buttonText={"Items"} />
-          <FilterBeastButton buttonText={"Beasts"} />
+          <FilterButton
+            onClick={() => selectFilter("packs")}
+            selected={filter === "packs"}
+            buttonText={"Packs"}
+          />
+          <FilterButton
+            onClick={() => selectFilter("items")}
+            selected={filter === "items"}
+            buttonText={"Items"}
+          />
+          <FilterButton
+            selected={filter === "beasts"}
+            onClick={() => selectFilter("beasts")}
+            buttonText={"Beasts"}
+          />
         </FilterButtons>
       </Header>
-      <ShowBeasts selectBeast={selectBeast} count={setCount} />
-      {/* <ThumbnailList>
-        <ItemThumbnail />
-        <ItemThumbnail />
-        <ItemThumbnail />
-      </ThumbnailList>
-      <ThumbnailList>
-        <PackThumbnail />
-        <PackThumbnail />
-        <PackThumbnail />
-      </ThumbnailList> */}
+      {filter === "beasts" && (
+        <ShowBeasts selectBeast={selectBeast} count={setCount} />
+      )}
+      {filter === "items" && (
+        <>
+          <ThumbnailList>
+            <ItemThumbnail />
+            <ItemThumbnail />
+            <ItemThumbnail />
+          </ThumbnailList>
+          <ThumbnailList>
+            <PackThumbnail />
+            <PackThumbnail />
+            <PackThumbnail />
+          </ThumbnailList>
+        </>
+      )}
     </Container>
   )
 }
