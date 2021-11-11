@@ -1,4 +1,4 @@
-import React, { Dispatch, FC, SetStateAction } from "react"
+import React, { Dispatch, FC, SetStateAction, useEffect } from "react"
 import styled from "styled-components"
 import BuyButton from "../BuyButton"
 import FilterBeastButton from "../FilterBeastButton"
@@ -100,6 +100,15 @@ const CollectionStorage: FC<CollectionStorageProps> = ({
     ?.edges?.map((edge) => edge?.node?.beast?.id!)
     .filter(Boolean)
 
+  // When Beasts are in the collection. Showcase first BeastThumbnail by default
+  useEffect(() => {
+    if (beasts && beasts.length > 0) {
+      selectBeast(beasts[0])
+    }
+    // This will re-run when the query updates with data
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query.$state.isLoading])
+
   return (
     <Container>
       <Header>
@@ -128,7 +137,7 @@ const CollectionStorage: FC<CollectionStorageProps> = ({
             ))}
           </BeastThumbnailList>
         ))}
-      <ThumbnailList>
+      {/* <ThumbnailList>
         <ItemThumbnail />
         <ItemThumbnail />
         <ItemThumbnail />
@@ -137,7 +146,7 @@ const CollectionStorage: FC<CollectionStorageProps> = ({
         <PackThumbnail />
         <PackThumbnail />
         <PackThumbnail />
-      </ThumbnailList>
+      </ThumbnailList> */}
     </Container>
   )
 }

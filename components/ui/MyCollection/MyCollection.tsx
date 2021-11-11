@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react"
+import React, { FC, useState } from "react"
 import styled from "styled-components"
 import BeastDisplay from "@components/ui/BeastDisplay"
 import CollectionStorage from "@components/ui/CollectionStorage"
@@ -8,7 +8,6 @@ import ShowcaseNoItemFound from "@components/ui/ShowcaseNoItemFound"
 import ShowcaseNoPackFound from "@components/ui/ShowcaseNoPackFound"
 import ShowcaseItem from "../ShowcaseItem"
 import ShowcasePack from "../ShowcasePack"
-import { useQuery } from "../../../gqty"
 
 const Container = styled.div`
   color: #fff;
@@ -40,22 +39,7 @@ const Bg = styled.div`
 `
 
 const MyCollection: FC = () => {
-  const query = useQuery()
-  const user = query.user({ walletAddress: "0xdcdb8c9861a8e9d6" })
-  const beasts = user
-    ?.unopenedPacks()
-    ?.edges?.map((edge) => edge?.node?.beast?.id!)
-
   const [selectedBeast, setSelectedBeast] = useState<string | null>(null)
-
-  // When Beasts are in the collection. Showcase first BeastThumbnail by default
-  useEffect(() => {
-    if (beasts && beasts.length > 0) {
-      setSelectedBeast(beasts[0])
-    }
-    // This will re-run when the query updates with data
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query.$state.isLoading])
 
   return (
     <Container>
