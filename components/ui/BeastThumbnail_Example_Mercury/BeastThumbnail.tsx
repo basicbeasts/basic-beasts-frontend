@@ -48,18 +48,8 @@ type FuncProps = {
 }
 
 const BeastCard: FC<FuncProps> = ({ beast }) => {
-  const { loadingBeast } = useUser()
-  const { user } = useAuth()
-
   return (
     <Container>
-      {loadingBeast ? (
-        <>
-          <div className="lds-ring"></div>
-        </>
-      ) : (
-        <></>
-      )}
       <TextInfo>
         <div>Name: {beast.name}</div>
         <div>Dex number: {("00" + beast.dexNumber).slice(-3)}</div>

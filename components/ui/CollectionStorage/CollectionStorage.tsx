@@ -6,6 +6,7 @@ import FilterButton from "../FilterButton"
 import BeastThumbnail from "../BeastThumbnail"
 import ItemThumbnail from "../ItemThumbnail"
 import PackThumbnail from "../PackThumbnail"
+import { useAuth } from "@components/auth/AuthProvider"
 
 const Container = styled.div`
   background: #111823; //Should change color depending on which filter/tab that has been selected
@@ -99,10 +100,13 @@ const ShowBeasts = ({
   selectBeast: Dispatch<SetStateAction<string | null>>
   count: Dispatch<SetStateAction<number>>
 }) => {
+  const {
+    user: { addr },
+  } = useAuth()
   const query = useQuery()
-  const user = query.user({ walletAddress: "0xdcdb8c9861a8e9d6" })
+  const user = query.user({ walletAddress: addr })
   const beasts = user
-    ?.unopenedPacks()
+    ?.openedPacks()
     ?.edges?.map((edge) => edge?.node?.beast?.id!)
     .filter(Boolean)
 
