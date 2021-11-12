@@ -1,8 +1,7 @@
 /**
  * GQTY AUTO-GENERATED CODE: PLEASE DO NOT MODIFY MANUALLY
  */
-// TODO: investigate why this is needed
-// @ts-nocheck
+
 import { SchemaUnionsKey } from "gqty"
 
 export type Maybe<T> = T | null
@@ -120,6 +119,7 @@ export const generatedSchema = {
     },
     id: { __type: "ID!" },
     imageUrl: { __type: "URL!" },
+    name: { __type: "String!" },
     thumbnailUrl: { __type: "URL!" },
     type: { __type: "String!" },
     updatedAt: { __type: "DateTime!" },
@@ -316,6 +316,7 @@ export interface Pack {
    */
   id: ScalarsEnums["ID"]
   imageUrl: ScalarsEnums["URL"]
+  name: ScalarsEnums["String"]
   thumbnailUrl: ScalarsEnums["URL"]
   type: ScalarsEnums["String"]
   updatedAt: ScalarsEnums["DateTime"]

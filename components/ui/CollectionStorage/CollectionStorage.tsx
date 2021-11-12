@@ -133,20 +133,6 @@ type CollectionStorageProps = {
   filter: "beasts" | "items" | "packs"
 }
 
-// https://stackoverflow.com/a/60832642/11321732
-function arrayChunk<T>(array: Array<T>, chunkSize: number): Array<Array<T>> {
-  const arrayOfArrays = []
-
-  if (array.length <= chunkSize) {
-    arrayOfArrays.push(array)
-  } else {
-    for (let i = 0; i < array.length; i += chunkSize) {
-      arrayOfArrays.push(array.slice(i, i + chunkSize))
-    }
-  }
-  return arrayOfArrays
-}
-
 const ShowBeasts = ({
   selectBeast,
   count,
@@ -174,19 +160,18 @@ const ShowBeasts = ({
 
   return (
     <Wrapper>
-      {beasts &&
-        arrayChunk(beasts, 10).map((innerArray, i) => (
-          <BeastThumbnailList key={innerArray[0] + i}>
-            {innerArray.map((beastId, j) => (
-              <BeastThumbnail
-                key={beastId + j + i}
-                id={beastId}
-                selected={beastId === selectedBeast}
-                onClick={() => selectBeast(beastId)}
-              />
-            ))}
-          </BeastThumbnailList>
-        ))}
+      {beasts && (
+        <BeastThumbnailList>
+          {beasts.map((beastId, i) => (
+            <BeastThumbnail
+              key={beastId + i}
+              id={beastId}
+              selected={beastId === selectedBeast}
+              onClick={() => selectBeast(beastId)}
+            />
+          ))}
+        </BeastThumbnailList>
+      )}
     </Wrapper>
   )
 }
@@ -223,19 +208,18 @@ const ShowItems = ({
 
   return (
     <Wrapper>
-      {items &&
-        arrayChunk(items, 10).map((innerArray, i) => (
-          <ThumbnailList key={innerArray[0] + i}>
-            {innerArray.map((itemId, j) => (
-              <ItemThumbnail
-                key={itemId + j + i}
-                id={itemId}
-                selected={itemId === selectedItem}
-                onClick={() => selectItem(itemId)}
-              />
-            ))}
-          </ThumbnailList>
-        ))}
+      {items && (
+        <ThumbnailList>
+          {items.map((itemId, i) => (
+            <ItemThumbnail
+              key={itemId + i}
+              id={itemId}
+              selected={itemId === selectedItem}
+              onClick={() => selectItem(itemId)}
+            />
+          ))}
+        </ThumbnailList>
+      )}
     </Wrapper>
   )
 }
@@ -273,19 +257,18 @@ const ShowPacks = ({
 
   return (
     <Wrapper>
-      {packs &&
-        arrayChunk(packs, 10).map((innerArray, i) => (
-          <ThumbnailList key={innerArray[0] + i}>
-            {innerArray.map((packId, j) => (
-              <PackThumbnail
-                key={packId + j + i}
-                id={packId}
-                selected={packId === selectedPack}
-                onClick={() => selectPack(packId)}
-              />
-            ))}
-          </ThumbnailList>
-        ))}
+      {packs && (
+        <ThumbnailList>
+          {packs.map((packId, j) => (
+            <PackThumbnail
+              key={packId + j}
+              id={packId}
+              selected={packId === selectedPack}
+              onClick={() => selectPack(packId)}
+            />
+          ))}
+        </ThumbnailList>
+      )}
     </Wrapper>
   )
 }

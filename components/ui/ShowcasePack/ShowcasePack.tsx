@@ -115,7 +115,7 @@ const ShowcasePack: FC<ShowcasePackProps> = ({
   return (
     <Container>
       <Header>
-        <Name>{pack?.type}</Name>
+        <Name>{pack?.name}</Name>
       </Header>
       <Content>
         <ContentWrapper>
