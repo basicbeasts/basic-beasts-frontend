@@ -3,6 +3,7 @@ import styled from "styled-components"
 import packImg from "public/packs/basic_beasts_starter_pack.png"
 import star from "public/basic_starLevel.png"
 import BuyButton from "../BuyButton"
+import { useQuery } from "../../../gqty"
 
 const Container = styled.div`
   padding: 10px;
@@ -100,26 +101,26 @@ type ShowcasePackProps = {
 }
 
 const ShowcasePack: FC<ShowcasePackProps> = ({
+  id,
   setContainerBg,
 }: ShowcasePackProps) => {
+  const query = useQuery()
+  const pack = query.pack({ id })
+
   // Set the background color of the container
   useEffect(() => {
     setContainerBg("#272727")
-  }, [])
+  }, [query.$state.isLoading, pack])
+
   return (
     <Container>
       <Header>
-        {/* See path of image to see the other packs */}
-        <Name>{"Starter"}</Name>
+        <Name>{pack?.type}</Name>
       </Header>
       <Content>
         <ContentWrapper>
-          <Img src={packImg.src} />
-          <Description>
-            {
-              "Inside this pack is a magical Beast that awaits its master. Summon your Beast and become its first owner."
-            }
-          </Description>
+          <Img src={pack?.imageUrl} />
+          <Description>{pack?.description}</Description>
           <BuyButton buttonText={"Summon Beast"} />
         </ContentWrapper>
       </Content>

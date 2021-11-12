@@ -39,13 +39,25 @@ const ThumbnailLabel = styled.div`
   margin-top: 3px;
 `
 
-const PackThumbnail: FC = () => {
+type PackThumbnailProps = {
+  id: string
+  selected?: boolean
+  onClick?: () => void
+}
+
+const PackThumbnail: FC<PackThumbnailProps> = ({
+  id,
+  ...props
+}: PackThumbnailProps) => {
+  const query = useQuery()
+  const pack = query.pack({ id })
+
   return (
-    <Container>
+    <Container {...props}>
       <>
-        <Img src={PackImg.src} />
+        <Img src={pack?.imageUrl} />
         <ThumbnailDetails>
-          <ThumbnailLabel>{"Starter Pack"}</ThumbnailLabel>
+          <ThumbnailLabel>{pack?.type}</ThumbnailLabel>
         </ThumbnailDetails>
       </>
     </Container>

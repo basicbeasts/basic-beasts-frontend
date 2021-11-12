@@ -127,6 +127,7 @@ type CollectionStorageProps = {
   currentItem: string | null
   selectPack: Dispatch<SetStateAction<string | null>>
   selectFilter: Dispatch<SetStateAction<"beasts" | "items" | "packs">>
+  currentPack: string | null
   filter: "beasts" | "items" | "packs"
 }
 
@@ -248,21 +249,46 @@ const ShowItems = ({
 const ShowPacks = ({
   selectPack,
   count,
+  selectedPack,
 }: {
   selectPack: Dispatch<SetStateAction<string | null>>
   count: Dispatch<SetStateAction<number>>
+  selectedPack: string | null
 }) => {
+  const {
+    user: { addr },
+  } = useAuth()
+  const query = useQuery()
+  const user = query.user({ walletAddress: addr })
+  const packs = (
+    user?.unopenedPacks()?.edges?.map((edge) => edge?.node?.id!) ?? []
+  ).filter(Boolean)
+
+  // When unopened packs are in the collection. Showcase first packs by default
   useEffect(() => {
-    count(0)
-  }, [])
+    if (packs && packs.length > 0) {
+      selectPack(packs[0] ?? null)
+      count(packs.length)
+    }
+    // This will re-run when the query updates with data
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query.$state.isLoading])
 
   return (
     <Wrapper>
-      <ThumbnailList>
-        <PackThumbnail />
-        <PackThumbnail />
-        <PackThumbnail />
-      </ThumbnailList>
+      {packs &&
+        arrayChunk(packs, 3).map((innerArray, i) => (
+          <ThumbnailList key={innerArray[0] + i}>
+            {innerArray.map((packId, j) => (
+              <PackThumbnail
+                key={packId + j + i}
+                id={packId}
+                selected={packId === selectedPack}
+                onClick={() => selectPack(packId)}
+              />
+            ))}
+          </ThumbnailList>
+        ))}
     </Wrapper>
   )
 }
@@ -275,6 +301,7 @@ const CollectionStorage: FC<CollectionStorageProps> = ({
   selectItem,
   currentItem,
   selectPack,
+  currentPack,
 }: CollectionStorageProps) => {
   const [count, setCount] = useState(0)
 
@@ -322,7 +349,11 @@ const CollectionStorage: FC<CollectionStorageProps> = ({
         />
       )}
       {filter === "packs" && (
-        <ShowPacks selectPack={selectPack} count={setCount} />
+        <ShowPacks
+          selectPack={selectPack}
+          count={setCount}
+          selectedPack={currentPack}
+        />
       )}
     </Container>
   )

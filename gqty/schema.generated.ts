@@ -104,6 +104,7 @@ export const generatedSchema = {
     __typename: { __type: "String!" },
     beast: { __type: "Beast" },
     createdAt: { __type: "DateTime!" },
+    description: { __type: "String" },
     fungibleTokens: {
       __type: "FungibleTokenConnection",
       __args: { after: "String", before: "String", first: "Int", last: "Int" },
@@ -267,6 +268,7 @@ export interface Pack {
   __typename?: "Pack"
   beast?: Maybe<Beast>
   createdAt: ScalarsEnums["DateTime"]
+  description?: Maybe<ScalarsEnums["String"]>
   fungibleTokens: (args?: {
     /**
      * Returns the items in the list that come after the specified cursor.

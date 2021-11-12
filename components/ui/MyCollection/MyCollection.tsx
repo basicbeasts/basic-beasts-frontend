@@ -102,6 +102,7 @@ const MyCollection: FC = () => {
           selectPack={setSelectedPack}
           filter={filter}
           selectFilter={setFilter}
+          currentPack={selectedPack}
         />
       </Bg>
     </Container>
