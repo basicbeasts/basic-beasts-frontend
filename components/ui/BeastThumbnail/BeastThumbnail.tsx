@@ -4,7 +4,10 @@ import styled from "styled-components"
 import star from "public/basic_starLevel.png"
 import { useQuery } from "../../../gqty"
 
-const Container = styled.div<{ selected?: boolean }>`
+const Container = styled.div<{
+  selected?: boolean
+  tagColor: string
+}>`
   width: 110px;
   height: 110px;
   background: #fdf8f4;
@@ -13,8 +16,8 @@ const Container = styled.div<{ selected?: boolean }>`
 
   box-shadow: ${(props) =>
     props.selected
-      ? "0px 0px 5px 4px #fff"
-      : "-3px 0px 0px 0px #b3a068, 0px -3px 0px 0px #b3a068, 0px 3px 0px 0px #b3a068, 3px 0px 0px 0px #b3a068;"};
+      ? `0px 0px 5px 4px ${props.tagColor}`
+      : `-3px 0px 0px 0px ${props.tagColor}, 0px -3px 0px 0px ${props.tagColor}, 0px 3px 0px 0px ${props.tagColor}, 3px 0px 0px 0px ${props.tagColor};`};
   cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
       14 0,
     pointer !important;
@@ -80,7 +83,7 @@ const BeastThumbnail: FC<BeastThumbnailProps> = ({
   const beast = query.beast({ id })
 
   return (
-    <Container {...props}>
+    <Container {...props} tagColor={beast?.colors?.typeTagOutset ?? "#b3a068"}>
       {query.$state.isLoading ? (
         <div>Loading...</div>
       ) : (

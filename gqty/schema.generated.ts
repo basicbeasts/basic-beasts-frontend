@@ -71,6 +71,7 @@ export const generatedSchema = {
   },
   FungibleToken: {
     __typename: { __type: "String!" },
+    color: { __type: "FungibleTokenTemplateColor!" },
     count: { __type: "Int!" },
     createdAt: { __type: "DateTime!" },
     description: { __type: "String!" },
@@ -89,6 +90,11 @@ export const generatedSchema = {
     cursor: { __type: "String!" },
     node: { __type: "FungibleToken" },
   },
+  FungibleTokenTemplateColor: {
+    __typename: { __type: "String!" },
+    background: { __type: "HexColorCode!" },
+    boxShadow: { __type: "HexColorCode!" },
+  },
   MetaNode: {
     __typename: { __type: "String!" },
     createdAt: { __type: "DateTime!" },
@@ -103,6 +109,7 @@ export const generatedSchema = {
   Pack: {
     __typename: { __type: "String!" },
     beast: { __type: "Beast" },
+    color: { __type: "PackTemplateColor!" },
     createdAt: { __type: "DateTime!" },
     description: { __type: "String" },
     fungibleTokens: {
@@ -123,6 +130,11 @@ export const generatedSchema = {
     __typename: { __type: "String!" },
     cursor: { __type: "String!" },
     node: { __type: "Pack" },
+  },
+  PackTemplateColor: {
+    __typename: { __type: "String!" },
+    background: { __type: "HexColorCode!" },
+    boxShadow: { __type: "HexColorCode!" },
   },
   PageInfo: {
     __typename: { __type: "String!" },
@@ -203,6 +215,7 @@ export interface BeastTemplateColor {
 
 export interface FungibleToken {
   __typename?: "FungibleToken"
+  color: FungibleTokenTemplateColor
   count: ScalarsEnums["Int"]
   createdAt: ScalarsEnums["DateTime"]
   description: ScalarsEnums["String"]
@@ -245,6 +258,12 @@ export interface FungibleTokenEdge {
   node?: Maybe<FungibleToken>
 }
 
+export interface FungibleTokenTemplateColor {
+  __typename?: "FungibleTokenTemplateColor"
+  background: ScalarsEnums["HexColorCode"]
+  boxShadow: ScalarsEnums["HexColorCode"]
+}
+
 export interface MetaNode {
   __typename?: "Beast" | "FungibleToken" | "Pack" | "User"
   createdAt: ScalarsEnums["DateTime"]
@@ -267,6 +286,7 @@ export interface Node {
 export interface Pack {
   __typename?: "Pack"
   beast?: Maybe<Beast>
+  color: PackTemplateColor
   createdAt: ScalarsEnums["DateTime"]
   description?: Maybe<ScalarsEnums["String"]>
   fungibleTokens: (args?: {
@@ -324,6 +344,12 @@ export interface PackEdge {
    * The item at the end of the edge
    */
   node?: Maybe<Pack>
+}
+
+export interface PackTemplateColor {
+  __typename?: "PackTemplateColor"
+  background: ScalarsEnums["HexColorCode"]
+  boxShadow: ScalarsEnums["HexColorCode"]
 }
 
 /**
@@ -436,10 +462,12 @@ export interface SchemaObjectTypes {
   FungibleToken: FungibleToken
   FungibleTokenConnection: FungibleTokenConnection
   FungibleTokenEdge: FungibleTokenEdge
+  FungibleTokenTemplateColor: FungibleTokenTemplateColor
   Mutation: Mutation
   Pack: Pack
   PackConnection: PackConnection
   PackEdge: PackEdge
+  PackTemplateColor: PackTemplateColor
   PageInfo: PageInfo
   Query: Query
   Subscription: Subscription
@@ -451,10 +479,12 @@ export type SchemaObjectTypesNames =
   | "FungibleToken"
   | "FungibleTokenConnection"
   | "FungibleTokenEdge"
+  | "FungibleTokenTemplateColor"
   | "Mutation"
   | "Pack"
   | "PackConnection"
   | "PackEdge"
+  | "PackTemplateColor"
   | "PageInfo"
   | "Query"
   | "Subscription"
