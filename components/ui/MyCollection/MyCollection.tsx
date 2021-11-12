@@ -85,6 +85,7 @@ const MyCollection: FC = () => {
 
         <CollectionStorage
           selectBeast={setSelectedBeast}
+          currentBeast={selectedBeast}
           selectItem={setSelectedItem}
           selectPack={setSelectedPack}
           filter={filter}

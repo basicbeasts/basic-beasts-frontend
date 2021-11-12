@@ -71,6 +71,7 @@ const ThumbnailList = styled.div`
 
 type CollectionStorageProps = {
   selectBeast: Dispatch<SetStateAction<string | null>>
+  currentBeast: string | null
   selectItem: Dispatch<SetStateAction<string | null>>
   selectPack: Dispatch<SetStateAction<string | null>>
   selectFilter: Dispatch<SetStateAction<"beasts" | "items" | "packs">>
@@ -94,9 +95,11 @@ function arrayChunk<T>(array: Array<T>, chunkSize: number): Array<Array<T>> {
 const ShowBeasts = ({
   selectBeast,
   count,
+  selectedBeast,
 }: {
   selectBeast: Dispatch<SetStateAction<string | null>>
   count: Dispatch<SetStateAction<number>>
+  selectedBeast: string | null
 }) => {
   const {
     user: { addr },
@@ -127,6 +130,7 @@ const ShowBeasts = ({
               <BeastThumbnail
                 key={beastId + j + i}
                 id={beastId}
+                selected={beastId === selectedBeast}
                 onClick={() => selectBeast(beastId)}
               />
             ))}
@@ -182,6 +186,7 @@ const ShowPacks = ({
 
 const CollectionStorage: FC<CollectionStorageProps> = ({
   selectBeast,
+  currentBeast,
   filter,
   selectFilter,
   selectItem,
@@ -219,7 +224,11 @@ const CollectionStorage: FC<CollectionStorageProps> = ({
         </FilterButtons>
       </Header>
       {filter === "beasts" && (
-        <ShowBeasts selectBeast={selectBeast} count={setCount} />
+        <ShowBeasts
+          selectedBeast={currentBeast}
+          selectBeast={selectBeast}
+          count={setCount}
+        />
       )}
       {filter === "items" && (
         <ShowItems selectItem={selectItem} count={setCount} />
