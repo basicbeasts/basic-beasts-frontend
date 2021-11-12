@@ -40,11 +40,6 @@ const Container = styled.div`
 `
 
 const Wrapper = styled.div`
-  background: #111823; //Should change color depending on which filter/tab that has been selected
-  box-shadow: 0px -6px 5px 4px #111823; //Should change color depending on which filter/tab that has been selected
-  //#272727 - Color for when 1) Beast Collection is empty else TODO
-  // #111823 - for every other case
-  width: 55%;
   padding: 35px 20px 0px;
   z-index: 1;
 
@@ -55,6 +50,12 @@ const Wrapper = styled.div`
   @media (max-width: 1140px) {
     width: 100%;
   }
+  //Scroll in div
+  width: 100%;
+  overflow: hidden;
+  overflow-y: scroll;
+  height: 600px;
+  margin-top: 20px;
 `
 
 const Header = styled.div`
