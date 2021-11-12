@@ -31,6 +31,16 @@ const Bg = styled(motion.div)`
   /* &:active {
     opacity: 0;
   } */
+
+  //Responsive
+  @media (max-width: 1240px) {
+    padding-left: 50px;
+    padding-right: 150px;
+  }
+  @media (max-width: 600px) {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
 `
 
 const Content = styled.div`
@@ -42,10 +52,36 @@ const Content = styled.div`
 const BeastName = styled(motion.div)`
   font-size: 26em;
   height: 350px;
+
+  //Responsive
+  @media (max-width: 1240px) {
+    font-size: 20em;
+    height: 250px;
+  }
+  @media (max-width: 1000px) {
+    font-size: 13em;
+    height: 180px;
+  }
+  @media (max-width: 600px) {
+    font-size: 8em;
+    height: 120px;
+    margin-top: 80px;
+  }
 `
 
 const StarLevelLabel = styled(motion.div)`
   font-size: 10em;
+
+  //Responsive
+  @media (max-width: 1240px) {
+    font-size: 8em;
+  }
+  @media (max-width: 1000px) {
+    font-size: 5em;
+  }
+  @media (max-width: 600px) {
+    font-size: 3em;
+  }
 `
 
 const StarLevel = styled.div`
@@ -58,6 +94,26 @@ const StarImg = styled.img`
   width: 100px;
   margin-left: 0px;
   margin-right: 10px;
+
+  //Responsive
+  @media (max-width: 1240px) {
+    width: 70px;
+    margin-left: 0px;
+    margin-right: 5px;
+    margin-top: 10px;
+  }
+  @media (max-width: 1000px) {
+    width: 50px;
+    margin-left: 0px;
+    margin-right: 5px;
+    margin-top: 20px;
+  }
+  @media (max-width: 600px) {
+    width: 30px;
+    margin-left: 0px;
+    margin-right: 5px;
+    margin-top: 20px;
+  }
 `
 
 // const BeastOverlay = styled.div`
@@ -70,9 +126,29 @@ const Beast = styled(motion.div)``
 
 const BeastImg = styled.img`
   position: absolute;
-  bottom: 200px;
-  right: 10px;
+  margin-top: 80px;
   width: 700px;
+  right: 130px;
+
+  //Responsive
+  @media (max-width: 1440px) {
+    right: 90px;
+  }
+  @media (max-width: 1280px) {
+    right: 0px;
+
+    margin-top: 140px;
+    width: 600px;
+  }
+
+  @media (max-width: 1000px) {
+    margin-top: 240px;
+    width: 450px;
+  }
+  @media (max-width: 600px) {
+    margin-top: 240px;
+    width: 400px;
+  }
 `
 
 const CloseIcon = styled.div`
@@ -83,6 +159,11 @@ const CloseIcon = styled.div`
       14 0,
     pointer !important;
   z-index: 30;
+  //Responsive
+  @media (max-width: 600px) {
+    font-size: 70px;
+    right: 10px;
+  }
 `
 
 const dropIn = {

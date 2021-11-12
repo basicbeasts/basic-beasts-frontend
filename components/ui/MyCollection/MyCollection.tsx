@@ -42,7 +42,6 @@ const Bg = styled.div<{ containerBg: string }>`
     justify-items: center;
     align-items: center;
     justify-content: center;
-    text-align: center;
   }
 `
 
