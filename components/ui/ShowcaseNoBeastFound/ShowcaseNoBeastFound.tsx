@@ -20,6 +20,10 @@ const Container = styled.div`
     line-height: 20px;
   }
 
+  @media (max-width: 1150px) {
+    min-height: 400px;
+  }
+
   //Responsive
   @media (max-width: 1350px) {
     padding: 0;
