@@ -20,7 +20,7 @@ const Container = styled.div<{ selected?: boolean }>`
 `
 
 const Img = styled.img`
-  max-width: 190px;
+  max-width: 110px;
   user-drag: none;
   -webkit-user-drag: none;
 `
@@ -43,20 +43,35 @@ const Quantity = styled.div`
 
 const ThumbnailLabel = styled.div`
   float: right;
-
   margin-top: 3px;
 `
 
-const ItemThumbnail: FC = () => {
+type ItemThumbnailProps = {
+  id: string
+  selected?: boolean
+  onClick?: () => void
+}
+
+const ItemThumbnail: FC<ItemThumbnailProps> = ({
+  id,
+  ...props
+}: ItemThumbnailProps) => {
+  const query = useQuery()
+  const item = query.fungibleToken({ id })
+
   return (
-    <Container>
-      <>
-        <Img src={ItemImg.src} />
-        <ThumbnailDetails>
-          <Quantity>20x</Quantity>
-          <ThumbnailLabel>{"Sushi"}</ThumbnailLabel>
-        </ThumbnailDetails>
-      </>
+    <Container {...props}>
+      {query.$state.isLoading ? (
+        <div>Loading...</div>
+      ) : (
+        <>
+          <Img src={item?.imageUrl} />
+          <ThumbnailDetails>
+            <Quantity>{item?.count}x</Quantity>
+            <ThumbnailLabel>{item?.name}</ThumbnailLabel>
+          </ThumbnailDetails>
+        </>
+      )}
     </Container>
   )
 }

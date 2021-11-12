@@ -76,7 +76,11 @@ const MyCollection: FC = () => {
           ))}
 
         {filter === "items" &&
-          (selectedItem ? <ShowcaseItem /> : <ShowcaseNoItemFound />)}
+          (selectedItem ? (
+            <ShowcaseItem id={selectedItem} setContainerBg={setContainerBg} />
+          ) : (
+            <ShowcaseNoItemFound />
+          ))}
 
         {filter === "packs" &&
           (selectedPack ? (
@@ -89,6 +93,7 @@ const MyCollection: FC = () => {
           selectBeast={setSelectedBeast}
           currentBeast={selectedBeast}
           selectItem={setSelectedItem}
+          currentItem={selectedItem}
           selectPack={setSelectedPack}
           filter={filter}
           selectFilter={setFilter}

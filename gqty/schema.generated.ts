@@ -69,6 +69,26 @@ export const generatedSchema = {
     typeTagInset: { __type: "HexColorCode" },
     typeTagOutset: { __type: "HexColorCode" },
   },
+  FungibleToken: {
+    __typename: { __type: "String!" },
+    count: { __type: "Int!" },
+    createdAt: { __type: "DateTime!" },
+    description: { __type: "String!" },
+    id: { __type: "ID!" },
+    imageUrl: { __type: "URL" },
+    name: { __type: "String!" },
+    updatedAt: { __type: "DateTime!" },
+  },
+  FungibleTokenConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[FungibleTokenEdge]" },
+    pageInfo: { __type: "PageInfo!" },
+  },
+  FungibleTokenEdge: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String!" },
+    node: { __type: "FungibleToken" },
+  },
   MetaNode: {
     __typename: { __type: "String!" },
     createdAt: { __type: "DateTime!" },
@@ -84,8 +104,13 @@ export const generatedSchema = {
     __typename: { __type: "String!" },
     beast: { __type: "Beast" },
     createdAt: { __type: "DateTime!" },
+    fungibleTokens: {
+      __type: "FungibleTokenConnection",
+      __args: { after: "String", before: "String", first: "Int", last: "Int" },
+    },
     id: { __type: "ID!" },
     imageUrl: { __type: "URL" },
+    type: { __type: "String!" },
     updatedAt: { __type: "DateTime!" },
   },
   PackConnection: {
@@ -128,14 +153,16 @@ export const generatedSchema = {
   query: {
     __typename: { __type: "String!" },
     beast: { __type: "Beast", __args: { id: "ID!" } },
+    fungibleToken: { __type: "FungibleToken", __args: { id: "ID!" } },
     me: { __type: "User" },
     node: { __type: "Node", __args: { id: "ID!" } },
+    pack: { __type: "Pack", __args: { id: "ID!" } },
     user: { __type: "User", __args: { walletAddress: "ID!" } },
   },
   subscription: {},
   [SchemaUnionsKey]: {
-    MetaNode: ["Beast", "Pack", "User"],
-    Node: ["Beast", "Pack", "User"],
+    MetaNode: ["Beast", "FungibleToken", "Pack", "User"],
+    Node: ["Beast", "FungibleToken", "Pack", "User"],
   },
 } as const
 
@@ -173,8 +200,52 @@ export interface BeastTemplateColor {
   typeTagOutset?: Maybe<ScalarsEnums["HexColorCode"]>
 }
 
+export interface FungibleToken {
+  __typename?: "FungibleToken"
+  count: ScalarsEnums["Int"]
+  createdAt: ScalarsEnums["DateTime"]
+  description: ScalarsEnums["String"]
+  /**
+   * The ID of an object
+   */
+  id: ScalarsEnums["ID"]
+  imageUrl?: Maybe<ScalarsEnums["URL"]>
+  name: ScalarsEnums["String"]
+  updatedAt: ScalarsEnums["DateTime"]
+}
+
+/**
+ * A connection to a list of items.
+ */
+export interface FungibleTokenConnection {
+  __typename?: "FungibleTokenConnection"
+  /**
+   * A list of edges.
+   */
+  edges?: Maybe<Array<Maybe<FungibleTokenEdge>>>
+  /**
+   * Information to aid in pagination.
+   */
+  pageInfo: PageInfo
+}
+
+/**
+ * An edge in a connection.
+ */
+export interface FungibleTokenEdge {
+  __typename?: "FungibleTokenEdge"
+  /**
+   * A cursor for use in pagination
+   */
+  cursor: ScalarsEnums["String"]
+  /**
+   * The item at the end of the edge
+   */
+  node?: Maybe<FungibleToken>
+}
+
 export interface MetaNode {
-  __typename?: "Beast" | "Pack" | "User"
+  __typename?: "Beast" | "FungibleToken" | "Pack" | "User"
   createdAt: ScalarsEnums["DateTime"]
   updatedAt: ScalarsEnums["DateTime"]
   $on: $MetaNode
@@ -184,7 +255,7 @@ export interface MetaNode {
  * An object with an ID
  */
 export interface Node {
-  __typename?: "Beast" | "Pack" | "User"
+  __typename?: "Beast" | "FungibleToken" | "Pack" | "User"
   /**
    * The id of the object.
    */
@@ -196,11 +267,30 @@ export interface Pack {
   __typename?: "Pack"
   beast?: Maybe<Beast>
   createdAt: ScalarsEnums["DateTime"]
+  fungibleTokens: (args?: {
+    /**
+     * Returns the items in the list that come after the specified cursor.
+     */
+    after?: Maybe<Scalars["String"]>
+    /**
+     * Returns the items in the list that come before the specified cursor.
+     */
+    before?: Maybe<Scalars["String"]>
+    /**
+     * Returns the first n items from the list.
+     */
+    first?: Maybe<Scalars["Int"]>
+    /**
+     * Returns the last n items from the list.
+     */
+    last?: Maybe<Scalars["Int"]>
+  }) => Maybe<FungibleTokenConnection>
   /**
    * The ID of an object
    */
   id: ScalarsEnums["ID"]
   imageUrl?: Maybe<ScalarsEnums["URL"]>
+  type: ScalarsEnums["String"]
   updatedAt: ScalarsEnums["DateTime"]
 }
 
@@ -316,6 +406,7 @@ export interface Mutation {
 export interface Query {
   __typename?: "Query"
   beast: (args: { id: Scalars["ID"] }) => Maybe<Beast>
+  fungibleToken: (args: { id: Scalars["ID"] }) => Maybe<FungibleToken>
   /**
    * Current user
    */
@@ -329,6 +420,7 @@ export interface Query {
      */
     id: Scalars["ID"]
   }) => Maybe<Node>
+  pack: (args: { id: Scalars["ID"] }) => Maybe<Pack>
   user: (args: { walletAddress: Scalars["ID"] }) => Maybe<User>
 }
 
@@ -339,6 +431,9 @@ export interface Subscription {
 export interface SchemaObjectTypes {
   Beast: Beast
   BeastTemplateColor: BeastTemplateColor
+  FungibleToken: FungibleToken
+  FungibleTokenConnection: FungibleTokenConnection
+  FungibleTokenEdge: FungibleTokenEdge
   Mutation: Mutation
   Pack: Pack
   PackConnection: PackConnection
@@ -351,6 +446,9 @@ export interface SchemaObjectTypes {
 export type SchemaObjectTypesNames =
   | "Beast"
   | "BeastTemplateColor"
+  | "FungibleToken"
+  | "FungibleTokenConnection"
+  | "FungibleTokenEdge"
   | "Mutation"
   | "Pack"
   | "PackConnection"
@@ -362,12 +460,14 @@ export type SchemaObjectTypesNames =
 
 export interface $MetaNode {
   Beast?: Beast
+  FungibleToken?: FungibleToken
   Pack?: Pack
   User?: User
 }
 
 export interface $Node {
   Beast?: Beast
+  FungibleToken?: FungibleToken
   Pack?: Pack
   User?: User
 }

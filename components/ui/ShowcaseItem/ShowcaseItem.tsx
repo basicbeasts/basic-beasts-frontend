@@ -1,7 +1,8 @@
-import React, { FC } from "react"
+import React, { Dispatch, FC, SetStateAction, useEffect } from "react"
 import styled from "styled-components"
 import itemImg from "public/fungible_tokens/basic_beasts_sushi.png"
 import star from "public/basic_starLevel.png"
+import { useQuery } from "../../../gqty"
 
 const Container = styled.div`
   padding: 10px;
@@ -95,23 +96,45 @@ const Amount = styled.div`
   font-size: 85px;
 `
 
-const ShowcaseItem: FC = () => {
+type ShowcaseItemProps = {
+  id: string
+  setContainerBg: Dispatch<SetStateAction<string | null>>
+}
+
+const ShowcaseItem: FC<ShowcaseItemProps> = ({
+  id,
+  setContainerBg,
+}: ShowcaseItemProps) => {
+  const query = useQuery({ suspense: false })
+  const item = query.fungibleToken({ id })
+
+  // Set the background color of the container
+  useEffect(() => {
+    setContainerBg("#272727")
+  }, [query.$state.isLoading, item])
+
   return (
     <Container>
-      <Header>
-        {/* See path of image to see the other fungible tokens */}
-        <Name>{"Sushi"}</Name>
-      </Header>
-      <Content>
-        <ContentWrapper>
-          <Img src={itemImg.src} />
-          <Description>{"Sushi is every Beast's favorite food."}</Description>
-          <Balance>
-            <BalanceLabel>{"Sushi"} Balance</BalanceLabel>
-            <Amount>{20}</Amount>
-          </Balance>
-        </ContentWrapper>
-      </Content>
+      {query.$state.isLoading ? (
+        <div>Loading...</div>
+      ) : (
+        <>
+          <Header>
+            {/* See path of image to see the other fungible tokens */}
+            <Name>{item?.name}</Name>
+          </Header>
+          <Content>
+            <ContentWrapper>
+              <Img src={item?.imageUrl} />
+              <Description>{item?.description}</Description>
+              <Balance>
+                <BalanceLabel>{item?.name} Balance</BalanceLabel>
+                <Amount>{item?.count}</Amount>
+              </Balance>
+            </ContentWrapper>
+          </Content>
+        </>
+      )}
     </Container>
   )
 }
