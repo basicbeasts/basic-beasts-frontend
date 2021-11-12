@@ -16,6 +16,7 @@ const queryFetcher: QueryFetcher = async function (query: any, variables: any) {
       "Content-Type": "application/json",
       "X-user-composite-sign":
         JSON.stringify(cookies.get(SIGN_COOKIE_KEY)) ?? "",
+      "X-flow-access-node": process.env.NEXT_PUBLIC_ACCESS_NODE_API!,
     },
     body: JSON.stringify({
       query,
