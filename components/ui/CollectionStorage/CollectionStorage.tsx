@@ -56,6 +56,8 @@ const Wrapper = styled.div`
   overflow-y: scroll;
   height: 600px;
   margin-top: 20px;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
   &::-webkit-scrollbar {
     display: none;
   }
