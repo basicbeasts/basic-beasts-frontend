@@ -1,8 +1,7 @@
 import { useState } from "react"
-import Cookies from "universal-cookie"
+import { cookies } from "../cookies"
 
 const useCookie = (key: string) => {
-  const cookies = new Cookies()
   const [item, setItemValue] = useState(() => {
     if (cookies.get(key)) {
       return cookies.get(key)

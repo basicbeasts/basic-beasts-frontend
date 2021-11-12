@@ -47,7 +47,6 @@ const UserProvider: FC = ({ children }) => {
         getFUSDBalance,
         purchase,
         loading,
-        compositeSignature,
         userBeasts,
         fetchUserBeasts,
         loadingBeast,

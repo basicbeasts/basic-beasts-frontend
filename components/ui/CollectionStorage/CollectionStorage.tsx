@@ -155,12 +155,8 @@ const ShowBeasts = ({
   count: Dispatch<SetStateAction<number>>
   selectedBeast: string | null
 }) => {
-  const {
-    user: { addr },
-  } = useAuth()
   const query = useQuery()
-  const user = query.user({ walletAddress: addr })
-  const beasts = user
+  const beasts = query.me
     ?.openedPacks()
     ?.edges?.map((edge) => edge?.node?.beast?.id!)
     .filter(Boolean)
@@ -203,13 +199,9 @@ const ShowItems = ({
   count: Dispatch<SetStateAction<number>>
   selectedItem: string | null
 }) => {
-  const {
-    user: { addr },
-  } = useAuth()
   const query = useQuery()
-  const user = query.user({ walletAddress: addr })
   const items = (
-    user
+    query?.me
       ?.openedPacks()
       ?.edges?.flatMap(
         (edge) =>
@@ -256,13 +248,9 @@ const ShowPacks = ({
   count: Dispatch<SetStateAction<number>>
   selectedPack: string | null
 }) => {
-  const {
-    user: { addr },
-  } = useAuth()
   const query = useQuery()
-  const user = query.user({ walletAddress: addr })
   const packs = (
-    user?.unopenedPacks()?.edges?.map((edge) => edge?.node?.id!) ?? []
+    query?.me?.unopenedPacks()?.edges?.map((edge) => edge?.node?.id!) ?? []
   ).filter(Boolean)
 
   // When unopened packs are in the collection. Showcase first packs by default

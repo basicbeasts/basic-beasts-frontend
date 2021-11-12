@@ -7,12 +7,15 @@ import type {
   SchemaObjectTypesNames,
 } from "./schema.generated"
 import { generatedSchema, scalarsEnumsHash } from "./schema.generated"
+import { cookies, SIGN_COOKIE_KEY } from "../framework/cookies"
 
 const queryFetcher: QueryFetcher = async function (query: any, variables: any) {
   const response = await fetch(process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT!, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      "X-user-composite-sign":
+        JSON.stringify(cookies.get(SIGN_COOKIE_KEY)) ?? "",
     },
     body: JSON.stringify({
       query,
