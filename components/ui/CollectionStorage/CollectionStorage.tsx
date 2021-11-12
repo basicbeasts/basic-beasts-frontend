@@ -105,7 +105,7 @@ const ThumbnailList = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 700px;
-  margin-bottom: 35px;
+  margin-bottom: 0px;
 
   //responsive
   @media (max-width: 1350px) {
@@ -178,7 +178,7 @@ const ShowBeasts = ({
   return (
     <Wrapper>
       {beasts &&
-        arrayChunk(beasts, 5).map((innerArray, i) => (
+        arrayChunk(beasts, 10).map((innerArray, i) => (
           <BeastThumbnailList key={innerArray[0] + i}>
             {innerArray.map((beastId, j) => (
               <BeastThumbnail
@@ -231,7 +231,7 @@ const ShowItems = ({
   return (
     <Wrapper>
       {items &&
-        arrayChunk(items, 3).map((innerArray, i) => (
+        arrayChunk(items, 10).map((innerArray, i) => (
           <ThumbnailList key={innerArray[0] + i}>
             {innerArray.map((itemId, j) => (
               <ItemThumbnail
@@ -278,7 +278,7 @@ const ShowPacks = ({
   return (
     <Wrapper>
       {packs &&
-        arrayChunk(packs, 3).map((innerArray, i) => (
+        arrayChunk(packs, 10).map((innerArray, i) => (
           <ThumbnailList key={innerArray[0] + i}>
             {innerArray.map((packId, j) => (
               <PackThumbnail
