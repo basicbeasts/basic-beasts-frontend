@@ -1,7 +1,8 @@
 /**
  * GQTY AUTO-GENERATED CODE: PLEASE DO NOT MODIFY MANUALLY
  */
-
+// TODO: investigate why this is needed
+// @ts-nocheck
 import { SchemaUnionsKey } from "gqty"
 
 export type Maybe<T> = T | null
