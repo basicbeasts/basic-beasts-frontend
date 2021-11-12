@@ -221,7 +221,7 @@ const ShowcaseBeast: FC<ShowcaseBeastProps> = ({
 
   // Set the background color of the container
   useEffect(() => {
-    setContainerBg(beast?.colors?.buttonBackground)
+    setContainerBg(beast?.colors?.color)
   }, [query.$state.isLoading, beast])
 
   return (

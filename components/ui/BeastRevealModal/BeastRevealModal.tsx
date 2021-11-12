@@ -192,7 +192,7 @@ const BeastRevealModal: FC<FuncProps> = ({ handleClose, packId }) => {
         >
           <Wrapper>
             <Bg
-              beastBg={beast?.colors?.buttonBackground}
+              beastBg={beast?.colors?.color}
               animate={{ opacity: [0, 1] }}
               transition={{
                 duration: 1,
