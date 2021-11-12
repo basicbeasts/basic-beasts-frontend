@@ -55,6 +55,7 @@ export const generatedSchema = {
     rarity: { __type: "String!" },
     skin: { __type: "String!" },
     starLevel: { __type: "Int!" },
+    thumbnailUrl: { __type: "URL" },
     ultimateSkill: { __type: "String!" },
     updatedAt: { __type: "DateTime!" },
     videoUrl: { __type: "URL" },
@@ -76,9 +77,9 @@ export const generatedSchema = {
     createdAt: { __type: "DateTime!" },
     description: { __type: "String!" },
     id: { __type: "ID!" },
-    imageUrl: { __type: "URL" },
+    imageUrl: { __type: "URL!" },
     name: { __type: "String!" },
-    thumbnailUrl: { __type: "URL" },
+    thumbnailUrl: { __type: "URL!" },
     updatedAt: { __type: "DateTime!" },
   },
   FungibleTokenConnection: {
@@ -118,7 +119,8 @@ export const generatedSchema = {
       __args: { after: "String", before: "String", first: "Int", last: "Int" },
     },
     id: { __type: "ID!" },
-    imageUrl: { __type: "URL" },
+    imageUrl: { __type: "URL!" },
+    thumbnailUrl: { __type: "URL!" },
     type: { __type: "String!" },
     updatedAt: { __type: "DateTime!" },
   },
@@ -171,7 +173,6 @@ export const generatedSchema = {
     me: { __type: "User" },
     node: { __type: "Node", __args: { id: "ID!" } },
     pack: { __type: "Pack", __args: { id: "ID!" } },
-    user: { __type: "User", __args: { walletAddress: "ID!" } },
   },
   subscription: {},
   [SchemaUnionsKey]: {
@@ -198,6 +199,7 @@ export interface Beast {
   rarity: ScalarsEnums["String"]
   skin: ScalarsEnums["String"]
   starLevel: ScalarsEnums["Int"]
+  thumbnailUrl?: Maybe<ScalarsEnums["URL"]>
   ultimateSkill: ScalarsEnums["String"]
   updatedAt: ScalarsEnums["DateTime"]
   videoUrl?: Maybe<ScalarsEnums["URL"]>
@@ -224,9 +226,9 @@ export interface FungibleToken {
    * The ID of an object
    */
   id: ScalarsEnums["ID"]
-  imageUrl?: Maybe<ScalarsEnums["URL"]>
+  imageUrl: ScalarsEnums["URL"]
   name: ScalarsEnums["String"]
-  thumbnailUrl?: Maybe<ScalarsEnums["URL"]>
+  thumbnailUrl: ScalarsEnums["URL"]
   updatedAt: ScalarsEnums["DateTime"]
 }
 
@@ -313,7 +315,8 @@ export interface Pack {
    * The ID of an object
    */
   id: ScalarsEnums["ID"]
-  imageUrl?: Maybe<ScalarsEnums["URL"]>
+  imageUrl: ScalarsEnums["URL"]
+  thumbnailUrl: ScalarsEnums["URL"]
   type: ScalarsEnums["String"]
   updatedAt: ScalarsEnums["DateTime"]
 }
@@ -451,7 +454,6 @@ export interface Query {
     id: Scalars["ID"]
   }) => Maybe<Node>
   pack: (args: { id: Scalars["ID"] }) => Maybe<Pack>
-  user: (args: { walletAddress: Scalars["ID"] }) => Maybe<User>
 }
 
 export interface Subscription {
