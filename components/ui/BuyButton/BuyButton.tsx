@@ -31,7 +31,7 @@ type FuncProps = {
 const BuyButton: FC<FuncProps> = ({ buttonText, onClick }) => {
   return (
     <Button onClick={onClick}>
-      {onClick ? buttonText : <NextLink href="/shop">{buttonText}</NextLink>}
+      {onClick ? buttonText : <NextLink href="/store">{buttonText}</NextLink>}
     </Button>
   )
 }
