@@ -36,11 +36,6 @@ const Bg = styled.div<{ containerBg: string }>`
 
   //272727
   //ffd966
-
-  @media (max-width: 1200px) {
-    min-width: auto;
-    justify-content: center;
-  }
 `
 
 const MyCollection: FC = () => {

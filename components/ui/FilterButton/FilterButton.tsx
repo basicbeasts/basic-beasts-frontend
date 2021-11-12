@@ -24,6 +24,11 @@ const Button = styled.button<{ selected?: boolean }>`
         ? "-3px 0px 0px 0px #b3a068, 0px -3px 0px 0px #b3a068, 0px 3px 0px 0px #b3a068, 3px 0px 0px 0px #b3a068, inset 3px 3px #e6ce86;"
         : "-3px 0px 0px 0px #556275, 0px -3px 0px 0px #556275, 0px 3px 0px 0px #556275, 3px 0px 0px 0px #556275, inset 3px 3px #6f7788;"};
   }
+
+  //Responsive
+  @media (max-width: 640px) {
+    margin-bottom: 20px;
+  }
 `
 
 type FuncProps = {

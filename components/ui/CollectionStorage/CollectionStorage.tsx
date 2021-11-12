@@ -21,6 +21,22 @@ const Container = styled.div`
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
+
+  //Responsive
+  /* @media (max-width: 1350px) {
+    width: 100%;
+  } */
+  @media (max-width: 1350px) {
+    width: 49%;
+  }
+
+  @media (max-width: 1240px) {
+    width: 45%;
+  }
+  @media (max-width: 1140px) {
+    width: 100%;
+    margin-top: 0px;
+  }
 `
 
 const Wrapper = styled.div`
@@ -35,6 +51,10 @@ const Wrapper = styled.div`
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
+
+  @media (max-width: 1140px) {
+    width: 100%;
+  }
 `
 
 const Header = styled.div`
@@ -49,6 +69,11 @@ const Count = styled.div`
   font-size: 1.5em;
   color: #f3cb23;
   float: left;
+
+  //Responsive
+  @media (max-width: 1240px) {
+    margin-bottom: 20px;
+  }
 `
 
 const FilterButtons = styled.div`
@@ -60,6 +85,19 @@ const BeastThumbnailList = styled.div`
   flex-wrap: wrap;
   width: 700px;
   margin-top: 0px;
+
+  //responsive
+  @media (max-width: 1350px) {
+    width: 600px;
+  }
+
+  @media (max-width: 1240px) {
+    width: 500px;
+  }
+
+  @media (max-width: 1140px) {
+    width: 100%;
+  }
 `
 
 const ThumbnailList = styled.div`

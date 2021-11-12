@@ -14,8 +14,19 @@ const Container = styled.div`
   padding-top: 0px;
   line-height: 40px;
   font-size: 1.5rem;
-  @media (max-width: 400px) {
+
+  @media (max-width: 600px) {
     font-size: 1rem;
+
+    line-height: 20px;
+  }
+
+  //Responsive
+  @media (max-width: 1350px) {
+    padding: 0;
+  }
+  @media (max-width: 660px) {
+    min-width: 300px;
   }
 `
 
@@ -30,6 +41,9 @@ const Header = styled.div`
   margin-top: 50px;
   font-size: 18px;
   height: 180px;
+  @media (max-width: 660px) {
+    width: 360px;
+  }
 `
 
 const BeastName = styled.h3`
@@ -59,6 +73,8 @@ const Type = styled.div<Omit<Button, "background">>`
   width: 70px;
   margin-top: 20px;
   margin-left: 1px;
+
+  line-height: 20px;
 `
 
 const DexNumber = styled.div`
@@ -79,11 +95,21 @@ const Content = styled.div`
   color: #000000;
   display: flex;
   justify-content: center;
+
+  //Responsive
+  @media (max-width: 1140px) {
+    max-width: screen;
+    width: 100vw;
+  }
 `
 
 const ContentWrapper = styled.div`
   margin-top: -130px;
   justify-content: center;
+
+  @media (max-width: 660px) {
+    width: 360px;
+  }
 `
 
 const Img = styled.img`
