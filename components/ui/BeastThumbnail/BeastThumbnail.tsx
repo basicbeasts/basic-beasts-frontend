@@ -38,8 +38,7 @@ const BeastThumbnailLast = styled.div`
 `
 
 const Img = styled.img`
-  max-width: 85px;
-
+  max-width: 110px;
   user-drag: none;
   -webkit-user-drag: none;
 `
@@ -88,7 +87,7 @@ const BeastThumbnail: FC<BeastThumbnailProps> = ({
         <div>Loading...</div>
       ) : (
         <>
-          <Img src={beast?.imageUrl} />
+          <Img src={beast?.thumbnailUrl} />
           <ThumbnailDetails>
             <StarLevel>
               {Array(beast?.starLevel)

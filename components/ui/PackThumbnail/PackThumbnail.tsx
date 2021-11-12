@@ -63,7 +63,7 @@ const PackThumbnail: FC<PackThumbnailProps> = ({
       background={pack?.color.background}
     >
       <>
-        <Img src={pack?.imageUrl} />
+        <Img src={pack?.thumbnailUrl} />
         <ThumbnailDetails>
           <ThumbnailLabel>{pack?.type}</ThumbnailLabel>
         </ThumbnailDetails>
