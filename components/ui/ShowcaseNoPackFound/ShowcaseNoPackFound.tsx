@@ -57,7 +57,6 @@ const ShowcaseNoPackFound: FC<FuncProps> = ({ setContainerBg }) => {
         Get your packs today!
       </Text>
       <BuyButton buttonText={"Buy Packs"} />
-      <br />
     </Container>
   )
 }
