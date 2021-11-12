@@ -148,11 +148,16 @@ const ShowBeasts = ({
     ?.edges?.map((edge) => edge?.node?.beast?.id!)
     .filter(Boolean)
 
+  useEffect(() => {
+    count(beasts?.length ?? 0)
+    // This will re-run when the query updates with data
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [beasts])
+
   // When Beasts are in the collection. Showcase first BeastThumbnail by default
   useEffect(() => {
     if (beasts && beasts.length > 0) {
       selectBeast(beasts[0])
-      count(beasts.length)
     }
     // This will re-run when the query updates with data
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -195,6 +200,12 @@ const ShowItems = ({
           [],
       ) ?? []
   ).filter(Boolean)
+
+  useEffect(() => {
+    count(items.length)
+    // This will re-run when the query updates with data
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [items])
 
   // When Items are in the collection. Showcase first Item by default
   useEffect(() => {
@@ -239,9 +250,7 @@ const ShowPacks = ({
   ).filter(Boolean)
 
   useEffect(() => {
-    if (packs && packs.length > 0) {
-      count(packs.length)
-    }
+    count(packs.length)
     // This will re-run when the query updates with data
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [packs])
