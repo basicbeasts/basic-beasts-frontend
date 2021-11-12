@@ -52,10 +52,13 @@ const Wrapper = styled.div`
   }
   //Scroll in div
   width: 100%;
-  overflow: hidden !important;
+  overflow: hidden;
   overflow-y: scroll;
   height: 600px;
   margin-top: 20px;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `
 
 const Header = styled.div`
