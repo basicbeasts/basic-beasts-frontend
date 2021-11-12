@@ -1,10 +1,10 @@
 import type { NextPage } from "next"
-import ComingSoon from "@components/ui/ComingSoon"
+import DefaultHeroSection from "@components/ui/DefaultHeroSection"
 
 const Evolution: NextPage = () => {
   return (
     <div>
-      <ComingSoon
+      <DefaultHeroSection
         title="Coming Soon!"
         description="Evolve your Basic Beasts to complete your Dexicon"
       />

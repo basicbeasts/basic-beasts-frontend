@@ -1,16 +1,24 @@
 import type { NextPage } from "next"
-import ComingSoon from "@components/ui/ComingSoon"
+import HeaderDark from "@components/ui/HeaderDark"
 import EvolutionSet from "@components/ui/EvolutionSet"
+import styled from "styled-components"
+
+const Container = styled.div`
+  border: solid 25px #111111;
+  border-bottom: 0px;
+  border-left: 0px;
+  border-right: 0px;
+`
 
 const Dexicon: NextPage = () => {
   return (
-    <div>
-      <ComingSoon
+    <Container>
+      <HeaderDark
         title="Dexicon"
         description="Dexicon shows all discovered Basic Beasts"
       />
       <EvolutionSet />
-    </div>
+    </Container>
   )
 }
 

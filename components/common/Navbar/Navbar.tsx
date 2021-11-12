@@ -5,6 +5,7 @@ import { faBars, faEllipsisV } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useAuth } from "@components/auth/AuthProvider"
 import { useUser } from "@components/user/UserProvider"
+import externalLinkIcon from "public/basic_external_link.png"
 
 const Nav = styled.header`
   background: #111823;
@@ -64,6 +65,7 @@ const NavMenu = styled.ul`
     align-items: center;
     list-style: none;
     text-align: center;
+    margin-left: 18px;
   }
 `
 
@@ -214,6 +216,10 @@ const RightBox = styled.div`
   float: right;
 `
 
+const ExternalLinkIcon = styled.img`
+  width: 15px;
+`
+
 type FuncProps = {
   toggle: () => void
 }
@@ -241,11 +247,21 @@ const Navbar: FC<FuncProps> = ({ toggle }) => {
                 <A>Store</A>
               </NextLink>
             </NavItem>
-            <NavItem>
-              <NextLink href="/marketplace">
-                <A>Marketplace</A>
-              </NextLink>
-            </NavItem>
+
+            {!loggedIn ? (
+              <NavItem>
+                <NextLink href="/marketplace">
+                  <A>Marketplace</A>
+                </NextLink>
+              </NavItem>
+            ) : (
+              <NavItem>
+                <NextLink href="/collection">
+                  <A>Collection</A>
+                </NextLink>
+              </NavItem>
+            )}
+
             <NavItem>
               <NextLink href="/dexicon">
                 <A>Dexicon</A>
@@ -253,7 +269,8 @@ const Navbar: FC<FuncProps> = ({ toggle }) => {
             </NavItem>
             <NavItem>
               <A target="_blank" href="https://discord.gg/xgFtWhwSaR">
-                Discord
+                Discord&nbsp;
+                <ExternalLinkIcon src={externalLinkIcon.src} />
               </A>
             </NavItem>
           </NavMenu>
