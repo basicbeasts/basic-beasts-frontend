@@ -105,6 +105,19 @@ const ThumbnailList = styled.div`
   flex-wrap: wrap;
   width: 700px;
   margin-bottom: 35px;
+
+  //responsive
+  @media (max-width: 1350px) {
+    width: 600px;
+  }
+
+  @media (max-width: 1240px) {
+    width: 500px;
+  }
+
+  @media (max-width: 1140px) {
+    width: 100%;
+  }
 `
 
 type CollectionStorageProps = {

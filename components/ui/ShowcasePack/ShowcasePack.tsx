@@ -18,6 +18,15 @@ const Container = styled.div`
   font-size: 1.5rem;
   @media (max-width: 400px) {
     font-size: 1rem;
+    line-height: 20px;
+  }
+
+  //Responsive
+  @media (max-width: 1350px) {
+    padding: 0;
+  }
+  @media (max-width: 660px) {
+    min-width: 300px;
   }
 `
 
@@ -32,6 +41,10 @@ const Header = styled.div`
   margin-top: 50px;
   font-size: 18px;
   height: 180px;
+  //responsive
+  @media (max-width: 660px) {
+    width: 360px;
+  }
 `
 
 const Name = styled.h3`
@@ -54,6 +67,12 @@ const Content = styled.div`
   color: #000000;
   display: flex;
   justify-content: center;
+
+  //Responsive
+  @media (max-width: 1140px) {
+    max-width: screen;
+    width: 100vw;
+  }
 `
 
 const ContentWrapper = styled.div`

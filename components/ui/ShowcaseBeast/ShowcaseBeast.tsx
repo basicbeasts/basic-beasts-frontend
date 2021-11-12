@@ -41,6 +41,7 @@ const Header = styled.div`
   margin-top: 50px;
   font-size: 18px;
   height: 180px;
+  //responsive
   @media (max-width: 660px) {
     width: 360px;
   }
@@ -107,6 +108,7 @@ const ContentWrapper = styled.div`
   margin-top: -130px;
   justify-content: center;
 
+  //Responsive
   @media (max-width: 660px) {
     width: 360px;
   }

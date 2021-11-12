@@ -19,10 +19,7 @@ const Container = styled.div<{ selected?: boolean }>`
       14 0,
     pointer !important;
 
-  //Responsive
-  @media (max-width: 1350px) {
-    margin-bottom: 30px;
-  }
+  margin-bottom: 30px;
 `
 
 const BeastThumbnailLast = styled.div`

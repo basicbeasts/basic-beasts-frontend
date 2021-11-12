@@ -17,6 +17,15 @@ const Container = styled.div`
 
   @media (max-width: 400px) {
     font-size: 1rem;
+    line-height: 20px;
+  }
+
+  //Responsive
+  @media (max-width: 1350px) {
+    padding: 0;
+  }
+  @media (max-width: 660px) {
+    min-width: 300px;
   }
 `
 
