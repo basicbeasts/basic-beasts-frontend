@@ -22,15 +22,16 @@ const Container = styled.div`
   margin-bottom: -7px;
 `
 
-const Bg = styled.div`
+const Bg = styled.div<{ containerBg: string }>`
   display: flex;
   flex-wrap: wrap;
   min-height: 600px;
   width: 1400px;
 
   // !!!!!
-  background: #272727; //Should change color depending on state and beast, item, pack that is being displayed
-  box-shadow: 0px 0px 5px 4px #272727; //Should change color depending on state and beast, item, pack that is being displayed
+  background: ${(props) =>
+    props.containerBg}; //Should change color depending on state and beast, item, pack that is being displayed
+  box-shadow: 0px 0px 5px 4px ${(props) => props.containerBg}; //Should change color depending on state and beast, item, pack that is being displayed
   // !!!!!
 
   //272727
@@ -46,6 +47,7 @@ const MyCollection: FC = () => {
   const [selectedBeast, setSelectedBeast] = useState<string | null>(null)
   const [selectedItem, setSelectedItem] = useState<string | null>(null)
   const [selectedPack, setSelectedPack] = useState<string | null>(null)
+  const [containerBg, setContainerBg] = useState<string | null>(null)
   const [filter, setFilter] = useState<"beasts" | "items" | "packs">("beasts")
 
   //Modal
@@ -57,7 +59,7 @@ const MyCollection: FC = () => {
 
   return (
     <Container>
-      <Bg>
+      <Bg containerBg={containerBg ?? "#272727"}>
         {RevealModalOpen && (
           <BeastRevealModal
             RevealModalOpen={RevealModalOpen}
@@ -68,7 +70,7 @@ const MyCollection: FC = () => {
         {/*When Beast Collection is empty. Otherwise show first beast*/}
         {filter === "beasts" &&
           (selectedBeast ? (
-            <ShowcaseBeast id={selectedBeast} />
+            <ShowcaseBeast setContainerBg={setContainerBg} id={selectedBeast} />
           ) : (
             <ShowcaseNoBeastFound />
           ))}

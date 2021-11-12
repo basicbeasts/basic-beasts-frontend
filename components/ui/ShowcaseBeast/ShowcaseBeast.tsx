@@ -1,4 +1,4 @@
-import React, { FC } from "react"
+import React, { Dispatch, FC, SetStateAction, useEffect } from "react"
 import styled from "styled-components"
 import star from "public/basic_starLevel.png"
 import { useQuery } from "../../../gqty"
@@ -172,10 +172,6 @@ const SkillName = styled.div`
   width: 180px;
 `
 
-type Color = {
-  colorCode: any
-}
-
 type Button = {
   backgroundColor: string
   outset: string
@@ -184,12 +180,21 @@ type Button = {
 
 type ShowcaseBeastProps = {
   id: string
+  setContainerBg: Dispatch<SetStateAction<string | null>>
 }
 
-const ShowcaseBeast: FC<ShowcaseBeastProps> = ({ id }: ShowcaseBeastProps) => {
+const ShowcaseBeast: FC<ShowcaseBeastProps> = ({
+  id,
+  setContainerBg,
+}: ShowcaseBeastProps) => {
   const query = useQuery({ suspense: false })
 
   const beast = query.beast({ id })
+
+  // Set the background color of the container
+  useEffect(() => {
+    setContainerBg(beast?.colors?.buttonBackground)
+  }, [query.$state.isLoading, beast])
 
   return (
     <Container>
@@ -201,9 +206,9 @@ const ShowcaseBeast: FC<ShowcaseBeastProps> = ({ id }: ShowcaseBeastProps) => {
             <BeastName>{beast?.name}</BeastName>
             <HeaderDetails>
               <Type
-                backgroundColor={"#E6CE86"}
-                outset={"#B3A068"}
-                inset={"#CCB777"}
+                backgroundColor={beast?.colors?.typeTagBackground}
+                outset={beast?.colors?.typeTagOutset}
+                inset={beast?.colors?.typeTagInset}
               >
                 {beast?.elementType}
               </Type>
@@ -233,9 +238,9 @@ const ShowcaseBeast: FC<ShowcaseBeastProps> = ({ id }: ShowcaseBeastProps) => {
               </BasicSkills>
 
               <UltimateSkill
-                backgroundColor={"#FFE595"}
-                outset={"#B3A068"}
-                inset={"#CCB777"}
+                backgroundColor={beast?.colors?.buttonBackground}
+                outset={beast?.colors?.buttonOutset}
+                inset={beast?.colors?.buttonInset}
               >
                 <UltimateSkillLabel>Ultimate Skill</UltimateSkillLabel>
                 <SkillName>{beast?.ultimateSkill}</SkillName>

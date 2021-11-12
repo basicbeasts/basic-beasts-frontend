@@ -5,7 +5,7 @@ const config = {
   react: true,
   scalarTypes: { DateTime: "string" },
   introspection: {
-    endpoint: "https://basic-beasts-backend.vercel.app/api/graphql",
+    endpoint: "http://localhost:3001/api/graphql",
     headers: {},
   },
   destination: "./gqty/index.ts",

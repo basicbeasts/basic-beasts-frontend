@@ -24,6 +24,8 @@ export interface Scalars {
   Float: number
   /** A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
   DateTime: string
+  /** A field whose value is a hex color code: https://en.wikipedia.org/wiki/Web_colors. */
+  HexColorCode: any
   /** A field whose value conforms to the standard URL format as specified in RFC3986: https://www.ietf.org/rfc/rfc3986.txt. */
   URL: any
 }
@@ -31,6 +33,7 @@ export interface Scalars {
 export const scalarsEnumsHash: import("gqty").ScalarsEnumsHash = {
   Boolean: true,
   DateTime: true,
+  HexColorCode: true,
   ID: true,
   Int: true,
   String: true,
@@ -40,6 +43,7 @@ export const generatedSchema = {
   Beast: {
     __typename: { __type: "String!" },
     basicSkills: { __type: "[String]!" },
+    colors: { __type: "BeastTemplateColor" },
     createdAt: { __type: "DateTime!" },
     description: { __type: "String!" },
     dexNumber: { __type: "Int!" },
@@ -54,6 +58,16 @@ export const generatedSchema = {
     ultimateSkill: { __type: "String!" },
     updatedAt: { __type: "DateTime!" },
     videoUrl: { __type: "URL" },
+  },
+  BeastTemplateColor: {
+    __typename: { __type: "String!" },
+    buttonBackground: { __type: "HexColorCode" },
+    buttonInset: { __type: "HexColorCode" },
+    buttonOutset: { __type: "HexColorCode" },
+    color: { __type: "HexColorCode" },
+    typeTagBackground: { __type: "HexColorCode" },
+    typeTagInset: { __type: "HexColorCode" },
+    typeTagOutset: { __type: "HexColorCode" },
   },
   MetaNode: {
     __typename: { __type: "String!" },
@@ -128,6 +142,7 @@ export const generatedSchema = {
 export interface Beast {
   __typename?: "Beast"
   basicSkills: Array<Maybe<ScalarsEnums["String"]>>
+  colors?: Maybe<BeastTemplateColor>
   createdAt: ScalarsEnums["DateTime"]
   description: ScalarsEnums["String"]
   dexNumber: ScalarsEnums["Int"]
@@ -145,6 +160,17 @@ export interface Beast {
   ultimateSkill: ScalarsEnums["String"]
   updatedAt: ScalarsEnums["DateTime"]
   videoUrl?: Maybe<ScalarsEnums["URL"]>
+}
+
+export interface BeastTemplateColor {
+  __typename?: "BeastTemplateColor"
+  buttonBackground?: Maybe<ScalarsEnums["HexColorCode"]>
+  buttonInset?: Maybe<ScalarsEnums["HexColorCode"]>
+  buttonOutset?: Maybe<ScalarsEnums["HexColorCode"]>
+  color?: Maybe<ScalarsEnums["HexColorCode"]>
+  typeTagBackground?: Maybe<ScalarsEnums["HexColorCode"]>
+  typeTagInset?: Maybe<ScalarsEnums["HexColorCode"]>
+  typeTagOutset?: Maybe<ScalarsEnums["HexColorCode"]>
 }
 
 export interface MetaNode {
@@ -312,6 +338,7 @@ export interface Subscription {
 
 export interface SchemaObjectTypes {
   Beast: Beast
+  BeastTemplateColor: BeastTemplateColor
   Mutation: Mutation
   Pack: Pack
   PackConnection: PackConnection
@@ -323,6 +350,7 @@ export interface SchemaObjectTypes {
 }
 export type SchemaObjectTypesNames =
   | "Beast"
+  | "BeastTemplateColor"
   | "Mutation"
   | "Pack"
   | "PackConnection"
