@@ -1,18 +1,14 @@
 import React, { Dispatch, FC, SetStateAction, useEffect, useState } from "react"
 import styled from "styled-components"
 import { useQuery } from "../../../gqty"
-import BuyButton from "../BuyButton"
 import FilterButton from "../FilterButton"
 import BeastThumbnail from "../BeastThumbnail"
 import ItemThumbnail from "../ItemThumbnail"
 import PackThumbnail from "../PackThumbnail"
-import { useAuth } from "@components/auth/AuthProvider"
 
-const Container = styled.div`
-  background: #111823; //Should change color depending on which filter/tab that has been selected
-  box-shadow: 0px -6px 5px 4px #111823; //Should change color depending on which filter/tab that has been selected
-  //#272727 - Color for when 1) Beast Collection is empty else TODO
-  // #111823 - for every other case
+const Container = styled.div<{ bgColor: string }>`
+  background: ${(props) => props.bgColor};
+  box-shadow: ${(props) => `0px -6px 5px 4px ${props.bgColor}`};
   width: 55%;
   margin-top: 50px;
   padding: 35px 20px 0px;
@@ -307,7 +303,7 @@ const CollectionStorage: FC<CollectionStorageProps> = ({
   const [count, setCount] = useState(0)
 
   return (
-    <Container>
+    <Container bgColor={filter === "beasts" ? "#272727" : "#111823"}>
       <Header>
         {/*
             Should display number of items/beasts/packs listed in collection storage depending on which filter/tab is currently selected. 
