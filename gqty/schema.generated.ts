@@ -78,6 +78,7 @@ export const generatedSchema = {
     id: { __type: "ID!" },
     imageUrl: { __type: "URL" },
     name: { __type: "String!" },
+    thumbnailUrl: { __type: "URL" },
     updatedAt: { __type: "DateTime!" },
   },
   FungibleTokenConnection: {
@@ -225,6 +226,7 @@ export interface FungibleToken {
   id: ScalarsEnums["ID"]
   imageUrl?: Maybe<ScalarsEnums["URL"]>
   name: ScalarsEnums["String"]
+  thumbnailUrl?: Maybe<ScalarsEnums["URL"]>
   updatedAt: ScalarsEnums["DateTime"]
 }
 

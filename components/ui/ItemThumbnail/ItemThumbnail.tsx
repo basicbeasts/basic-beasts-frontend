@@ -25,7 +25,7 @@ const Container = styled.div<{
 `
 
 const Img = styled.img`
-  max-width: 110px;
+  max-width: 190px;
   user-drag: none;
   -webkit-user-drag: none;
 `
@@ -74,7 +74,7 @@ const ItemThumbnail: FC<ItemThumbnailProps> = ({
         <div>Loading...</div>
       ) : (
         <>
-          <Img src={item?.imageUrl} />
+          <Img src={item?.thumbnailUrl} />
           <ThumbnailDetails>
             <Quantity>{item?.count}x</Quantity>
             <ThumbnailLabel>{item?.name}</ThumbnailLabel>
