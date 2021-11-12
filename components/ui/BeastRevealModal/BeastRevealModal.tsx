@@ -18,8 +18,8 @@ const Wrapper = styled.div`
 `
 
 //Change Bg color depending on Beast
-const Bg = styled.div`
-  background: #ffd966;
+const Bg = styled(motion.div)`
+  background: #ffd966; //TODO: Should change color depending on beast type
   height: min(100%, 600px);
 
   display: flex;
@@ -44,13 +44,15 @@ const BeastName = styled(motion.div)`
   height: 350px;
 `
 
-const StarLevelLabel = styled.div`
+const StarLevelLabel = styled(motion.div)`
   font-size: 10em;
 `
 
 const StarLevel = styled.div`
   display: flex;
 `
+
+const Star = styled(motion.div)``
 
 const StarImg = styled.img`
   width: 100px;
@@ -63,6 +65,8 @@ const StarImg = styled.img`
 //   background: white;
 //   padding-left: 20px;
 // `
+
+const Beast = styled(motion.div)``
 
 const BeastImg = styled.img`
   position: absolute;
@@ -103,20 +107,60 @@ const BeastRevealModal: FC<FuncProps> = ({ handleClose, text }) => {
         exit="exit"
       >
         <Wrapper>
-          <Bg>
+          <Bg
+            animate={{ opacity: [0, 1] }}
+            transition={{
+              duration: 1,
+            }}
+          >
             <CloseIcon onClick={handleClose}>x</CloseIcon>
             <Content>
-              <BeastName variants={dropIn} initial="hidden" animate="visible">
+              <BeastName
+                animate={{ x: [300, 0], opacity: [0, 1] }}
+                transition={{
+                  delay: 1,
+                }}
+              >
                 Moon
               </BeastName>
-              <StarLevelLabel>Star Level</StarLevelLabel>
+              <StarLevelLabel
+                animate={{ x: [200, 0], opacity: [0, 1] }}
+                transition={{
+                  delay: 1.3,
+                }}
+              >
+                Star Level
+              </StarLevelLabel>
               <StarLevel>
-                <StarImg src={star.src} />
-                <StarImg src={starEmpty.src} />
-                <StarImg src={starEmpty.src} />
+                <Star
+                  animate={{ opacity: [0, 1], x: [50, 0], rotate: 360 }}
+                  transition={{
+                    delay: 3,
+                    duration: 0.8,
+                  }}
+                >
+                  <StarImg src={star.src} />
+                </Star>
+                <Star
+                  animate={{ opacity: [0, 1] }}
+                  transition={{
+                    delay: 3.6,
+                  }}
+                >
+                  <StarImg src={starEmpty.src} />
+
+                  <StarImg src={starEmpty.src} />
+                </Star>
               </StarLevel>
             </Content>
-            <BeastImg src={beast.src} />
+            <Beast
+              animate={{ opacity: [0, 1] }}
+              transition={{
+                delay: 2.4,
+              }}
+            >
+              <BeastImg src={beast.src} />
+            </Beast>
           </Bg>
         </Wrapper>
       </Container>
