@@ -72,21 +72,24 @@ const MyCollection: FC = () => {
           (selectedBeast ? (
             <ShowcaseBeast setContainerBg={setContainerBg} id={selectedBeast} />
           ) : (
-            <ShowcaseNoBeastFound />
+            <ShowcaseNoBeastFound setContainerBg={setContainerBg} />
           ))}
 
         {filter === "items" &&
           (selectedItem ? (
             <ShowcaseItem id={selectedItem} setContainerBg={setContainerBg} />
           ) : (
-            <ShowcaseNoItemFound />
+            <ShowcaseNoItemFound setContainerBg={setContainerBg} />
           ))}
 
         {filter === "packs" &&
           (selectedPack ? (
-            <ShowcasePack />
+            <ShowcasePack id={selectedPack} setContainerBg={setContainerBg} />
           ) : (
-            <ShowcaseNoPackFound RevealModalOpen={open} />
+            <ShowcaseNoPackFound
+              RevealModalOpen={open}
+              setContainerBg={setContainerBg}
+            />
           ))}
 
         <CollectionStorage

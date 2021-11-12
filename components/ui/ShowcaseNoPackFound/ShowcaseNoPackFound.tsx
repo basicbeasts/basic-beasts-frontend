@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react"
+import React, { Dispatch, FC, SetStateAction, useEffect, useState } from "react"
 import styled from "styled-components"
 import BuyButton from "@components/ui/BuyButton"
 
@@ -31,9 +31,18 @@ const Text = styled.div`
 
 type FuncProps = {
   RevealModalOpen: () => void
+  setContainerBg: Dispatch<SetStateAction<string | null>>
 }
 
-const ShowcaseNoPackFound: FC<FuncProps> = ({ RevealModalOpen }) => {
+const ShowcaseNoPackFound: FC<FuncProps> = ({
+  RevealModalOpen,
+  setContainerBg,
+}) => {
+  // Set the background color of the container
+  useEffect(() => {
+    setContainerBg("#272727")
+  }, [])
+
   return (
     <Container>
       <Text>

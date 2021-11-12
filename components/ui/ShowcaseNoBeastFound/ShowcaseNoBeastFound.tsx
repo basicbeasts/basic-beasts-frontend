@@ -1,4 +1,4 @@
-import React, { FC } from "react"
+import React, { Dispatch, FC, SetStateAction, useEffect } from "react"
 import styled from "styled-components"
 import BuyButton from "@components/ui/BuyButton"
 
@@ -24,7 +24,16 @@ const Text = styled.div`
   margin-bottom: 25px;
 `
 
-const ShowcaseNoBeastFound: FC = () => {
+type Props = {
+  setContainerBg: Dispatch<SetStateAction<string | null>>
+}
+
+const ShowcaseNoBeastFound: FC<Props> = ({ setContainerBg }) => {
+  // Set the background color of the container
+  useEffect(() => {
+    setContainerBg("#111823")
+  }, [])
+
   return (
     <Container>
       <Text>

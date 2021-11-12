@@ -1,4 +1,4 @@
-import React, { FC } from "react"
+import React, { Dispatch, FC, SetStateAction, useEffect } from "react"
 import styled from "styled-components"
 import packImg from "public/packs/basic_beasts_starter_pack.png"
 import star from "public/basic_starLevel.png"
@@ -75,7 +75,18 @@ const Description = styled.div`
   height: 250px;
 `
 
-const ShowcasePack: FC = () => {
+type ShowcasePackProps = {
+  id: string
+  setContainerBg: Dispatch<SetStateAction<string | null>>
+}
+
+const ShowcasePack: FC<ShowcasePackProps> = ({
+  setContainerBg,
+}: ShowcasePackProps) => {
+  // Set the background color of the container
+  useEffect(() => {
+    setContainerBg("#272727")
+  }, [])
   return (
     <Container>
       <Header>
