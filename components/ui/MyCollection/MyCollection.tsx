@@ -7,6 +7,7 @@ import ShowcaseNoItemFound from "@components/ui/ShowcaseNoItemFound"
 import ShowcaseNoPackFound from "@components/ui/ShowcaseNoPackFound"
 import ShowcaseItem from "../ShowcaseItem"
 import ShowcasePack from "../ShowcasePack"
+import { useMutation, query } from "../../../gqty"
 
 //For BeastRevealModal
 import FilterButton from "../FilterButton"
@@ -51,13 +52,33 @@ const MyCollection: FC = () => {
   const [selectedPack, setSelectedPack] = useState<string | null>(null)
   const [containerBg, setContainerBg] = useState<string | null>(null)
   const [filter, setFilter] = useState<"beasts" | "items" | "packs">("beasts")
+  const [openPack] = useMutation(
+    (mutation, args: { id: string }) => {
+      const pack = mutation.openPack(args)
+      if (pack) {
+        return {
+          id: pack.id,
+        }
+      }
+    },
+    {
+      refetchQueries: [query.me],
+      awaitRefetchQueries: true,
+      suspense: false,
+    },
+  )
 
   //Modal
   const [RevealModalOpen, setRevealModalOpen] = useState(false)
 
   const close = () => setRevealModalOpen(false)
 
-  const open = () => setRevealModalOpen(true)
+  const open = () => {
+    setRevealModalOpen(true)
+    if (selectedPack) {
+      openPack({ args: { id: selectedPack } })
+    }
+  }
 
   return (
     <Container>
@@ -66,7 +87,7 @@ const MyCollection: FC = () => {
           <BeastRevealModal
             RevealModalOpen={RevealModalOpen}
             handleClose={close}
-            text={""}
+            packId={selectedPack}
           />
         )}
         {/*When Beast Collection is empty. Otherwise show first beast*/}
@@ -86,12 +107,13 @@ const MyCollection: FC = () => {
 
         {filter === "packs" &&
           (selectedPack ? (
-            <ShowcasePack id={selectedPack} setContainerBg={setContainerBg} />
-          ) : (
-            <ShowcaseNoPackFound
-              RevealModalOpen={open}
+            <ShowcasePack
+              id={selectedPack}
               setContainerBg={setContainerBg}
+              revealModalOpen={open}
             />
+          ) : (
+            <ShowcaseNoPackFound setContainerBg={setContainerBg} />
           ))}
 
         <CollectionStorage

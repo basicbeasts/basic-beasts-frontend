@@ -25,12 +25,13 @@ const Button = styled.button`
 
 type FuncProps = {
   buttonText: string
+  onClick?: () => void
 }
 
-const BuyButton: FC<FuncProps> = ({ buttonText }) => {
+const BuyButton: FC<FuncProps> = ({ buttonText, onClick }) => {
   return (
-    <Button>
-      <NextLink href="/store">{buttonText}</NextLink>
+    <Button onClick={onClick}>
+      {onClick ? buttonText : <NextLink href="/shop">{buttonText}</NextLink>}
     </Button>
   )
 }

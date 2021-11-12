@@ -258,11 +258,18 @@ const ShowPacks = ({
     query?.me?.unopenedPacks()?.edges?.map((edge) => edge?.node?.id!) ?? []
   ).filter(Boolean)
 
+  useEffect(() => {
+    if (packs && packs.length > 0) {
+      count(packs.length)
+    }
+    // This will re-run when the query updates with data
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [packs])
+
   // When unopened packs are in the collection. Showcase first packs by default
   useEffect(() => {
     if (packs && packs.length > 0) {
       selectPack(packs[0] ?? null)
-      count(packs.length)
     }
     // This will re-run when the query updates with data
     // eslint-disable-next-line react-hooks/exhaustive-deps

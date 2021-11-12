@@ -1,7 +1,5 @@
 import React, { Dispatch, FC, SetStateAction, useEffect } from "react"
 import styled from "styled-components"
-import packImg from "public/packs/basic_beasts_starter_pack.png"
-import star from "public/basic_starLevel.png"
 import BuyButton from "../BuyButton"
 import { useQuery } from "../../../gqty"
 
@@ -97,12 +95,14 @@ const Description = styled.div`
 
 type ShowcasePackProps = {
   id: string
+  revealModalOpen: () => void
   setContainerBg: Dispatch<SetStateAction<string | null>>
 }
 
 const ShowcasePack: FC<ShowcasePackProps> = ({
   id,
   setContainerBg,
+  revealModalOpen,
 }: ShowcasePackProps) => {
   const query = useQuery()
   const pack = query.pack({ id })
@@ -121,7 +121,10 @@ const ShowcasePack: FC<ShowcasePackProps> = ({
         <ContentWrapper>
           <Img src={pack?.imageUrl} />
           <Description>{pack?.description}</Description>
-          <BuyButton buttonText={"Summon Beast"} />
+          <BuyButton
+            buttonText={"Summon Beast"}
+            onClick={() => revealModalOpen()}
+          ></BuyButton>
         </ContentWrapper>
       </Content>
     </Container>

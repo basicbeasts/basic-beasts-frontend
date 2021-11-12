@@ -2,8 +2,6 @@ import React, { Dispatch, FC, SetStateAction, useEffect, useState } from "react"
 import styled from "styled-components"
 import BuyButton from "@components/ui/BuyButton"
 
-//For BeastRevealModal
-import FilterButton from "../FilterButton"
 import { motion } from "framer-motion"
 import BeastRevealModal from "../BeastRevealModal"
 
@@ -39,14 +37,10 @@ const Text = styled.div`
 `
 
 type FuncProps = {
-  RevealModalOpen: () => void
   setContainerBg: Dispatch<SetStateAction<string | null>>
 }
 
-const ShowcaseNoPackFound: FC<FuncProps> = ({
-  RevealModalOpen,
-  setContainerBg,
-}) => {
+const ShowcaseNoPackFound: FC<FuncProps> = ({ setContainerBg }) => {
   // Set the background color of the container
   useEffect(() => {
     setContainerBg("#272727")
@@ -60,10 +54,6 @@ const ShowcaseNoPackFound: FC<FuncProps> = ({
       </Text>
       <BuyButton buttonText={"Buy Packs"} />
       <br />
-      <FilterButton
-        buttonText={"Temp Button Summon Beast"}
-        onClick={() => RevealModalOpen()}
-      ></FilterButton>
     </Container>
   )
 }

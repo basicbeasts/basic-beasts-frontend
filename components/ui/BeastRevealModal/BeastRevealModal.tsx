@@ -4,7 +4,7 @@ import { motion } from "framer-motion"
 import Backdrop from "../Backdrop"
 import star from "public/basic_starLevel.png"
 import starEmpty from "public/basic_starLevel_empty.png"
-import beast from "public/001_normal.png"
+import { useQuery } from "../../../gqty"
 
 const Container = styled(motion.div)`
   width: clamp(100%, 700px, 90%);
@@ -18,8 +18,8 @@ const Wrapper = styled.div`
 `
 
 //Change Bg color depending on Beast
-const Bg = styled(motion.div)`
-  background: #ffd966; //TODO: Should change color depending on beast type
+const Bg = styled(motion.div)<{ beastBg: string }>`
+  background: ${(props) => props.beastBg};
   height: min(100%, 600px);
 
   display: flex;
@@ -116,12 +116,6 @@ const StarImg = styled.img`
   }
 `
 
-// const BeastOverlay = styled.div`
-//   width: 1200px;
-//   background: white;
-//   padding-left: 20px;
-// `
-
 const Beast = styled(motion.div)``
 
 const BeastImg = styled.img`
@@ -174,78 +168,96 @@ const dropIn = {
 
 type FuncProps = {
   handleClose: () => void
-  text: string
   RevealModalOpen: boolean
+  packId: string | null
 }
 
-const BeastRevealModal: FC<FuncProps> = ({ handleClose, text }) => {
+const BeastRevealModal: FC<FuncProps> = ({ handleClose, packId }) => {
+  const query = useQuery()
+
+  if (!packId) return <div>No Pack to open.</div>
+  const beast = query.pack({ id: packId })?.beast
+
   return (
     <Backdrop onClick={handleClose}>
-      <Container
-        onClick={(e) => e.stopPropagation()}
-        variants={dropIn}
-        initial="hidden"
-        animate="visible"
-        exit="exit"
-      >
-        <Wrapper>
-          <Bg
-            animate={{ opacity: [0, 1] }}
-            transition={{
-              duration: 1,
-            }}
-          >
-            <CloseIcon onClick={handleClose}>x</CloseIcon>
-            <Content>
-              <BeastName
-                animate={{ x: [300, 0], opacity: [0, 1] }}
-                transition={{
-                  delay: 1,
-                }}
-              >
-                Moon
-              </BeastName>
-              <StarLevelLabel
-                animate={{ x: [200, 0], opacity: [0, 1] }}
-                transition={{
-                  delay: 1.3,
-                }}
-              >
-                Star Level
-              </StarLevelLabel>
-              <StarLevel>
-                <Star
-                  animate={{ opacity: [0, 1], x: [50, 0], rotate: 360 }}
-                  transition={{
-                    delay: 3,
-                    duration: 0.8,
-                  }}
-                >
-                  <StarImg src={star.src} />
-                </Star>
-                <Star
-                  animate={{ opacity: [0, 1] }}
-                  transition={{
-                    delay: 3.6,
-                  }}
-                >
-                  <StarImg src={starEmpty.src} />
-
-                  <StarImg src={starEmpty.src} />
-                </Star>
-              </StarLevel>
-            </Content>
-            <Beast
+      {query.$state.isLoading ? (
+        <div>Loading...</div>
+      ) : (
+        <Container
+          onClick={(e) => e.stopPropagation()}
+          variants={dropIn}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+        >
+          <Wrapper>
+            <Bg
+              beastBg={beast?.colors?.buttonBackground}
               animate={{ opacity: [0, 1] }}
               transition={{
-                delay: 2.4,
+                duration: 1,
               }}
             >
-              <BeastImg src={beast.src} />
-            </Beast>
-          </Bg>
-        </Wrapper>
-      </Container>
+              <CloseIcon onClick={handleClose}>x</CloseIcon>
+              <Content>
+                <BeastName
+                  animate={{ x: [300, 0], opacity: [0, 1] }}
+                  transition={{
+                    delay: 1,
+                  }}
+                >
+                  {beast?.name}
+                </BeastName>
+                <StarLevelLabel
+                  animate={{ x: [200, 0], opacity: [0, 1] }}
+                  transition={{
+                    delay: 1.3,
+                  }}
+                >
+                  Star Level
+                </StarLevelLabel>
+                <StarLevel>
+                  {Array.from(Array(beast?.starLevel), (e, i) => {
+                    return (
+                      <Star
+                        key={i}
+                        animate={{ opacity: [0, 1], x: [50, 0], rotate: 360 }}
+                        transition={{
+                          delay: 3,
+                          duration: 0.8,
+                        }}
+                      >
+                        <StarImg src={star.src} />
+                      </Star>
+                    )
+                  })}
+                  {Array.from(Array(3 - (beast?.starLevel ?? 0)), (e, i) => {
+                    return (
+                      <Star
+                        key={i}
+                        animate={{ opacity: [0, 1] }}
+                        transition={{
+                          delay: 3.6,
+                        }}
+                      >
+                        <StarImg src={starEmpty.src} />
+                      </Star>
+                    )
+                  })}
+                </StarLevel>
+              </Content>
+              <Beast
+                animate={{ opacity: [0, 1] }}
+                transition={{
+                  delay: 2.4,
+                }}
+              >
+                <BeastImg src={beast?.imageUrl} />
+              </Beast>
+            </Bg>
+          </Wrapper>
+        </Container>
+      )}
     </Backdrop>
   )
 }
