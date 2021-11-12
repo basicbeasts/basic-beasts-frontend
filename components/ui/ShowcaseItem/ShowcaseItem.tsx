@@ -85,7 +85,7 @@ const Description = styled.div`
 const Balance = styled.div`
   background: #fff1ef;
   position: relative;
-  left: 140px;
+  left: 180px;
   top: 150px;
   height: 110px;
   box-shadow: 0px 0px 5px 4px #fff1ef;
