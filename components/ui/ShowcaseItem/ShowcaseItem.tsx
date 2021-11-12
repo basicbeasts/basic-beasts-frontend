@@ -98,7 +98,7 @@ const Description = styled.div`
   max-width: 440px;
   text-align: left;
   position: relative;
-  margin-top: -20px;
+  margin-top: 0px;
 `
 
 const Balance = styled.div`
