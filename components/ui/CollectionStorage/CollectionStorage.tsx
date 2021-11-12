@@ -5,6 +5,7 @@ import FilterButton from "../FilterButton"
 import BeastThumbnail from "../BeastThumbnail"
 import ItemThumbnail from "../ItemThumbnail"
 import PackThumbnail from "../PackThumbnail"
+import Spinner from "../Spinner"
 
 const Container = styled.div<{ bgColor: string }>`
   background: ${(props) => props.bgColor};
@@ -143,10 +144,11 @@ const ShowBeasts = ({
   selectedBeast: string | null
 }) => {
   const query = useQuery()
-  const beasts = query.me
-    ?.openedPacks()
-    ?.edges?.map((edge) => edge?.node?.beast?.id!)
-    .filter(Boolean)
+  const beasts =
+    query.me
+      ?.openedPacks()
+      ?.edges?.map((edge) => edge?.node?.beast?.id!)
+      .filter(Boolean) ?? []
 
   useEffect(() => {
     count(beasts?.length ?? 0)
@@ -165,7 +167,9 @@ const ShowBeasts = ({
 
   return (
     <Wrapper>
-      {beasts && (
+      {query.$state.isLoading ? (
+        <Spinner />
+      ) : (
         <BeastThumbnailList>
           {beasts.map((beastId, i) => (
             <BeastThumbnail
@@ -219,7 +223,9 @@ const ShowItems = ({
 
   return (
     <Wrapper>
-      {items && (
+      {query.$state.isLoading ? (
+        <Spinner />
+      ) : (
         <ThumbnailList>
           {items.map((itemId, i) => (
             <ItemThumbnail
@@ -266,7 +272,9 @@ const ShowPacks = ({
 
   return (
     <Wrapper>
-      {packs && (
+      {query.$state.isLoading ? (
+        <Spinner />
+      ) : (
         <ThumbnailList>
           {packs.map((packId, j) => (
             <PackThumbnail
