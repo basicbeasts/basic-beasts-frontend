@@ -52,7 +52,7 @@ const Wrapper = styled.div`
   }
   //Scroll in div
   width: 100%;
-  overflow: hidden;
+  overflow: hidden !important;
   overflow-y: scroll;
   height: 600px;
   margin-top: 20px;
