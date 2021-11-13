@@ -263,9 +263,7 @@ const ShowPacks = ({
 
   // When unopened packs are in the collection. Showcase first packs by default
   useEffect(() => {
-    if (packs && packs.length > 0) {
-      selectPack(packs[0] ?? null)
-    }
+    selectPack(packs[0] ?? null)
     // This will re-run when the query updates with data
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query.$state.isLoading])
@@ -301,6 +299,16 @@ const CollectionStorage: FC<CollectionStorageProps> = ({
   currentPack,
 }: CollectionStorageProps) => {
   const [count, setCount] = useState(0)
+  const [notifyPack, setNotifyPack] = useState(false)
+  const query = useQuery()
+  const unopenedPacks = query?.me?.unopenedPacks()?.edges?.length ?? 0
+
+  useEffect(() => {
+    setNotifyPack(unopenedPacks >= 1)
+    if (unopenedPacks === 0) {
+      selectPack(null)
+    }
+  }, [query.$state.isLoading])
 
   return (
     <Container bgColor={filter === "beasts" ? "#272727" : "#111823"}>
@@ -328,6 +336,7 @@ const CollectionStorage: FC<CollectionStorageProps> = ({
             onClick={() => selectFilter("packs")}
             selected={filter === "packs"}
             buttonText={"Packs"}
+            notify={filter !== "packs" && notifyPack}
           />
         </FilterButtons>
       </Header>

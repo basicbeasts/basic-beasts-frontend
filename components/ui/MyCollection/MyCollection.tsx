@@ -71,7 +71,10 @@ const MyCollection: FC = () => {
   //Modal
   const [RevealModalOpen, setRevealModalOpen] = useState(false)
 
-  const close = () => setRevealModalOpen(false)
+  const close = () => {
+    setRevealModalOpen(false)
+    setFilter("beasts")
+  }
 
   const open = () => {
     setRevealModalOpen(true)
