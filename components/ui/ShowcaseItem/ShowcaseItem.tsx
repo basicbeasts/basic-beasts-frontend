@@ -99,27 +99,28 @@ const Description = styled.div`
   text-align: left;
   position: relative;
   margin-top: 0px;
+  height: 200px;
 `
 
 const Balance = styled.div`
   background: #fff1ef;
-  position: relative;
-  left: 180px;
-  top: 150px;
   height: 110px;
   box-shadow: 0px 0px 5px 4px #fff1ef;
+  /* width: 300px; */
   //Responsive
   @media (max-width: 1140px) {
     left: 0px;
     top: 200px;
-    width: 300px;
-    height: 120px;
   }
 `
 const BalanceLabel = styled.div``
 const Amount = styled.div`
   margin-top: 5px;
   font-size: 85px;
+  @media (max-width: 640px) {
+    margin-top: 10px;
+    font-size: 60px;
+  }
 `
 
 type ShowcaseItemProps = {
@@ -154,7 +155,7 @@ const ShowcaseItem: FC<ShowcaseItemProps> = ({
               <Img src={item?.imageUrl} />
               <Description>{item?.description}</Description>
               <Balance>
-                <BalanceLabel>{item?.name} Balance</BalanceLabel>
+                <BalanceLabel>{item?.name} Quantity</BalanceLabel>
                 <Amount>{item?.count}</Amount>
               </Balance>
             </ContentWrapper>
