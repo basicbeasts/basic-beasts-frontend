@@ -40,7 +40,7 @@ const ThumbnailDetails = styled.div`
 `
 
 const ThumbnailLabel = styled.div`
-  margin-top: 3px;
+  margin-top: 1px;
 `
 
 type PackThumbnailProps = {
