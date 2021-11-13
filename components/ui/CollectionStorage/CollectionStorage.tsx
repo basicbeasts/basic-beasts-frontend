@@ -301,6 +301,15 @@ const CollectionStorage: FC<CollectionStorageProps> = ({
   currentPack,
 }: CollectionStorageProps) => {
   const [count, setCount] = useState(0)
+  const [notifyPack, setNotifyPack] = useState(false)
+  const query = useQuery()
+  const unopenedPacks = query?.me?.unopenedPacks()?.edges?.length ?? 0
+
+  useEffect(() => {
+    if (unopenedPacks >= 1) {
+      setNotifyPack(true)
+    }
+  }, [query.$state.isLoading])
 
   return (
     <Container bgColor={filter === "beasts" ? "#272727" : "#111823"}>
@@ -328,6 +337,7 @@ const CollectionStorage: FC<CollectionStorageProps> = ({
             onClick={() => selectFilter("packs")}
             selected={filter === "packs"}
             buttonText={"Packs"}
+            notify={filter !== "packs" && notifyPack}
           />
         </FilterButtons>
       </Header>

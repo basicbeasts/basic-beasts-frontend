@@ -45,16 +45,18 @@ type FuncProps = {
   buttonText: string
   onClick?: () => void
   selected?: boolean
+  notify?: boolean
 }
 
 const FilterButton: FC<FuncProps> = ({
   buttonText,
   onClick,
   selected,
+  notify,
 }: FuncProps) => {
   return (
     <Button selected={selected} onClick={onClick}>
-      {buttonText == "Packs" && !selected ? (
+      {notify ? (
         <>
           Packs <RedDot>•</RedDot>
         </>
