@@ -36,19 +36,19 @@ const ThumbnailDetails = styled.div`
   clear: both;
   width: 100%;
   padding: 0px 10px;
-  font-size: 1.5em;
+  font-size: 1.2em;
 `
 
 const Quantity = styled.div`
   width: 10px;
   margin-right: 1px;
   float: left;
-  margin-top: 3px;
+  margin-top: 5px;
 `
 
 const ThumbnailLabel = styled.div`
   float: right;
-  margin-top: 3px;
+  margin-top: 5px;
 `
 
 type ItemThumbnailProps = {
