@@ -2,7 +2,8 @@ import React, { FC } from "react"
 import styled from "styled-components"
 
 const Button = styled.button<{ selected?: boolean }>`
-  padding: 4px 34px 8px 36px;
+  padding: 4px 0px 8px 2px;
+  width: 110px;
   margin-left: 20px;
   font-size: 1.1em;
   background-color: ${(props) => (props.selected ? "#ffe595" : "#425066")};
@@ -31,6 +32,15 @@ const Button = styled.button<{ selected?: boolean }>`
   }
 `
 
+const RedDot = styled.span`
+  color: #cc3333;
+  position: absolute;
+  padding-left: 18px;
+  margin-top: -13px;
+  font-size: 30px;
+  font-family: "Courier New", Courier, monospace;
+`
+
 type FuncProps = {
   buttonText: string
   onClick?: () => void
@@ -44,7 +54,13 @@ const FilterButton: FC<FuncProps> = ({
 }: FuncProps) => {
   return (
     <Button selected={selected} onClick={onClick}>
-      {buttonText}
+      {buttonText == "Packs" && !selected ? (
+        <>
+          Packs <RedDot>•</RedDot>
+        </>
+      ) : (
+        buttonText
+      )}
     </Button>
   )
 }
