@@ -406,7 +406,7 @@ const Purchase: FC<BuyProps> = ({
   )
 
   //Open up for sale
-  const available = false
+  const available = true
 
   const incrementQuantity = () => {
     if (quantity < maxQuantity) {

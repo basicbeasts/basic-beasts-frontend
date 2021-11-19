@@ -4,10 +4,10 @@ import EvolutionSet from "@components/ui/EvolutionSet"
 import styled from "styled-components"
 
 const Container = styled.div`
-  border: solid 25px #111111;
+  /* border: solid 25px #111111;
   border-bottom: 0px;
   border-left: 0px;
-  border-right: 0px;
+  border-right: 0px; */
 `
 
 const Dexicon: NextPage = () => {

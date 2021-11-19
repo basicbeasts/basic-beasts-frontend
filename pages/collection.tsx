@@ -7,10 +7,10 @@ import styled from "styled-components"
 import { useAuth } from "@components/auth/AuthProvider"
 
 const Container = styled.div`
-  border: solid 25px #111111;
+  /* border: solid 25px #111111;
   border-bottom: 0px;
   border-left: 0px;
-  border-right: 0px;
+  border-right: 0px; */
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
