@@ -1,7 +1,7 @@
 import React, { FC } from "react"
 import Image from "next/image"
 import styled from "styled-components"
-import HeroImg from "public/010_reverse.png"
+import HeroImg from "public/beasts/013_shiny_gold.gif"
 
 const Container = styled.div`
   padding: 0 0.5rem;
@@ -31,7 +31,7 @@ const Content = styled.div`
 `
 
 const HeroImage = styled.img`
-  width: 200px;
+  width: 220px;
   height: auto;
   margin: 100px;
   user-drag: none;
