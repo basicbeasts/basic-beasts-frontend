@@ -20,9 +20,13 @@ const Pull = styled.div`
 const Store: NextPage = () => {
   return (
     <Container>
-      <HeaderDark
+      {/*<HeaderDark
         title="Store is Open"
         description="Collect, evolve, trade, and breed Beasts"
+      />*/}
+      <HeaderDark
+        title="Store is Closed"
+        description="Join Discord to receive drop updates"
       />
       <Pull />
       <PackStore />
