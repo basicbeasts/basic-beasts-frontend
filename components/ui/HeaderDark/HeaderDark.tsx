@@ -12,11 +12,9 @@ const Container = styled.div`
   z-index: 9999;
   @media (max-width: 700px) {
     border: solid 15px #111111;
-    border-top: 0px;
   }
   @media (max-width: 1420px) {
     border: solid 25px #111111;
-    border-top: 0px;
   }
 `
 
