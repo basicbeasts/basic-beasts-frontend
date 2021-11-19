@@ -186,6 +186,7 @@ export const generatedSchema = {
       __args: {
         count: "Int!",
         packType: "PackType!",
+        refundable: "Boolean!",
         transactionHash: "String!",
       },
     },
@@ -476,6 +477,7 @@ export interface Mutation {
   preOrder: (args: {
     count: Scalars["Int"]
     packType: PackType
+    refundable: Scalars["Boolean"]
     transactionHash: Scalars["String"]
   }) => Maybe<PreOrder>
 }

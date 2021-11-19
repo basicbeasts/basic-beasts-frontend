@@ -386,7 +386,12 @@ const Purchase: FC<BuyProps> = ({
   const [preOrder] = useMutation(
     (
       mutation,
-      args: { packType: PackType; count: number; transactionHash: string },
+      args: {
+        packType: PackType
+        count: number
+        transactionHash: string
+        refundable: boolean
+      },
     ) => {
       const preOrder = mutation.preOrder(args)
       if (preOrder) {
@@ -476,6 +481,7 @@ const Purchase: FC<BuyProps> = ({
                                 transactionHash: txId,
                                 packType: packType,
                                 count: quantity,
+                                refundable: !checkboxValue,
                               },
                             })
                             if (preOrderId) {
