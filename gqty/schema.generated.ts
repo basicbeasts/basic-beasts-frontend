@@ -30,12 +30,20 @@ export interface Scalars {
   URL: any
 }
 
+export enum PackType {
+  CURSED_BLACK = "CURSED_BLACK",
+  METALLIC_SILVER = "METALLIC_SILVER",
+  SHINY_GOLD = "SHINY_GOLD",
+  STARTER = "STARTER",
+}
+
 export const scalarsEnumsHash: import("gqty").ScalarsEnumsHash = {
   Boolean: true,
   DateTime: true,
   HexColorCode: true,
   ID: true,
   Int: true,
+  PackType: true,
   String: true,
   URL: true,
 }
@@ -147,6 +155,13 @@ export const generatedSchema = {
     hasPreviousPage: { __type: "Boolean!" },
     startCursor: { __type: "String" },
   },
+  PreOrder: {
+    __typename: { __type: "String!" },
+    createdAt: { __type: "DateTime!" },
+    id: { __type: "ID!" },
+    type: { __type: "String!" },
+    updatedAt: { __type: "DateTime!" },
+  },
   User: {
     __typename: { __type: "String!" },
     createdAt: { __type: "DateTime!" },
@@ -166,6 +181,14 @@ export const generatedSchema = {
   mutation: {
     __typename: { __type: "String!" },
     openPack: { __type: "Pack", __args: { id: "ID!" } },
+    preOrder: {
+      __type: "PreOrder",
+      __args: {
+        count: "Int!",
+        packType: "PackType!",
+        transactionHash: "String!",
+      },
+    },
   },
   query: {
     __typename: { __type: "String!" },
@@ -177,8 +200,8 @@ export const generatedSchema = {
   },
   subscription: {},
   [SchemaUnionsKey]: {
-    MetaNode: ["Beast", "FungibleToken", "Pack", "User"],
-    Node: ["Beast", "FungibleToken", "Pack", "User"],
+    MetaNode: ["Beast", "FungibleToken", "Pack", "PreOrder", "User"],
+    Node: ["Beast", "FungibleToken", "Pack", "PreOrder", "User"],
   },
 } as const
 
@@ -270,7 +293,7 @@ export interface FungibleTokenTemplateColor {
 }
 
 export interface MetaNode {
-  __typename?: "Beast" | "FungibleToken" | "Pack" | "User"
+  __typename?: "Beast" | "FungibleToken" | "Pack" | "PreOrder" | "User"
   createdAt: ScalarsEnums["DateTime"]
   updatedAt: ScalarsEnums["DateTime"]
   $on: $MetaNode
@@ -280,7 +303,7 @@ export interface MetaNode {
  * An object with an ID
  */
 export interface Node {
-  __typename?: "Beast" | "FungibleToken" | "Pack" | "User"
+  __typename?: "Beast" | "FungibleToken" | "Pack" | "PreOrder" | "User"
   /**
    * The id of the object.
    */
@@ -382,6 +405,17 @@ export interface PageInfo {
   startCursor?: Maybe<ScalarsEnums["String"]>
 }
 
+export interface PreOrder {
+  __typename?: "PreOrder"
+  createdAt: ScalarsEnums["DateTime"]
+  /**
+   * The ID of an object
+   */
+  id: ScalarsEnums["ID"]
+  type: ScalarsEnums["String"]
+  updatedAt: ScalarsEnums["DateTime"]
+}
+
 export interface User {
   __typename?: "User"
   createdAt: ScalarsEnums["DateTime"]
@@ -436,6 +470,14 @@ export interface Mutation {
    * Open a pack
    */
   openPack: (args: { id: Scalars["ID"] }) => Maybe<Pack>
+  /**
+   * Order a pack
+   */
+  preOrder: (args: {
+    count: Scalars["Int"]
+    packType: PackType
+    transactionHash: Scalars["String"]
+  }) => Maybe<PreOrder>
 }
 
 export interface Query {
@@ -475,6 +517,7 @@ export interface SchemaObjectTypes {
   PackEdge: PackEdge
   PackTemplateColor: PackTemplateColor
   PageInfo: PageInfo
+  PreOrder: PreOrder
   Query: Query
   Subscription: Subscription
   User: User
@@ -492,6 +535,7 @@ export type SchemaObjectTypesNames =
   | "PackEdge"
   | "PackTemplateColor"
   | "PageInfo"
+  | "PreOrder"
   | "Query"
   | "Subscription"
   | "User"
@@ -500,6 +544,7 @@ export interface $MetaNode {
   Beast?: Beast
   FungibleToken?: FungibleToken
   Pack?: Pack
+  PreOrder?: PreOrder
   User?: User
 }
 
@@ -507,6 +552,7 @@ export interface $Node {
   Beast?: Beast
   FungibleToken?: FungibleToken
   Pack?: Pack
+  PreOrder?: PreOrder
   User?: User
 }
 
@@ -520,4 +566,6 @@ export type MakeNullable<T> = {
   [K in keyof T]: T[K] | undefined
 }
 
-export interface ScalarsEnums extends MakeNullable<Scalars> {}
+export interface ScalarsEnums extends MakeNullable<Scalars> {
+  PackType: PackType | undefined
+}
