@@ -406,7 +406,7 @@ const Purchase: FC<BuyProps> = ({
   )
 
   //Open up for sale
-  const available = true
+  const available = false
 
   const incrementQuantity = () => {
     if (quantity < maxQuantity) {
@@ -502,7 +502,7 @@ const Purchase: FC<BuyProps> = ({
                         <AlertText>
                           You don&apos;t have enough FUSD.{" "}
                           <a
-                            href="https://blocto.portto.io/"
+                            href="https://twitter.com/basicbeastsnft/status/1458521186724352002?s=20"
                             target="_blank"
                             rel="noreferrer"
                           >
