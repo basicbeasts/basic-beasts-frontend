@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css"
 import { useUser } from "@components/user/UserProvider"
 import { useAuth } from "@components/auth/AuthProvider"
 import Spinner from "../Spinner"
+import { useMutation, PackType } from "../../../gqty"
 
 const Container = styled.div`
   padding: 6em 6em 3em;
@@ -364,6 +365,7 @@ type BuyProps = {
   price: number
   addressReservable: string
   addressRefundable: string
+  packType: PackType
 }
 
 const Purchase: FC<BuyProps> = ({
@@ -371,6 +373,7 @@ const Purchase: FC<BuyProps> = ({
   price,
   addressReservable,
   addressRefundable,
+  packType,
 }) => {
   const [checkboxValue, setCheckboxValue] = useState(false)
 
@@ -380,8 +383,30 @@ const Purchase: FC<BuyProps> = ({
 
   const { balance, purchase } = useUser()
 
+  const [preOrder] = useMutation(
+    (
+      mutation,
+      args: {
+        packType: PackType
+        count: number
+        transactionHash: string
+        refundable: boolean
+      },
+    ) => {
+      const preOrder = mutation.preOrder(args)
+      if (preOrder) {
+        return {
+          id: preOrder.id,
+        }
+      }
+    },
+    {
+      suspense: false,
+    },
+  )
+
   //Open up for sale
-  const available = false
+  const available = true
 
   const incrementQuantity = () => {
     if (quantity < maxQuantity) {
@@ -449,9 +474,23 @@ const Purchase: FC<BuyProps> = ({
                             : addressRefundable
                           const tx = await purchase(totalPrice, address)
                           if (tx) {
-                            toast.success(
-                              "Congratulations! Your journey to becoming a Beast Hunter has begun!",
-                            )
+                            const txId = tx.events[0].transactionId as string
+
+                            const preOrderId = await preOrder({
+                              args: {
+                                transactionHash: txId,
+                                packType: packType,
+                                count: quantity,
+                                refundable: !checkboxValue,
+                              },
+                            })
+                            if (preOrderId) {
+                              toast.success(
+                                "Congratulations! Your journey to becoming a Beast Hunter has begun!",
+                              )
+                            } else {
+                              toast.error("Something went wrong")
+                            }
                           }
                         }}
                       >
@@ -548,6 +587,7 @@ const PackStore: FC = () => {
               addressRefundable={
                 process.env.NEXT_PUBLIC_ADDRESS_REFUNDABLE_NORMAL_SKIN!
               }
+              packType={PackType.STARTER}
             />
           </CardContent>
           <Details availStock={450} />
@@ -566,6 +606,7 @@ const PackStore: FC = () => {
               addressRefundable={
                 process.env.NEXT_PUBLIC_ADDRESS_REFUNDABLE_CURSED_BLACK!
               }
+              packType={PackType.CURSED_BLACK}
             />
           </CursedBlackCardContent>
           <Details availStock={90} />
@@ -584,6 +625,7 @@ const PackStore: FC = () => {
               addressRefundable={
                 process.env.NEXT_PUBLIC_ADDRESS_REFUNDABLE_GOLD_STAR!
               }
+              packType={PackType.SHINY_GOLD}
             />
           </ShinyGoldCardContent>
           <Details availStock={22} />
