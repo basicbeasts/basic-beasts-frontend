@@ -53,14 +53,14 @@ const MobileIcon = styled(FontAwesomeIcon)`
   cursor: pointer;
   color: #fff;
   z-index: 3;
-  @media (min-width: 900px) {
+  @media (min-width: 1100px) {
     display: none;
   }
 `
 
 const NavMenu = styled.ul`
   display: none;
-  @media (min-width: 900px) {
+  @media (min-width: 1100px) {
     display: flex;
     align-items: center;
     list-style: none;
@@ -137,7 +137,7 @@ const BtnLink = styled.a`
     right: -6px;
   }
 
-  @media (max-width: 899px) {
+  @media (max-width: 1099px) {
     display: none;
   }
 `
@@ -266,6 +266,12 @@ const Navbar: FC<FuncProps> = ({ toggle }) => {
               <NextLink href="/dexicon">
                 <A>Dexicon</A>
               </NextLink>
+            </NavItem>
+            <NavItem>
+              <A target="_blank" href="https://whitepaper.basicbeasts.io/">
+                Whitepaper&nbsp;
+                <ExternalLinkIcon src={externalLinkIcon.src} />
+              </A>
             </NavItem>
             <NavItem>
               <A target="_blank" href="https://discord.gg/xgFtWhwSaR">

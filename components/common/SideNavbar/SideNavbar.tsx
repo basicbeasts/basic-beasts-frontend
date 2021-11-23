@@ -201,6 +201,9 @@ const SideNavbar: FC<Props> = ({ isSideNavbarOpen, toggle }: Props) => {
           <NextLink href="/dexicon">
             <A onClick={toggle}>Dexicon</A>
           </NextLink>
+          <A target="_blank" href="https://whitepaper.basicbeasts.io/">
+            Whitepaper
+          </A>
           <A target="_blank" href="https://discord.gg/xgFtWhwSaR">
             Discord
           </A>
