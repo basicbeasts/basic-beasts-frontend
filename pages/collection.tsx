@@ -28,6 +28,7 @@ const Collection: NextPage = () => {
             title="My Beast Collection"
             description="See your magnificent Beasts"
           />
+          {/*
           {user.addr == "0x4065d1f7f1e3388c" ? (
             <DefaultHeroSection
               title="You have packs reserved"
@@ -53,7 +54,7 @@ const Collection: NextPage = () => {
             />
           ) : (
             <></>
-          )}
+          )} */}
           <MyCollection />
         </>
       ) : (
