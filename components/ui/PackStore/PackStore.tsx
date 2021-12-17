@@ -539,9 +539,9 @@ const Details: FC<DetailProps> = ({ availStock }) => {
     <>
       <DetailsText>Available stock: {availStock}</DetailsText>
       <DetailsText>
-        You can place your order between Nov 19-22, 12PM PST
+        You can place your order between Dec 17-20, 12PM PST
         <br />
-        We will announce winners and distribute/reserve/refund before Nov 30th
+        We will announce winners and distribute/reserve/refund before Jan 14th
         end of the day
         <br />
         {!loggedIn ? (
@@ -579,7 +579,7 @@ const PackStore: FC = () => {
             <Headline>{HeadlineText}</Headline>
             <Description SpecificItem={"1 random Normal skin 1-Star Beast"} />
             <Purchase
-              maxQuantity={450}
+              maxQuantity={900}
               price={10}
               addressReservable={
                 process.env.NEXT_PUBLIC_ADDRESS_RESERVABLE_NORMAL_SKIN!
@@ -590,7 +590,7 @@ const PackStore: FC = () => {
               packType={PackType.STARTER}
             />
           </CardContent>
-          <Details availStock={450} />
+          <Details availStock={900} />
         </StarterCardContainer>
         <CursedBlackCardContainer>
           <CardTitle>Cursed Black Pack</CardTitle>
@@ -598,7 +598,7 @@ const PackStore: FC = () => {
             <Headline>{HeadlineText}</Headline>
             <Description SpecificItem={"1 random Cursed Black 1-Star Beast"} />
             <Purchase
-              maxQuantity={90}
+              maxQuantity={180}
               price={300}
               addressReservable={
                 process.env.NEXT_PUBLIC_ADDRESS_RESERVABLE_CURSED_BLACK!
@@ -609,7 +609,7 @@ const PackStore: FC = () => {
               packType={PackType.CURSED_BLACK}
             />
           </CursedBlackCardContent>
-          <Details availStock={90} />
+          <Details availStock={180} />
         </CursedBlackCardContainer>
         <ShinyGoldCardContainer>
           <ShinyGoldCardTitle>Shiny Gold Pack</ShinyGoldCardTitle>
@@ -617,7 +617,7 @@ const PackStore: FC = () => {
             <Headline>{HeadlineText}</Headline>
             <Description SpecificItem={"1 random Shiny Gold 1-Star Beast"} />
             <Purchase
-              maxQuantity={22}
+              maxQuantity={44}
               price={999}
               addressReservable={
                 process.env.NEXT_PUBLIC_ADDRESS_RESERVABLE_GOLD_STAR!
@@ -628,7 +628,7 @@ const PackStore: FC = () => {
               packType={PackType.SHINY_GOLD}
             />
           </ShinyGoldCardContent>
-          <Details availStock={22} />
+          <Details availStock={44} />
         </ShinyGoldCardContainer>
       </Content>
     </Container>
