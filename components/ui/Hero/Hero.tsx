@@ -1,7 +1,7 @@
 import React, { FC } from "react"
 import Image from "next/image"
 import styled from "styled-components"
-import HeroImg from "public/beasts/004_cursed_black.png"
+import HeroImg from "public/beasts/004_normal.png"
 
 const Container = styled.div`
   padding: 0 0.5rem;
