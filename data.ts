@@ -810,14 +810,14 @@ const data = {
     },
     {
       id: 15,
-      name: "Stabbie",
+      name: "Stabby",
       BeastTemplates: [
         {
           dexNumber: 43,
-          name: "Stabbie",
+          name: "Stabby",
           type: "Normal",
           description:
-            "A Stabbie holds a toy knife to persuade others to do its bidding.",
+            "A Stabby holds a toy knife to persuade others to do its bidding.",
           starLevel: 1,
           basicSkills: ["Stab It", "Intimidate", "Duck-Ya Up"],
           ultimateSkill: "One-Sword Style",
