@@ -406,7 +406,7 @@ const Purchase: FC<BuyProps> = ({
   )
 
   //Open up for sale
-  const available = false
+  const available = true
 
   const incrementQuantity = () => {
     if (quantity < maxQuantity) {
@@ -541,8 +541,8 @@ const Details: FC<DetailProps> = ({ availStock }) => {
       <DetailsText>
         You can place your order between Jan 28-31, 12PM PST
         <br />
-        We will announce winners and distribute/reserve/refund before Feb 11th
-        end of the day
+        We will announce winners and distribute/reserve/refund before Feb 11 end
+        of the day
         <br />
         {!loggedIn ? (
           <></>
