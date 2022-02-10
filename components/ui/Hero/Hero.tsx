@@ -1,7 +1,7 @@
 import React, { FC } from "react"
 import Image from "next/image"
 import styled from "styled-components"
-import HeroImg from "public/beasts/004_normal.png"
+import HeroImg from "public/beasts/001_normal.png"
 
 const Container = styled.div`
   padding: 0 0.5rem;
@@ -76,7 +76,7 @@ const Hero: FC = () => {
         <HeroImage src={HeroImg.src} />
         <Description>
           <P>
-            Pokémon-inspired NFT collectibles game made by 10-year old and his
+            Pokémon-inspired NFT collectibles game made by 11-year old and his
             brother.
             <br />
             Collect, evolve, breed, and trade beasts.

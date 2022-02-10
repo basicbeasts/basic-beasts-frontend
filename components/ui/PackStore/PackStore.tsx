@@ -541,8 +541,8 @@ const Details: FC<DetailProps> = ({ availStock }) => {
       <DetailsText>
         You can place your order between Jan 28-31, 12PM PST
         <br />
-        We will announce winners and distribute/reserve/refund before Feb 11th
-        end of the day
+        We will announce winners and distribute/reserve/refund before Feb 11 end
+        of the day
         <br />
         {!loggedIn ? (
           <></>
