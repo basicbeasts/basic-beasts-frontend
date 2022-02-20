@@ -294,11 +294,12 @@ const OutputText = styled.span`
   }
 `
 
+//TODO
 const InputText = styled.input<{
   fontColor: string
 }>`
-  font-size: 30px;
   color: ${(props) => props.fontColor};
+  font-size: 30px;
   -webkit-user-select: all !important;
   -moz-user-select: all !important;
   -ms-user-select: all !important;
@@ -651,7 +652,7 @@ const Purchase: FC<BuyProps> = ({
               -
             </QuantityButton>
             {/* <OutputText>{quantity}</OutputText> */}
-            <InputText
+            {/* <InputText
               value={quantity}
               onChange={(event) => inputQuantity(event)}
               fontColor={
@@ -661,7 +662,7 @@ const Purchase: FC<BuyProps> = ({
                   ? "#c746a5"
                   : "#a15813"
               }
-            />
+            /> */}
             <QuantityButton
               onClick={() => incrementQuantity()}
               bgColor={
