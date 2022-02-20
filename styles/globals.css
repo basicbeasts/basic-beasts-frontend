@@ -49,7 +49,7 @@ a {
   top: 70vh;
   left: 50%;
   margin: -5px;
-  z-index: 1;
+  z-index: 10;
 }
 
 @keyframes spin {

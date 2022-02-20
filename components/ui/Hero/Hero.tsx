@@ -9,7 +9,6 @@ import HeroImgMobile from "public/hero/HeroImg-Mobile.png"
 const Grid = styled.div`
   margin: 0 auto;
   min-height: min-content;
-  height: 90vh;
   max-height: max-content;
   width: 100%;
   display: flex;
@@ -140,10 +139,10 @@ const Hero: FC = () => {
       </HeroImageContainer>
       <Description>
         <TextContainer>
-          <Title>Collect & Evolve Beasts Play-2-earn.</Title>
+          <Title>Collect & Evolve Beasts. Play-2-earn.</Title>
           <P>
-            Pokémon-inspired NFT collectibles game made by 11-year old and his
-            brother.
+            Pokémon-inspired NFT collectibles game made by an 11-year old and
+            his brother.
           </P>
           <NextLink href="/store">
             <Button style={{ marginTop: "2vw" }}>Buy Now</Button>

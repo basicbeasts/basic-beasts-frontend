@@ -8,7 +8,7 @@ const Overlay = styled.div`
   top: 0;
   left: 0;
   background: rgba(0, 0, 0, 0.6);
-  z-index: 1;
+  z-index: 10;
   transition: all 1s;
   -webkit-transition: all 1s;
 `
