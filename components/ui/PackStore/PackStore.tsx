@@ -535,7 +535,7 @@ const Description: FC<DescProps> = ({ SpecificItem }) => {
             First Owner
             <ToolTipText>
               First owners receive 5% life-time royalties for every trade of the
-              beasts
+              beasts.
             </ToolTipText>
           </ToolTip>
         </li>
@@ -712,7 +712,7 @@ const Purchase: FC<BuyProps> = ({
               Reserve Packs
               <ToolTipText>
                 If I don’t win this draw, I want to use my order as a
-                reservation for the next sale
+                reservation for the next sale.
               </ToolTipText>
             </ToolTipNoUnderline>
           </ReservationOption>
