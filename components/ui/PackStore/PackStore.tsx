@@ -652,7 +652,7 @@ const Purchase: FC<BuyProps> = ({
               -
             </QuantityButton>
             {/* <OutputText>{quantity}</OutputText> */}
-            {/* <InputText
+            <InputText
               value={quantity}
               onChange={(event) => inputQuantity(event)}
               fontColor={
@@ -662,7 +662,7 @@ const Purchase: FC<BuyProps> = ({
                   ? "#c746a5"
                   : "#a15813"
               }
-            /> */}
+            />
             <QuantityButton
               onClick={() => incrementQuantity()}
               bgColor={
