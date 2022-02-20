@@ -433,7 +433,7 @@ const NotAvailableButton = styled(Button)`
     3px 0px 0px 0px ${props.borderColor}, inset -3px -3px ${props.insetBorderColor}`};
 
   @media (max-width: 1010px) {
-    width: 32vw;
+    width: 37vw;
   }
 `
 
