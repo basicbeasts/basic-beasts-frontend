@@ -106,6 +106,8 @@ const Card = styled.div<{
     padding: 1.5rem 1.5rem 3rem;
     width: 80vw;
     flex-direction: column;
+    //important to keep
+    overflow-x: hidden;
   }
   ::before {
     ${({ type }) =>
