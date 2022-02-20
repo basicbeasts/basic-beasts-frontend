@@ -94,7 +94,7 @@ const Title = styled.h1`
   font-size: 7vw;
   line-height: 0.7;
   @media (max-width: 1010px) {
-    font-size: 14vw;
+    font-size: 13vw;
   }
 `
 
@@ -139,7 +139,10 @@ const Hero: FC = () => {
       </HeroImageContainer>
       <Description>
         <TextContainer>
-          <Title>Collect & Evolve Beasts. Play-2-earn.</Title>
+          <Title>
+            Collect &<br /> Evolve Beasts. <br />
+            Play-2-earn.
+          </Title>
           <P>
             Pokémon-inspired NFT collectibles game made by an 11-year old and
             his brother.
