@@ -32,6 +32,9 @@ const TextContainer = styled.div`
   text-align: center;
   width: 80%;
   margin: 0 auto;
+  @media (max-width: 899px) {
+    margin: 50px auto 0;
+  }
 `
 
 const BottomTextContainer = styled.div`

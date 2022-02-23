@@ -10,16 +10,16 @@ const Container = styled.div`
   align-items: center;
   background: #111823;
   z-index: 9999;
-  @media (max-width: 700px) {
+  /* @media (max-width: 700px) {
     border: solid 15px #111111;
   }
   @media (max-width: 1420px) {
     border: solid 25px #111111;
-  }
+  } */
 `
 
 const Content = styled.div`
-  padding: 5rem 0;
+  padding: 7rem 0 5rem;
   flex: 1;
   display: flex;
   flex-direction: column;
