@@ -71,6 +71,7 @@ const P = styled.p`
   margin-top: 0;
   @media (max-width: 1010px) {
     font-size: 5vw;
+    text-align: center;
   }
 `
 
