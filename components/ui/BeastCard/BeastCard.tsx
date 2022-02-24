@@ -115,6 +115,9 @@ const StarLevelLabel = styled.div`
   float: left;
   margin-right: 50px;
   font-size: 25px;
+  @media (max-width: 450px) {
+    margin-right: 38px;
+  }
 `
 
 const BasicSkills = styled.div`
@@ -136,6 +139,9 @@ const BasicSkillsLabel = styled.div`
   float: left;
   margin-right: 45px;
   font-size: 25px;
+  @media (max-width: 450px) {
+    margin-right: 33px;
+  }
 `
 
 const UltimateSkill = styled.div<Omit<Button, "background">>`
@@ -158,6 +164,9 @@ const UltimateSkillLabel = styled.div`
   float: left;
   font-size: 25px;
   margin-right: 32px;
+  @media (max-width: 450px) {
+    margin-right: 20px;
+  }
 `
 
 const SkillName = styled.div`
