@@ -318,6 +318,9 @@ const InputText = styled.input<{
   @media (max-width: 1010px) {
     font-size: 36px;
   }
+  @media (max-width: 480px) {
+    max-width: 90px;
+  }
 `
 
 const TotalPrice = styled.div<{
@@ -569,7 +572,7 @@ type BuyProps = {
 }
 
 //Open up for sale
-const available = false
+const available = true
 
 const Purchase: FC<BuyProps> = ({
   maxQuantity,
