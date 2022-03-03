@@ -10,16 +10,16 @@ const Container = styled.div`
   align-items: center;
   background: #111823;
   z-index: 9999;
-  @media (max-width: 700px) {
+  /* @media (max-width: 700px) {
     border: solid 15px #111111;
   }
   @media (max-width: 1420px) {
     border: solid 25px #111111;
-  }
+  } */
 `
 
 const Content = styled.div`
-  padding: 5rem 0;
+  padding: 7rem 0 5rem;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -32,7 +32,7 @@ const Content = styled.div`
 `
 
 const H1 = styled.h1`
-  line-height: 0;
+  /* line-height: 0;
   font-size: 4rem;
   color: #fff;
   font-weight: 400;
@@ -41,11 +41,21 @@ const H1 = styled.h1`
   }
   @media (max-width: 400px) {
     font-size: 2rem;
+  } */
+
+  color: #fff;
+  font-weight: normal;
+  font-size: 7vw;
+  line-height: 1;
+  margin-bottom: 0;
+  margin-top: 0;
+  @media (max-width: 1010px) {
+    font-size: 13vw;
   }
 `
 
 const P = styled.p`
-  color: #fff;
+  /* color: #fff;
   font-weight: 400;
   line-height: 0;
   font-size: 30px;
@@ -54,6 +64,14 @@ const P = styled.p`
   }
   @media (max-width: 400px) {
     font-size: 1rem;
+  } */
+  font-size: 2.5vw;
+  color: #fff;
+  line-height: 1;
+  margin-top: 0;
+  @media (max-width: 1010px) {
+    font-size: 5vw;
+    text-align: center;
   }
 `
 
@@ -67,7 +85,6 @@ const HeaderDark: FC<FuncProps> = ({ title, description }) => {
     <Container>
       <Content>
         <H1>{title}</H1>
-
         <P>{description}</P>
       </Content>
     </Container>
