@@ -9,7 +9,7 @@ const data = {
           name: "Moon",
           type: "Electric",
           description:
-            "A Moon slightly resembles a bunny. With strange ears on it’s head it shocks everything around it.",
+            "A Moon slightly resembles a bunny. With strange ears on its head it shocks everything around it.",
           starLevel: 1,
           basicSkills: ["Triple Kick", "Gravity Pull", "Moon Shock"],
           ultimateSkill: "Mega Volt Crash",
