@@ -1567,7 +1567,7 @@ const data = {
           name: "Ivy",
           type: "Grass",
           description:
-            "A Ivy is an extremely poisonous beast. It lives in solitude.",
+            "An Ivy is an extremely poisonous beast. It lives in solitude.",
           starLevel: 1,
           basicSkills: ["Green Lash", "Clairvoyance", "Toxic"],
           ultimateSkill: "Venomoose",
