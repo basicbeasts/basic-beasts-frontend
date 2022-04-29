@@ -1073,11 +1073,11 @@ const PackStore: FC = () => {
         </CardContainer>
         <BottomTextContainer>
           <BottomP>
-            You can place your order between April 1-4, 12PM PST
+            You can place your order between April 29 - May 2, 12PM PST
           </BottomP>
           <BottomP>
-            We will announce winners and distribute/reserve/refund before April
-            15 end of the day
+            We will announce winners and distribute/reserve/refund before May 13
+            end of the day
           </BottomP>
         </BottomTextContainer>
       </Content>
