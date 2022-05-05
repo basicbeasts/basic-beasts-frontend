@@ -27,7 +27,6 @@ const PackContainer = styled.div`
 `
 
 const InboxItemList: FC = () => {
-  const { EvolutionSets } = data
   const [starterPacks, setStarterPacks] = useState(0)
   const [metallicPacks, setMetallicPacks] = useState(0)
   const [cursedPacks, setCursedPacks] = useState(0)
