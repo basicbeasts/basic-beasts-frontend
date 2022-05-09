@@ -3,6 +3,7 @@ import styled from "styled-components"
 import ShinyImg from "public/packs/pack_pf/shiny.png"
 
 import TabButton from "../TabButton"
+import BeastTab from "../BeastTab"
 
 const Container = styled.div`
   color: #fff;
@@ -47,7 +48,7 @@ const ProfileTabs: FC<Props> = ({
         buttonText={"Packs"}
         notify={filter !== "packs"}
       />
-      {filter === "beast collection" && <div>show beasts</div>}
+      {filter === "beast collection" && <BeastTab selectBeast={selectBeast} />}
       {filter === "items" && <div>show items</div>}
       {filter === "packs" && <div>show packs</div>}
     </Container>
