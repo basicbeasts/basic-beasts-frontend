@@ -5,6 +5,7 @@ import BeastTabCard from "../BeastTabCard"
 const Wrapper = styled.div`
   padding: 35px 20px 0px;
   z-index: 1;
+  display: grid;
 
   -webkit-user-select: none;
   -moz-user-select: none;

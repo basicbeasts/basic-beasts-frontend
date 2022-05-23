@@ -3,7 +3,7 @@ import styled from "styled-components"
 
 const Button = styled.button<{ selected?: boolean }>`
   padding: 5px 0px 6px 2px;
-  width: 110px;
+  width: 150px;
   margin-left: 20px;
   font-size: 1.1em;
   background-color: ${(props) => (props.selected ? "#E9CB4F" : "transparent")};
