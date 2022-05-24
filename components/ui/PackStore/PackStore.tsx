@@ -936,9 +936,9 @@ const Details: FC<DetailProps> = ({ availStock }) => {
 
 // Change Quantity / Stock available
 const Stock = {
-  STARTER: 900,
-  CURSED: 180,
-  SHINY: 44,
+  STARTER: 450,
+  CURSED: 90,
+  SHINY: 22,
 }
 
 // Change Price of packs
@@ -1073,11 +1073,11 @@ const PackStore: FC = () => {
         </CardContainer>
         <BottomTextContainer>
           <BottomP>
-            You can place your order between April 29 - May 2, 12PM PST
+            You can place your order between May 27 - May 30, 12PM PST
           </BottomP>
           <BottomP>
-            We will announce winners and distribute/reserve/refund before May 13
-            end of the day
+            We will announce winners and distribute/reserve/refund before June
+            15 end of the day
           </BottomP>
         </BottomTextContainer>
       </Content>
