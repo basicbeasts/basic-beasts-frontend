@@ -4,6 +4,7 @@ import styled from "styled-components"
 import FlowLogo from "public/flow.svg"
 import HeroImg from "public/hero/HeroImg-Desktop.png"
 import HeroImgMobile from "public/hero/HeroImg-Mobile.png"
+import useTranslation from "next-translate/useTranslation"
 // import DecentologyLogo from "public/decentology.svg"
 
 const Grid = styled.div`
@@ -87,29 +88,29 @@ const Description = styled.div`
     width: 100%;
   }
 `
-const Title = styled.h1`
+const Title = styled.h1<{ fontSize: string; lineHeight: string }>`
   margin: 0px;
   color: #fff;
   font-weight: normal;
-  font-size: 7vw;
-  line-height: 0.7;
+  font-size: ${(props) => props.fontSize};
+  line-height: ${(props) => props.lineHeight};
   @media (max-width: 1010px) {
     font-size: 13vw;
   }
 `
 
-const P = styled.p`
+const P = styled.p<{ fontSize: string }>`
   color: #fff;
   line-height: 1;
-  font-size: 2.5vw;
+  font-size: ${(props) => props.fontSize};
   @media (max-width: 1010px) {
     font-size: 5vw;
   }
 `
-const Button = styled.button`
+const Button = styled.button<{ fontSize: string }>`
   padding: 8px 24px 12px 26px;
   margin-right: 2px;
-  font-size: 2.5vw;
+  font-size: ${(props) => props.fontSize};
   background-color: #feff95;
   box-shadow: -4px 0px 0px 0px #a15813, 0px -4px 0px 0px #a15813,
     0px 4px 0px 0px #a15813, 4px 0px 0px 0px #a15813, inset -4px -4px #f3cb23;
@@ -131,6 +132,7 @@ const Button = styled.button`
 `
 
 const Hero: FC = () => {
+  let { t, lang } = useTranslation()
   return (
     <Grid>
       <HeroImageContainer>
@@ -139,16 +141,26 @@ const Hero: FC = () => {
       </HeroImageContainer>
       <Description>
         <TextContainer>
-          <Title>
-            Collect &<br /> Evolve Beasts. <br />
-            Play-2-earn.
+          <Title
+            fontSize={lang === "ru" ? "4vw" : "7vw"}
+            lineHeight={lang === "ru" ? "1" : "0.7"}
+          >
+            {t("home:collect")}
+            <br />
+            {t("home:evolve-beasts")}
+            <br />
+            {t("home:play2earn")}
           </Title>
-          <P>
-            Pokémon-inspired NFT collectibles game made by an 11-year old and
-            his brother.
+          <P fontSize={lang === "ru" ? "2vw" : "2.5vw"}>
+            {t("home:hero-description")}
           </P>
           <NextLink href="/store">
-            <Button style={{ marginTop: "2vw" }}>Buy Now</Button>
+            <Button
+              style={{ marginTop: "2vw" }}
+              fontSize={lang === "ru" ? "2vw" : "2.5vw"}
+            >
+              {t("home:buy-now")}
+            </Button>
           </NextLink>
         </TextContainer>
         <IconContainer>

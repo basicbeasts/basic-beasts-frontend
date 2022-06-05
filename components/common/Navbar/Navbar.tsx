@@ -6,14 +6,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useAuth } from "@components/auth/AuthProvider"
 import { useUser } from "@components/user/UserProvider"
 import externalLinkIcon from "public/basic_external_link.png"
+import { NextRouter } from "next/dist/client/router"
+import useTranslation from "next-translate/useTranslation"
 
-const Nav = styled.header`
+const Nav = styled.header<{ font: string; fontSize: string }>`
   background: #111823;
   height: 90px;
   max-height: 90px;
-  font-size: 26px;
+  font-size: ${(props) => props.fontSize};
   text-transform: uppercase;
-  font-family: "Pixelar", sans-serif, arial;
+  font-family: ${(props) => props.font};
   font-weight: 400;
   letter-spacing: 1px;
   top: 0;
@@ -89,13 +91,13 @@ const A = styled.a`
 
 const WalletConnect = styled.div``
 
-const BtnLink = styled.a`
+const BtnLink = styled.a<{ fontSize: string }>`
   cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
       14 0,
     pointer !important;
   background: #feff95;
   height: 60px;
-  font-size: 26px;
+  font-size: ${(props) => props.fontSize};
   white-space: nowrap;
   color: #a15813;
   border-image-repeat: stretch;
@@ -228,16 +230,22 @@ const ExternalLinkIcon = styled.img`
 
 type FuncProps = {
   toggle: () => void
+  router: NextRouter
 }
 
-const Navbar: FC<FuncProps> = ({ toggle }) => {
+const Navbar: FC<FuncProps> = ({ toggle, router }) => {
   const { logIn, logOut, user, loggedIn } = useAuth()
 
   const { balance } = useUser()
 
+  let { t, lang } = useTranslation()
+
   return (
     <>
-      <Nav>
+      <Nav
+        font={lang === "ru" ? "arial" : "Pixelar, sans-serif, arial"}
+        fontSize={lang === "ru" ? "18px" : "26px"}
+      >
         <NavbarContainer>
           <NextLink href="/">
             <NavLogo>
@@ -250,20 +258,20 @@ const Navbar: FC<FuncProps> = ({ toggle }) => {
           <NavMenu>
             <NavItem>
               <NextLink href="/store">
-                <A>Store</A>
+                <A>{t("common:store")}</A>
               </NextLink>
             </NavItem>
 
             {!loggedIn ? (
               <NavItem>
                 <NextLink href="/marketplace">
-                  <A>Marketplace</A>
+                  <A>{t("common:marketplace")}</A>
                 </NextLink>
               </NavItem>
             ) : (
               <NavItem>
                 <NextLink href="/collection">
-                  <A>Collection</A>
+                  <A>{t("common:collection")}</A>
                 </NextLink>
               </NavItem>
             )}
@@ -275,7 +283,7 @@ const Navbar: FC<FuncProps> = ({ toggle }) => {
             </NavItem>
             <NavItem>
               <A target="_blank" href="https://whitepaper.basicbeasts.io/">
-                Whitepaper&nbsp;
+                {t("common:whitepaper")}&nbsp;
                 <ExternalLinkIcon src={externalLinkIcon.src} />
               </A>
             </NavItem>
@@ -285,13 +293,35 @@ const Navbar: FC<FuncProps> = ({ toggle }) => {
                 <ExternalLinkIcon src={externalLinkIcon.src} />
               </A>
             </NavItem>
+
+            {router.locales.map((locale) => (
+              <NavItem key={locale}>
+                <NextLink href={router.asPath} locale={locale}>
+                  <A>
+                    {locale == "en-US" ? (
+                      <>{t("common:english")}</>
+                    ) : locale == "ru" ? (
+                      <>{t("common:russian")}</>
+                    ) : (
+                      ""
+                    )}
+                  </A>
+                </NextLink>
+              </NavItem>
+            ))}
           </NavMenu>
+
           <RightNav>
             {!loggedIn ? (
               <WalletConnect>
                 <MobileIcon icon={faBars} onClick={toggle} />
                 <RemoveTopCorners>
-                  <BtnLink onClick={() => logIn()}>Connect Wallet</BtnLink>
+                  <BtnLink
+                    onClick={() => logIn()}
+                    fontSize={lang === "ru" ? "18px" : "26px"}
+                  >
+                    {t("common:connect-wallet")}
+                  </BtnLink>
                 </RemoveTopCorners>
               </WalletConnect>
             ) : (
