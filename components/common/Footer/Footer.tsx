@@ -4,6 +4,7 @@ import Image from "next/image"
 import Link from "next/link"
 import TwitterImage from "/public/twitter.png"
 import DiscordImage from "/public/discord.png"
+import useTranslation from "next-translate/useTranslation"
 
 const FooterContainer = styled.div`
   user-select: none;
@@ -66,6 +67,7 @@ const A = styled.a`
 //
 
 const Footer: FC = () => {
+  let { t } = useTranslation()
   return (
     <FooterContainer>
       <FooterContent>
@@ -91,7 +93,7 @@ const Footer: FC = () => {
           </SocialLink>
         </Socials>
         <a href="https://www.onflow.org/" target="_blank" rel="noreferrer">
-          Built on Flow Blockchain
+          {t("common:built-on", { blockchain: "Flow Blockchain" })}
         </a>
         {/*<LegalLinks>
                     <LegalLink href="/">

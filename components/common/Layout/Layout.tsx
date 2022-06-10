@@ -4,6 +4,7 @@ import Footer from "@components/common/Footer"
 import SideNavbar from "@components/common/SideNavbar"
 import * as fcl from "@onflow/fcl"
 import Head from "next/head"
+import { useRouter } from "next/dist/client/router"
 
 //Configure FCL
 fcl
@@ -21,6 +22,8 @@ const Layout: FC = ({ children }) => {
     setIsSideNavbarOpen(!isSideNavbarOpen)
   }
 
+  let router = useRouter()
+
   return (
     <>
       <Head>
@@ -32,7 +35,7 @@ const Layout: FC = ({ children }) => {
         />
       </Head>
       <SideNavbar isSideNavbarOpen={isSideNavbarOpen} toggle={toggle} />
-      <Navbar toggle={toggle} />
+      <Navbar toggle={toggle} router={router} />
       <main>{children}</main>
       <Footer />
     </>

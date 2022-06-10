@@ -9,6 +9,7 @@ import { useMutation, PackType } from "../../../gqty"
 import StarterImg from "public/packs/pack_pf/starter.png"
 import CursedImg from "public/packs/pack_pf/cursed.png"
 import ShinyImg from "public/packs/pack_pf/shiny.png"
+import useTranslation from "next-translate/useTranslation"
 
 const Container = styled.div`
   padding: 6em 6em 3em;
@@ -205,6 +206,7 @@ const DescriptionList = styled.ul`
   line-height: 1.5;
   list-style: none;
   padding: 0;
+  margin: 25px 0;
 
   @media (max-width: 1010px) {
     font-size: 4.5vw;
@@ -330,6 +332,7 @@ const TotalPrice = styled.div<{
   font-size: 4vw;
   white-space: nowrap;
   margin-bottom: 0.5vw;
+  line-height: 40px;
 
   @media (max-width: 1010px) {
     font-size: 13vw;
@@ -476,8 +479,6 @@ const DetailsText = styled.div`
   color: #737274;
 `
 
-const HeadlineText = "Includes"
-
 // TODO: Turn into component for ToolTip
 const ToolTipText = styled.span`
   visibility: hidden;
@@ -531,31 +532,26 @@ const ToolTipNoUnderline = styled(ToolTip)`
 
 type DescProps = {
   SpecificItem: String
+  t: any
 }
 
-const Description: FC<DescProps> = ({ SpecificItem }) => {
+const Description: FC<DescProps> = ({ SpecificItem, t }) => {
   return (
     <>
       <DescriptionList>
         <li>{SpecificItem}</li>
         <li>
-          Become the{" "}
+          {t("home:become-the")}
           <ToolTip>
-            First Owner
-            <ToolTipText>
-              First owners receive 5% life-time royalties for every trade of the
-              beasts.
-            </ToolTipText>
+            {t("home:first-owner")}
+            <ToolTipText>{t("home:first-owner-tooltip")}</ToolTipText>
           </ToolTip>
         </li>
         <li>
-          Chance for 1 of 1{" "}
+          {t("home:chance")}
           <ToolTip>
-            Mythic Diamond skin
-            <ToolTipText>
-              The rarest beast skin. Only 1 out of 1 for each unique beast will
-              ever exist.
-            </ToolTipText>
+            {t("home:skin", { skin: "Mythic Diamond" })}
+            <ToolTipText>{t("home:mythic-diamond-tooltip")}</ToolTipText>
           </ToolTip>
         </li>
       </DescriptionList>
@@ -569,6 +565,7 @@ type BuyProps = {
   addressReservable: string
   addressRefundable: string
   packType: PackType
+  t: any
 }
 
 //Open up for sale
@@ -580,6 +577,7 @@ const Purchase: FC<BuyProps> = ({
   addressReservable,
   addressRefundable,
   packType,
+  t,
 }) => {
   const [checkboxValue, setCheckboxValue] = useState(false)
 
@@ -718,11 +716,8 @@ const Purchase: FC<BuyProps> = ({
               type="checkbox"
             />
             <ToolTipNoUnderline>
-              Reserve Packs
-              <ToolTipText>
-                If I don’t win this draw, I want to use my order as a
-                reservation for the next sale.
-              </ToolTipText>
+              {t("home:reserve-packs")}
+              <ToolTipText>{t("home:reserve-packs-tooltip")}</ToolTipText>
             </ToolTipNoUnderline>
           </ReservationOption>
           <>
@@ -758,7 +753,7 @@ const Purchase: FC<BuyProps> = ({
                       : "#a1581379"
                   }
                 >
-                  Unavailable
+                  {t("common:unavailable")}
                 </NotAvailableButton>
               </>
             ) : (
@@ -795,7 +790,7 @@ const Purchase: FC<BuyProps> = ({
                     }
                     onClick={() => logIn()}
                   >
-                    Connect Wallet
+                    {t("common:connect-wallet")}
                   </ConnectWallet>
                 ) : (
                   <>
@@ -855,7 +850,7 @@ const Purchase: FC<BuyProps> = ({
                           }
                         }}
                       >
-                        Submit
+                        {t("common:submit")}
                       </SubmitButton>
                     ) : (
                       <>
@@ -916,9 +911,10 @@ const Purchase: FC<BuyProps> = ({
 
 type DetailProps = {
   availStock: number
+  t: any
 }
 
-const Details: FC<DetailProps> = ({ availStock }) => {
+const Details: FC<DetailProps> = ({ availStock, t }) => {
   const { loggedIn } = useAuth()
 
   const [flowScanUrl, setFlowScanUrl] = useState("")
@@ -929,16 +925,19 @@ const Details: FC<DetailProps> = ({ availStock }) => {
 
   return (
     <>
-      <DetailsText>Available stock: {availStock}</DetailsText>
+      <DetailsText>
+        {t("home:available-stock")}
+        {availStock}
+      </DetailsText>
     </>
   )
 }
 
 // Change Quantity / Stock available
 const Stock = {
-  STARTER: 900,
-  CURSED: 180,
-  SHINY: 44,
+  STARTER: 450,
+  CURSED: 90,
+  SHINY: 22,
 }
 
 // Change Price of packs
@@ -951,6 +950,8 @@ const Price = {
 const PackStore: FC = () => {
   const { loading } = useUser()
 
+  let { t } = useTranslation()
+
   return (
     <Container>
       <ToastContainer
@@ -962,13 +963,11 @@ const PackStore: FC = () => {
       {loading ? <Spinner /> : <></>}
       <Content>
         <TextContainer>
-          <Title>Beasts Packs</Title>
+          <Title>{t("home:beast-packs")}</Title>
           {available ? (
-            <P>
-              Place your order for a chance to receive a 1-star beast or more!
-            </P>
+            <P>{t("home:place-your-order")}</P>
           ) : (
-            <P>Store is Closed. Join our Discord to receive drop updates.</P>
+            <P>{t("home:store-closed")}</P>
           )}
         </TextContainer>
         <CardContainer>
@@ -981,11 +980,14 @@ const PackStore: FC = () => {
           >
             <CardImageContainer>
               <CardImage src={StarterImg.src} />
-              <Details availStock={Stock.STARTER} />
+              <Details availStock={Stock.STARTER} t={t} />
             </CardImageContainer>
             <CardContent>
-              <Headline>{HeadlineText}</Headline>
-              <Description SpecificItem={"1 random Normal skin 1-Star Beast"} />
+              <Headline>{t("home:includes")}</Headline>
+              <Description
+                SpecificItem={t("home:1-random-beast", { skin: "Normal skin" })}
+                t={t}
+              />
             </CardContent>
             <PurchaseContent>
               <Purchase
@@ -998,6 +1000,7 @@ const PackStore: FC = () => {
                   process.env.NEXT_PUBLIC_ADDRESS_REFUNDABLE_NORMAL_SKIN!
                 }
                 packType={PackType.STARTER}
+                t={t}
               />
               {/* <PurchaseAlternative>Buy with other crypto</PurchaseAlternative> */}
             </PurchaseContent>
@@ -1014,12 +1017,15 @@ const PackStore: FC = () => {
           >
             <CardImageContainer>
               <CardImage src={CursedImg.src} />
-              <Details availStock={Stock.CURSED} />
+              <Details availStock={Stock.CURSED} t={t} />
             </CardImageContainer>
             <CardContent>
-              <CursedHeadline>{HeadlineText}</CursedHeadline>
+              <CursedHeadline>{t("home:includes")}</CursedHeadline>
               <Description
-                SpecificItem={"1 random Cursed Black 1-Star Beast"}
+                SpecificItem={t("home:1-random-beast", {
+                  skin: "Cursed Black",
+                })}
+                t={t}
               />
             </CardContent>
             <PurchaseContent>
@@ -1033,6 +1039,7 @@ const PackStore: FC = () => {
                   process.env.NEXT_PUBLIC_ADDRESS_REFUNDABLE_CURSED_BLACK!
                 }
                 packType={PackType.CURSED_BLACK}
+                t={t}
               />
               {/* <PurchaseAlternative>Buy with other crypto</PurchaseAlternative> */}
             </PurchaseContent>
@@ -1049,11 +1056,14 @@ const PackStore: FC = () => {
           >
             <CardImageContainer>
               <CardImage src={ShinyImg.src} />
-              <Details availStock={Stock.SHINY} />
+              <Details availStock={Stock.SHINY} t={t} />
             </CardImageContainer>
             <CardContent>
-              <ShinyHeadline>{HeadlineText}</ShinyHeadline>
-              <Description SpecificItem={"1 random Shiny Gold 1-Star Beast"} />
+              <ShinyHeadline>{t("home:includes")}</ShinyHeadline>
+              <Description
+                SpecificItem={t("home:1-random-beast", { skin: "Shiny Gold" })}
+                t={t}
+              />
             </CardContent>
             <PurchaseContent>
               <Purchase
@@ -1066,6 +1076,7 @@ const PackStore: FC = () => {
                   process.env.NEXT_PUBLIC_ADDRESS_REFUNDABLE_GOLD_STAR!
                 }
                 packType={PackType.SHINY_GOLD}
+                t={t}
               />
               {/* <PurchaseAlternative>Buy with other crypto</PurchaseAlternative> */}
             </PurchaseContent>
@@ -1073,12 +1084,11 @@ const PackStore: FC = () => {
         </CardContainer>
         <BottomTextContainer>
           <BottomP>
-            You can place your order between April 1-4, 12PM PST
+            {t("home:place-your-order-date", {
+              dateAndTime: "July 1 - July 4, 12PM PST",
+            })}
           </BottomP>
-          <BottomP>
-            We will announce winners and distribute/reserve/refund before April
-            15 end of the day
-          </BottomP>
+          <BottomP>{t("home:announce-winners", { date: "July 15" })}</BottomP>
         </BottomTextContainer>
       </Content>
     </Container>
