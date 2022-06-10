@@ -206,6 +206,7 @@ const DescriptionList = styled.ul`
   line-height: 1.5;
   list-style: none;
   padding: 0;
+  margin: 25px 0;
 
   @media (max-width: 1010px) {
     font-size: 4.5vw;
@@ -331,6 +332,7 @@ const TotalPrice = styled.div<{
   font-size: 4vw;
   white-space: nowrap;
   margin-bottom: 0.5vw;
+  line-height: 40px;
 
   @media (max-width: 1010px) {
     font-size: 13vw;

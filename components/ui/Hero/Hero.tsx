@@ -102,13 +102,14 @@ const Title = styled.h1<{ fontSize: string; lineHeight: string }>`
 const P = styled.p<{ fontSize: string }>`
   color: #fff;
   line-height: 1;
+  margin: 35px 0;
   font-size: ${(props) => props.fontSize};
   @media (max-width: 1010px) {
     font-size: 5vw;
   }
 `
 const Button = styled.button<{ fontSize: string }>`
-  padding: 8px 24px 12px 26px;
+  padding: 0px 24px 0px 26px;
   margin-right: 2px;
   font-size: ${(props) => props.fontSize};
   background-color: #feff95;

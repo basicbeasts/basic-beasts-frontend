@@ -1,13 +1,14 @@
 import { FC, useRef, useState } from "react"
 import styled from "styled-components"
 import NextLink from "next/link"
-import { faBars, faEllipsisV } from "@fortawesome/free-solid-svg-icons"
+import { faBars, faEllipsisV, faGlobe } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useAuth } from "@components/auth/AuthProvider"
 import { useUser } from "@components/user/UserProvider"
 import externalLinkIcon from "public/basic_external_link.png"
 import { NextRouter } from "next/dist/client/router"
 import useTranslation from "next-translate/useTranslation"
+import LanguageSwitcher from "@components/ui/LanguageSwitcher"
 
 const Nav = styled.header<{ font: string; fontSize: string }>`
   background: #111823;
@@ -76,7 +77,8 @@ const NavMenu = styled.ul`
 
 const NavItem = styled.li``
 
-const A = styled.a`
+const A = styled.a<{ font: string }>`
+  font-family: ${(props) => props.font};
   color: #f3cb23 !important;
   display: flex;
   align-items: center;
@@ -91,7 +93,7 @@ const A = styled.a`
 
 const WalletConnect = styled.div``
 
-const BtnLink = styled.a<{ fontSize: string }>`
+const BtnLink = styled.a<{ fontSize: string; padding: string }>`
   cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
       14 0,
     pointer !important;
@@ -104,7 +106,7 @@ const BtnLink = styled.a<{ fontSize: string }>`
   border: solid 4px #a15813;
   display: inline-block;
   //margin: 4px;
-  padding: 14px 14px;
+  padding: ${(props) => props.padding};
   position: relative;
   text-align: center;
   -webkit-user-select: none;
@@ -228,6 +230,14 @@ const ExternalLinkIcon = styled.img`
   width: 15px;
 `
 
+const MobileLanguageSwitcher = styled.div`
+  @media (min-width: 1100px) {
+    display: none;
+  }
+  margin-top: 28px;
+  margin-right: 80px;
+`
+
 type FuncProps = {
   toggle: () => void
   router: NextRouter
@@ -243,7 +253,9 @@ const Navbar: FC<FuncProps> = ({ toggle, router }) => {
   return (
     <>
       <Nav
-        font={lang === "ru" ? "arial" : "Pixelar, sans-serif, arial"}
+        font={
+          lang === "ru" ? "arial, sans-serif" : "Pixelar, sans-serif, arial"
+        }
         fontSize={lang === "ru" ? "18px" : "26px"}
       >
         <NavbarContainer>
@@ -258,60 +270,112 @@ const Navbar: FC<FuncProps> = ({ toggle, router }) => {
           <NavMenu>
             <NavItem>
               <NextLink href="/store">
-                <A>{t("common:store")}</A>
+                <A
+                  font={
+                    lang === "ru"
+                      ? "arial, sans-serif"
+                      : "Pixelar, sans-serif, arial"
+                  }
+                >
+                  {t("common:store")}
+                </A>
               </NextLink>
             </NavItem>
 
             {!loggedIn ? (
               <NavItem>
                 <NextLink href="/marketplace">
-                  <A>{t("common:marketplace")}</A>
+                  <A
+                    font={
+                      lang === "ru"
+                        ? "arial, sans-serif"
+                        : "Pixelar, sans-serif, arial"
+                    }
+                  >
+                    {t("common:marketplace")}
+                  </A>
                 </NextLink>
               </NavItem>
             ) : (
               <NavItem>
                 <NextLink href="/collection">
-                  <A>{t("common:collection")}</A>
+                  <A
+                    font={
+                      lang === "ru"
+                        ? "arial, sans-serif"
+                        : "Pixelar, sans-serif, arial"
+                    }
+                  >
+                    {t("common:collection")}
+                  </A>
                 </NextLink>
               </NavItem>
             )}
 
             <NavItem>
               <NextLink href="/dexicon">
-                <A>Dexicon</A>
+                <A
+                  font={
+                    lang === "ru"
+                      ? "arial, sans-serif"
+                      : "Pixelar, sans-serif, arial"
+                  }
+                >
+                  Dexicon
+                </A>
               </NextLink>
             </NavItem>
             <NavItem>
-              <A target="_blank" href="https://whitepaper.basicbeasts.io/">
+              <A
+                font={
+                  lang === "ru"
+                    ? "arial, sans-serif"
+                    : "Pixelar, sans-serif, arial"
+                }
+                target="_blank"
+                href="https://whitepaper.basicbeasts.io/"
+              >
                 {t("common:whitepaper")}&nbsp;
                 <ExternalLinkIcon src={externalLinkIcon.src} />
               </A>
             </NavItem>
             <NavItem>
-              <A target="_blank" href="https://discord.gg/xgFtWhwSaR">
+              <A
+                font={
+                  lang === "ru"
+                    ? "arial, sans-serif"
+                    : "Pixelar, sans-serif, arial"
+                }
+                target="_blank"
+                href="https://discord.gg/xgFtWhwSaR"
+              >
                 Discord&nbsp;
                 <ExternalLinkIcon src={externalLinkIcon.src} />
               </A>
             </NavItem>
+            <LanguageSwitcher router={router} />
 
-            {router.locales.map((locale) => (
+            {/* {router.locales.map((locale) => (
               <NavItem key={locale}>
                 <NextLink href={router.asPath} locale={locale}>
                   <A>
                     {locale == "en-US" ? (
-                      <>{t("common:english")}</>
+                      <>English</>
                     ) : locale == "ru" ? (
-                      <>{t("common:russian")}</>
+                      <>Русский</>
                     ) : (
                       ""
                     )}
                   </A>
                 </NextLink>
               </NavItem>
-            ))}
+            ))} */}
           </NavMenu>
 
           <RightNav>
+            <MobileLanguageSwitcher>
+              <LanguageSwitcher router={router} />
+            </MobileLanguageSwitcher>
             {!loggedIn ? (
               <WalletConnect>
                 <MobileIcon icon={faBars} onClick={toggle} />
@@ -319,6 +383,7 @@ const Navbar: FC<FuncProps> = ({ toggle, router }) => {
                   <BtnLink
                     onClick={() => logIn()}
                     fontSize={lang === "ru" ? "18px" : "26px"}
+                    padding={lang === "ru" ? "14px" : "7px 14px 14px 14px"}
                   >
                     {t("common:connect-wallet")}
                   </BtnLink>
