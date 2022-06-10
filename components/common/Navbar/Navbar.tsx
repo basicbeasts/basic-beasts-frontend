@@ -1,19 +1,22 @@
 import { FC, useRef, useState } from "react"
 import styled from "styled-components"
 import NextLink from "next/link"
-import { faBars, faEllipsisV } from "@fortawesome/free-solid-svg-icons"
+import { faBars, faEllipsisV, faGlobe } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useAuth } from "@components/auth/AuthProvider"
 import { useUser } from "@components/user/UserProvider"
 import externalLinkIcon from "public/basic_external_link.png"
+import { NextRouter } from "next/dist/client/router"
+import useTranslation from "next-translate/useTranslation"
+import LanguageSwitcher from "@components/ui/LanguageSwitcher"
 
-const Nav = styled.header`
+const Nav = styled.header<{ font: string; fontSize: string }>`
   background: #111823;
   height: 90px;
   max-height: 90px;
-  font-size: 26px;
+  font-size: ${(props) => props.fontSize};
   text-transform: uppercase;
-  font-family: "Pixelar", sans-serif, arial;
+  font-family: ${(props) => props.font};
   font-weight: 400;
   letter-spacing: 1px;
   top: 0;
@@ -74,7 +77,8 @@ const NavMenu = styled.ul`
 
 const NavItem = styled.li``
 
-const A = styled.a`
+const A = styled.a<{ font: string }>`
+  font-family: ${(props) => props.font};
   color: #f3cb23 !important;
   display: flex;
   align-items: center;
@@ -89,20 +93,20 @@ const A = styled.a`
 
 const WalletConnect = styled.div``
 
-const BtnLink = styled.a`
+const BtnLink = styled.a<{ fontSize: string; padding: string }>`
   cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
       14 0,
     pointer !important;
   background: #feff95;
   height: 60px;
-  font-size: 26px;
+  font-size: ${(props) => props.fontSize};
   white-space: nowrap;
   color: #a15813;
   border-image-repeat: stretch;
   border: solid 4px #a15813;
   display: inline-block;
   //margin: 4px;
-  padding: 14px 14px;
+  padding: ${(props) => props.padding};
   position: relative;
   text-align: center;
   -webkit-user-select: none;
@@ -226,18 +230,34 @@ const ExternalLinkIcon = styled.img`
   width: 15px;
 `
 
+const MobileLanguageSwitcher = styled.div`
+  @media (min-width: 1100px) {
+    display: none;
+  }
+  margin-top: 28px;
+  margin-right: 80px;
+`
+
 type FuncProps = {
   toggle: () => void
+  router: NextRouter
 }
 
-const Navbar: FC<FuncProps> = ({ toggle }) => {
+const Navbar: FC<FuncProps> = ({ toggle, router }) => {
   const { logIn, logOut, user, loggedIn } = useAuth()
 
   const { balance } = useUser()
 
+  let { t, lang } = useTranslation()
+
   return (
     <>
-      <Nav>
+      <Nav
+        font={
+          lang === "ru" ? "arial, sans-serif" : "Pixelar, sans-serif, arial"
+        }
+        fontSize={lang === "ru" ? "18px" : "26px"}
+      >
         <NavbarContainer>
           <NextLink href="/">
             <NavLogo>
@@ -250,48 +270,123 @@ const Navbar: FC<FuncProps> = ({ toggle }) => {
           <NavMenu>
             <NavItem>
               <NextLink href="/store">
-                <A>Store</A>
+                <A
+                  font={
+                    lang === "ru"
+                      ? "arial, sans-serif"
+                      : "Pixelar, sans-serif, arial"
+                  }
+                >
+                  {t("common:store")}
+                </A>
               </NextLink>
             </NavItem>
 
             {!loggedIn ? (
               <NavItem>
                 <NextLink href="/marketplace">
-                  <A>Marketplace</A>
+                  <A
+                    font={
+                      lang === "ru"
+                        ? "arial, sans-serif"
+                        : "Pixelar, sans-serif, arial"
+                    }
+                  >
+                    {t("common:marketplace")}
+                  </A>
                 </NextLink>
               </NavItem>
             ) : (
               <NavItem>
                 <NextLink href="/collection">
-                  <A>Collection</A>
+                  <A
+                    font={
+                      lang === "ru"
+                        ? "arial, sans-serif"
+                        : "Pixelar, sans-serif, arial"
+                    }
+                  >
+                    {t("common:collection")}
+                  </A>
                 </NextLink>
               </NavItem>
             )}
 
             <NavItem>
               <NextLink href="/dexicon">
-                <A>Dexicon</A>
+                <A
+                  font={
+                    lang === "ru"
+                      ? "arial, sans-serif"
+                      : "Pixelar, sans-serif, arial"
+                  }
+                >
+                  Dexicon
+                </A>
               </NextLink>
             </NavItem>
             <NavItem>
-              <A target="_blank" href="https://whitepaper.basicbeasts.io/">
-                Whitepaper&nbsp;
+              <A
+                font={
+                  lang === "ru"
+                    ? "arial, sans-serif"
+                    : "Pixelar, sans-serif, arial"
+                }
+                target="_blank"
+                href="https://whitepaper.basicbeasts.io/"
+              >
+                {t("common:whitepaper")}&nbsp;
                 <ExternalLinkIcon src={externalLinkIcon.src} />
               </A>
             </NavItem>
             <NavItem>
-              <A target="_blank" href="https://discord.gg/xgFtWhwSaR">
+              <A
+                font={
+                  lang === "ru"
+                    ? "arial, sans-serif"
+                    : "Pixelar, sans-serif, arial"
+                }
+                target="_blank"
+                href="https://discord.gg/xgFtWhwSaR"
+              >
                 Discord&nbsp;
                 <ExternalLinkIcon src={externalLinkIcon.src} />
               </A>
             </NavItem>
+            <LanguageSwitcher router={router} />
+
+            {/* {router.locales.map((locale) => (
+              <NavItem key={locale}>
+                <NextLink href={router.asPath} locale={locale}>
+                  <A>
+                    {locale == "en-US" ? (
+                      <>English</>
+                    ) : locale == "ru" ? (
+                      <>Русский</>
+                    ) : (
+                      ""
+                    )}
+                  </A>
+                </NextLink>
+              </NavItem>
+            ))} */}
           </NavMenu>
+
           <RightNav>
+            <MobileLanguageSwitcher>
+              <LanguageSwitcher router={router} />
+            </MobileLanguageSwitcher>
             {!loggedIn ? (
               <WalletConnect>
                 <MobileIcon icon={faBars} onClick={toggle} />
                 <RemoveTopCorners>
-                  <BtnLink onClick={() => logIn()}>Connect Wallet</BtnLink>
+                  <BtnLink
+                    onClick={() => logIn()}
+                    fontSize={lang === "ru" ? "18px" : "26px"}
+                    padding={lang === "ru" ? "14px" : "7px 14px 14px 14px"}
+                  >
+                    {t("common:connect-wallet")}
+                  </BtnLink>
                 </RemoveTopCorners>
               </WalletConnect>
             ) : (
@@ -299,7 +394,17 @@ const Navbar: FC<FuncProps> = ({ toggle }) => {
                 <LoggedInContainer onClick={toggle}>
                   <LeftBox>
                     <UserAddress>{user.addr}</UserAddress>
-                    <A>{!balance ? <></> : balance.slice(0, -6)} ₣USD</A>
+                    <A
+                      font={
+                        lang === "ru"
+                          ? "arial, sans-serif"
+                          : "Pixelar, sans-serif, arial"
+                      }
+                      target="_blank"
+                      href="https://discord.gg/xgFtWhwSaR"
+                    >
+                      {!balance ? <></> : balance.slice(0, -6)} ₣USD
+                    </A>
                   </LeftBox>
                   <RightBox>
                     <DropDownIcon icon={faEllipsisV} />
