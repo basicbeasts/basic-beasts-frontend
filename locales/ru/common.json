@@ -1,0 +1,12 @@
+{
+  "unavailable": "Недоступен",
+  "connect-wallet": "Подключить кошелек",
+  "submit": "Представлять на рассмотрение",
+  "store": "Хранить",
+  "marketplace": "Торговая площадка",
+  "collection": "Коллекция",
+  "whitepaper": "Белая бумага",
+  "english": "Английский",
+  "russian": "Русский",
+  "built-on": "Построен на {{blockchain}}"
+}
