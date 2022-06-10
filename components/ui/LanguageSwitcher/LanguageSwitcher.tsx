@@ -8,7 +8,7 @@ import styled from "styled-components"
 import { NextRouter } from "next/dist/client/router"
 import NextLink from "next/link"
 
-function classNames(...classes) {
+function classNames(...classes: any[]) {
   return classes.filter(Boolean).join(" ")
 }
 
@@ -26,7 +26,7 @@ const LanguageSwitcherIcon = styled(FontAwesomeIcon)`
   }
 `
 
-const MenuItems = styled(Menu.Items)<{ className: any }>`
+const MenuItems = styled.div`
   background: #212127;
   z-index: 10;
   @media (max-width: 1100px) {
@@ -71,35 +71,39 @@ const LanguageSwitcher: FC<FuncProps> = ({ router }) => {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <MenuItems className="origin-top-right absolute mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-          <div className="py-1">
-            {router.locales.map((locale) => (
-              <div key={locale}>
-                <NextLink href={router.asPath} locale={locale}>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <A
-                        fontSize={locale === "ru" ? "15px" : "20px"}
-                        href="#"
-                        className={classNames(
-                          active
-                            ? "bg-gray-100 text-gray-900"
-                            : "text-gray-700",
-                          "block px-4 py-2 text-sm",
-                        )}
-                      >
-                        {locale == "en-US"
-                          ? "English"
-                          : locale == "ru"
-                          ? "Русский"
-                          : ""}
-                      </A>
-                    )}
-                  </Menu.Item>
-                </NextLink>
-              </div>
-            ))}
-          </div>
+        <MenuItems>
+          <Menu.Items className="origin-top-right absolute mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+            <div className="py-1">
+              {router.locales != null
+                ? router.locales.map((locale) => (
+                    <div key={locale}>
+                      <NextLink href={router.asPath} locale={locale}>
+                        <Menu.Item>
+                          {({ active }) => (
+                            <A
+                              fontSize={locale === "ru" ? "15px" : "20px"}
+                              href="#"
+                              className={classNames(
+                                active
+                                  ? "bg-gray-100 text-gray-900"
+                                  : "text-gray-700",
+                                "block px-4 py-2 text-sm",
+                              )}
+                            >
+                              {locale == "en-US"
+                                ? "English"
+                                : locale == "ru"
+                                ? "Русский"
+                                : ""}
+                            </A>
+                          )}
+                        </Menu.Item>
+                      </NextLink>
+                    </div>
+                  ))
+                : ""}
+            </div>
+          </Menu.Items>
         </MenuItems>
       </Transition>
     </Menu>

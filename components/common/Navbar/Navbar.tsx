@@ -394,7 +394,17 @@ const Navbar: FC<FuncProps> = ({ toggle, router }) => {
                 <LoggedInContainer onClick={toggle}>
                   <LeftBox>
                     <UserAddress>{user.addr}</UserAddress>
-                    <A>{!balance ? <></> : balance.slice(0, -6)} ₣USD</A>
+                    <A
+                      font={
+                        lang === "ru"
+                          ? "arial, sans-serif"
+                          : "Pixelar, sans-serif, arial"
+                      }
+                      target="_blank"
+                      href="https://discord.gg/xgFtWhwSaR"
+                    >
+                      {!balance ? <></> : balance.slice(0, -6)} ₣USD
+                    </A>
                   </LeftBox>
                   <RightBox>
                     <DropDownIcon icon={faEllipsisV} />
