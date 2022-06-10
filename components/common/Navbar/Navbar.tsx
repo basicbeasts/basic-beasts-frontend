@@ -400,8 +400,6 @@ const Navbar: FC<FuncProps> = ({ toggle, router }) => {
                           ? "arial, sans-serif"
                           : "Pixelar, sans-serif, arial"
                       }
-                      target="_blank"
-                      href="https://discord.gg/xgFtWhwSaR"
                     >
                       {!balance ? <></> : balance.slice(0, -6)} ₣USD
                     </A>
