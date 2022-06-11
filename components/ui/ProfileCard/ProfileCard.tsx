@@ -20,6 +20,7 @@ const Content = styled.div`
   margin-top: 20px;
   text-align: center;
   line-height: 2em;
+  width: 200px;
 `
 
 const ProfileName = styled.div`

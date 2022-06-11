@@ -7,6 +7,7 @@ import BeastTab from "../BeastTab"
 
 const Container = styled.div`
   color: #fff;
+  margin-top: 30px;
 `
 
 type Props = {

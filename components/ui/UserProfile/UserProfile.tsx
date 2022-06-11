@@ -12,7 +12,7 @@ const Wrapper = styled.div`
   max-width: 80%;
   margin: 100px auto 0;
   display: flex;
-  @media (max-width: 1010px) {
+  @media (max-width: 1024px) {
     max-width: 100%;
     margin: none;
   }
@@ -21,19 +21,19 @@ const Wrapper = styled.div`
 const LeftColumn = styled.div`
   /* background: black; */
   padding: 0 80px;
-  @media (max-width: 1010px) {
+  @media (max-width: 1024px) {
     display: none;
   }
 `
 
 const RightColumn = styled.div`
-  background: black;
+  //background: black;
   width: 100%;
 `
 
 const MobileProfileCardWrapper = styled.div`
   display: none;
-  @media (max-width: 1010px) {
+  @media (max-width: 1024px) {
     display: block;
   }
 `

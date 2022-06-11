@@ -2,7 +2,7 @@ import React, { FC } from "react"
 import styled from "styled-components"
 
 import star from "public/basic_starLevel.png"
-import thumbnail from "public/thumbnails/thumbnail_001_normal.png"
+import thumbnail from "public/thumbnails/thumbnail_004_normal.png"
 
 const Container = styled.div<{
   selected?: boolean
@@ -19,40 +19,11 @@ const Container = styled.div<{
     pointer !important;
 
   margin-bottom: 30px;
-  border-radius: 20px;
 `
 
 const Img = styled.img`
-  max-width: inherit;
   user-drag: none;
   -webkit-user-drag: none;
-
-  border-radius: 20px 20px 0px 0px;
-`
-
-const ThumbnailDetails = styled.div`
-  color: #000000;
-  display: table;
-  clear: both;
-  width: 100%;
-  padding: 0px 5px;
-`
-
-const StarLevel = styled.div``
-
-const StarImg = styled.img`
-  width: 10px;
-  float: right;
-  margin-right: 1px;
-  margin-top: 6px;
-  user-drag: none;
-  -webkit-user-drag: none;
-  float: left;
-`
-
-const ThumbnailLabel = styled.div`
-  margin-top: 2px;
-  float: right;
 `
 
 type BeastThumbnailProps = {
@@ -69,16 +40,6 @@ const BeastTabCard: FC<BeastThumbnailProps> = ({
     <Container {...props} tagColor={"#FFD966"}>
       <>
         <Img src={thumbnail.src} />
-        <ThumbnailDetails>
-          <StarLevel>
-            {Array(1)
-              .fill(0)
-              .map((_, i) => (
-                <StarImg key={i} src={star.src} />
-              ))}
-          </StarLevel>
-          <ThumbnailLabel>{"MoonMoon"}</ThumbnailLabel>
-        </ThumbnailDetails>
       </>
     </Container>
   )
