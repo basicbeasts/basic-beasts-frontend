@@ -1,4 +1,4 @@
-import React, { FC, Dispatch, SetStateAction } from "react"
+import React, { FC, Dispatch, SetStateAction, useState } from "react"
 import styled from "styled-components"
 import ItemTabCard from "../ItemTabCard"
 import poop from "public/fungible_tokens/fungible_tokens_thumbnails/poop_thumbnail_v2.png"
@@ -6,6 +6,8 @@ import sushi from "public/fungible_tokens/fungible_tokens_thumbnails/sushi_thumb
 import emptyPotionBottle from "public/fungible_tokens/fungible_tokens_thumbnails/empty_potion_bottle_thumbnail_v2.png"
 
 import star from "public/basic_starLevel.png"
+import ItemModalView from "../ItemModalView"
+import items from "data/items"
 
 const Wrapper = styled.div`
   padding: 35px 20px 0px;
@@ -111,13 +113,24 @@ const ItemTab: FC<Props> = ({
     backgroundColor: string
   }
 
+  const [item, setItem] = useState()
+  const [open, setOpen] = useState(false)
+
   return (
     <Wrapper>
+      <ItemModalView item={item} open={open} setOpen={setOpen} />
       <ul
         role="list"
         className="grid grid-cols-2 gap-x-5 gap-y-5 sm:grid-cols-3 sm:gap-x-6 md:grid-cols-4 lg:grid-cols-2 xl:gap-x-7 xl:grid-cols-3 2xl:grid-cols-4"
       >
-        <li className="relative">
+        <li
+          key={1}
+          className="relative"
+          onClick={() => {
+            setOpen(true)
+            setItem(items[0])
+          }}
+        >
           <div
             style={{
               borderRadius: "20px 20px 0 0",
@@ -141,7 +154,14 @@ const ItemTab: FC<Props> = ({
             </ThumbnailDetails>
           </div>
         </li>
-        <li className="relative">
+        <li
+          key={2}
+          className="relative"
+          onClick={() => {
+            setOpen(true)
+            setItem(items[1])
+          }}
+        >
           <div
             style={{
               borderRadius: "20px 20px 0 0",
@@ -165,7 +185,14 @@ const ItemTab: FC<Props> = ({
             </ThumbnailDetails>
           </div>
         </li>
-        <li className="relative">
+        <li
+          key={3}
+          className="relative"
+          onClick={() => {
+            setOpen(true)
+            setItem(items[2])
+          }}
+        >
           <div
             style={{
               borderRadius: "20px 20px 0 0",

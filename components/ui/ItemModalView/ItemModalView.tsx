@@ -30,13 +30,13 @@ const Container = styled.div`
 const Header = styled.div<Omit<Color, "background">>`
   height: 220px;
   background: ${(props) => props.colorCode};
-  padding: 28px 35px;
+  padding: 30px 35px;
   color: #242526;
 `
 
 const BeastName = styled.h3`
   margin: 0;
-  font-size: 55px;
+  font-size: 5em;
   font-weight: normal;
   line-height: 50px;
   cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
@@ -86,11 +86,13 @@ const StarLevel = styled.div`
 // -----------------------------------------------------------------------
 
 const Content = styled.div`
-  height: 360px;
   background: #fff;
-  padding: 3vw;
-  font-size: 1.2em;
+  font-size: 1.5em;
   color: #242526;
+
+  max-width: 340px;
+
+  margin: 80px auto 0;
 `
 
 const ContentWrapper = styled.div<Omit<Unknown, "beastTemplate">>`
@@ -98,90 +100,36 @@ const ContentWrapper = styled.div<Omit<Unknown, "beastTemplate">>`
   position: relative;
 `
 
-const Img = styled.img`
-  width: 180px;
+const Img = styled.img<ImgProps>`
+  width: ${(props) => props.width || "230px"};
   margin: auto;
-  top: -60px;
   position: relative;
   user-drag: none;
   -webkit-user-drag: none;
 `
 
 const Description = styled.div`
-  margin-top: 10px;
+  text-align: left;
+  position: relative;
+  height: 120px;
 `
 
-const InfoContainer = styled.ul`
-  display: table;
-  clear: both;
-  margin-top: 15px;
+const Balance = styled.div`
+  background: #fff1ef;
+  height: 110px;
+  box-shadow: 0px 0px 5px 4px #fff1ef;
+  text-align: center;
+  margin-bottom: 40px;
 `
-
-const InfoLabel = styled.div`
-  float: left;
-  width: 150px;
-  color: #868889;
-`
-
-const InfoText = styled.div`
-  float: right;
-`
-
-const InfoListItem = styled.span`
-  margin-right: 30px;
-`
-
-const BasicSkills = styled.div`
-  display: table;
-  clear: both;
-  height: 95px;
-`
-
-const Skills = styled.div`
-  float: right;
+const BalanceLabel = styled.div``
+const Amount = styled.div`
   margin-top: 5px;
+  font-size: 4em;
+  line-height: 40px;
 `
-
-const Skill = styled.div`
-  height: 25px;
-`
-
-const BasicSkillsLabel = styled.div`
-  float: left;
-  margin-right: 45px;
-  font-size: 25px;
-  @media (max-width: 450px) {
-    margin-right: 33px;
-  }
-`
-
-const UltimateSkill = styled.div<Omit<Button, "background">>`
-  display: table;
-  clear: both;
-  width: 100%;
-  margin: 25px auto;
-  background-color: ${(props) => props.backgroundColor || "#FFE595"};
-  box-shadow: -3px 0px 0px 0px ${(props) => props.outset || "#B3A068"},
-    0px -3px 0px 0px ${(props) => props.outset || "#B3A068"},
-    0px 3px 0px 0px ${(props) => props.outset || "#B3A068"},
-    3px 0px 0px 0px ${(props) => props.outset || "#B3A068"},
-    inset -3px -3px ${(props) => props.inset || "#E6CE86"};
-  padding: 5px 15px;
-  font-size: 1.1em;
-`
-
-const UltimateSkillLabel = styled.div`
-  float: left;
-  margin-right: 32px;
-  @media (max-width: 450px) {
-    margin-right: 20px;
-  }
-`
-
-const SkillName = styled.div`
-  float: right;
-  width: 150px;
-`
+type ImgProps = {
+  width: string
+}
 
 type Color = {
   colorCode: any
@@ -216,12 +164,12 @@ type TailwindProps = {
 }
 
 type Props = {
-  beast: any
+  item: any
   open: boolean
   setOpen: any
 }
 
-const BeastModalView: FC<Props> = ({ beast, open, setOpen }) => {
+const ItemModalView: FC<Props> = ({ item, open, setOpen }) => {
   const [open2, setOpen2] = useState(false)
 
   return (
@@ -251,13 +199,42 @@ const BeastModalView: FC<Props> = ({ beast, open, setOpen }) => {
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
               <DialogPanel className="relative bg-white rounded-lg pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-sm sm:w-full md:max-w-xl">
-                <ChangeNicknameModal
-                  beast={beast}
-                  open={open2}
-                  setOpen={setOpen2}
-                />
                 <div>
-                  {beast != null ? (
+                  {item != null ? (
+                    <>
+                      <Header
+                        colorCode={
+                          "linear-gradient(180deg, #e1b8b4 0%, #E4A9A2 100%)"
+                        }
+                      >
+                        <BeastName
+                          onClick={() => {
+                            setOpen2(true)
+                          }}
+                        >
+                          {item.name}
+                        </BeastName>
+                        <Img
+                          width={
+                            item.name == "Empty Potion Bottle"
+                              ? "150px"
+                              : "230px"
+                          }
+                          src={item.image}
+                        />
+                      </Header>
+                      <Content>
+                        <Description>{item.description}</Description>
+                        <Balance>
+                          <BalanceLabel>{item.name} Quantity</BalanceLabel>
+                          <Amount>{item?.count}20</Amount>
+                        </Balance>
+                      </Content>
+                    </>
+                  ) : (
+                    ""
+                  )}
+                  {/* {beast != null ? (
                     <Container>
                       <Header
                         colorCode={
@@ -293,7 +270,7 @@ const BeastModalView: FC<Props> = ({ beast, open, setOpen }) => {
                         <Img src={beast.image} />
                       </Header>
                       <Content>
-                        <Description>{beast.description}</Description>
+                        <Description>something</Description>
                         <InfoContainer>
                           <InfoLabel>Type</InfoLabel>
                           <InfoText>
@@ -328,7 +305,7 @@ const BeastModalView: FC<Props> = ({ beast, open, setOpen }) => {
                     </Container>
                   ) : (
                     ""
-                  )}
+                  )} */}
                   {/* <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
                     <CheckIcon
                       className="h-6 w-6 text-green-600"
@@ -367,4 +344,4 @@ const BeastModalView: FC<Props> = ({ beast, open, setOpen }) => {
     </Transition.Root>
   )
 }
-export default BeastModalView
+export default ItemModalView

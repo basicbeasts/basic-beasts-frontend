@@ -53,16 +53,15 @@ const StarLevel = styled.div`
 const StarImg = styled.img`
   margin-top: 10px;
   width: 1.2em;
-  float: right;
   user-drag: none;
   -webkit-user-drag: none;
-  float: right;
+  float: left;
 `
 
 const ThumbnailLabel = styled.div`
   margin: 8px 0;
-  float: left;
-  text-align: left;
+  float: right;
+  text-align: right;
   line-height: 1.2em;
 `
 
