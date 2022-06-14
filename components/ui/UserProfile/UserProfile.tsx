@@ -2,6 +2,7 @@ import React, { FC, useState } from "react"
 import styled from "styled-components"
 import ProfileCard from "../ProfileCard"
 import ProfileTabs from "../ProfileTabs"
+import beasts from "data/beast-collection-dummy-data"
 
 const Container = styled.div`
   margin-top: 150px;
@@ -65,6 +66,7 @@ const UserProfile: FC = () => {
             filter={filter}
             selectFilter={setFilter}
             currentPack={selectedPack}
+            beasts={beasts}
           />
         </RightColumn>
       </Wrapper>

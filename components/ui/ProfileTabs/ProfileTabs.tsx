@@ -5,10 +5,13 @@ import ShinyImg from "public/packs/pack_pf/shiny.png"
 import TabButton from "../TabButton"
 import BeastTab from "../BeastTab"
 import ItemTab from "../ItemTab"
+import PackTab from "../PackTab"
 
 const Container = styled.div`
   color: #fff;
   margin-top: 30px;
+
+  height: 600px;
 `
 
 type Props = {
@@ -20,6 +23,7 @@ type Props = {
   selectFilter: Dispatch<SetStateAction<"beast collection" | "items" | "packs">>
   currentPack: string | null
   filter: "beast collection" | "items" | "packs"
+  beasts: any
 }
 
 const ProfileTabs: FC<Props> = ({
@@ -31,6 +35,7 @@ const ProfileTabs: FC<Props> = ({
   currentItem,
   selectPack,
   currentPack,
+  beasts,
 }) => {
   return (
     <Container>
@@ -50,9 +55,11 @@ const ProfileTabs: FC<Props> = ({
         buttonText={"Packs"}
         notify={filter !== "packs"}
       />
-      {filter === "beast collection" && <BeastTab selectBeast={selectBeast} />}
+      {filter === "beast collection" && (
+        <BeastTab selectBeast={selectBeast} beasts={beasts} />
+      )}
       {filter === "items" && <ItemTab selectItem={selectItem} />}
-      {filter === "packs" && <div>show packs</div>}
+      {filter === "packs" && <PackTab selectPack={selectPack} />}
     </Container>
   )
 }

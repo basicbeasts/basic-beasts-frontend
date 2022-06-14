@@ -1,8 +1,9 @@
-import React, { FC, Dispatch, SetStateAction } from "react"
+import React, { FC, Dispatch, SetStateAction, useState } from "react"
 import styled from "styled-components"
 import BeastTabCard from "../BeastTabCard"
 
 import star from "public/basic_starLevel.png"
+import BeastModalView from "../BeastModalView"
 
 const Wrapper = styled.div`
   padding: 35px 20px 0px;
@@ -55,30 +56,33 @@ const StarImg = styled.img`
   float: right;
   user-drag: none;
   -webkit-user-drag: none;
-  float: left;
+  float: right;
 `
 
 const ThumbnailLabel = styled.div`
-  margin: 10px 0;
-  float: right;
-  text-align: right;
-  line-height: 1.3em;
+  margin: 8px 0;
+  float: left;
+  text-align: left;
+  line-height: 1.2em;
 `
 
 type Props = {
-  selectBeast: any
+  selectBeast: Dispatch<SetStateAction<string | null>>
   count: any
   selectedBeast: any
+  beasts: any
 }
 
 const BeastTab: FC<Props> = ({
   selectBeast,
   count,
   selectedBeast,
+  beasts,
 }: {
   selectBeast: Dispatch<SetStateAction<string | null>>
   count: Dispatch<SetStateAction<number>>
   selectedBeast: string | null
+  beasts: any[]
 }) => {
   //   const query = useQuery()
   //   const beasts =
@@ -301,14 +305,25 @@ const BeastTab: FC<Props> = ({
 
   const name = "MoonMoon"
 
+  const [beast, setBeast] = useState()
+  const [open, setOpen] = useState(false)
+
   return (
     <Wrapper>
+      <BeastModalView beast={beast} open={open} setOpen={setOpen} />
       <ul
         role="list"
-        className="grid grid-cols-2 gap-x-5 gap-y-5 sm:grid-cols-3 sm:gap-x-6 md:grid-cols-4 lg:grid-cols-2 xl:gap-x-6 xl:grid-cols-3 2xl:grid-cols-5"
+        className="grid grid-cols-2 gap-x-5 gap-y-5 sm:grid-cols-3 sm:gap-x-6 md:grid-cols-4 lg:grid-cols-2 xl:gap-x-6 xl:grid-cols-3 2xl:grid-cols-4"
       >
-        {files.map((file) => (
-          <li key={file.source} className="relative">
+        {beasts.map((beast) => (
+          <li
+            key={beast.id}
+            className="relative"
+            onClick={() => {
+              setOpen(true)
+              setBeast(beast)
+            }}
+          >
             <div
               style={{
                 borderRadius: "20px 20px 0 0",
@@ -330,28 +345,44 @@ const BeastTab: FC<Props> = ({
             </div>
             <div>
               <ThumbnailDetails style={{ borderRadius: "0 0 20px 20px" }}>
+                <ThumbnailLabel>
+                  <div style={{ fontSize: "1.3em" }}>{beast.nickname}</div>
+                  <div style={{ fontSize: "1.3em" }}>
+                    #{beast.serialNumber} | {beast.maxAdminMintAllowed}
+                  </div>
+                </ThumbnailLabel>
                 <StarLevel>
-                  {Array(1)
+                  {Array(beast.starLevel + 2)
                     .fill(0)
                     .map((_, i) => (
                       <StarImg key={i} src={star.src} />
                     ))}
                 </StarLevel>
-                {name.length > 10 ? (
-                  <ThumbnailLabel>
-                    <div style={{}}>{name}</div>
-                    <div style={{ fontSize: "1.5em" }}>#20</div>
-                  </ThumbnailLabel>
-                ) : (
-                  <ThumbnailLabel>
-                    <div style={{ fontSize: "1.5em" }}>{name}</div>
-                    <div style={{ fontSize: "1.5em" }}>#20</div>
-                  </ThumbnailLabel>
-                )}
               </ThumbnailDetails>
             </div>
           </li>
         ))}
+        {/* To prevent big gap due to fixed height, which is needed for the scroll */}
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
       </ul>
       {/* Example of loading */}
       {/* {query.$state.isLoading ? (
