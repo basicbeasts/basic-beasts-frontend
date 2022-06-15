@@ -102,7 +102,7 @@ const StarImg = styled.img`
   width: 25px;
   float: right;
   margin-right: 5px;
-  margin-top: 1px;
+  margin-top: 7px;
   user-drag: none;
   -webkit-user-drag: none;
 `
