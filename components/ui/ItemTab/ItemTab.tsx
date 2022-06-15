@@ -113,7 +113,14 @@ const ItemTab: FC<Props> = ({
     backgroundColor: string
   }
 
-  const [item, setItem] = useState()
+  const [item, setItem] =
+    useState<
+      SetStateAction<{
+        name: string
+        description: string
+        image: string
+      } | null>
+    >()
   const [open, setOpen] = useState(false)
 
   return (
@@ -216,6 +223,15 @@ const ItemTab: FC<Props> = ({
             </ThumbnailDetails>
           </div>
         </li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
       </ul>
       {/* Example of loading */}
       {/* {query.$state.isLoading ? (

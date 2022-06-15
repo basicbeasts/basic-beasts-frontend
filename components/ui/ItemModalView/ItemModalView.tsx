@@ -114,10 +114,10 @@ const Description = styled.div`
   height: 120px;
 `
 
-const Balance = styled.div`
-  background: #fff1ef;
+const Balance = styled.div<Color>`
+  background: ${(props) => props.colorCode || "#fff1ef"};
   height: 110px;
-  box-shadow: 0px 0px 5px 4px #fff1ef;
+  box-shadow: 0px 0px 5px 4px ${(props) => props.colorCode || "#fff1ef"};
   text-align: center;
   margin-bottom: 40px;
 `
@@ -204,7 +204,11 @@ const ItemModalView: FC<Props> = ({ item, open, setOpen }) => {
                     <>
                       <Header
                         colorCode={
-                          "linear-gradient(180deg, #e1b8b4 0%, #E4A9A2 100%)"
+                          item.name == "Sushi"
+                            ? "linear-gradient(180deg, #e1b8b4 0%, #E4A9A2 100%)"
+                            : item.name == "Empty Potion Bottle"
+                            ? "linear-gradient(180deg, #88ad91 0%, #7CB189 100%)"
+                            : "linear-gradient(180deg, #ad9e8b 0%, #B19A7E 100%)"
                         }
                       >
                         <BeastName
@@ -225,7 +229,15 @@ const ItemModalView: FC<Props> = ({ item, open, setOpen }) => {
                       </Header>
                       <Content>
                         <Description>{item.description}</Description>
-                        <Balance>
+                        <Balance
+                          colorCode={
+                            item.name == "Sushi"
+                              ? "#FFF1EF"
+                              : item.name == "Empty Potion Bottle"
+                              ? "#DFECE2"
+                              : "#ECE6DF"
+                          }
+                        >
                           <BalanceLabel>{item.name} Quantity</BalanceLabel>
                           <Amount>{item?.count}20</Amount>
                         </Balance>
