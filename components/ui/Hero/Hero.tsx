@@ -88,14 +88,18 @@ const Description = styled.div`
     width: 100%;
   }
 `
-const Title = styled.h1<{ fontSize: string; lineHeight: string }>`
+const Title = styled.h1<{
+  fontSize: string
+  lineHeight: string
+  mobileFontSize: string
+}>`
   margin: 0px;
   color: #fff;
   font-weight: normal;
   font-size: ${(props) => props.fontSize};
   line-height: ${(props) => props.lineHeight};
   @media (max-width: 1010px) {
-    font-size: 13vw;
+    font-size: ${(props) => props.mobileFontSize || "13vw"};
   }
 `
 
@@ -145,6 +149,7 @@ const Hero: FC = () => {
           <Title
             fontSize={lang === "ru" ? "4vw" : "7vw"}
             lineHeight={lang === "ru" ? "1" : "0.7"}
+            mobileFontSize={lang === "ru" ? "11vw" : "13vw"}
           >
             {t("home:collect")}
             <br />

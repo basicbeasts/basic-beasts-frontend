@@ -47,10 +47,10 @@ const BottomTextContainer = styled.div`
   margin-left: auto;
 `
 
-const Title = styled.h1`
+const Title = styled.h1<{ fontSize: string }>`
   color: #fff;
   font-weight: normal;
-  font-size: 7vw;
+  font-size: ${(props) => props.fontSize || "7vw"};
   line-height: 1;
   margin-bottom: 0;
   margin-top: 0;
@@ -59,8 +59,8 @@ const Title = styled.h1`
   }
 `
 
-const P = styled.p`
-  font-size: 2.5vw;
+const P = styled.p<{ fontSize: string }>`
+  font-size: ${(props) => props.fontSize || "2.5vw"};
   color: #fff;
   line-height: 1;
   margin-top: 0;
@@ -201,15 +201,15 @@ const ShinyHeadline = styled.div`
   }
 `
 
-const DescriptionList = styled.ul`
-  font-size: 1.5vw;
+const DescriptionList = styled.ul<{ fontSize: string; mobileFontSize: string }>`
+  font-size: ${(props) => props.fontSize || "1.5vw"};
   line-height: 1.5;
   list-style: none;
   padding: 0;
   margin: 25px 0;
 
   @media (max-width: 1010px) {
-    font-size: 4.5vw;
+    font-size: ${(props) => props.mobileFontSize || "4.5vw"};
     margin: 0 auto;
     width: max-content;
   }
@@ -367,6 +367,7 @@ const Button = styled.button<{
   insetBorderColor: string
   bgColor: string
   fontColor: string
+  fontSize: string
 }>`
   padding: 6px 20px 10px 22px;
   font-size: 1.5vw;
@@ -386,10 +387,12 @@ const Button = styled.button<{
   }
 `
 
-const SubmitButton = styled(Button)`
-  width: 130px;
+const SubmitButton = styled(Button)<{ width: string; mobileFontSize: string }>`
+  font-size: ${(props) => props.fontSize};
+  width: ${(props) => props.width};
   @media (max-width: 1010px) {
-    width: 26vw;
+    width: 36vw;
+    font-size: ${(props) => props.mobileFontSize};
   }
   &:active {
     transition: all 0.1s ease 0s;
@@ -429,12 +432,17 @@ const SubmitButtonDisabled = styled.button<{
   }
 `
 
-const ConnectWallet = styled(Button)`
+const ConnectWallet = styled(Button)<{ mobileFontSize: string }>`
+  font-size: ${(props) => props.fontSize};
   width: auto;
   white-space: nowrap;
+  @media (max-width: 1010px) {
+    font-size: ${(props) => props.mobileFontSize};
+  }
 `
 
-const NotAvailableButton = styled(Button)`
+const NotAvailableButton = styled(Button)<{ mobileFontSize: string }>`
+  font-size: ${(props) => props.fontSize};
   width: 10vw;
   cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABFklEQVRYR9WXURLDIAhE6/0PbSdOtUpcd1Gnpv1KGpTHBpCE1/cXq+vrMph7dGvXZTtpfW10DCA5jrH1H0Jhs5E0hnZdCR+vb5S8Nn8mQCeS9BdSalYJqMBjAGzq59xAESN7VFVUgV8AZB/dZBR7QTFDCqGquvUBVVoEtgIwpQRzmANSFHgWQKExHdIrPeuMvQNDarXe6nC/AutgV3JW+6bgqQLeV8FekRtgV+ToDKEKnACYKsfZjjkam7a0ZpYTytwmgainpC3HvwBocgKOxqRjehoR9DFKNFYtOwCGYCszobeCbl26N6yyQ6g8X/Wex/rBPsNEV6qAMaJPMynIHQCoSqS9JSMmwef51LflTgCRszU7DvAGiV6mHWfsaVUAAAAASUVORK5CYII=),
     auto !important;
@@ -446,6 +454,7 @@ const NotAvailableButton = styled(Button)`
 
   @media (max-width: 1010px) {
     width: 38vw;
+    font-size: ${(props) => props.mobileFontSize};
   }
 `
 
@@ -526,19 +535,30 @@ const ToolTip = styled.div`
   }
 `
 
-const ToolTipNoUnderline = styled(ToolTip)`
+const ToolTipNoUnderline = styled(ToolTip)<{
+  fontSize: string
+  mobileFontSize: string
+}>`
   text-decoration: none;
+  font-size: ${(props) => props.fontSize};
+  @media (max-width: 1010px) {
+    font-size: ${(props) => props.mobileFontSize};
+  }
 `
 
 type DescProps = {
   SpecificItem: String
   t: any
+  lang: any
 }
 
-const Description: FC<DescProps> = ({ SpecificItem, t }) => {
+const Description: FC<DescProps> = ({ SpecificItem, t, lang }) => {
   return (
     <>
-      <DescriptionList>
+      <DescriptionList
+        fontSize={lang === "ru" ? "1.2vw" : "1.5vw"}
+        mobileFontSize={lang === "ru" ? "3vw" : "4.5vw"}
+      >
         <li>{SpecificItem}</li>
         <li>
           {t("home:become-the")}
@@ -566,10 +586,11 @@ type BuyProps = {
   addressRefundable: string
   packType: PackType
   t: any
+  lang: any
 }
 
 //Open up for sale
-const available = false
+const available = true
 
 const Purchase: FC<BuyProps> = ({
   maxQuantity,
@@ -578,6 +599,7 @@ const Purchase: FC<BuyProps> = ({
   addressRefundable,
   packType,
   t,
+  lang,
 }) => {
   const [checkboxValue, setCheckboxValue] = useState(false)
 
@@ -715,7 +737,10 @@ const Purchase: FC<BuyProps> = ({
               onChange={() => setCheckboxValue(!checkboxValue)}
               type="checkbox"
             />
-            <ToolTipNoUnderline>
+            <ToolTipNoUnderline
+              fontSize={lang === "ru" ? "0.7vw" : "1vw"}
+              mobileFontSize={lang === "ru" ? "3vw" : "4vw"}
+            >
               {t("home:reserve-packs")}
               <ToolTipText>{t("home:reserve-packs-tooltip")}</ToolTipText>
             </ToolTipNoUnderline>
@@ -752,6 +777,8 @@ const Purchase: FC<BuyProps> = ({
                       ? "#751ad079"
                       : "#a1581379"
                   }
+                  fontSize={lang === "ru" ? "1vw" : "1.5vw"}
+                  mobileFontSize={lang === "ru" ? "0.7vw" : "1vw"}
                 >
                   {t("common:unavailable")}
                 </NotAvailableButton>
@@ -788,6 +815,8 @@ const Purchase: FC<BuyProps> = ({
                         ? "#751ad0"
                         : "#a15813"
                     }
+                    fontSize={lang === "ru" ? "1vw" : "1.5vw"}
+                    mobileFontSize={lang === "ru" ? "3vw" : "4vw"}
                     onClick={() => logIn()}
                   >
                     {t("common:connect-wallet")}
@@ -824,6 +853,9 @@ const Purchase: FC<BuyProps> = ({
                             ? "#751ad0"
                             : "#a15813"
                         }
+                        fontSize={lang === "ru" ? "1vw" : "1.5vw"}
+                        width={lang === "ru" ? "230px" : "130px"}
+                        mobileFontSize={lang === "ru" ? "3vw" : "4vw"}
                         onClick={async () => {
                           const address = checkboxValue
                             ? addressReservable
@@ -950,7 +982,7 @@ const Price = {
 const PackStore: FC = () => {
   const { loading } = useUser()
 
-  let { t } = useTranslation()
+  let { t, lang } = useTranslation()
 
   return (
     <Container>
@@ -963,11 +995,17 @@ const PackStore: FC = () => {
       {loading ? <Spinner /> : <></>}
       <Content>
         <TextContainer>
-          <Title>{t("home:beast-packs")}</Title>
+          <Title fontSize={lang === "ru" ? "5vw" : "7vw"}>
+            {t("home:beast-packs")}
+          </Title>
           {available ? (
-            <P>{t("home:place-your-order")}</P>
+            <P fontSize={lang === "ru" ? "2vw" : "2.5vw"}>
+              {t("home:place-your-order")}
+            </P>
           ) : (
-            <P>{t("home:store-closed")}</P>
+            <P fontSize={lang === "ru" ? "2vw" : "2.5vw"}>
+              {t("home:store-closed")}
+            </P>
           )}
         </TextContainer>
         <CardContainer>
@@ -987,6 +1025,7 @@ const PackStore: FC = () => {
               <Description
                 SpecificItem={t("home:1-random-beast", { skin: "Normal skin" })}
                 t={t}
+                lang={lang}
               />
             </CardContent>
             <PurchaseContent>
@@ -1001,6 +1040,7 @@ const PackStore: FC = () => {
                 }
                 packType={PackType.STARTER}
                 t={t}
+                lang={lang}
               />
               {/* <PurchaseAlternative>Buy with other crypto</PurchaseAlternative> */}
             </PurchaseContent>
@@ -1026,6 +1066,7 @@ const PackStore: FC = () => {
                   skin: "Cursed Black",
                 })}
                 t={t}
+                lang={lang}
               />
             </CardContent>
             <PurchaseContent>
@@ -1040,6 +1081,7 @@ const PackStore: FC = () => {
                 }
                 packType={PackType.CURSED_BLACK}
                 t={t}
+                lang={lang}
               />
               {/* <PurchaseAlternative>Buy with other crypto</PurchaseAlternative> */}
             </PurchaseContent>
@@ -1063,6 +1105,7 @@ const PackStore: FC = () => {
               <Description
                 SpecificItem={t("home:1-random-beast", { skin: "Shiny Gold" })}
                 t={t}
+                lang={lang}
               />
             </CardContent>
             <PurchaseContent>
@@ -1077,6 +1120,7 @@ const PackStore: FC = () => {
                 }
                 packType={PackType.SHINY_GOLD}
                 t={t}
+                lang={lang}
               />
               {/* <PurchaseAlternative>Buy with other crypto</PurchaseAlternative> */}
             </PurchaseContent>
