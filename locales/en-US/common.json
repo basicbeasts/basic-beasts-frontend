@@ -1,0 +1,12 @@
+{
+  "unavailable": "Unavailable",
+  "connect-wallet": "Connect Wallet",
+  "submit": "Submit",
+  "store": "Store",
+  "marketplace": "Marketplace",
+  "collection": "Collection",
+  "whitepaper": "Whitepaper",
+  "english": "English",
+  "russian": "Russian",
+  "built-on": "Built on {{blockchain}}"
+}

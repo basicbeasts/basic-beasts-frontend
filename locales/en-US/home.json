@@ -1,0 +1,23 @@
+{
+  "collect": "Collect &",
+  "evolve-beasts": " Evolve Beasts. ",
+  "play2earn": "Play-2-earn.",
+  "hero-description": "Pokémon-inspired NFT collectibles game made by an 11-year old and his brother.",
+  "buy-now": "Buy Now",
+  "beast-packs": "Beast Packs",
+  "place-your-order": "Place your order for a chance to receive a 1-star beast or more!",
+  "store-closed": "Store is Closed. Join our Discord to receive drop updates.",
+  "1-random-beast": "1 random {{skin}} 1-Star Beast",
+  "place-your-order-date": "You can place your order between {{dateAndTime}}",
+  "announce-winners": "We will announce winners and distribute/reserve/refund before {{date}} end of the day",
+  "includes": "Includes",
+  "become-the": "Become the ",
+  "first-owner": "First Owner",
+  "first-owner-tooltip": "First owners receive 5% life-time royalties for every trade of the beasts.",
+  "chance": "Chance for 1 of 1 ",
+  "skin": "{{skin}} skin",
+  "mythic-diamond-tooltip": "The rarest beast skin. Only 1 out of 1 for each unique beast will ever exist.",
+  "available-stock": "Available stock: ",
+  "reserve-packs": "Reserve Packs",
+  "reserve-packs-tooltip": "If I don’t win this draw, I want to use my order as a reservation for the next sale."
+}
