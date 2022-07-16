@@ -1733,14 +1733,14 @@ const data = {
     },
     {
       id: 31,
-      name: "Coon",
+      name: "Tanuki",
       BeastTemplates: [
         {
           dexNumber: 91,
-          name: "Coon",
+          name: "Tanuki",
           type: "Electric",
           description:
-            "A Coon has a maniacal laugh that can be heard miles away.",
+            "A Tanuki has a maniacal laugh that can be heard miles away.",
           starLevel: 1,
           basicSkills: ["Shock Wave", "Electric Body", "Loud Cry"],
           ultimateSkill: "Snatch",
