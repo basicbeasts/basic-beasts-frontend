@@ -24,6 +24,8 @@ type Props = {
   currentPack: string | null
   filter: "beast collection" | "items" | "packs"
   beasts: any
+  toggle: () => void
+  selectPackType: Dispatch<SetStateAction<string | null>>
 }
 
 const ProfileTabs: FC<Props> = ({
@@ -36,6 +38,8 @@ const ProfileTabs: FC<Props> = ({
   selectPack,
   currentPack,
   beasts,
+  toggle,
+  selectPackType,
 }) => {
   return (
     <Container>
@@ -59,7 +63,13 @@ const ProfileTabs: FC<Props> = ({
         <BeastTab selectBeast={selectBeast} beasts={beasts} />
       )}
       {filter === "items" && <ItemTab selectItem={selectItem} />}
-      {filter === "packs" && <PackTab selectPack={selectPack} />}
+      {filter === "packs" && (
+        <PackTab
+          selectPack={selectPack}
+          toggle={toggle}
+          selectPackType={selectPackType}
+        />
+      )}
     </Container>
   )
 }

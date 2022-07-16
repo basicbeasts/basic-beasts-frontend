@@ -60,16 +60,22 @@ type Props = {
   selectPack: any
   count: any
   selectedPack: any
+  toggle: () => void
+  selectPackType: Dispatch<SetStateAction<string | null>>
 }
 
 const PackTab: FC<Props> = ({
   selectPack,
   count,
   selectedPack,
+  toggle,
+  selectPackType,
 }: {
   selectPack: Dispatch<SetStateAction<string | null>>
   count: Dispatch<SetStateAction<number>>
   selectedPack: string | null
+  toggle: () => void
+  selectPackType: Dispatch<SetStateAction<string | null>>
 }) => {
   //   const query = useQuery()
   //   const beasts =
@@ -126,6 +132,8 @@ const PackTab: FC<Props> = ({
               id={"1"}
               className="object-cover group-hover:opacity-90"
               image={StarterImg}
+              toggle={toggle}
+              selectPackType={selectPackType}
             />
           </div>
         </li>
@@ -150,6 +158,8 @@ const PackTab: FC<Props> = ({
               id={"3"}
               className="object-cover group-hover:opacity-90"
               image={CursedImg}
+              toggle={toggle}
+              selectPackType={selectPackType}
             />
           </div>
         </li>
@@ -174,6 +184,8 @@ const PackTab: FC<Props> = ({
               id={"4"}
               className="object-cover group-hover:opacity-90"
               image={ShinyImg}
+              toggle={toggle}
+              selectPackType={selectPackType}
             />
           </div>
         </li>

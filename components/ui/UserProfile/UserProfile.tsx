@@ -39,7 +39,12 @@ const MobileProfileCardWrapper = styled.div`
   }
 `
 
-const UserProfile: FC = () => {
+type FuncProps = {
+  toggle: () => void
+  selectPackType: any
+}
+
+const UserProfile: FC<FuncProps> = ({ toggle, selectPackType }) => {
   const [selectedBeast, setSelectedBeast] = useState<string | null>(null)
   const [selectedItem, setSelectedItem] = useState<string | null>(null)
   const [selectedPack, setSelectedPack] = useState<string | null>(null)
@@ -67,6 +72,8 @@ const UserProfile: FC = () => {
             selectFilter={setFilter}
             currentPack={selectedPack}
             beasts={beasts}
+            toggle={toggle}
+            selectPackType={selectPackType}
           />
         </RightColumn>
       </Wrapper>

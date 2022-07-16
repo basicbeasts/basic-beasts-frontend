@@ -1,4 +1,4 @@
-import React, { FC } from "react"
+import React, { FC, Dispatch, SetStateAction } from "react"
 import styled from "styled-components"
 
 const Container = styled.div<{
@@ -76,11 +76,15 @@ type BeastThumbnailProps = {
   onClick?: () => void
   className: string
   image: StaticImageData
+  toggle: () => void
+  selectPackType: Dispatch<SetStateAction<string | null>>
 }
 
 const PackTabCard: FC<BeastThumbnailProps> = ({
   id,
   image,
+  toggle,
+  selectPackType,
   ...props
 }: BeastThumbnailProps) => {
   return (
@@ -108,6 +112,10 @@ const PackTabCard: FC<BeastThumbnailProps> = ({
               fontColor={
                 id === "1" ? "#fff" : id === "3" ? "#751ad0" : "#a15813"
               }
+              onClick={() => {
+                toggle()
+                selectPackType(id)
+              }}
             >
               Unpack
             </Button>
