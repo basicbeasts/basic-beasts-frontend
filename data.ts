@@ -2377,7 +2377,7 @@ const data = {
           name: "Puppo",
           type: "Water",
           description:
-            "A Puppo is always cheerful. It claps its flippers vigorously when eating delicious food.",
+            "A Puppo is always cheerful. It claps its flippers aggressively when eating delicious food.",
           starLevel: 1,
           basicSkills: ["Berserker Jump", "Red Incursion", "Almighty Punch"],
           ultimateSkill: "Heaven's Rift",
