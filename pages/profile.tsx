@@ -36,6 +36,8 @@ const Profile: NextPage = () => {
 
     for (let pack in packs) {
       let element = packs[pack]
+      var keys = Object.keys(element.beast)
+      var key: string = keys[0]
       if (element.packTemplate.name == "Starter") {
         var newPack = {
           uuid: element.uuid,
@@ -44,6 +46,18 @@ const Profile: NextPage = () => {
           serialNumber: element.serialNumber,
           packTemplateName: element.packTemplate.name,
           opened: element.opened,
+          beastName:
+            element.beast[key as keyof typeof element.beast]?.beastTemplate
+              .name,
+          beastGender: element.beast[key as keyof typeof element.beast]?.sex,
+          beastSerialNumber:
+            element.beast[key as keyof typeof element.beast]?.serialNumber,
+          beastDexNumber:
+            element.beast[key as keyof typeof element.beast]?.beastTemplate
+              .dexNumber,
+          beastDescription:
+            element.beast[key as keyof typeof element.beast]?.beastTemplate
+              .description,
         }
         starterPacksDic[newPack.uuid] = newPack
       }
@@ -56,6 +70,18 @@ const Profile: NextPage = () => {
           serialNumber: element.serialNumber,
           packTemplateName: element.packTemplate.name,
           opened: element.opened,
+          beastName:
+            element.beast[key as keyof typeof element.beast]?.beastTemplate
+              .name,
+          beastGender: element.beast[key as keyof typeof element.beast]?.sex,
+          beastSerialNumber:
+            element.beast[key as keyof typeof element.beast]?.serialNumber,
+          beastDexNumber:
+            element.beast[key as keyof typeof element.beast]?.beastTemplate
+              .dexNumber,
+          beastDescription:
+            element.beast[key as keyof typeof element.beast]?.beastTemplate
+              .description,
         }
         metallicPacksDic[newPack.uuid] = newPack
       }
@@ -67,6 +93,18 @@ const Profile: NextPage = () => {
           serialNumber: element.serialNumber,
           packTemplateName: element.packTemplate.name,
           opened: element.opened,
+          beastName:
+            element.beast[key as keyof typeof element.beast]?.beastTemplate
+              .name,
+          beastGender: element.beast[key as keyof typeof element.beast]?.sex,
+          beastSerialNumber:
+            element.beast[key as keyof typeof element.beast]?.serialNumber,
+          beastDexNumber:
+            element.beast[key as keyof typeof element.beast]?.beastTemplate
+              .dexNumber,
+          beastDescription:
+            element.beast[key as keyof typeof element.beast]?.beastTemplate
+              .description,
         }
         cursedPacksDic[newPack.uuid] = newPack
       }
@@ -78,6 +116,18 @@ const Profile: NextPage = () => {
           serialNumber: element.serialNumber,
           packTemplateName: element.packTemplate.name,
           opened: element.opened,
+          beastName:
+            element.beast[key as keyof typeof element.beast]?.beastTemplate
+              .name,
+          beastGender: element.beast[key as keyof typeof element.beast]?.sex,
+          beastSerialNumber:
+            element.beast[key as keyof typeof element.beast]?.serialNumber,
+          beastDexNumber:
+            element.beast[key as keyof typeof element.beast]?.beastTemplate
+              .dexNumber,
+          beastDescription:
+            element.beast[key as keyof typeof element.beast]?.beastTemplate
+              .description,
         }
         newPack.opened = true
         shinyPacksDic[newPack.uuid] = newPack
