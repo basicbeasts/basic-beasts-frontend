@@ -101,7 +101,7 @@ const PackTabCard: FC<BeastThumbnailProps> = ({
           <ButtonWrapper>
             <Button
               borderColor={
-                id === "1" ? "#111823" : id === "3" ? "#751ad0" : "#a15813"
+                id === "1" ? "#2C323B" : id === "3" ? "#751ad0" : "#a15813"
               }
               insetBorderColor={
                 id === "1" ? "#737374" : id === "3" ? "#c746af" : "#f3cb23"

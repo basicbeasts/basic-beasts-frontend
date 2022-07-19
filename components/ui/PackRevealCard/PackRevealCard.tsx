@@ -8,15 +8,12 @@ const Container = styled.div`
   text-align: center;
 `
 
-const TransitionDiv = styled.div`
-  padding: 0 20px;
-  -moz-transition: all 1s ease-in-out 2s;
-  -webkit-transition: all 1s ease-in-out 2s;
-
-  transition: all 1s ease-in-out;
-  // Needed to make transition animation. Look at RevealOverlay.tsx as example.
-  /* opacity: ${({ isSideNavbarOpen }) => (isSideNavbarOpen ? "100%" : "0")};
-  top: ${({ isSideNavbarOpen }) => (isSideNavbarOpen ? "0" : "-100%")}; */
+const TransitionDiv = styled.div<{ packOpened: boolean }>`
+  padding: 0 30px;
+  transition: 0.5s ease;
+  // TODO: Make transition Needed to make transition animation. Look at RevealOverlay.tsx as example.
+  opacity: ${({ packOpened }) => (packOpened ? "100%" : "0")};
+  top: ${({ packOpened }) => (packOpened ? "0" : "-50%")};
 `
 
 const Img = styled.img`
@@ -73,6 +70,7 @@ const HeaderDetailsLeft = styled.div`
 const HeaderDetailsRight = styled.div`
   float: right;
   display: flex;
+  margin-top: 15px;
 `
 
 const BeastName = styled.div`
@@ -81,15 +79,35 @@ const BeastName = styled.div`
 
 const FirstOwnerTag = styled.div`
   margin-left: 10px;
+  margin-top: 15px;
+`
+
+const Tag = styled.div`
+  color: #242526;
+  font-size: 0.8em;
+  padding: 2px 8px;
+  border-radius: 5px;
+  background: linear-gradient(180deg, #ffe8a3 0%, #ffd966 100%);
 `
 
 const GenderIcon = styled.div``
 
-const DexNumber = styled.div``
+const DexNumber = styled.div`
+  margin-left: 10px;
+  font-size: 1.2em;
+`
 
-const Description = styled.div``
+const Description = styled.div`
+  margin-top: 5px;
+  color: #adadaf;
+  text-align: left;
+`
 
-const Serial = styled.div``
+const Serial = styled.div`
+  margin-top: 5px;
+  font-size: 1.5em;
+  text-align: left;
+`
 
 type Props = {
   packImage: any
@@ -109,7 +127,7 @@ const PackRevealCard: FC<Props> = ({ packImage, pack }) => {
       className="group block w-full aspect-w-7 aspect-h-9 overflow-hidden"
     >
       {packOpened == false ? (
-        <TransitionDiv>
+        <div>
           <Img src={packImage.src} />
           <div
             style={{
@@ -128,28 +146,40 @@ const PackRevealCard: FC<Props> = ({ packImage, pack }) => {
           >
             Reveal
           </Button>
-        </TransitionDiv>
+        </div>
       ) : (
-        <TransitionDiv>
-          <Img
-            src={
-              "https://github.com/basicbeasts/basic-beasts-frontend/blob/main/public/Thumbnail_2.png?raw=true"
-            }
-          />
-          <HeaderDetails>
-            <HeaderDetailsLeft>
-              <BeastName>Moon</BeastName>
-              <FirstOwnerTag>first owner</FirstOwnerTag>
-            </HeaderDetailsLeft>
-            <HeaderDetailsRight>
-              <GenderIcon>Gender</GenderIcon>
-              <DexNumber>DexNumber</DexNumber>
-            </HeaderDetailsRight>
-          </HeaderDetails>
-          <Description>Description</Description>
-          <Serial>Serial {pack.name}</Serial>
-        </TransitionDiv>
+        ""
       )}
+      <TransitionDiv packOpened={packOpened}>
+        <Img
+          src={
+            "https://github.com/basicbeasts/basic-beasts-frontend/blob/main/public/Thumbnail_2.png?raw=true"
+          }
+        />
+        <HeaderDetails>
+          <HeaderDetailsLeft>
+            <BeastName>{pack.beastName}</BeastName>
+            <FirstOwnerTag>
+              <Tag>First owner</Tag>
+            </FirstOwnerTag>
+          </HeaderDetailsLeft>
+          <HeaderDetailsRight>
+            <GenderIcon>{pack.beastGender}</GenderIcon>
+            <DexNumber>
+              {"#" + ("00" + pack.beastDexNumber).slice(-3)}
+            </DexNumber>
+          </HeaderDetailsRight>
+        </HeaderDetails>
+        <Description>{pack.beastDescription}</Description>
+        {pack.beastMaxAdminMintAllowed <= 1000 ? (
+          <Serial>
+            Serial Serial #{pack.beastSerialNumber} |{" "}
+            {pack.beastMaxAdminMintAllowed}
+          </Serial>
+        ) : (
+          <Serial>Serial Serial #{pack.beastSerialNumber} | ?</Serial>
+        )}
+      </TransitionDiv>
     </Container>
   )
 }

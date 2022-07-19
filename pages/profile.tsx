@@ -58,6 +58,12 @@ const Profile: NextPage = () => {
           beastDescription:
             element.beast[key as keyof typeof element.beast]?.beastTemplate
               .description,
+          beastMaxAdminMintAllowed:
+            element.beast[key as keyof typeof element.beast]?.beastTemplate
+              .maxAdminMintAllowed,
+          beastSkin:
+            element.beast[key as keyof typeof element.beast]?.beastTemplate
+              .skin,
         }
         starterPacksDic[newPack.uuid] = newPack
       }
@@ -82,6 +88,12 @@ const Profile: NextPage = () => {
           beastDescription:
             element.beast[key as keyof typeof element.beast]?.beastTemplate
               .description,
+          beastMaxAdminMintAllowed:
+            element.beast[key as keyof typeof element.beast]?.beastTemplate
+              .maxAdminMintAllowed,
+          beastSkin:
+            element.beast[key as keyof typeof element.beast]?.beastTemplate
+              .skin,
         }
         metallicPacksDic[newPack.uuid] = newPack
       }
@@ -105,6 +117,12 @@ const Profile: NextPage = () => {
           beastDescription:
             element.beast[key as keyof typeof element.beast]?.beastTemplate
               .description,
+          beastMaxAdminMintAllowed:
+            element.beast[key as keyof typeof element.beast]?.beastTemplate
+              .maxAdminMintAllowed,
+          beastSkin:
+            element.beast[key as keyof typeof element.beast]?.beastTemplate
+              .skin,
         }
         cursedPacksDic[newPack.uuid] = newPack
       }
@@ -128,6 +146,12 @@ const Profile: NextPage = () => {
           beastDescription:
             element.beast[key as keyof typeof element.beast]?.beastTemplate
               .description,
+          beastMaxAdminMintAllowed:
+            element.beast[key as keyof typeof element.beast]?.beastTemplate
+              .maxAdminMintAllowed,
+          beastSkin:
+            element.beast[key as keyof typeof element.beast]?.beastTemplate
+              .skin,
         }
         newPack.opened = true
         shinyPacksDic[newPack.uuid] = newPack

@@ -16,7 +16,6 @@ const SideNavbarContainer = styled.aside<Omit<Props, "toggle">>`
   width: 100%;
   height: 100%;
   background: #111823;
-  display: grid;
   align-items: center;
   top: 0;
   left: 0;
@@ -66,6 +65,57 @@ const SideNavbarWrapper = styled.div`
   }
 `
 
+const Title = styled.div`
+  text-transform: uppercase;
+  color: #e4be23;
+  text-align: center;
+  font-size: 4em;
+  margin: 100px 0 50px;
+`
+
+const ButtonWrapper = styled.div`
+  margin: 15px 0 10px;
+  text-align: center;
+  width: 100%;
+`
+
+const Button = styled.button<{
+  borderColor: string
+  insetBorderColor: string
+  bgColor: string
+  fontColor: string
+}>`
+  text-transform: uppercase;
+  padding: 2px 20px 5px;
+  font-size: 1.5vw;
+  background-color: ${(props) => props.bgColor};
+  color: ${(props) => props.fontColor};
+
+  box-shadow: ${(props) =>
+    `-3px 0px 0px 0px ${props.borderColor}, 0px -3px 0px 0px ${props.borderColor}, 0px 3px 0px 0px ${props.borderColor}, 
+    3px 0px 0px 0px ${props.borderColor}, inset -3px -3px ${props.insetBorderColor}`};
+
+  border: none;
+  transition: all 0.1s ease 0s;
+  -moz-transition: all 0.1s ease 0s;
+  -webkit-transition: all 0.1s ease 0s;
+  @media (max-width: 1010px) {
+    font-size: 7vw;
+  }
+  @media (max-width: 1010px) {
+    width: 26vw;
+  }
+  &:active {
+    transition: all 0.1s ease 0s;
+    -moz-transition: all 0.1s ease 0s;
+    -webkit-transition: all 0.1s ease 0s;
+    box-shadow: ${(
+      props,
+    ) => `-3px 0px 0px 0px ${props.borderColor}, 0px -3px 0px 0px ${props.borderColor},
+      0px 3px 0px 0px ${props.borderColor}, 3px 0px 0px 0px ${props.borderColor}, inset 3px 3px ${props.insetBorderColor}`};
+  }
+`
+
 type Props = {
   isSideNavbarOpen: boolean
   toggle: () => void
@@ -87,13 +137,28 @@ const RevealOverlay: FC<Props> = ({
 }: Props) => {
   const { logIn, logOut, user, loggedIn } = useAuth()
 
+  let packType = "Starter"
+  switch (parseInt(selectedPackType)) {
+    case 2:
+      packType = "Metallic Silver"
+      break
+    case 3:
+      packType = "Cursed Black"
+      break
+    case 4:
+      packType = "Shiny Gold"
+      break
+  }
+
   return (
     <SideNavbarContainer isSideNavbarOpen={isSideNavbarOpen}>
+      {/**TODO: On close. Refetch packs from blockchain.
+       * This is to make sure we won't show unpacked beasts again.
+       */}
       <Icon onClick={toggle}>
         <CloseIcon icon={faTimes} />
       </Icon>
-      <div>Starter Packs</div>
-      {selectedPackType != null ? <div>Pack Type: {selectedPackType}</div> : ""}
+      <Title>{packType} Packs</Title>
       <SideNavbarWrapper>
         <ul
           role="list"
@@ -103,10 +168,6 @@ const RevealOverlay: FC<Props> = ({
             <>
               {starterPacks.map(({ uuid }: any) => (
                 <li className="relative">
-                  <pre>{JSON.stringify(uuid, null, 2)}</pre>
-                  <button onClick={() => console.log(uuid)}>
-                    testing stuff
-                  </button>
                   <PackRevealCard
                     packImage={StarterImg}
                     pack={starterPacks[uuid]}
@@ -183,7 +244,43 @@ const RevealOverlay: FC<Props> = ({
           <li></li>
         </ul>
       </SideNavbarWrapper>
-      <div>Reveal all</div>
+      <ButtonWrapper>
+        <Button
+          borderColor={
+            selectedPackType === "1"
+              ? "#2C323B"
+              : selectedPackType === "3"
+              ? "#751ad0"
+              : "#a15813"
+          }
+          insetBorderColor={
+            selectedPackType === "1"
+              ? "#737374"
+              : selectedPackType === "3"
+              ? "#c746af"
+              : "#f3cb23"
+          }
+          bgColor={
+            selectedPackType === "1"
+              ? "#ababac"
+              : selectedPackType === "3"
+              ? "#e3bfff"
+              : "#feff95"
+          }
+          fontColor={
+            selectedPackType === "1"
+              ? "#fff"
+              : selectedPackType === "3"
+              ? "#751ad0"
+              : "#a15813"
+          }
+          onClick={() => {
+            toggle()
+          }}
+        >
+          Reveal All
+        </Button>
+      </ButtonWrapper>
     </SideNavbarContainer>
   )
 }
