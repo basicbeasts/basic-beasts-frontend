@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react"
+import React, { Dispatch, FC, SetStateAction, useState } from "react"
 import styled from "styled-components"
 import StarterImg from "public/packs/pack_pf/starter.png"
 import CursedImg from "public/packs/pack_pf/cursed.png"
@@ -10,7 +10,7 @@ const Container = styled.div`
 
 const TransitionDiv = styled.div<{ packOpened: boolean }>`
   padding: 0 30px;
-  transition: 0.5s ease;
+  transition: 4s ease;
   // TODO: Make transition Needed to make transition animation. Look at RevealOverlay.tsx as example.
   opacity: ${({ packOpened }) => (packOpened ? "100%" : "0")};
   top: ${({ packOpened }) => (packOpened ? "0" : "-50%")};
@@ -20,7 +20,7 @@ const Img = styled.img`
   margin-bottom: 15px;
   object-fit: contain;
   width: 180px;
-  margin: 3vw auto 2vw;
+  margin: 2vw auto 1vw;
 `
 
 const Button = styled.button`
@@ -112,9 +112,16 @@ const Serial = styled.div`
 type Props = {
   packImage: any
   pack: any
+  revealModalOpen: () => void
+  selectPack: Dispatch<SetStateAction<string | null>>
 }
 
-const PackRevealCard: FC<Props> = ({ packImage, pack }) => {
+const PackRevealCard: FC<Props> = ({
+  packImage,
+  pack,
+  revealModalOpen,
+  selectPack,
+}) => {
   const [packOpened, setPackOpened] = useState(false)
 
   return (
@@ -140,8 +147,10 @@ const PackRevealCard: FC<Props> = ({ packImage, pack }) => {
           <Button
             onClick={() => {
               pack.opened = true
+              selectPack(pack)
               setPackOpened(pack.opened)
               console.log(pack)
+              revealModalOpen()
             }}
           >
             Reveal

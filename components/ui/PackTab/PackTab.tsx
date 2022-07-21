@@ -4,6 +4,7 @@ import ItemTabCard from "../ItemTabCard"
 import sushi from "public/fungible_tokens/fungible_tokens_thumbnails/sushi_thumbnail_v2.png"
 
 import StarterImg from "public/packs/pack_pf/starter.png"
+import MetallicImg from "public/packs/pack_pf/metallic.png"
 import CursedImg from "public/packs/pack_pf/cursed.png"
 import ShinyImg from "public/packs/pack_pf/shiny.png"
 
@@ -132,6 +133,32 @@ const PackTab: FC<Props> = ({
               id={"1"}
               className="object-cover group-hover:opacity-90"
               image={StarterImg}
+              toggle={toggle}
+              selectPackType={selectPackType}
+            />
+          </div>
+        </li>
+        <li className="relative">
+          <div>
+            <ThumbnailDetails
+              style={{ borderRadius: "12px 12px 0 0" }}
+              backgroundColor={"#889AAF"}
+            >
+              <ThumbnailLabel>
+                <div>Metallic Silver</div>
+              </ThumbnailLabel>
+            </ThumbnailDetails>
+          </div>
+          <div
+            style={{
+              borderRadius: "12px",
+            }}
+            className="group block w-full aspect-w-6 aspect-h-10 bg-gray-100 overflow-hidden"
+          >
+            <PackTabCard
+              id={"2"}
+              className="object-cover group-hover:opacity-90"
+              image={MetallicImg}
               toggle={toggle}
               selectPackType={selectPackType}
             />

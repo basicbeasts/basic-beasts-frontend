@@ -91,7 +91,15 @@ const PackTabCard: FC<BeastThumbnailProps> = ({
     <Container
       {...props}
       tagColor={"#FFD966"}
-      bgColor={id === "1" ? "#E5E8E7" : id === "3" ? "#F9EDF7" : "#FFF4D1"}
+      bgColor={
+        id === "1"
+          ? "#E5E8E7"
+          : id === "2"
+          ? "#E6E8E9"
+          : id === "3"
+          ? "#F9EDF7"
+          : "#FFF4D1"
+      }
     >
       <>
         <Img src={image.src} />
@@ -101,16 +109,40 @@ const PackTabCard: FC<BeastThumbnailProps> = ({
           <ButtonWrapper>
             <Button
               borderColor={
-                id === "1" ? "#2C323B" : id === "3" ? "#751ad0" : "#a15813"
+                id === "1"
+                  ? "#2C323B"
+                  : id === "2"
+                  ? "#5C6988"
+                  : id === "3"
+                  ? "#751ad0"
+                  : "#a15813"
               }
               insetBorderColor={
-                id === "1" ? "#737374" : id === "3" ? "#c746af" : "#f3cb23"
+                id === "1"
+                  ? "#737374"
+                  : id === "2"
+                  ? "#889AAF"
+                  : id === "3"
+                  ? "#c746af"
+                  : "#f3cb23"
               }
               bgColor={
-                id === "1" ? "#ababac" : id === "3" ? "#e3bfff" : "#feff95"
+                id === "1"
+                  ? "#ababac"
+                  : id === "2"
+                  ? "#C1CCDE"
+                  : id === "3"
+                  ? "#e3bfff"
+                  : "#feff95"
               }
               fontColor={
-                id === "1" ? "#fff" : id === "3" ? "#751ad0" : "#a15813"
+                id === "1"
+                  ? "#fff"
+                  : id === "2"
+                  ? "#5C6988"
+                  : id === "3"
+                  ? "#751ad0"
+                  : "#a15813"
               }
               onClick={() => {
                 toggle()

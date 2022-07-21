@@ -1,4 +1,4 @@
-import { FC } from "react"
+import { FC, useState } from "react"
 import styled from "styled-components"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faExternalLinkAlt, faTimes } from "@fortawesome/free-solid-svg-icons"
@@ -7,8 +7,10 @@ import { useAuth } from "@components/auth/AuthProvider"
 import externalLinkIcon from "public/basic_external_link.png"
 import PackRevealCard from "../PackRevealCard"
 import StarterImg from "public/packs/pack_pf/starter.png"
+import MetallicImg from "public/packs/pack_pf/metallic.png"
 import CursedImg from "public/packs/pack_pf/cursed.png"
 import ShinyImg from "public/packs/pack_pf/shiny.png"
+import PackRevealModal from "../PackRevealModal"
 
 const SideNavbarContainer = styled.aside<Omit<Props, "toggle">>`
   position: fixed;
@@ -30,14 +32,22 @@ const CloseIcon = styled(FontAwesomeIcon)`
 
 const Icon = styled.div`
   position: absolute;
-  top: 1.2rem;
-  right: 1.5rem;
+  /* top: 1.2rem; */
   background: transparent;
   font-size: 2rem;
+  outline: none;
+  color: #fff;
+  font-size: 100px;
+  left: 50px;
   cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
       14 0,
     pointer !important;
-  outline: none;
+  z-index: 19;
+  //Responsive
+  @media (max-width: 600px) {
+    font-size: 70px;
+    right: 10px;
+  }
 `
 
 const SideNavbarWrapper = styled.div`
@@ -102,9 +112,6 @@ const Button = styled.button<{
   @media (max-width: 1010px) {
     font-size: 7vw;
   }
-  @media (max-width: 1010px) {
-    width: 26vw;
-  }
   &:active {
     transition: all 0.1s ease 0s;
     -moz-transition: all 0.1s ease 0s;
@@ -136,6 +143,23 @@ const RevealOverlay: FC<Props> = ({
   shinyPacks,
 }: Props) => {
   const { logIn, logOut, user, loggedIn } = useAuth()
+  const [selectedPack, setSelectedPack] = useState<string | null>(null)
+
+  //Modal
+  const [RevealModalOpen, setRevealModalOpen] = useState(false)
+
+  const close = () => {
+    setRevealModalOpen(false)
+  }
+
+  const open = () => {
+    setRevealModalOpen(true)
+    if (selectedPack) {
+      openPack()
+    }
+  }
+
+  const openPack = () => {}
 
   let packType = "Starter"
   switch (parseInt(selectedPackType)) {
@@ -155,14 +179,19 @@ const RevealOverlay: FC<Props> = ({
       {/**TODO: On close. Refetch packs from blockchain.
        * This is to make sure we won't show unpacked beasts again.
        */}
-      <Icon onClick={toggle}>
-        <CloseIcon icon={faTimes} />
-      </Icon>
+      {RevealModalOpen && (
+        <PackRevealModal
+          RevealModalOpen={RevealModalOpen}
+          handleClose={close}
+          packId={selectedPack}
+        />
+      )}
+      <Icon onClick={toggle}>{"<"}</Icon>
       <Title>{packType} Packs</Title>
       <SideNavbarWrapper>
         <ul
           role="list"
-          className="grid grid-cols-3 gap-x-5 gap-y-5 sm:grid-cols-3 sm:gap-x-6 md:grid-cols-3 lg:grid-cols-3 xl:gap-x-6 xl:grid-cols-3 2xl:grid-cols-3"
+          className="grid grid-cols-1 gap-x-5 gap-y-5 sm:grid-cols-1 sm:gap-x-6 md:grid-cols-3 lg:grid-cols-3 xl:gap-x-6 xl:grid-cols-3 2xl:grid-cols-3"
         >
           {selectedPackType == "1" ? (
             <>
@@ -171,6 +200,8 @@ const RevealOverlay: FC<Props> = ({
                   <PackRevealCard
                     packImage={StarterImg}
                     pack={starterPacks[uuid]}
+                    revealModalOpen={open}
+                    selectPack={setSelectedPack}
                   />
                 </li>
               ))}
@@ -183,8 +214,10 @@ const RevealOverlay: FC<Props> = ({
               {metallicPacks.map(({ uuid }: any) => (
                 <li className="relative">
                   <PackRevealCard
-                    packImage={StarterImg}
+                    packImage={MetallicImg}
                     pack={metallicPacks[uuid]}
+                    revealModalOpen={open}
+                    selectPack={setSelectedPack}
                   />
                 </li>
               ))}
@@ -199,6 +232,8 @@ const RevealOverlay: FC<Props> = ({
                   <PackRevealCard
                     packImage={CursedImg}
                     pack={cursedPacks[uuid]}
+                    revealModalOpen={open}
+                    selectPack={setSelectedPack}
                   />
                 </li>
               ))}
@@ -213,6 +248,8 @@ const RevealOverlay: FC<Props> = ({
                   <PackRevealCard
                     packImage={ShinyImg}
                     pack={shinyPacks[uuid]}
+                    revealModalOpen={open}
+                    selectPack={setSelectedPack}
                   />
                 </li>
               ))}
@@ -275,7 +312,7 @@ const RevealOverlay: FC<Props> = ({
               : "#a15813"
           }
           onClick={() => {
-            toggle()
+            open()
           }}
         >
           Reveal All
