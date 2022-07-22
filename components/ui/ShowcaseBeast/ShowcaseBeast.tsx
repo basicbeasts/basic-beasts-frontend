@@ -119,6 +119,7 @@ const Img = styled.img`
   position: relative;
   user-drag: none;
   -webkit-user-drag: none;
+  margin: auto;
 `
 
 const Description = styled.div`

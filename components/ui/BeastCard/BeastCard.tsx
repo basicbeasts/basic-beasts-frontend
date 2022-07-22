@@ -35,6 +35,7 @@ const BeastName = styled.h3`
   margin: 0;
   font-size: 65px;
   font-weight: normal;
+  line-height: 65px;
 `
 
 const HeaderDetails = styled.div`
@@ -57,13 +58,14 @@ const Type = styled.div<Omit<Button, "background">>`
   padding-left: 8px;
   padding-right: 8px;
   width: 70px;
-  margin-top: 10px;
+  margin-top: 0px;
   margin-left: 1px;
 `
 
 const DexNumber = styled.div`
   float: right;
   font-size: 35px;
+  margin-top: -13px;
 `
 
 // -----------------------------------------------------------------------
@@ -72,7 +74,7 @@ const DexNumber = styled.div`
 // -----------------------------------------------------------------------
 
 const Content = styled.div`
-  height: 340px;
+  height: 360px;
   background: #fff;
   box-shadow: 0px 0px 5px 4px #fff;
   padding: 40px;
@@ -93,14 +95,14 @@ const Img = styled.img`
 `
 
 const Description = styled.div`
-  height: 60px;
+  height: 80px;
 `
 
 const StarImg = styled.img`
   width: 25px;
   float: right;
   margin-right: 5px;
-  margin-top: 1px;
+  margin-top: 7px;
   user-drag: none;
   -webkit-user-drag: none;
 `
@@ -172,7 +174,7 @@ const UltimateSkillLabel = styled.div`
 const SkillName = styled.div`
   float: right;
   width: 150px;
-  margin-top: 3px;
+  margin-top: 5px;
 `
 
 type Unknown = {
