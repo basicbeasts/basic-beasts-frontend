@@ -553,6 +553,7 @@ type DescProps = {
 }
 
 const Description: FC<DescProps> = ({ SpecificItem, t, lang }) => {
+
   return (
     <>
       <DescriptionList
