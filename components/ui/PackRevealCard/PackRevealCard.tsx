@@ -113,7 +113,7 @@ type Props = {
   packImage: any
   pack: any
   revealModalOpen: () => void
-  selectPack: Dispatch<SetStateAction<string | null>>
+  selectPack: Dispatch<SetStateAction<string | "0">>
 }
 
 const PackRevealCard: FC<Props> = ({

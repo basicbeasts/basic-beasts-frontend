@@ -38,7 +38,7 @@ const BeastTabCardWrapper = styled.div`
   max-width: 110px;
 `
 
-const ThumbnailDetails = styled.div<ThumbnailDetails>`
+const ThumbnailDetails = styled.div<ThumbnailDetailsProps>`
   color: #fff;
   background: ${(props) => props.backgroundColor || "white"};
   display: table;
@@ -72,18 +72,22 @@ const ThumbnailLabel = styled.div`
 
 type Props = {
   selectItem: any
-  count: any
-  selectedItem: any
+  // count: any
+  // selectedItem: any
+}
+
+type ThumbnailDetailsProps = {
+  backgroundColor: string
 }
 
 const ItemTab: FC<Props> = ({
   selectItem,
-  count,
-  selectedItem,
-}: {
+}: // count,
+// selectedItem,
+{
   selectItem: Dispatch<SetStateAction<string | null>>
-  count: Dispatch<SetStateAction<number>>
-  selectedItem: string | null
+  // count: Dispatch<SetStateAction<number>>
+  // selectedItem: string | null
 }) => {
   //   const query = useQuery()
   //   const beasts =
@@ -109,18 +113,13 @@ const ItemTab: FC<Props> = ({
 
   const name = "MoonMoon"
 
-  type ThumbnailDetails = {
-    backgroundColor: string
-  }
-
-  const [item, setItem] =
-    useState<
-      SetStateAction<{
-        name: string
-        description: string
-        image: string
-      } | null>
-    >()
+  const [item, setItem] = useState<
+    SetStateAction<{
+      name: string
+      description: string
+      image: string
+    } | null>
+  >()
   const [open, setOpen] = useState(false)
 
   return (

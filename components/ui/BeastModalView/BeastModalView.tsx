@@ -93,11 +93,6 @@ const Content = styled.div`
   color: #242526;
 `
 
-const ContentWrapper = styled.div<Omit<Unknown, "beastTemplate">>`
-  top: ${({ unknown }) => (!unknown ? "-150px" : "30px")};
-  position: relative;
-`
-
 const Img = styled.img`
   width: 180px;
   margin: auto;
@@ -193,24 +188,6 @@ type Button = {
   inset: string
 }
 
-type BeastTemplate = {
-  dexNumber: number
-  name: string
-  type: string
-  description: string
-  starLevel: number
-  basicSkills: [string]
-  ultimateSkill: string
-  image?: Image
-  color: string
-  buttonBackground: string
-  buttonOutset: string
-  buttonInset: string
-  typeTagBackground: string
-  typeTagOutset: string
-  typeTagInset: string
-}
-
 type TailwindProps = {
   className: any
 }
@@ -250,7 +227,10 @@ const BeastModalView: FC<Props> = ({ beast, open, setOpen }) => {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <DialogPanel className="relative bg-white rounded-lg pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-sm sm:w-full md:max-w-xl">
+              <Dialog.Panel
+                style={{ borderRadius: "20px" }}
+                className="relative bg-white rounded-lg pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-sm sm:w-full md:max-w-xl"
+              >
                 <ChangeNicknameModal
                   beast={beast}
                   open={open2}
@@ -318,7 +298,11 @@ const BeastModalView: FC<Props> = ({ beast, open, setOpen }) => {
                               : ""}
                           </InfoText>
                         </InfoContainer>
-                        <UltimateSkill>
+                        <UltimateSkill
+                          backgroundColor={beast?.colors?.buttonBackground}
+                          outset={beast?.colors?.buttonOutset}
+                          inset={beast?.colors?.buttonInset}
+                        >
                           <UltimateSkillLabel>
                             Ultimate Skill
                           </UltimateSkillLabel>
@@ -329,37 +313,8 @@ const BeastModalView: FC<Props> = ({ beast, open, setOpen }) => {
                   ) : (
                     ""
                   )}
-                  {/* <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
-                    <CheckIcon
-                      className="h-6 w-6 text-green-600"
-                      aria-hidden="true"
-                    />
-                  </div>
-                  <div className="mt-3 text-center sm:mt-5">
-                    <Dialog.Title
-                      as="h3"
-                      className="text-lg leading-6 font-medium text-gray-900"
-                    >
-                      Payment successful
-                    </Dialog.Title>
-                    <div className="mt-2">
-                      <p className="text-sm text-gray-500">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Consequatur amet labore.
-                      </p>
-                    </div>
-                  </div>
                 </div>
-                <div className="mt-5 sm:mt-6">
-                  <button
-                    type="button"
-                    className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"
-                    onClick={() => setOpen(false)}
-                  >
-                    Go back to dashboard
-                  </button> */}
-                </div>
-              </DialogPanel>
+              </Dialog.Panel>
             </Transition.Child>
           </div>
         </div>

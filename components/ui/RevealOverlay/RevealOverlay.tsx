@@ -12,7 +12,9 @@ import CursedImg from "public/packs/pack_pf/cursed.png"
 import ShinyImg from "public/packs/pack_pf/shiny.png"
 import PackRevealModal from "../PackRevealModal"
 
-const SideNavbarContainer = styled.aside<Omit<Props, "toggle">>`
+const SideNavbarContainer = styled.aside<{
+  isSideNavbarOpen: boolean
+}>`
   position: fixed;
   z-index: 999;
   width: 100%;
@@ -143,7 +145,7 @@ const RevealOverlay: FC<Props> = ({
   shinyPacks,
 }: Props) => {
   const { logIn, logOut, user, loggedIn } = useAuth()
-  const [selectedPack, setSelectedPack] = useState<string | null>(null)
+  const [selectedPack, setSelectedPack] = useState<string | "0">("0")
 
   //Modal
   const [RevealModalOpen, setRevealModalOpen] = useState(false)
@@ -196,7 +198,7 @@ const RevealOverlay: FC<Props> = ({
           {selectedPackType == "1" ? (
             <>
               {starterPacks.map(({ uuid }: any) => (
-                <li className="relative">
+                <li key={uuid} className="relative">
                   <PackRevealCard
                     packImage={StarterImg}
                     pack={starterPacks[uuid]}
@@ -212,7 +214,7 @@ const RevealOverlay: FC<Props> = ({
           {selectedPackType == "2" ? (
             <>
               {metallicPacks.map(({ uuid }: any) => (
-                <li className="relative">
+                <li key={uuid} className="relative">
                   <PackRevealCard
                     packImage={MetallicImg}
                     pack={metallicPacks[uuid]}
@@ -228,7 +230,7 @@ const RevealOverlay: FC<Props> = ({
           {selectedPackType == "3" ? (
             <>
               {cursedPacks.map(({ uuid }: any) => (
-                <li className="relative">
+                <li key={uuid} className="relative">
                   <PackRevealCard
                     packImage={CursedImg}
                     pack={cursedPacks[uuid]}
@@ -244,7 +246,7 @@ const RevealOverlay: FC<Props> = ({
           {selectedPackType == "4" ? (
             <>
               {shinyPacks.map(({ uuid }: any) => (
-                <li className="relative">
+                <li key={uuid} className="relative">
                   <PackRevealCard
                     packImage={ShinyImg}
                     pack={shinyPacks[uuid]}

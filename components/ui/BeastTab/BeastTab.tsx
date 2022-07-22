@@ -67,20 +67,20 @@ const ThumbnailLabel = styled.div`
 
 type Props = {
   selectBeast: Dispatch<SetStateAction<string | null>>
-  count: any
-  selectedBeast: any
+  // count: any
+  // selectedBeast: any
   beasts: any
 }
 
 const BeastTab: FC<Props> = ({
   selectBeast,
-  count,
-  selectedBeast,
+  // count,
+  // selectedBeast,
   beasts,
 }: {
   selectBeast: Dispatch<SetStateAction<string | null>>
-  count: Dispatch<SetStateAction<number>>
-  selectedBeast: string | null
+  // count: Dispatch<SetStateAction<number>>
+  // selectedBeast: string | null
   beasts: any[]
 }) => {
   //   const query = useQuery()
@@ -340,7 +340,10 @@ const BeastTab: FC<Props> = ({
               >
                 <span className="sr-only">View details for {file.title}</span>
               </button> */}
-              <BeastTabCard className="object-cover group-hover:opacity-90" />
+              <BeastTabCard
+                id={beast.id}
+                className="object-cover group-hover:opacity-90"
+              />
             </div>
             <div>
               <ThumbnailDetails style={{ borderRadius: "0 0 20px 20px" }}>

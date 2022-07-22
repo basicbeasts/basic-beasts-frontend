@@ -28,18 +28,22 @@ type BeastThumbnailProps = {
   id: string
   selected?: boolean
   onClick?: () => void
+  className: any
 }
 
 const BeastTabCard: FC<BeastThumbnailProps> = ({
   id,
+  className,
   ...props
 }: BeastThumbnailProps) => {
   return (
-    <Container {...props} tagColor={"#FFD966"}>
-      <>
-        <Img src={thumbnail.src} />
-      </>
-    </Container>
+    <div className={className}>
+      <Container {...props} tagColor={"#FFD966"}>
+        <>
+          <Img src={thumbnail.src} />
+        </>
+      </Container>
+    </div>
   )
 }
 export default BeastTabCard
