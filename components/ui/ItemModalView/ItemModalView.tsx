@@ -95,11 +95,6 @@ const Content = styled.div`
   margin: 80px auto 0;
 `
 
-const ContentWrapper = styled.div<Omit<Unknown, "beastTemplate">>`
-  top: ${({ unknown }) => (!unknown ? "-150px" : "30px")};
-  position: relative;
-`
-
 const Img = styled.img<ImgProps>`
   width: ${(props) => props.width || "230px"};
   margin: auto;
@@ -141,24 +136,6 @@ type Button = {
   inset: string
 }
 
-type BeastTemplate = {
-  dexNumber: number
-  name: string
-  type: string
-  description: string
-  starLevel: number
-  basicSkills: [string]
-  ultimateSkill: string
-  image?: Image
-  color: string
-  buttonBackground: string
-  buttonOutset: string
-  buttonInset: string
-  typeTagBackground: string
-  typeTagOutset: string
-  typeTagInset: string
-}
-
 type TailwindProps = {
   className: any
 }
@@ -198,7 +175,10 @@ const ItemModalView: FC<Props> = ({ item, open, setOpen }) => {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <DialogPanel className="relative bg-white rounded-lg pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-sm sm:w-full md:max-w-xl">
+              <Dialog.Panel
+                style={{ borderRadius: "20px" }}
+                className="relative bg-white rounded-lg pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-sm sm:w-full md:max-w-xl"
+              >
                 <div>
                   {item != null ? (
                     <>
@@ -246,109 +226,8 @@ const ItemModalView: FC<Props> = ({ item, open, setOpen }) => {
                   ) : (
                     ""
                   )}
-                  {/* {beast != null ? (
-                    <Container>
-                      <Header
-                        colorCode={
-                          "linear-gradient(180deg, rgba(255,232,163,1) 0%, rgba(255,217,102,1) 100%)"
-                        }
-                      >
-                        <BeastName
-                          onClick={() => {
-                            setOpen2(true)
-                          }}
-                        >
-                          {beast.nickname}
-                        </BeastName>
-                        <HeaderDetails>
-                          <Serial>
-                            Serial #{beast.serialNumber} |{" "}
-                            {beast.maxAdminMintAllowed}
-                          </Serial>
-                          <RightHeaderDetails>
-                            <DexNumber>
-                              Dex {"#" + ("00" + beast.dexNumber).slice(-3)}
-                            </DexNumber>
-                            <StarLevel>
-                              {Array.from(
-                                Array(beast.starLevel + 2),
-                                (e, i) => {
-                                  return <StarImg src={star.src} key={i} />
-                                },
-                              )}
-                            </StarLevel>
-                          </RightHeaderDetails>
-                        </HeaderDetails>
-                        <Img src={beast.image} />
-                      </Header>
-                      <Content>
-                        <Description>something</Description>
-                        <InfoContainer>
-                          <InfoLabel>Type</InfoLabel>
-                          <InfoText>
-                            {beast.elements != null
-                              ? beast.elements.map((skill: any, i: any) => (
-                                  <InfoListItem key={i}>{skill}</InfoListItem>
-                                ))
-                              : ""}
-                          </InfoText>
-                        </InfoContainer>
-                        <InfoContainer>
-                          <InfoLabel>Gender</InfoLabel>
-                          <InfoText>{beast.sex}</InfoText>
-                        </InfoContainer>
-                        <InfoContainer>
-                          <InfoLabel>Basic Skills</InfoLabel>
-                          <InfoText>
-                            {beast.basicSkills != null
-                              ? beast.basicSkills.map((skill: any, i: any) => (
-                                  <InfoListItem key={i}>{skill}</InfoListItem>
-                                ))
-                              : ""}
-                          </InfoText>
-                        </InfoContainer>
-                        <UltimateSkill>
-                          <UltimateSkillLabel>
-                            Ultimate Skill
-                          </UltimateSkillLabel>
-                          <SkillName>{beast.ultimateSkill}</SkillName>
-                        </UltimateSkill>
-                      </Content>
-                    </Container>
-                  ) : (
-                    ""
-                  )} */}
-                  {/* <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
-                    <CheckIcon
-                      className="h-6 w-6 text-green-600"
-                      aria-hidden="true"
-                    />
-                  </div>
-                  <div className="mt-3 text-center sm:mt-5">
-                    <Dialog.Title
-                      as="h3"
-                      className="text-lg leading-6 font-medium text-gray-900"
-                    >
-                      Payment successful
-                    </Dialog.Title>
-                    <div className="mt-2">
-                      <p className="text-sm text-gray-500">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Consequatur amet labore.
-                      </p>
-                    </div>
-                  </div>
                 </div>
-                <div className="mt-5 sm:mt-6">
-                  <button
-                    type="button"
-                    className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"
-                    onClick={() => setOpen(false)}
-                  >
-                    Go back to dashboard
-                  </button> */}
-                </div>
-              </DialogPanel>
+              </Dialog.Panel>
             </Transition.Child>
           </div>
         </div>

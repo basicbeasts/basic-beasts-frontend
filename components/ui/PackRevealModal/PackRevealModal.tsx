@@ -156,7 +156,8 @@ type FuncProps = {
 
 const PackRevealModal: FC<FuncProps> = ({ handleClose, packId }) => {
   //TODO
-  const beast1 = beastTemplates[parseInt(packId)]
+  const num: any = parseInt(packId)
+  const beast1 = beastTemplates[num as keyof typeof beastTemplates]
 
   return (
     <Backdrop onClick={handleClose}>

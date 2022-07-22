@@ -57,24 +57,28 @@ const ThumbnailLabel = styled.div`
   font-size: 1.8em;
 `
 
+type ThumbnailDetails = {
+  backgroundColor: string
+}
+
 type Props = {
   selectPack: any
-  count: any
-  selectedPack: any
+  // count: any
+  // selectedPack: any
   toggle: () => void
   selectPackType: Dispatch<SetStateAction<string | null>>
 }
 
 const PackTab: FC<Props> = ({
   selectPack,
-  count,
-  selectedPack,
+  // count,
+  // selectedPack,
   toggle,
   selectPackType,
 }: {
   selectPack: Dispatch<SetStateAction<string | null>>
-  count: Dispatch<SetStateAction<number>>
-  selectedPack: string | null
+  // count: Dispatch<SetStateAction<number>>
+  // selectedPack: string | null
   toggle: () => void
   selectPackType: Dispatch<SetStateAction<string | null>>
 }) => {
@@ -101,10 +105,6 @@ const PackTab: FC<Props> = ({
   //   }, [query.$state.isLoading])
 
   const name = "MoonMoon"
-
-  type ThumbnailDetails = {
-    backgroundColor: string
-  }
 
   return (
     <Wrapper>
