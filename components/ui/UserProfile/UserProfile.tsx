@@ -2,7 +2,9 @@ import React, { FC, useState } from "react"
 import styled from "styled-components"
 import ProfileCard from "../ProfileCard"
 import ProfileTabs from "../ProfileTabs"
-import beasts from "data/beast-collection-dummy-data"
+//import beasts from "data/beast-collection-dummy-data"
+import { useAuth } from "@components/auth/AuthProvider"
+import { query } from "@onflow/fcl"
 
 const Container = styled.div`
   margin-top: 150px;
@@ -42,9 +44,16 @@ const MobileProfileCardWrapper = styled.div`
 type FuncProps = {
   toggle: () => void
   selectPackType: any
+  packCount: any
+  beasts: any
 }
 
-const UserProfile: FC<FuncProps> = ({ toggle, selectPackType }) => {
+const UserProfile: FC<FuncProps> = ({
+  toggle,
+  selectPackType,
+  packCount,
+  beasts,
+}) => {
   const [selectedBeast, setSelectedBeast] = useState<string | null>(null)
   const [selectedItem, setSelectedItem] = useState<string | null>(null)
   const [selectedPack, setSelectedPack] = useState<string | null>(null)
@@ -74,6 +83,7 @@ const UserProfile: FC<FuncProps> = ({ toggle, selectPackType }) => {
             beasts={beasts}
             toggle={toggle}
             selectPackType={selectPackType}
+            packCount={packCount}
           />
         </RightColumn>
       </Wrapper>

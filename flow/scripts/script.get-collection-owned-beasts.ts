@@ -1,18 +1,19 @@
 export const GET_COLLECTION_OWNED_BEASTS = `
-    import BasicBeast from 0xBasicBeast
+    import BasicBeasts from 0xBasicBeasts
 
-    pub fun main(account: Address): [&BasicBeast.NFT] {
+    pub fun main(account: Address): [&BasicBeasts.NFT{BasicBeasts.Public}] {
         
         let acct = getAccount(account)
 
-        let collectionRef = acct.getCapability(BasicBeast.CollectionPublicPath)
-            .borrow<&{BasicBeast.BeastCollectionPublic}>()!
+        let collectionRef = acct.getCapability(BasicBeasts.CollectionPublicPath)
+            .borrow<&{BasicBeasts.BeastCollectionPublic}>()
+            ?? panic("Couldn't borrow a reference to the beast collection")
 
         let beastIDs = collectionRef.getIDs()
 
         var i = 0
 
-        var beasts: [&BasicBeast.NFT] = []
+        var beasts: [&BasicBeasts.NFT{BasicBeasts.Public}] = []
         
         while i < beastIDs.length {
             let token = collectionRef.borrowBeast(id: beastIDs[i])

@@ -78,6 +78,7 @@ type BeastThumbnailProps = {
   image: StaticImageData
   toggle: () => void
   selectPackType: Dispatch<SetStateAction<string | null>>
+  packCount: any
 }
 
 const PackTabCard: FC<BeastThumbnailProps> = ({
@@ -85,6 +86,7 @@ const PackTabCard: FC<BeastThumbnailProps> = ({
   image,
   toggle,
   selectPackType,
+  packCount,
   ...props
 }: BeastThumbnailProps) => {
   return (
@@ -105,7 +107,7 @@ const PackTabCard: FC<BeastThumbnailProps> = ({
         <Img src={image.src} />
         <Wrapper>
           <div>One random 1-star beast</div>
-          <div>Amount: 3</div>
+          <div>Amount: {packCount}</div>
           <ButtonWrapper>
             <Button
               borderColor={

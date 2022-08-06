@@ -67,6 +67,7 @@ type Props = {
   // selectedPack: any
   toggle: () => void
   selectPackType: Dispatch<SetStateAction<string | null>>
+  packCount: any
 }
 
 const PackTab: FC<Props> = ({
@@ -75,6 +76,7 @@ const PackTab: FC<Props> = ({
   // selectedPack,
   toggle,
   selectPackType,
+  packCount,
 }: {
   selectPack: Dispatch<SetStateAction<string | null>>
   // count: Dispatch<SetStateAction<number>>
@@ -135,6 +137,7 @@ const PackTab: FC<Props> = ({
               image={StarterImg}
               toggle={toggle}
               selectPackType={selectPackType}
+              packCount={packCount[1]}
             />
           </div>
         </li>
@@ -161,6 +164,7 @@ const PackTab: FC<Props> = ({
               image={MetallicImg}
               toggle={toggle}
               selectPackType={selectPackType}
+              packCount={packCount[2]}
             />
           </div>
         </li>
@@ -187,6 +191,7 @@ const PackTab: FC<Props> = ({
               image={CursedImg}
               toggle={toggle}
               selectPackType={selectPackType}
+              packCount={packCount[3]}
             />
           </div>
         </li>
@@ -213,6 +218,7 @@ const PackTab: FC<Props> = ({
               image={ShinyImg}
               toggle={toggle}
               selectPackType={selectPackType}
+              packCount={packCount[4]}
             />
           </div>
         </li>

@@ -12,7 +12,7 @@ export default function useUserBeasts(user: any) {
   })
 
   useEffect(() => {
-    fetchUserBeasts()
+    //fetchUserBeasts()
     //eslint-disable-next-line
   }, [user?.addr])
 

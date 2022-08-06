@@ -26,6 +26,7 @@ type Props = {
   beasts: any
   toggle: () => void
   selectPackType: Dispatch<SetStateAction<string | null>>
+  packCount: any
 }
 
 const ProfileTabs: FC<Props> = ({
@@ -40,6 +41,7 @@ const ProfileTabs: FC<Props> = ({
   beasts,
   toggle,
   selectPackType,
+  packCount,
 }) => {
   return (
     <Container>
@@ -68,6 +70,7 @@ const ProfileTabs: FC<Props> = ({
           selectPack={selectPack}
           toggle={toggle}
           selectPackType={selectPackType}
+          packCount={packCount}
         />
       )}
     </Container>

@@ -133,6 +133,7 @@ type Props = {
   metallicPacks: any
   cursedPacks: any
   shinyPacks: any
+  fetchUserBeasts: any
 }
 
 const RevealOverlay: FC<Props> = ({
@@ -143,6 +144,7 @@ const RevealOverlay: FC<Props> = ({
   metallicPacks,
   cursedPacks,
   shinyPacks,
+  fetchUserBeasts,
 }: Props) => {
   const { logIn, logOut, user, loggedIn } = useAuth()
   const [selectedPack, setSelectedPack] = useState<string | "0">("0")
@@ -197,13 +199,14 @@ const RevealOverlay: FC<Props> = ({
         >
           {selectedPackType == "1" ? (
             <>
-              {starterPacks.map(({ uuid }: any) => (
-                <li key={uuid} className="relative">
+              {starterPacks.map(({ id }: any) => (
+                <li key={id} className="relative">
                   <PackRevealCard
                     packImage={StarterImg}
-                    pack={starterPacks[uuid]}
+                    pack={starterPacks[id]}
                     revealModalOpen={open}
                     selectPack={setSelectedPack}
+                    fetchUserBeasts={fetchUserBeasts}
                   />
                 </li>
               ))}
@@ -213,13 +216,14 @@ const RevealOverlay: FC<Props> = ({
           )}
           {selectedPackType == "2" ? (
             <>
-              {metallicPacks.map(({ uuid }: any) => (
-                <li key={uuid} className="relative">
+              {metallicPacks.map(({ id }: any) => (
+                <li key={id} className="relative">
                   <PackRevealCard
                     packImage={MetallicImg}
-                    pack={metallicPacks[uuid]}
+                    pack={metallicPacks[id]}
                     revealModalOpen={open}
                     selectPack={setSelectedPack}
+                    fetchUserBeasts={fetchUserBeasts}
                   />
                 </li>
               ))}
@@ -229,13 +233,14 @@ const RevealOverlay: FC<Props> = ({
           )}
           {selectedPackType == "3" ? (
             <>
-              {cursedPacks.map(({ uuid }: any) => (
-                <li key={uuid} className="relative">
+              {cursedPacks.map(({ id }: any) => (
+                <li key={id} className="relative">
                   <PackRevealCard
                     packImage={CursedImg}
-                    pack={cursedPacks[uuid]}
+                    pack={cursedPacks[id]}
                     revealModalOpen={open}
                     selectPack={setSelectedPack}
+                    fetchUserBeasts={fetchUserBeasts}
                   />
                 </li>
               ))}
@@ -245,13 +250,14 @@ const RevealOverlay: FC<Props> = ({
           )}
           {selectedPackType == "4" ? (
             <>
-              {shinyPacks.map(({ uuid }: any) => (
-                <li key={uuid} className="relative">
+              {shinyPacks.map(({ id }: any) => (
+                <li key={id} className="relative">
                   <PackRevealCard
                     packImage={ShinyImg}
-                    pack={shinyPacks[uuid]}
+                    pack={shinyPacks[id]}
                     revealModalOpen={open}
                     selectPack={setSelectedPack}
+                    fetchUserBeasts={fetchUserBeasts}
                   />
                 </li>
               ))}

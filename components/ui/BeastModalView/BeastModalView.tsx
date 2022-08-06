@@ -1,7 +1,6 @@
 import { FC, Fragment, useState } from "react"
 import { Dialog, Transition } from "@headlessui/react"
 import { CheckIcon } from "@heroicons/react/outline"
-
 import star from "public/basic_starLevel.png"
 import styled from "styled-components"
 import ChangeNicknameModal from "../ChangeNicknameModal"
@@ -137,8 +136,9 @@ const Skills = styled.div`
   margin-top: 5px;
 `
 
-const Skill = styled.div`
-  height: 25px;
+const Skill = styled.span`
+  margin-right: 30px;
+  font-size: 0.8em;
 `
 
 const BasicSkillsLabel = styled.div`
@@ -261,12 +261,9 @@ const BeastModalView: FC<Props> = ({ beast, open, setOpen }) => {
                               Dex {"#" + ("00" + beast.dexNumber).slice(-3)}
                             </DexNumber>
                             <StarLevel>
-                              {Array.from(
-                                Array(beast.starLevel + 2),
-                                (e, i) => {
-                                  return <StarImg src={star.src} key={i} />
-                                },
-                              )}
+                              {Array.from(Array(beast.starLevel), (e, i) => {
+                                return <StarImg src={star.src} key={i} />
+                              })}
                             </StarLevel>
                           </RightHeaderDetails>
                         </HeaderDetails>
@@ -278,8 +275,8 @@ const BeastModalView: FC<Props> = ({ beast, open, setOpen }) => {
                           <InfoLabel>Type</InfoLabel>
                           <InfoText>
                             {beast.elements != null
-                              ? beast.elements.map((skill: any, i: any) => (
-                                  <InfoListItem key={i}>{skill}</InfoListItem>
+                              ? beast.elements.map((element: any, i: any) => (
+                                  <InfoListItem key={i}>{element}</InfoListItem>
                                 ))
                               : ""}
                           </InfoText>
@@ -293,15 +290,45 @@ const BeastModalView: FC<Props> = ({ beast, open, setOpen }) => {
                           <InfoText>
                             {beast.basicSkills != null
                               ? beast.basicSkills.map((skill: any, i: any) => (
-                                  <InfoListItem key={i}>{skill}</InfoListItem>
+                                  <Skill key={i}>{skill}</Skill>
                                 ))
                               : ""}
                           </InfoText>
                         </InfoContainer>
                         <UltimateSkill
-                          backgroundColor={beast?.colors?.buttonBackground}
-                          outset={beast?.colors?.buttonOutset}
-                          inset={beast?.colors?.buttonInset}
+                          backgroundColor={
+                            beast.elements[0] == "Electric"
+                              ? "#FFE595"
+                              : beast.elements[0] == "Water"
+                              ? "#A4C2F4"
+                              : beast.elements[0] == "Grass"
+                              ? "#B7D7A8"
+                              : beast.elements[0] == "Fire"
+                              ? "#EA9999"
+                              : "#D5A6BD"
+                          }
+                          outset={
+                            beast.elements[0] == "Electric"
+                              ? "#B3A068"
+                              : beast.elements[0] == "Water"
+                              ? "#7388AB"
+                              : beast.elements[0] == "Grass"
+                              ? "#92AC86"
+                              : beast.elements[0] == "Fire"
+                              ? "#BB7A7A"
+                              : "#AA8597"
+                          }
+                          inset={
+                            beast.elements[0] == "Electric"
+                              ? "#E6CE86"
+                              : beast.elements[0] == "Water"
+                              ? "#94AFDC"
+                              : beast.elements[0] == "Grass"
+                              ? "#A5C297"
+                              : beast.elements[0] == "Fire"
+                              ? "#D38A8A"
+                              : "#C095AA"
+                          }
                         >
                           <UltimateSkillLabel>
                             Ultimate Skill

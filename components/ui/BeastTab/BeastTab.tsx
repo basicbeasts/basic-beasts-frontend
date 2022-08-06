@@ -1,9 +1,9 @@
 import React, { FC, Dispatch, SetStateAction, useState } from "react"
 import styled from "styled-components"
 import BeastTabCard from "../BeastTabCard"
-
 import star from "public/basic_starLevel.png"
 import BeastModalView from "../BeastModalView"
+import beastTemplates from "data/beastTemplates"
 
 const Wrapper = styled.div`
   padding: 35px 20px 0px;
@@ -72,6 +72,28 @@ type Props = {
   beasts: any
 }
 
+type Beast = {
+  beastTemplateID: number
+  generation: number
+  dexNumber: number
+  name: String
+  description: String
+  image: String
+  imageTransparentBg: String
+  animationUrl: String
+  externalUrl: String
+  rarity: String
+  skin: String
+  starLevel: number
+  asexual: boolean
+  breedableBeastTemplateID: number
+  maxAdminMintAllowed: number
+  ultimateSkill: String
+  basicSkills: String[]
+  elements: String[]
+  data: any
+}
+
 const BeastTab: FC<Props> = ({
   selectBeast,
   // count,
@@ -105,231 +127,33 @@ const BeastTab: FC<Props> = ({
   //     // eslint-disable-next-line react-hooks/exhaustive-deps
   //   }, [query.$state.isLoading])
 
-  const files = [
-    {
-      title: "IMG_4985.HEIC",
-      size: "3.9 MB",
-      source:
-        "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    },
-    {
-      title: "IMG_4985.HEIC",
-      size: "3.9 MB",
-      source:
-        "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    },
-    {
-      title: "IMG_4985.HEIC",
-      size: "3.9 MB",
-      source:
-        "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    },
-    {
-      title: "IMG_4985.HEIC",
-      size: "3.9 MB",
-      source:
-        "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    },
-    {
-      title: "IMG_4985.HEIC",
-      size: "3.9 MB",
-      source:
-        "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    },
-    {
-      title: "IMG_4985.HEIC",
-      size: "3.9 MB",
-      source:
-        "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    },
-    {
-      title: "IMG_4985.HEIC",
-      size: "3.9 MB",
-      source:
-        "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    },
-    {
-      title: "IMG_4985.HEIC",
-      size: "3.9 MB",
-      source:
-        "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    },
-    {
-      title: "IMG_4985.HEIC",
-      size: "3.9 MB",
-      source:
-        "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    },
-    {
-      title: "IMG_4985.HEIC",
-      size: "3.9 MB",
-      source:
-        "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    },
-    {
-      title: "IMG_4985.HEIC",
-      size: "3.9 MB",
-      source:
-        "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    },
-    {
-      title: "IMG_4985.HEIC",
-      size: "3.9 MB",
-      source:
-        "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    },
-    {
-      title: "IMG_4985.HEIC",
-      size: "3.9 MB",
-      source:
-        "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    },
-    {
-      title: "IMG_4985.HEIC",
-      size: "3.9 MB",
-      source:
-        "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    },
-    {
-      title: "IMG_4985.HEIC",
-      size: "3.9 MB",
-      source:
-        "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    },
-    {
-      title: "IMG_4985.HEIC",
-      size: "3.9 MB",
-      source:
-        "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    },
-    {
-      title: "IMG_4985.HEIC",
-      size: "3.9 MB",
-      source:
-        "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    },
-    {
-      title: "IMG_4985.HEIC",
-      size: "3.9 MB",
-      source:
-        "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    },
-    {
-      title: "IMG_4985.HEIC",
-      size: "3.9 MB",
-      source:
-        "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    },
-    {
-      title: "IMG_4985.HEIC",
-      size: "3.9 MB",
-      source:
-        "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    },
-    {
-      title: "IMG_4985.HEIC",
-      size: "3.9 MB",
-      source:
-        "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    },
-    {
-      title: "IMG_4985.HEIC",
-      size: "3.9 MB",
-      source:
-        "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    },
-    {
-      title: "IMG_4985.HEIC",
-      size: "3.9 MB",
-      source:
-        "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    },
-    {
-      title: "IMG_4985.HEIC",
-      size: "3.9 MB",
-      source:
-        "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    },
-    {
-      title: "IMG_4985.HEIC",
-      size: "3.9 MB",
-      source:
-        "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    },
-    {
-      title: "IMG_4985.HEIC",
-      size: "3.9 MB",
-      source:
-        "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    },
-    {
-      title: "IMG_4985.HEIC",
-      size: "3.9 MB",
-      source:
-        "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    },
-    {
-      title: "IMG_4985.HEIC",
-      size: "3.9 MB",
-      source:
-        "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    },
-    {
-      title: "IMG_4985.HEIC",
-      size: "3.9 MB",
-      source:
-        "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    },
-    {
-      title: "IMG_4985.HEIC",
-      size: "3.9 MB",
-      source:
-        "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    },
-    {
-      title: "IMG_4985.HEIC",
-      size: "3.9 MB",
-      source:
-        "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    },
-    {
-      title: "IMG_4985.HEIC",
-      size: "3.9 MB",
-      source:
-        "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    },
-
-    // More files...
-  ]
-
-  const name = "MoonMoon"
-
-  const [beast, setBeast] = useState()
+  const [selectedBeast, setSelectedBeast] = useState<Beast | null>(null)
   const [open, setOpen] = useState(false)
 
   return (
     <Wrapper>
-      <BeastModalView beast={beast} open={open} setOpen={setOpen} />
-      <ul
-        role="list"
-        className="grid grid-cols-2 gap-x-5 gap-y-5 sm:grid-cols-3 sm:gap-x-6 md:grid-cols-4 lg:grid-cols-2 xl:gap-x-6 xl:grid-cols-3 2xl:grid-cols-4"
-      >
-        {beasts.map((beast) => (
-          <li
-            key={beast.id}
-            className="relative"
-            onClick={() => {
-              setOpen(true)
-              setBeast(beast)
-            }}
-          >
-            <div
-              style={{
-                borderRadius: "20px 20px 0 0",
+      <BeastModalView beast={selectedBeast} open={open} setOpen={setOpen} />
+      {beasts != null ? (
+        <ul
+          role="list"
+          className="grid grid-cols-2 gap-x-5 gap-y-5 sm:grid-cols-3 sm:gap-x-6 md:grid-cols-4 lg:grid-cols-2 xl:gap-x-6 xl:grid-cols-3 2xl:grid-cols-4"
+        >
+          {beasts.map((beast) => (
+            <li
+              key={beast.id}
+              className="relative"
+              onClick={() => {
+                setOpen(true)
+                setSelectedBeast(beast)
               }}
-              className="group block w-full aspect-w-9 aspect-h-7 bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden"
             >
-              {/* <img
+              <div
+                style={{
+                  borderRadius: "20px 20px 0 0",
+                }}
+                className="group block w-full aspect-w-9 aspect-h-7 bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden"
+              >
+                {/* <img
                 src={file.source}
                 alt=""
                 className="object-cover pointer-events-none group-hover:opacity-75"
@@ -340,52 +164,56 @@ const BeastTab: FC<Props> = ({
               >
                 <span className="sr-only">View details for {file.title}</span>
               </button> */}
-              <BeastTabCard
-                id={beast.id}
-                className="object-cover group-hover:opacity-90"
-              />
-            </div>
-            <div>
-              <ThumbnailDetails style={{ borderRadius: "0 0 20px 20px" }}>
-                <ThumbnailLabel>
-                  <div style={{ fontSize: "1.3em" }}>{beast.nickname}</div>
-                  <div style={{ fontSize: "1.3em" }}>
-                    #{beast.serialNumber} | {beast.maxAdminMintAllowed}
-                  </div>
-                </ThumbnailLabel>
-                <StarLevel>
-                  {Array(beast.starLevel + 2)
-                    .fill(0)
-                    .map((_, i) => (
-                      <StarImg key={i} src={star.src} />
-                    ))}
-                </StarLevel>
-              </ThumbnailDetails>
-            </div>
-          </li>
-        ))}
-        {/* To prevent big gap due to fixed height, which is needed for the scroll */}
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-      </ul>
+                <BeastTabCard
+                  id={beast.id}
+                  className="object-cover group-hover:opacity-90"
+                />
+              </div>
+              <div>
+                <ThumbnailDetails style={{ borderRadius: "0 0 20px 20px" }}>
+                  <ThumbnailLabel>
+                    <div style={{ fontSize: "1.3em" }}>{beast.nickname}</div>
+                    <div style={{ fontSize: "1.3em" }}>
+                      #{beast.serialNumber} | {beast.maxAdminMintAllowed}
+                    </div>
+                  </ThumbnailLabel>
+                  <StarLevel>
+                    {Array(beast.starLevel)
+                      .fill(0)
+                      .map((_, i) => (
+                        <StarImg key={i} src={star.src} />
+                      ))}
+                  </StarLevel>
+                </ThumbnailDetails>
+              </div>
+            </li>
+          ))}
+          {/* To prevent big gap due to fixed height, which is needed for the scroll */}
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+      ) : (
+        ""
+      )}
+
       {/* Example of loading */}
       {/* {query.$state.isLoading ? (
         <Spinner />

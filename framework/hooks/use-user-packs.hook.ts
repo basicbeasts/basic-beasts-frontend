@@ -1,10 +1,7 @@
-import React, { Dispatch, FC, SetStateAction, useState } from "react"
-import styled from "styled-components"
-import StarterImg from "public/packs/pack_pf/starter.png"
-import CursedImg from "public/packs/pack_pf/cursed.png"
-import ShinyImg from "public/packs/pack_pf/shiny.png"
-import { useUser } from "@components/user/UserProvider"
-
+import { useEffect, useReducer } from "react"
+import { GET_COLLECTION_OWNED_BEASTS } from "flow/scripts/script.get-collection-owned-beasts"
+import { userPackReducer } from "reducer/userPackReducer"
+import PackClass from "utils/PackClass"
 import {
   query,
   send,
@@ -20,134 +17,94 @@ import {
   tx,
 } from "@onflow/fcl"
 import * as t from "@onflow/types"
-import { useAuth } from "@components/auth/AuthProvider"
 
-const Container = styled.div`
-  text-align: center;
-`
+export default function useUserPacks(user: any) {
+  const [state, dispatch] = useReducer(userPackReducer, {
+    loading: false,
+    error: false,
+    data: [],
+  })
 
-const TransitionDiv = styled.div<{ packOpened: boolean }>`
-  padding: 0 30px;
-  transition: 4s ease;
-  // TODO: Make transition Needed to make transition animation. Look at RevealOverlay.tsx as example.
-  opacity: ${({ packOpened }) => (packOpened ? "100%" : "0")};
-  top: ${({ packOpened }) => (packOpened ? "0" : "-50%")};
-`
+  useEffect(() => {
+    if (user?.addr != null) {
+      fetchUserPacks()
+    }
+    //eslint-disable-next-line
+  }, [user?.addr])
 
-const Img = styled.img`
-  margin-bottom: 15px;
-  object-fit: contain;
-  width: 180px;
-  margin: 2vw auto 1vw;
-`
+  const fetchUserPacks = async () => {
+    console.log("user address: " + user?.addr)
+    dispatch({ type: "PROCESSING" })
+    try {
+      let res = await query({
+        cadence: `
+        import Pack from 0x22fc0fd68c3857cf
+        
+        pub fun main(acct: Address): [&Pack.NFT{Pack.Public}] {
+            var packCollection: [&Pack.NFT{Pack.Public}] = []
+        
+            let collectionRef = getAccount(acct).getCapability(Pack.CollectionPublicPath)
+                .borrow<&{Pack.PackCollectionPublic}>()
+                ?? panic("Could not get public Pack collection reference")
+        
+            let PackIDs = collectionRef.getIDs()
+        
+            for id in PackIDs {
+                let pack = collectionRef.borrowPack(id: id)!
+                
+                packCollection.append(pack)
+            }
+        
+          return packCollection
+        }
+        `,
+        args: (arg: any, t: any) => [arg(user?.addr, t.Address)],
+      })
+      let mappedPacks = []
 
-const Button = styled.button`
-  text-transform: uppercase;
-  margin-top: 1vw;
-  padding: 2px 35px 5px;
-  font-size: 1.2vw;
-  background-color: #212127;
-  color: #fff;
-
-  box-shadow: ${(props) =>
-    `-3px 0px 0px 0px #2C323B, 0px -3px 0px 0px #2C323B, 0px 3px 0px 0px #2C323B, 
-      3px 0px 0px 0px #2C323B, inset -3px -3px #37373D`};
-
-  border: none;
-  transition: all 0.1s ease 0s;
-  -moz-transition: all 0.1s ease 0s;
-  -webkit-transition: all 0.1s ease 0s;
-  @media (max-width: 1010px) {
-    font-size: 7vw;
+      for (let key in res) {
+        const element = res[key]
+        var keys = Object.keys(element.beast)
+        var beastKey: string = keys[0]
+        let pack = new PackClass(
+          element.id,
+          element.uuid,
+          element.packTemplate.name,
+          element.serialNumber,
+          element.stockNumber,
+          element.opened,
+          element.beast[
+            beastKey as keyof typeof element.beast
+          ]?.beastTemplate.beastTemplateID,
+          element.beast[
+            beastKey as keyof typeof element.beast
+          ]?.beastTemplate.name,
+          element.beast[beastKey as keyof typeof element.beast]?.sex,
+          element.beast[beastKey as keyof typeof element.beast]?.serialNumber,
+          element.beast[
+            beastKey as keyof typeof element.beast
+          ]?.beastTemplate.dexNumber,
+          element.beast[
+            beastKey as keyof typeof element.beast
+          ]?.beastTemplate.description,
+          element.beast[
+            beastKey as keyof typeof element.beast
+          ]?.beastTemplate.maxAdminMintAllowed,
+          element.beast[
+            beastKey as keyof typeof element.beast
+          ]?.beastTemplate.skin,
+        )
+        mappedPacks.push(pack)
+      }
+      dispatch({ type: "SUCCESS", payload: mappedPacks })
+    } catch (err) {
+      dispatch({ type: "ERROR" })
+      console.log(err)
+    }
   }
-  @media (max-width: 1010px) {
-    width: 26vw;
-  }
-  &:active {
-    transition: all 0.1s ease 0s;
-    -moz-transition: all 0.1s ease 0s;
-    -webkit-transition: all 0.1s ease 0s;
-    box-shadow: ${(
-      props,
-    ) => `-3px 0px 0px 0px #2C323B, 0px -3px 0px 0px #2C323B,
-        0px 3px 0px 0px #2C323B, 3px 0px 0px 0px #2C323B, inset 3px 3px #37373D`};
-  }
-`
-
-const HeaderDetails = styled.div`
-  display: table;
-  clear: both;
-  width: 100%;
-`
-
-const HeaderDetailsLeft = styled.div`
-  float: left;
-  display: flex;
-`
-
-const HeaderDetailsRight = styled.div`
-  float: right;
-  display: flex;
-  margin-top: 15px;
-`
-
-const BeastName = styled.div`
-  font-size: 2em;
-`
-
-const FirstOwnerTag = styled.div`
-  margin-left: 10px;
-  margin-top: 15px;
-`
-
-const Tag = styled.div`
-  color: #242526;
-  font-size: 0.8em;
-  padding: 2px 8px;
-  border-radius: 5px;
-  background: linear-gradient(180deg, #ffe8a3 0%, #ffd966 100%);
-`
-
-const GenderIcon = styled.div``
-
-const DexNumber = styled.div`
-  margin-left: 10px;
-  font-size: 1.2em;
-`
-
-const Description = styled.div`
-  margin-top: 5px;
-  color: #adadaf;
-  text-align: left;
-`
-
-const Serial = styled.div`
-  margin-top: 5px;
-  font-size: 1.5em;
-  text-align: left;
-`
-
-type Props = {
-  packImage: any
-  pack: any
-  revealModalOpen: () => void
-  selectPack: Dispatch<SetStateAction<string | "0">>
-  fetchUserBeasts: any
-}
-
-const PackRevealCard: FC<Props> = ({
-  packImage,
-  pack,
-  revealModalOpen,
-  selectPack,
-  fetchUserBeasts,
-}) => {
-  const [packOpened, setPackOpened] = useState(pack.opened)
-
-  //const { unpack } = useUser()
-  const { user } = useAuth()
 
   const unpack = async (packID: String) => {
+    dispatch({ type: "PROCESSING" })
     try {
       const res = await send([
         transaction(`
@@ -275,90 +232,17 @@ const PackRevealCard: FC<Props> = ({
         authorizations([authz]),
         limit(9999),
       ]).then(decode)
-      selectPack(pack.beastTemplateID.toString())
-      revealModalOpen()
       await tx(res).onceSealed()
-      fetchUserBeasts()
-      pack.opened = true
-      setPackOpened(pack.opened)
-      console.log(pack)
+      dispatch({ type: "SUCCESS" })
     } catch (err) {
+      dispatch({ type: "ERROR" })
       console.log(err)
     }
   }
 
-  return (
-    <Container
-      style={{
-        borderRadius: "12px",
-        background: "#212127",
-        color: "#EAEAEA",
-      }}
-      className="group block w-full aspect-w-7 aspect-h-9 overflow-hidden"
-    >
-      {packOpened == false ? (
-        <div>
-          <Img src={packImage.src} />
-          <div
-            style={{
-              color: "#686868",
-            }}
-          >
-            ID: {pack.id}
-            {pack.opened.toString()}
-          </div>
-
-          <Button
-            onClick={() => {
-              unpack(pack.stockNumber)
-              // pack.opened = true
-              // selectPack(pack.beastTemplateID.toString())
-              // setPackOpened(pack.opened)
-              // console.log(pack)
-              // revealModalOpen()
-            }}
-          >
-            Reveal
-          </Button>
-        </div>
-      ) : (
-        ""
-      )}
-      <TransitionDiv packOpened={packOpened}>
-        <Img
-          src={
-            "https://github.com/basicbeasts/basic-beasts-frontend/blob/main/public/Thumbnail_2.png?raw=true"
-          }
-        />
-        <HeaderDetails>
-          <HeaderDetailsLeft>
-            <BeastName>{pack.beastName}</BeastName>
-            <FirstOwnerTag>
-              <Tag>First owner</Tag>
-            </FirstOwnerTag>
-          </HeaderDetailsLeft>
-          <HeaderDetailsRight>
-            <GenderIcon>
-              {pack.beastGender}
-              {pack.opened.toString()}
-            </GenderIcon>
-            <DexNumber>
-              {"#" + ("00" + pack.beastDexNumber).slice(-3)}
-            </DexNumber>
-          </HeaderDetailsRight>
-        </HeaderDetails>
-        <Description>{pack.beastDescription}</Description>
-        {pack.beastMaxAdminMintAllowed <= 1000 ? (
-          <Serial>
-            Serial Serial #{pack.beastSerialNumber} |{" "}
-            {pack.beastMaxAdminMintAllowed}
-          </Serial>
-        ) : (
-          <Serial>Serial Serial #{pack.beastSerialNumber} | ?</Serial>
-        )}
-      </TransitionDiv>
-    </Container>
-  )
+  return {
+    ...state,
+    fetchUserPacks,
+    unpack,
+  }
 }
-
-export default PackRevealCard

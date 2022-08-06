@@ -4,6 +4,7 @@ import useFUSD from "@framework/hooks/use-fusd.hook"
 import useUserBeasts from "@framework/hooks/use-user-beasts.hook"
 import useCurrentUser from "framework/hooks/use-current-user.hook"
 import useCookie from "framework/hooks/use-cookie.hook"
+import useUserPacks from "@framework/hooks/use-user-packs.hook"
 
 export interface State {}
 
@@ -23,6 +24,12 @@ const UserProvider: FC = ({ children }) => {
     fetchUserBeasts,
     loadingBeast,
   } = useUserBeasts(user)
+  const {
+    data: userPacks,
+    fetchUserPacks,
+    loadingPack,
+    unpack,
+  } = useUserPacks(user)
 
   useEffect(() => {
     if (compositeSignature) return
@@ -50,6 +57,10 @@ const UserProvider: FC = ({ children }) => {
         userBeasts,
         fetchUserBeasts,
         loadingBeast,
+        userPacks,
+        fetchUserPacks,
+        loadingPack,
+        unpack,
       }}
     >
       {children}
