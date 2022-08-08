@@ -17,8 +17,12 @@ const Profile: NextPage = () => {
   const [shinyPacks, setShinyPacks] = useState<any[] | null>(null)
   const [packCount, setPackCount] = useState<any[] | null>(null)
   const [userBeastCollection, setUserBeastCollection] = useState(null)
+  const [sushiBalance, setSushiBalance] = useState(0)
+  const [emptyPotionBottleBalance, setEmptyPotionBottleBalance] = useState(0)
+  const [poopBalance, setPoopBalance] = useState(0)
+  //const [userPacks, setUserPacks] = useState()
 
-  const { userPacks, fetchUserPacks } = useUser()
+  //const { userPacks, fetchUserPacks } = useUser()
 
   const { user } = useAuth()
 
@@ -29,8 +33,10 @@ const Profile: NextPage = () => {
   useEffect(() => {
     if (user?.addr != null) {
       fetchUserPacks()
-      getPacks()
       fetchUserBeasts()
+      fetchSushi()
+      fetchEmptyPotionBottle()
+      fetchPoop()
     }
   }, [user?.addr])
 
@@ -42,7 +48,7 @@ const Profile: NextPage = () => {
     packTemplateName: any
   }
 
-  const getPacks = () => {
+  const getPacks = (userPacks: any) => {
     var starterPacksDic = []
     var metallicPacksDic = []
     var cursedPacksDic = []
@@ -329,7 +335,7 @@ const Profile: NextPage = () => {
 
         args: (arg: any, t: any) => [arg(user?.addr, t.Address)],
       })
-      let mappedCollection = []
+      let mappedCollection: any = []
       for (let item in res) {
         const element = res[item]
         var beast = {
@@ -358,6 +364,155 @@ const Profile: NextPage = () => {
       setUserBeastCollection(mappedCollection)
 
       console.log("beast collection:" + mappedCollection)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const fetchSushi = async () => {
+    try {
+      let res = await query({
+        cadence: `
+        import Sushi from 0xSushi
+        import FungibleToken from 0xFungibleToken
+
+        pub fun main(address: Address): UFix64? {
+          let account = getAccount(address)
+
+          if let vaultRef = account.getCapability(Sushi.BalancePublicPath).borrow<&Sushi.Vault{FungibleToken.Balance}>() {
+            return vaultRef.balance
+          } 
+          return nil
+          
+        }
+        `,
+
+        args: (arg: any, t: any) => [arg(user?.addr, t.Address)],
+      })
+      setSushiBalance(res)
+      console.log("sushi " + res)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const fetchEmptyPotionBottle = async () => {
+    try {
+      let res = await query({
+        cadence: `
+        import EmptyPotionBottle from 0xEmptyPotionBottle
+        import FungibleToken from 0xFungibleToken
+
+        pub fun main(address: Address): UFix64? {
+          let account = getAccount(address)
+
+          if let vaultRef = account.getCapability(EmptyPotionBottle.BalancePublicPath).borrow<&EmptyPotionBottle.Vault{FungibleToken.Balance}>() {
+            return vaultRef.balance
+          } 
+          return nil
+          
+        }
+        `,
+
+        args: (arg: any, t: any) => [arg(user?.addr, t.Address)],
+      })
+      setEmptyPotionBottleBalance(res)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const fetchPoop = async () => {
+    try {
+      let res = await query({
+        cadence: `
+        import Poop from 0xPoop
+        import FungibleToken from 0xFungibleToken
+
+        pub fun main(address: Address): UFix64? {
+          let account = getAccount(address)
+
+          if let vaultRef = account.getCapability(Poop.BalancePublicPath).borrow<&Poop.Vault{FungibleToken.Balance}>() {
+            return vaultRef.balance
+          } 
+          return nil
+          
+        }
+        `,
+
+        args: (arg: any, t: any) => [arg(user?.addr, t.Address)],
+      })
+      setPoopBalance(res)
+      console.log("sushi " + res)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const fetchUserPacks = async () => {
+    try {
+      let res = await query({
+        cadence: `
+        import Pack from 0x22fc0fd68c3857cf
+        
+        pub fun main(acct: Address): [&Pack.NFT{Pack.Public}] {
+            var packCollection: [&Pack.NFT{Pack.Public}] = []
+        
+            let collectionRef = getAccount(acct).getCapability(Pack.CollectionPublicPath)
+                .borrow<&{Pack.PackCollectionPublic}>()
+                ?? panic("Could not get public Pack collection reference")
+        
+            let PackIDs = collectionRef.getIDs()
+        
+            for id in PackIDs {
+                let pack = collectionRef.borrowPack(id: id)!
+                
+                packCollection.append(pack)
+            }
+        
+          return packCollection
+        }
+        `,
+        args: (arg: any, t: any) => [arg(user?.addr, t.Address)],
+      })
+      let mappedPacks = []
+
+      for (let key in res) {
+        const element = res[key]
+        var keys = Object.keys(element.beast)
+        var beastKey: string = keys[0]
+        let pack = new PackClass(
+          element.id,
+          element.uuid,
+          element.packTemplate.name,
+          element.serialNumber,
+          element.stockNumber,
+          element.opened,
+          element.beast[
+            beastKey as keyof typeof element.beast
+          ]?.beastTemplate.beastTemplateID,
+          element.beast[
+            beastKey as keyof typeof element.beast
+          ]?.beastTemplate.name,
+          element.beast[beastKey as keyof typeof element.beast]?.sex,
+          element.beast[beastKey as keyof typeof element.beast]?.serialNumber,
+          element.beast[
+            beastKey as keyof typeof element.beast
+          ]?.beastTemplate.dexNumber,
+          element.beast[
+            beastKey as keyof typeof element.beast
+          ]?.beastTemplate.description,
+          element.beast[
+            beastKey as keyof typeof element.beast
+          ]?.beastTemplate.maxAdminMintAllowed,
+          element.beast[
+            beastKey as keyof typeof element.beast
+          ]?.beastTemplate.skin,
+        )
+        mappedPacks.push(pack)
+      }
+
+      getPacks(mappedPacks)
     } catch (err) {
       console.log(err)
     }
@@ -396,6 +551,9 @@ const Profile: NextPage = () => {
         cursedPacks={cursedPacks}
         shinyPacks={shinyPacks}
         fetchUserBeasts={fetchUserBeasts}
+        fetchSushi={fetchSushi}
+        fetchEmptyPotionBottle={fetchEmptyPotionBottle}
+        fetchPoop={fetchPoop}
       />
 
       <UserProfile
@@ -403,6 +561,9 @@ const Profile: NextPage = () => {
         selectPackType={setSelectedPackType}
         packCount={packCount}
         beasts={userBeastCollection}
+        sushiBalance={sushiBalance}
+        emptyPotionBottleBalance={emptyPotionBottleBalance}
+        poopBalance={poopBalance}
       />
     </div>
   )

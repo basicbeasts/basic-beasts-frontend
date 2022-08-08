@@ -4,7 +4,6 @@ import StarterImg from "public/packs/pack_pf/starter.png"
 import CursedImg from "public/packs/pack_pf/cursed.png"
 import ShinyImg from "public/packs/pack_pf/shiny.png"
 import { useUser } from "@components/user/UserProvider"
-
 import {
   query,
   send,
@@ -21,6 +20,8 @@ import {
 } from "@onflow/fcl"
 import * as t from "@onflow/types"
 import { useAuth } from "@components/auth/AuthProvider"
+import MaleIcon from "public/gender_icons/male_icon.png"
+import FemaleIcon from "public/gender_icons/female_icon.png"
 
 const Container = styled.div`
   text-align: center;
@@ -127,12 +128,19 @@ const Serial = styled.div`
   text-align: left;
 `
 
+const IconImg = styled.img`
+  width: 25px;
+`
+
 type Props = {
   packImage: any
   pack: any
   revealModalOpen: () => void
   selectPack: Dispatch<SetStateAction<string | "0">>
   fetchUserBeasts: any
+  fetchSushi: any
+  fetchEmptyPotionBottle: any
+  fetchPoop: any
 }
 
 const PackRevealCard: FC<Props> = ({
@@ -141,6 +149,9 @@ const PackRevealCard: FC<Props> = ({
   revealModalOpen,
   selectPack,
   fetchUserBeasts,
+  fetchSushi,
+  fetchEmptyPotionBottle,
+  fetchPoop,
 }) => {
   const [packOpened, setPackOpened] = useState(pack.opened)
 
@@ -159,6 +170,24 @@ const PackRevealCard: FC<Props> = ({
         import FungibleToken from 0xFungibleToken
         import NonFungibleToken from 0xNonFungibleToken
         import MetadataViews from 0xMetadataViews
+
+        pub fun hasSushiVault(_ address: Address): Bool {
+          return getAccount(address)
+            .getCapability<&Sushi.Vault{FungibleToken.Balance}>(Sushi.BalancePublicPath)
+            .check()
+        }
+
+        pub fun hasPoopVault(_ address: Address): Bool {
+          return getAccount(address)
+            .getCapability<&Poop.Vault{FungibleToken.Balance}>(Poop.BalancePublicPath)
+            .check()
+        }
+
+        pub fun hasEmptyPotionBottleVault(_ address: Address): Bool {
+          return getAccount(address)
+            .getCapability<&EmptyPotionBottle.Vault{FungibleToken.Balance}>(EmptyPotionBottle.BalancePublicPath)
+            .check()
+        }
         
         transaction(packID: UInt64, to: Address) {
         
@@ -193,37 +222,63 @@ const PackRevealCard: FC<Props> = ({
                 }
                 self.packManagerRef = acct.borrow<&Pack.PackManager>(from: Pack.PackManagerStoragePath)!
         
-                if getAccount(to).getCapability(EmptyPotionBottle.ReceiverPublicPath).borrow<&{FungibleToken.Receiver}>() == nil {
+                if !hasEmptyPotionBottleVault(acct.address) {
+                  if acct.borrow<&EmptyPotionBottle.Vault>(from: EmptyPotionBottle.VaultStoragePath) == nil {
                     acct.save(<-EmptyPotionBottle.createEmptyVault(), to: EmptyPotionBottle.VaultStoragePath)
-                    acct.unlink(EmptyPotionBottle.ReceiverPublicPath)
-                    acct.unlink(EmptyPotionBottle.BalancePublicPath)
+                  }
+                  acct.unlink(EmptyPotionBottle.ReceiverPublicPath)
+                  acct.unlink(EmptyPotionBottle.BalancePublicPath)
+            
                     acct.link<&EmptyPotionBottle.Vault{FungibleToken.Receiver}>(
-                        EmptyPotionBottle.ReceiverPublicPath,
+                      EmptyPotionBottle.ReceiverPublicPath,
+                        target: EmptyPotionBottle.VaultStoragePath
+                    )
+            
+                    acct.link<&EmptyPotionBottle.Vault{FungibleToken.Balance}>(
+                      EmptyPotionBottle.BalancePublicPath,
                         target: EmptyPotionBottle.VaultStoragePath
                     )
                 }
                 self.emptyPotionBottleReceiverRef = getAccount(to).getCapability(EmptyPotionBottle.ReceiverPublicPath).borrow<&{FungibleToken.Receiver}>()!
         
-                if getAccount(to).getCapability(Poop.ReceiverPublicPath).borrow<&{FungibleToken.Receiver}>() == nil {
+                if !hasPoopVault(acct.address) {
+                  if acct.borrow<&Poop.Vault>(from: Poop.VaultStoragePath) == nil {
                     acct.save(<-Poop.createEmptyVault(), to: Poop.VaultStoragePath)
-                    acct.unlink(Poop.ReceiverPublicPath)
-                    acct.unlink(Poop.BalancePublicPath)
+                  }
+                  acct.unlink(Poop.ReceiverPublicPath)
+                  acct.unlink(Poop.BalancePublicPath)
+            
                     acct.link<&Poop.Vault{FungibleToken.Receiver}>(
-                        Poop.ReceiverPublicPath,
+                      Poop.ReceiverPublicPath,
+                        target: Poop.VaultStoragePath
+                    )
+            
+                    acct.link<&Poop.Vault{FungibleToken.Balance}>(
+                      Poop.BalancePublicPath,
                         target: Poop.VaultStoragePath
                     )
                 }
+              
                 self.poopReceiverRef = getAccount(to).getCapability(Poop.ReceiverPublicPath).borrow<&{FungibleToken.Receiver}>()!
                 
-                if getAccount(to).getCapability(Sushi.ReceiverPublicPath).borrow<&{FungibleToken.Receiver}>() == nil {
+                if !hasSushiVault(acct.address) {
+                  if acct.borrow<&Sushi.Vault>(from: Sushi.VaultStoragePath) == nil {
                     acct.save(<-Sushi.createEmptyVault(), to: Sushi.VaultStoragePath)
-                    acct.unlink(Sushi.ReceiverPublicPath)
-                    acct.unlink(Sushi.BalancePublicPath)
+                  }
+                  acct.unlink(Sushi.ReceiverPublicPath)
+                  acct.unlink(Sushi.BalancePublicPath)
+            
                     acct.link<&Sushi.Vault{FungibleToken.Receiver}>(
                         Sushi.ReceiverPublicPath,
                         target: Sushi.VaultStoragePath
                     )
+            
+                    acct.link<&Sushi.Vault{FungibleToken.Balance}>(
+                        Sushi.BalancePublicPath,
+                        target: Sushi.VaultStoragePath
+                    )
                 }
+              
                 self.sushiReceiverRef = getAccount(to).getCapability(Sushi.ReceiverPublicPath).borrow<&{FungibleToken.Receiver}>()!
         
             }
@@ -277,10 +332,13 @@ const PackRevealCard: FC<Props> = ({
       ]).then(decode)
       selectPack(pack.beastTemplateID.toString())
       revealModalOpen()
-      await tx(res).onceSealed()
-      fetchUserBeasts()
       pack.opened = true
       setPackOpened(pack.opened)
+      await tx(res).onceSealed()
+      fetchUserBeasts()
+      fetchSushi()
+      fetchEmptyPotionBottle()
+      fetchPoop()
       console.log(pack)
     } catch (err) {
       console.log(err)
@@ -305,17 +363,17 @@ const PackRevealCard: FC<Props> = ({
             }}
           >
             ID: {pack.id}
-            {pack.opened.toString()}
           </div>
 
           <Button
             onClick={() => {
-              unpack(pack.stockNumber)
-              // pack.opened = true
-              // selectPack(pack.beastTemplateID.toString())
-              // setPackOpened(pack.opened)
-              // console.log(pack)
-              // revealModalOpen()
+              //unpack(pack.stockNumber)
+              // For testing //
+              pack.opened = true
+              selectPack(pack.beastTemplateID.toString())
+              setPackOpened(pack.opened)
+              console.log(pack)
+              revealModalOpen()
             }}
           >
             Reveal
@@ -339,8 +397,11 @@ const PackRevealCard: FC<Props> = ({
           </HeaderDetailsLeft>
           <HeaderDetailsRight>
             <GenderIcon>
-              {pack.beastGender}
-              {pack.opened.toString()}
+              {pack.beastGender == "Male" ? (
+                <IconImg src={MaleIcon.src} />
+              ) : (
+                <IconImg src={FemaleIcon.src} />
+              )}
             </GenderIcon>
             <DexNumber>
               {"#" + ("00" + pack.beastDexNumber).slice(-3)}

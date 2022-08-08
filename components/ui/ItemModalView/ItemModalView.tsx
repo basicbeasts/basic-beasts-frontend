@@ -144,9 +144,10 @@ type Props = {
   item: any
   open: boolean
   setOpen: any
+  balance: any
 }
 
-const ItemModalView: FC<Props> = ({ item, open, setOpen }) => {
+const ItemModalView: FC<Props> = ({ item, open, setOpen, balance }) => {
   const [open2, setOpen2] = useState(false)
 
   return (
@@ -219,7 +220,7 @@ const ItemModalView: FC<Props> = ({ item, open, setOpen }) => {
                           }
                         >
                           <BalanceLabel>{item.name} Quantity</BalanceLabel>
-                          <Amount>{item?.count}20</Amount>
+                          <Amount>{parseInt(balance)}</Amount>
                         </Balance>
                       </Content>
                     </>

@@ -153,17 +153,6 @@ const BeastTab: FC<Props> = ({
                 }}
                 className="group block w-full aspect-w-9 aspect-h-7 bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden"
               >
-                {/* <img
-                src={file.source}
-                alt=""
-                className="object-cover pointer-events-none group-hover:opacity-75"
-              />
-              <button
-                type="button"
-                className="absolute inset-0 focus:outline-none"
-              >
-                <span className="sr-only">View details for {file.title}</span>
-              </button> */}
                 <BeastTabCard
                   id={beast.id}
                   className="object-cover group-hover:opacity-90"
@@ -174,7 +163,10 @@ const BeastTab: FC<Props> = ({
                   <ThumbnailLabel>
                     <div style={{ fontSize: "1.3em" }}>{beast.nickname}</div>
                     <div style={{ fontSize: "1.3em" }}>
-                      #{beast.serialNumber} | {beast.maxAdminMintAllowed}
+                      #{beast.serialNumber} |{" "}
+                      {beast.maxAdminMintAllowed <= 1000
+                        ? beast.maxAdminMintAllowed
+                        : "?"}
                     </div>
                   </ThumbnailLabel>
                   <StarLevel>

@@ -74,6 +74,10 @@ type Props = {
   selectItem: any
   // count: any
   // selectedItem: any
+  sushiBalance: any
+
+  emptyPotionBottleBalance: any
+  poopBalance: any
 }
 
 type ThumbnailDetailsProps = {
@@ -82,10 +86,16 @@ type ThumbnailDetailsProps = {
 
 const ItemTab: FC<Props> = ({
   selectItem,
+  sushiBalance,
+  emptyPotionBottleBalance,
+  poopBalance,
 }: // count,
 // selectedItem,
 {
   selectItem: Dispatch<SetStateAction<string | null>>
+  sushiBalance: any
+  emptyPotionBottleBalance: any
+  poopBalance: any
   // count: Dispatch<SetStateAction<number>>
   // selectedItem: string | null
 }) => {
@@ -121,10 +131,16 @@ const ItemTab: FC<Props> = ({
     } | null>
   >()
   const [open, setOpen] = useState(false)
+  const [balance, setBalance] = useState()
 
   return (
     <Wrapper>
-      <ItemModalView item={item} open={open} setOpen={setOpen} />
+      <ItemModalView
+        item={item}
+        open={open}
+        setOpen={setOpen}
+        balance={balance}
+      />
       <ul
         role="list"
         className="grid grid-cols-2 gap-x-5 gap-y-5 sm:grid-cols-3 sm:gap-x-6 md:grid-cols-4 lg:grid-cols-2 xl:gap-x-7 xl:grid-cols-3 2xl:grid-cols-4"
@@ -135,6 +151,7 @@ const ItemTab: FC<Props> = ({
           onClick={() => {
             setOpen(true)
             setItem(items[0])
+            setBalance(sushiBalance)
           }}
         >
           <div
@@ -155,7 +172,7 @@ const ItemTab: FC<Props> = ({
               backgroundColor={"#E4A9A2"}
             >
               <ThumbnailLabel>
-                <div style={{ fontSize: "2em" }}>20x</div>
+                <div style={{ fontSize: "2em" }}>{parseInt(sushiBalance)}x</div>
               </ThumbnailLabel>
             </ThumbnailDetails>
           </div>
@@ -166,6 +183,7 @@ const ItemTab: FC<Props> = ({
           onClick={() => {
             setOpen(true)
             setItem(items[1])
+            setBalance(emptyPotionBottleBalance)
           }}
         >
           <div
@@ -186,7 +204,9 @@ const ItemTab: FC<Props> = ({
               backgroundColor={"#396042"}
             >
               <ThumbnailLabel>
-                <div style={{ fontSize: "2em" }}>20x</div>
+                <div style={{ fontSize: "2em" }}>
+                  {parseInt(emptyPotionBottleBalance)}x
+                </div>
               </ThumbnailLabel>
             </ThumbnailDetails>
           </div>
@@ -197,6 +217,7 @@ const ItemTab: FC<Props> = ({
           onClick={() => {
             setOpen(true)
             setItem(items[2])
+            setBalance(poopBalance)
           }}
         >
           <div
@@ -217,7 +238,7 @@ const ItemTab: FC<Props> = ({
               backgroundColor={"#604E39"}
             >
               <ThumbnailLabel>
-                <div style={{ fontSize: "2em" }}>20x</div>
+                <div style={{ fontSize: "2em" }}>{parseInt(poopBalance)}x</div>
               </ThumbnailLabel>
             </ThumbnailDetails>
           </div>

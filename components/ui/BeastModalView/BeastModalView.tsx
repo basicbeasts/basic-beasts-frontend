@@ -4,6 +4,9 @@ import { CheckIcon } from "@heroicons/react/outline"
 import star from "public/basic_starLevel.png"
 import styled from "styled-components"
 import ChangeNicknameModal from "../ChangeNicknameModal"
+import beastTemplates from "data/beastTemplates"
+import MaleIcon from "public/gender_icons/male_icon.png"
+import FemaleIcon from "public/gender_icons/female_icon.png"
 
 const DialogPanel = styled(Dialog.Panel)<TailwindProps>`
   border-radius: 20px;
@@ -178,6 +181,11 @@ const SkillName = styled.div`
   width: 150px;
 `
 
+const IconImg = styled.img`
+  width: 25px;
+  margin-top: 5px;
+`
+
 type Color = {
   colorCode: any
 }
@@ -254,7 +262,9 @@ const BeastModalView: FC<Props> = ({ beast, open, setOpen }) => {
                         <HeaderDetails>
                           <Serial>
                             Serial #{beast.serialNumber} |{" "}
-                            {beast.maxAdminMintAllowed}
+                            {beast.maxAdminMintAllowed <= 1000
+                              ? beast.maxAdminMintAllowed
+                              : "?"}
                           </Serial>
                           <RightHeaderDetails>
                             <DexNumber>
@@ -267,10 +277,26 @@ const BeastModalView: FC<Props> = ({ beast, open, setOpen }) => {
                             </StarLevel>
                           </RightHeaderDetails>
                         </HeaderDetails>
-                        <Img src={beast.image} />
+                        <Img
+                          src={
+                            beastTemplates[
+                              beast.beastTemplateID as keyof typeof beastTemplates
+                            ].imageTransparentBg
+                          }
+                        />
                       </Header>
                       <Content>
                         <Description>{beast.description}</Description>
+                        <InfoContainer>
+                          <InfoLabel>Gender</InfoLabel>
+                          <InfoText>
+                            {beast.sex == "Male" ? (
+                              <IconImg src={MaleIcon.src} />
+                            ) : (
+                              <IconImg src={FemaleIcon.src} />
+                            )}
+                          </InfoText>
+                        </InfoContainer>
                         <InfoContainer>
                           <InfoLabel>Type</InfoLabel>
                           <InfoText>
@@ -280,10 +306,6 @@ const BeastModalView: FC<Props> = ({ beast, open, setOpen }) => {
                                 ))
                               : ""}
                           </InfoText>
-                        </InfoContainer>
-                        <InfoContainer>
-                          <InfoLabel>Gender</InfoLabel>
-                          <InfoText>{beast.sex}</InfoText>
                         </InfoContainer>
                         <InfoContainer>
                           <InfoLabel>Basic Skills</InfoLabel>

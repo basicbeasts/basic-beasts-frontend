@@ -46,6 +46,9 @@ type FuncProps = {
   selectPackType: any
   packCount: any
   beasts: any
+  sushiBalance: any
+  emptyPotionBottleBalance: any
+  poopBalance: any
 }
 
 const UserProfile: FC<FuncProps> = ({
@@ -53,6 +56,9 @@ const UserProfile: FC<FuncProps> = ({
   selectPackType,
   packCount,
   beasts,
+  sushiBalance,
+  emptyPotionBottleBalance,
+  poopBalance,
 }) => {
   const [selectedBeast, setSelectedBeast] = useState<string | null>(null)
   const [selectedItem, setSelectedItem] = useState<string | null>(null)
@@ -84,6 +90,9 @@ const UserProfile: FC<FuncProps> = ({
             toggle={toggle}
             selectPackType={selectPackType}
             packCount={packCount}
+            sushiBalance={sushiBalance}
+            emptyPotionBottleBalance={emptyPotionBottleBalance}
+            poopBalance={poopBalance}
           />
         </RightColumn>
       </Wrapper>

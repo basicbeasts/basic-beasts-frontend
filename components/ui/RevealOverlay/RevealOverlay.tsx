@@ -134,6 +134,9 @@ type Props = {
   cursedPacks: any
   shinyPacks: any
   fetchUserBeasts: any
+  fetchSushi: any
+  fetchEmptyPotionBottle: any
+  fetchPoop: any
 }
 
 const RevealOverlay: FC<Props> = ({
@@ -145,6 +148,9 @@ const RevealOverlay: FC<Props> = ({
   cursedPacks,
   shinyPacks,
   fetchUserBeasts,
+  fetchSushi,
+  fetchEmptyPotionBottle,
+  fetchPoop,
 }: Props) => {
   const { logIn, logOut, user, loggedIn } = useAuth()
   const [selectedPack, setSelectedPack] = useState<string | "0">("0")
@@ -207,6 +213,9 @@ const RevealOverlay: FC<Props> = ({
                     revealModalOpen={open}
                     selectPack={setSelectedPack}
                     fetchUserBeasts={fetchUserBeasts}
+                    fetchSushi={fetchSushi}
+                    fetchEmptyPotionBottle={fetchEmptyPotionBottle}
+                    fetchPoop={fetchPoop}
                   />
                 </li>
               ))}
@@ -224,6 +233,9 @@ const RevealOverlay: FC<Props> = ({
                     revealModalOpen={open}
                     selectPack={setSelectedPack}
                     fetchUserBeasts={fetchUserBeasts}
+                    fetchSushi={fetchSushi}
+                    fetchEmptyPotionBottle={fetchEmptyPotionBottle}
+                    fetchPoop={fetchPoop}
                   />
                 </li>
               ))}
@@ -241,6 +253,9 @@ const RevealOverlay: FC<Props> = ({
                     revealModalOpen={open}
                     selectPack={setSelectedPack}
                     fetchUserBeasts={fetchUserBeasts}
+                    fetchSushi={fetchSushi}
+                    fetchEmptyPotionBottle={fetchEmptyPotionBottle}
+                    fetchPoop={fetchPoop}
                   />
                 </li>
               ))}
@@ -258,6 +273,9 @@ const RevealOverlay: FC<Props> = ({
                     revealModalOpen={open}
                     selectPack={setSelectedPack}
                     fetchUserBeasts={fetchUserBeasts}
+                    fetchSushi={fetchSushi}
+                    fetchEmptyPotionBottle={fetchEmptyPotionBottle}
+                    fetchPoop={fetchPoop}
                   />
                 </li>
               ))}
@@ -289,7 +307,7 @@ const RevealOverlay: FC<Props> = ({
           <li></li>
         </ul>
       </SideNavbarWrapper>
-      <ButtonWrapper>
+      {/* <ButtonWrapper>
         <Button
           borderColor={
             selectedPackType === "1"
@@ -325,7 +343,7 @@ const RevealOverlay: FC<Props> = ({
         >
           Reveal All
         </Button>
-      </ButtonWrapper>
+      </ButtonWrapper> */}
     </SideNavbarContainer>
   )
 }

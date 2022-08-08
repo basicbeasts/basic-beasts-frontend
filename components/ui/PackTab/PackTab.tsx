@@ -10,6 +10,8 @@ import ShinyImg from "public/packs/pack_pf/shiny.png"
 
 import PackTabCard from "../PackTabCard"
 
+import BuyButton from "@components/ui/BuyButton"
+
 const Wrapper = styled.div`
   padding: 35px 20px 0px;
   z-index: 1;
@@ -57,6 +59,11 @@ const ThumbnailLabel = styled.div`
   font-size: 1.8em;
 `
 
+const Text = styled.div`
+  font-size: 1.2em;
+  margin-bottom: 25px;
+`
+
 type ThumbnailDetails = {
   backgroundColor: string
 }
@@ -83,6 +90,7 @@ const PackTab: FC<Props> = ({
   // selectedPack: string | null
   toggle: () => void
   selectPackType: Dispatch<SetStateAction<string | null>>
+  packCount: any
 }) => {
   //   const query = useQuery()
   //   const beasts =
@@ -110,119 +118,150 @@ const PackTab: FC<Props> = ({
 
   return (
     <Wrapper>
-      <ul
-        role="list"
-        className="grid grid-cols-2 gap-x-5 gap-y-5 sm:grid-cols-3 sm:gap-x-6 md:grid-cols-4 lg:grid-cols-2 xl:gap-x-7 xl:grid-cols-3 2xl:grid-cols-4"
-      >
-        <li className="relative">
-          <div>
-            <ThumbnailDetails
-              style={{ borderRadius: "12px 12px 0 0" }}
-              backgroundColor={"#737374"}
-            >
-              <ThumbnailLabel>
-                <div>Starter</div>
-              </ThumbnailLabel>
-            </ThumbnailDetails>
-          </div>
-          <div
-            style={{
-              borderRadius: "12px",
-            }}
-            className="group block w-full aspect-w-6 aspect-h-10 bg-gray-100 overflow-hidden"
-          >
-            <PackTabCard
-              id={"1"}
-              className="object-cover group-hover:opacity-90"
-              image={StarterImg}
-              toggle={toggle}
-              selectPackType={selectPackType}
-              packCount={packCount[1]}
-            />
-          </div>
-        </li>
-        <li className="relative">
-          <div>
-            <ThumbnailDetails
-              style={{ borderRadius: "12px 12px 0 0" }}
-              backgroundColor={"#889AAF"}
-            >
-              <ThumbnailLabel>
-                <div>Metallic Silver</div>
-              </ThumbnailLabel>
-            </ThumbnailDetails>
-          </div>
-          <div
-            style={{
-              borderRadius: "12px",
-            }}
-            className="group block w-full aspect-w-6 aspect-h-10 bg-gray-100 overflow-hidden"
-          >
-            <PackTabCard
-              id={"2"}
-              className="object-cover group-hover:opacity-90"
-              image={MetallicImg}
-              toggle={toggle}
-              selectPackType={selectPackType}
-              packCount={packCount[2]}
-            />
-          </div>
-        </li>
-        <li className="relative">
-          <div>
-            <ThumbnailDetails
-              style={{ borderRadius: "12px 12px 0 0" }}
-              backgroundColor={"#751AD0"}
-            >
-              <ThumbnailLabel>
-                <div>Cursed Black</div>
-              </ThumbnailLabel>
-            </ThumbnailDetails>
-          </div>
-          <div
-            style={{
-              borderRadius: "12px",
-            }}
-            className="group block w-full aspect-w-6 aspect-h-10 bg-gray-100 overflow-hidden"
-          >
-            <PackTabCard
-              id={"3"}
-              className="object-cover group-hover:opacity-90"
-              image={CursedImg}
-              toggle={toggle}
-              selectPackType={selectPackType}
-              packCount={packCount[3]}
-            />
-          </div>
-        </li>
-        <li className="relative">
-          <div>
-            <ThumbnailDetails
-              style={{ borderRadius: "12px 12px 0 0" }}
-              backgroundColor={"#FFDA66"}
-            >
-              <ThumbnailLabel>
-                <div style={{ color: "#A15813" }}>Shiny Gold</div>
-              </ThumbnailLabel>
-            </ThumbnailDetails>
-          </div>
-          <div
-            style={{
-              borderRadius: "12px",
-            }}
-            className="group block w-full aspect-w-6 aspect-h-10 bg-gray-100 overflow-hidden"
-          >
-            <PackTabCard
-              id={"4"}
-              className="object-cover group-hover:opacity-90"
-              image={ShinyImg}
-              toggle={toggle}
-              selectPackType={selectPackType}
-              packCount={packCount[4]}
-            />
-          </div>
-        </li>
-      </ul>
+      {packCount != null ? (
+        <ul
+          role="list"
+          className="grid grid-cols-2 gap-x-5 gap-y-5 sm:grid-cols-3 sm:gap-x-6 md:grid-cols-4 lg:grid-cols-2 xl:gap-x-7 xl:grid-cols-3 2xl:grid-cols-4"
+        >
+          {packCount[1] > 0 ? (
+            <li className="relative">
+              <div>
+                <ThumbnailDetails
+                  style={{ borderRadius: "12px 12px 0 0" }}
+                  backgroundColor={"#737374"}
+                >
+                  <ThumbnailLabel>
+                    <div>Starter</div>
+                  </ThumbnailLabel>
+                </ThumbnailDetails>
+              </div>
+              <div
+                style={{
+                  borderRadius: "12px",
+                }}
+                className="group block w-full aspect-w-6 aspect-h-10 bg-gray-100 overflow-hidden"
+              >
+                <PackTabCard
+                  id={"1"}
+                  className="object-cover group-hover:opacity-90"
+                  image={StarterImg}
+                  toggle={toggle}
+                  selectPackType={selectPackType}
+                  packCount={packCount[1]}
+                />
+              </div>
+            </li>
+          ) : packCount[1] == 0 &&
+            packCount[2] == 0 &&
+            packCount[3] == 0 &&
+            packCount[4] == 0 ? (
+            <div>
+              <Text>
+                You&apos;ll see unopened packs here. <br />
+                Get your packs today!
+              </Text>
+              <BuyButton buttonText={"Buy Packs"} />
+            </div>
+          ) : (
+            ""
+          )}
+          {packCount[2] > 0 ? (
+            <li className="relative">
+              <div>
+                <ThumbnailDetails
+                  style={{ borderRadius: "12px 12px 0 0" }}
+                  backgroundColor={"#889AAF"}
+                >
+                  <ThumbnailLabel>
+                    <div>Metallic Silver</div>
+                  </ThumbnailLabel>
+                </ThumbnailDetails>
+              </div>
+              <div
+                style={{
+                  borderRadius: "12px",
+                }}
+                className="group block w-full aspect-w-6 aspect-h-10 bg-gray-100 overflow-hidden"
+              >
+                <PackTabCard
+                  id={"2"}
+                  className="object-cover group-hover:opacity-90"
+                  image={MetallicImg}
+                  toggle={toggle}
+                  selectPackType={selectPackType}
+                  packCount={packCount[2]}
+                />
+              </div>
+            </li>
+          ) : (
+            ""
+          )}
+          {packCount[3] > 0 ? (
+            <li className="relative">
+              <div>
+                <ThumbnailDetails
+                  style={{ borderRadius: "12px 12px 0 0" }}
+                  backgroundColor={"#751AD0"}
+                >
+                  <ThumbnailLabel>
+                    <div>Cursed Black</div>
+                  </ThumbnailLabel>
+                </ThumbnailDetails>
+              </div>
+              <div
+                style={{
+                  borderRadius: "12px",
+                }}
+                className="group block w-full aspect-w-6 aspect-h-10 bg-gray-100 overflow-hidden"
+              >
+                <PackTabCard
+                  id={"3"}
+                  className="object-cover group-hover:opacity-90"
+                  image={CursedImg}
+                  toggle={toggle}
+                  selectPackType={selectPackType}
+                  packCount={packCount[3]}
+                />
+              </div>
+            </li>
+          ) : (
+            ""
+          )}
+          {packCount[4] > 0 ? (
+            <li className="relative">
+              <div>
+                <ThumbnailDetails
+                  style={{ borderRadius: "12px 12px 0 0" }}
+                  backgroundColor={"#FFDA66"}
+                >
+                  <ThumbnailLabel>
+                    <div style={{ color: "#A15813" }}>Shiny Gold</div>
+                  </ThumbnailLabel>
+                </ThumbnailDetails>
+              </div>
+              <div
+                style={{
+                  borderRadius: "12px",
+                }}
+                className="group block w-full aspect-w-6 aspect-h-10 bg-gray-100 overflow-hidden"
+              >
+                <PackTabCard
+                  id={"4"}
+                  className="object-cover group-hover:opacity-90"
+                  image={ShinyImg}
+                  toggle={toggle}
+                  selectPackType={selectPackType}
+                  packCount={packCount[4]}
+                />
+              </div>
+            </li>
+          ) : (
+            ""
+          )}
+        </ul>
+      ) : (
+        "No Packs"
+      )}
     </Wrapper>
   )
 }

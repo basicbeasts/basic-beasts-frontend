@@ -52,7 +52,8 @@ const ContentLeft = styled.div`
 `
 const ContentRight = styled.div`
   float: right;
-  margin-left: -300px;
+  margin-left: -100px;
+  margin-top: 5vw;
 `
 
 const BeastName = styled(motion.div)`
@@ -124,7 +125,9 @@ const StarImg = styled.img`
 
 const Beast = styled(motion.div)``
 
-const BeastImg = styled.img``
+const BeastImg = styled.img`
+  width: 40vw;
+`
 
 const CloseIcon = styled.div`
   color: #fff;
