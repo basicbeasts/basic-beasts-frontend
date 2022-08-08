@@ -61,7 +61,7 @@ const InboxItemListTemp: FC = () => {
   useEffect(() => {
     fetchInbox()
     getNumberOfPacks()
-  }, [centralizedInbox])
+  }, [centralizedInbox, user?.addr])
 
   const getNumberOfPacks = () => {
     let starterCount = 0
@@ -180,66 +180,78 @@ pub fun main(adminAcct: Address, wallet: Address): &[NonFungibleToken.NFT]? {
 
   return (
     <Container>
-      {centralizedInbox.length > 0 ? (
-        <>
-          {starterPacks > 0 ? (
-            <>
-              <InboxPackItem
-                quantity={starterPacks}
-                description={"Starter Pack"}
-                value={10}
-              />
-            </>
-          ) : (
-            ""
-          )}
-          {metallicPacks > 0 ? (
-            <>
-              <InboxPackItem
-                quantity={metallicPacks}
-                description={"Metallic Silver Pack"}
-                value={0}
-              />
-            </>
-          ) : (
-            ""
-          )}
-          {cursedPacks > 0 ? (
-            <>
-              <InboxPackItem
-                quantity={cursedPacks}
-                description={"Cursed Black Pack"}
-                value={300}
-              />
-            </>
-          ) : (
-            ""
-          )}
-          {shinyPacks > 0 ? (
-            <>
-              <InboxPackItem
-                quantity={shinyPacks}
-                description={"Shiny Gold Pack"}
-                value={999}
-              />
-            </>
-          ) : (
-            ""
-          )}
-          <BuyButton onClick={() => claimAllMails()} buttonText={"Claim All"} />
-          {/* <pre>{JSON.stringify(centralizedInbox, null, 2)}</pre> */}
-        </>
-      ) : (
-        <>
-          <EmptyMessage>Your inbox is empty.</EmptyMessage>
-          <EmptyMessage>
-            If you recently participated in a drop,
-          </EmptyMessage>{" "}
-          <EmptyMessage>
-            you can expect to receive your packs latest 14 days after the drop.
-          </EmptyMessage>
-        </>
-      )}
+      <>
+        {centralizedInbox != null ? (
+          <>
+            {centralizedInbox.length > 0 ? (
+              <>
+                {starterPacks > 0 ? (
+                  <>
+                    <InboxPackItem
+                      quantity={starterPacks}
+                      description={"Starter Pack"}
+                      value={10}
+                    />
+                  </>
+                ) : (
+                  ""
+                )}
+                {metallicPacks > 0 ? (
+                  <>
+                    <InboxPackItem
+                      quantity={metallicPacks}
+                      description={"Metallic Silver Pack"}
+                      value={0}
+                    />
+                  </>
+                ) : (
+                  ""
+                )}
+                {cursedPacks > 0 ? (
+                  <>
+                    <InboxPackItem
+                      quantity={cursedPacks}
+                      description={"Cursed Black Pack"}
+                      value={300}
+                    />
+                  </>
+                ) : (
+                  ""
+                )}
+                {shinyPacks > 0 ? (
+                  <>
+                    <InboxPackItem
+                      quantity={shinyPacks}
+                      description={"Shiny Gold Pack"}
+                      value={999}
+                    />
+                  </>
+                ) : (
+                  ""
+                )}
+                <BuyButton
+                  onClick={() => claimAllMails()}
+                  buttonText={"Claim All"}
+                />
+                {/* <pre>{JSON.stringify(centralizedInbox, null, 2)}</pre> */}
+              </>
+            ) : (
+              <>
+                <EmptyMessage>Your inbox is empty.</EmptyMessage>
+                <EmptyMessage>
+                  If you recently participated in a drop,
+                </EmptyMessage>{" "}
+                <EmptyMessage>
+                  you can expect to receive your packs latest 14 days after the
+                  drop.
+                </EmptyMessage>
+              </>
+            )}
+          </>
+        ) : (
+          <EmptyMessage>No inbox found</EmptyMessage>
+        )}
+      </>
     </Container>
   )
 }

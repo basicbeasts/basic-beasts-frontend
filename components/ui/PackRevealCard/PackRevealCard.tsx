@@ -41,13 +41,21 @@ const Img = styled.img`
   object-fit: contain;
   width: 180px;
   margin: 2vw auto 1vw;
+  @media (max-width: 1010px) {
+    width: 130px;
+    margin: 5vw auto 1vw;
+  }
+  @media (max-width: 768px) {
+    width: 170px;
+    margin: 5vw auto 1vw;
+  }
 `
 
 const Button = styled.button`
   text-transform: uppercase;
   margin-top: 1vw;
   padding: 2px 35px 5px;
-  font-size: 1.2vw;
+  font-size: 1.2em;
   background-color: #212127;
   color: #fff;
 
@@ -60,10 +68,10 @@ const Button = styled.button`
   -moz-transition: all 0.1s ease 0s;
   -webkit-transition: all 0.1s ease 0s;
   @media (max-width: 1010px) {
-    font-size: 7vw;
+    font-size: 1.5em;
   }
   @media (max-width: 1010px) {
-    width: 26vw;
+    /* width: 26vw; */
   }
   &:active {
     transition: all 0.1s ease 0s;
@@ -134,6 +142,10 @@ const Serial = styled.div`
 
 const IconImg = styled.img`
   width: 25px;
+`
+
+const TextContainer = styled.div`
+  height: 60px;
 `
 
 type Color = {
@@ -366,18 +378,18 @@ const PackRevealCard: FC<Props> = ({
         background: "#212127",
         color: "#EAEAEA",
       }}
-      className="group block w-full aspect-w-7 aspect-h-9 overflow-hidden"
+      className="group block w-full aspect-w-7 aspect-h-9 md:aspect-h-13 lg:aspect-h-9 xl:aspect-h-7 2xl:aspect-h-9 overflow-hidden"
     >
       {packOpened == false ? (
         <div>
           <Img src={packImage.src} />
-          <div
+          <TextContainer
             style={{
               color: "#686868",
             }}
           >
             ID: {pack.id}
-          </div>
+          </TextContainer>
 
           <Button
             onClick={() => {
