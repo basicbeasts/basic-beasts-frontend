@@ -96,7 +96,7 @@ const Content = styled.div`
 `
 
 const Img = styled.img`
-  width: 180px;
+  width: 160px;
   margin: auto;
   top: -60px;
   position: relative;
@@ -116,7 +116,7 @@ const InfoContainer = styled.ul`
 
 const InfoLabel = styled.div`
   float: left;
-  width: 150px;
+  width: 130px;
   color: #868889;
 `
 
@@ -141,7 +141,7 @@ const Skills = styled.div`
 
 const Skill = styled.span`
   margin-right: 30px;
-  font-size: 0.8em;
+  font-size: 0.9em;
 `
 
 const BasicSkillsLabel = styled.div`

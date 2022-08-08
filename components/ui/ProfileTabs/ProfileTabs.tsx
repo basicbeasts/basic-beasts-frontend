@@ -31,6 +31,10 @@ type Props = {
   sushiBalance: any
   emptyPotionBottleBalance: any
   poopBalance: any
+  newBeast: any
+  setNewBeast: any
+  newTokens: any
+  setNewTokens: any
 }
 
 const ProfileTabs: FC<Props> = ({
@@ -49,6 +53,10 @@ const ProfileTabs: FC<Props> = ({
   sushiBalance,
   emptyPotionBottleBalance,
   poopBalance,
+  newBeast,
+  setNewBeast,
+  newTokens,
+  setNewTokens,
 }) => {
   const [hasPacks, setHasPacks] = useState(false)
 
@@ -67,19 +75,27 @@ const ProfileTabs: FC<Props> = ({
         }
       }
     }
-  }, [user?.addr])
+  }, [user?.addr, packCount])
 
   return (
     <Container>
       <TabButton
         selected={filter === "beast collection"}
-        onClick={() => selectFilter("beast collection")}
+        onClick={() => {
+          selectFilter("beast collection")
+          setNewBeast(false)
+        }}
         buttonText={"beast collection"}
+        notify={filter !== "beast collection" && newBeast}
       />
       <TabButton
-        onClick={() => selectFilter("items")}
+        onClick={() => {
+          selectFilter("items")
+          setNewTokens(false)
+        }}
         selected={filter === "items"}
         buttonText={"Items"}
+        notify={filter !== "items" && newTokens}
       />
       <TabButton
         onClick={() => selectFilter("packs")}

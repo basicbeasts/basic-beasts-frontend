@@ -49,6 +49,10 @@ type FuncProps = {
   sushiBalance: any
   emptyPotionBottleBalance: any
   poopBalance: any
+  newBeast: any
+  setNewBeast: any
+  newTokens: any
+  setNewTokens: any
 }
 
 const UserProfile: FC<FuncProps> = ({
@@ -59,6 +63,10 @@ const UserProfile: FC<FuncProps> = ({
   sushiBalance,
   emptyPotionBottleBalance,
   poopBalance,
+  newBeast,
+  setNewBeast,
+  newTokens,
+  setNewTokens,
 }) => {
   const [selectedBeast, setSelectedBeast] = useState<string | null>(null)
   const [selectedItem, setSelectedItem] = useState<string | null>(null)
@@ -93,6 +101,10 @@ const UserProfile: FC<FuncProps> = ({
             sushiBalance={sushiBalance}
             emptyPotionBottleBalance={emptyPotionBottleBalance}
             poopBalance={poopBalance}
+            newBeast={newBeast}
+            setNewBeast={setNewBeast}
+            newTokens={newTokens}
+            setNewTokens={setNewTokens}
           />
         </RightColumn>
       </Wrapper>

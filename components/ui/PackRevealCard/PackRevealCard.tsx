@@ -149,6 +149,8 @@ type Props = {
   fetchSushi: any
   fetchEmptyPotionBottle: any
   fetchPoop: any
+  setNewBeast: any
+  setNewTokens: any
 }
 
 const PackRevealCard: FC<Props> = ({
@@ -160,6 +162,8 @@ const PackRevealCard: FC<Props> = ({
   fetchSushi,
   fetchEmptyPotionBottle,
   fetchPoop,
+  setNewBeast,
+  setNewTokens,
 }) => {
   const [packOpened, setPackOpened] = useState(pack.opened)
 
@@ -343,6 +347,8 @@ const PackRevealCard: FC<Props> = ({
       pack.opened = true
       setPackOpened(pack.opened)
       await tx(res).onceSealed()
+      setNewBeast(true)
+      setNewTokens(true)
       fetchUserBeasts()
       fetchSushi()
       fetchEmptyPotionBottle()
@@ -375,13 +381,13 @@ const PackRevealCard: FC<Props> = ({
 
           <Button
             onClick={() => {
-              //unpack(pack.stockNumber)
+              unpack(pack.stockNumber)
               // For testing //
-              pack.opened = true
-              selectPack(pack.beastTemplateID.toString())
-              setPackOpened(pack.opened)
-              console.log(pack)
-              revealModalOpen()
+              // pack.opened = true
+              // selectPack(pack.beastTemplateID.toString())
+              // setPackOpened(pack.opened)
+              // console.log(pack)
+              // revealModalOpen()
             }}
           >
             Reveal

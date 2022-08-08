@@ -1,7 +1,7 @@
 import type { NextPage } from "next"
 import HeaderDark from "@components/ui/HeaderDark"
 import styled from "styled-components"
-import InboxItemList from "@components/ui/InboxItemList"
+import InboxItemListTemp from "@components/ui/InboxItemListTemp"
 
 const Spacing = styled.div`
   @media (min-width: 1100px) {
@@ -13,7 +13,7 @@ const Inbox: NextPage = () => {
   return (
     <div>
       <HeaderDark title="My Inbox" description="Claim your packs" />
-      <InboxItemList />
+      <InboxItemListTemp />
     </div>
   )
 }

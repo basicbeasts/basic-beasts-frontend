@@ -3,7 +3,7 @@ import styled from "styled-components"
 
 const Button = styled.button<{ selected?: boolean }>`
   padding: 5px 0px 6px 2px;
-  width: 150px;
+  width: 160px;
   margin-left: 20px;
   font-size: 1.1em;
   background-color: ${(props) => (props.selected ? "#E9CB4F" : "transparent")};
@@ -29,7 +29,7 @@ const Button = styled.button<{ selected?: boolean }>`
 const RedDot = styled.span`
   color: #cc3333;
   position: absolute;
-  padding-left: 18px;
+  padding-left: 10px;
   margin-top: -13px;
   font-size: 30px;
   font-family: "Courier New", Courier, monospace;
@@ -52,7 +52,7 @@ const TabButton: FC<FuncProps> = ({
     <Button selected={selected} onClick={onClick}>
       {notify ? (
         <>
-          Packs <RedDot>•</RedDot>
+          {buttonText} <RedDot>•</RedDot>
         </>
       ) : (
         buttonText

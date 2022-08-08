@@ -137,6 +137,8 @@ type Props = {
   fetchSushi: any
   fetchEmptyPotionBottle: any
   fetchPoop: any
+  setNewBeast: any
+  setNewTokens: any
 }
 
 const RevealOverlay: FC<Props> = ({
@@ -151,6 +153,8 @@ const RevealOverlay: FC<Props> = ({
   fetchSushi,
   fetchEmptyPotionBottle,
   fetchPoop,
+  setNewBeast,
+  setNewTokens,
 }: Props) => {
   const { logIn, logOut, user, loggedIn } = useAuth()
   const [selectedPack, setSelectedPack] = useState<string | "0">("0")
@@ -216,6 +220,8 @@ const RevealOverlay: FC<Props> = ({
                     fetchSushi={fetchSushi}
                     fetchEmptyPotionBottle={fetchEmptyPotionBottle}
                     fetchPoop={fetchPoop}
+                    setNewBeast={setNewBeast}
+                    setNewTokens={setNewTokens}
                   />
                 </li>
               ))}
@@ -236,6 +242,8 @@ const RevealOverlay: FC<Props> = ({
                     fetchSushi={fetchSushi}
                     fetchEmptyPotionBottle={fetchEmptyPotionBottle}
                     fetchPoop={fetchPoop}
+                    setNewBeast={setNewBeast}
+                    setNewTokens={setNewTokens}
                   />
                 </li>
               ))}
@@ -256,6 +264,8 @@ const RevealOverlay: FC<Props> = ({
                     fetchSushi={fetchSushi}
                     fetchEmptyPotionBottle={fetchEmptyPotionBottle}
                     fetchPoop={fetchPoop}
+                    setNewBeast={setNewBeast}
+                    setNewTokens={setNewTokens}
                   />
                 </li>
               ))}
@@ -276,6 +286,8 @@ const RevealOverlay: FC<Props> = ({
                     fetchSushi={fetchSushi}
                     fetchEmptyPotionBottle={fetchEmptyPotionBottle}
                     fetchPoop={fetchPoop}
+                    setNewBeast={setNewBeast}
+                    setNewTokens={setNewTokens}
                   />
                 </li>
               ))}

@@ -20,6 +20,8 @@ const Profile: NextPage = () => {
   const [sushiBalance, setSushiBalance] = useState(0)
   const [emptyPotionBottleBalance, setEmptyPotionBottleBalance] = useState(0)
   const [poopBalance, setPoopBalance] = useState(0)
+  const [newBeast, setNewBeast] = useState(false)
+  const [newTokens, setNewTokens] = useState(false)
   //const [userPacks, setUserPacks] = useState()
 
   //const { userPacks, fetchUserPacks } = useUser()
@@ -557,6 +559,8 @@ const Profile: NextPage = () => {
         fetchSushi={fetchSushi}
         fetchEmptyPotionBottle={fetchEmptyPotionBottle}
         fetchPoop={fetchPoop}
+        setNewBeast={setNewBeast}
+        setNewTokens={setNewTokens}
       />
 
       <UserProfile
@@ -567,6 +571,10 @@ const Profile: NextPage = () => {
         sushiBalance={sushiBalance}
         emptyPotionBottleBalance={emptyPotionBottleBalance}
         poopBalance={poopBalance}
+        newBeast={newBeast}
+        setNewBeast={setNewBeast}
+        newTokens={newTokens}
+        setNewTokens={setNewTokens}
       />
     </div>
   )

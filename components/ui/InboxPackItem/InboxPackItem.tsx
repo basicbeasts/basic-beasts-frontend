@@ -3,6 +3,7 @@ import styled from "styled-components"
 import StarterImg from "public/packs/pack_pf/starter.png"
 import CursedImg from "public/packs/pack_pf/cursed.png"
 import ShinyImg from "public/packs/pack_pf/shiny.png"
+import MetallicImg from "public/packs/pack_pf/metallic.png"
 import BeastCard from "@components/ui/BeastCard"
 import data from "data"
 import mails from "data/inbox-dummy-data"
@@ -63,7 +64,7 @@ const InboxPackItem: FC<Props> = ({ quantity, description, value }) => {
                 ""
               )}
               {description == "Metallic Silver Pack" ? (
-                <Image src={StarterImg.src} />
+                <Image src={MetallicImg.src} />
               ) : (
                 ""
               )}
