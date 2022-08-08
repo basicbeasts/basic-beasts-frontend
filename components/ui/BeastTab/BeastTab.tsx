@@ -34,9 +34,9 @@ const BeastTabCardWrapper = styled.div`
   max-width: 110px;
 `
 
-const ThumbnailDetails = styled.div`
+const ThumbnailDetails = styled.div<Omit<Color, "background">>`
   color: #000000;
-  background: #a4c2f4;
+  background: ${(props) => props.bgColor || "#FFD966"};
   display: table;
   clear: both;
   width: 100%;
@@ -64,6 +64,10 @@ const ThumbnailLabel = styled.div`
   text-align: right;
   line-height: 1.2em;
 `
+
+type Color = {
+  bgColor: any
+}
 
 type Props = {
   selectBeast: Dispatch<SetStateAction<string | null>>
@@ -156,10 +160,24 @@ const BeastTab: FC<Props> = ({
                 <BeastTabCard
                   id={beast.id}
                   className="object-cover group-hover:opacity-90"
+                  beastTemplateID={beast.beastTemplateID}
                 />
               </div>
               <div>
-                <ThumbnailDetails style={{ borderRadius: "0 0 20px 20px" }}>
+                <ThumbnailDetails
+                  style={{ borderRadius: "0 0 20px 20px" }}
+                  bgColor={
+                    beast.elements[0] == "Electric"
+                      ? "#FFD966"
+                      : beast.elements[0] == "Water"
+                      ? "#A4C2F4"
+                      : beast.elements[0] == "Grass"
+                      ? "#B7D7A8"
+                      : beast.elements[0] == "Fire"
+                      ? "#EA9999"
+                      : "#D5A6BD"
+                  }
+                >
                   <ThumbnailLabel>
                     <div style={{ fontSize: "1.3em" }}>{beast.nickname}</div>
                     <div style={{ fontSize: "1.3em" }}>

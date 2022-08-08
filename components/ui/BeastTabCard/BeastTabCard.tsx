@@ -3,6 +3,7 @@ import styled from "styled-components"
 
 import star from "public/basic_starLevel.png"
 import thumbnail from "public/thumbnails/Size_for_Thumbnail_template_saber.png"
+import beastTemplates from "data/beastTemplates"
 
 const Container = styled.div<{
   selected?: boolean
@@ -29,18 +30,25 @@ type BeastThumbnailProps = {
   selected?: boolean
   onClick?: () => void
   className: any
+  beastTemplateID: any
 }
 
 const BeastTabCard: FC<BeastThumbnailProps> = ({
   id,
   className,
+  beastTemplateID,
   ...props
 }: BeastThumbnailProps) => {
   return (
     <div className={className}>
       <Container {...props} tagColor={"#FFD966"}>
         <>
-          <Img src={thumbnail.src} />
+          <Img
+            src={
+              beastTemplates[beastTemplateID as keyof typeof beastTemplates]
+                .thumbnail
+            }
+          />
         </>
       </Container>
     </div>

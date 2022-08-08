@@ -22,6 +22,7 @@ import * as t from "@onflow/types"
 import { useAuth } from "@components/auth/AuthProvider"
 import MaleIcon from "public/gender_icons/male_icon.png"
 import FemaleIcon from "public/gender_icons/female_icon.png"
+import beastTemplates from "data/beastTemplates"
 
 const Container = styled.div`
   text-align: center;
@@ -101,12 +102,14 @@ const FirstOwnerTag = styled.div`
   margin-top: 15px;
 `
 
-const Tag = styled.div`
+const Tag = styled.div<Omit<Color, "background">>`
   color: #242526;
   font-size: 0.8em;
   padding: 2px 8px;
   border-radius: 5px;
-  background: linear-gradient(180deg, #ffe8a3 0%, #ffd966 100%);
+  background: ${(props) =>
+    props.colorCode ||
+    "linear-gradient(180deg, rgba(255,232,163,1) 0%, rgba(255,217,102,1) 100%)"};
 `
 
 const GenderIcon = styled.div``
@@ -114,6 +117,7 @@ const GenderIcon = styled.div``
 const DexNumber = styled.div`
   margin-left: 10px;
   font-size: 1.2em;
+  margin-top: -2px;
 `
 
 const Description = styled.div`
@@ -131,6 +135,10 @@ const Serial = styled.div`
 const IconImg = styled.img`
   width: 25px;
 `
+
+type Color = {
+  colorCode: any
+}
 
 type Props = {
   packImage: any
@@ -385,14 +393,29 @@ const PackRevealCard: FC<Props> = ({
       <TransitionDiv packOpened={packOpened}>
         <Img
           src={
-            "https://github.com/basicbeasts/basic-beasts-frontend/blob/main/public/Thumbnail_2.png?raw=true"
+            beastTemplates[pack.beastTemplateID as keyof typeof beastTemplates]
+              .packReveal
           }
         />
         <HeaderDetails>
           <HeaderDetailsLeft>
             <BeastName>{pack.beastName}</BeastName>
             <FirstOwnerTag>
-              <Tag>First owner</Tag>
+              <Tag
+                colorCode={
+                  pack.elements[0] == "Electric"
+                    ? "linear-gradient(180deg, rgba(255,232,163,1) 0%, rgba(255,217,102,1) 100%)"
+                    : pack.elements[0] == "Water"
+                    ? "linear-gradient(180deg, #c8daf8 0%, #A4C2F4 100%)"
+                    : pack.elements[0] == "Grass"
+                    ? "linear-gradient(180deg, #D4E7CB 0%, #B7D7A8 100%)"
+                    : pack.elements[0] == "Fire"
+                    ? "linear-gradient(180deg, #F2C2C2 0%, #EA9999 100%)"
+                    : "linear-gradient(180deg, #E6CAD7 0%, #D5A6BD 100%)"
+                }
+              >
+                First owner
+              </Tag>
             </FirstOwnerTag>
           </HeaderDetailsLeft>
           <HeaderDetailsRight>

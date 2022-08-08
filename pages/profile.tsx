@@ -508,6 +508,9 @@ const Profile: NextPage = () => {
           element.beast[
             beastKey as keyof typeof element.beast
           ]?.beastTemplate.skin,
+          element.beast[
+            beastKey as keyof typeof element.beast
+          ]?.beastTemplate.elements,
         )
         mappedPacks.push(pack)
       }

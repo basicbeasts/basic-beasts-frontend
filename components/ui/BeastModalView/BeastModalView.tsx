@@ -54,12 +54,12 @@ const HeaderDetails = styled.div`
 `
 
 const Serial = styled.div`
-  float: left;
+  float: right;
   font-size: 1.3em;
 `
 
 const RightHeaderDetails = styled.div`
-  float: right;
+  float: left;
 `
 
 const DexNumber = styled.div`
@@ -249,7 +249,15 @@ const BeastModalView: FC<Props> = ({ beast, open, setOpen }) => {
                     <Container>
                       <Header
                         colorCode={
-                          "linear-gradient(180deg, rgba(255,232,163,1) 0%, rgba(255,217,102,1) 100%)"
+                          beast.elements[0] == "Electric"
+                            ? "linear-gradient(180deg, rgba(255,232,163,1) 0%, rgba(255,217,102,1) 100%)"
+                            : beast.elements[0] == "Water"
+                            ? "linear-gradient(180deg, #c8daf8 0%, #A4C2F4 100%)"
+                            : beast.elements[0] == "Grass"
+                            ? "linear-gradient(180deg, #D4E7CB 0%, #B7D7A8 100%)"
+                            : beast.elements[0] == "Fire"
+                            ? "linear-gradient(180deg, #F2C2C2 0%, #EA9999 100%)"
+                            : "linear-gradient(180deg, #E6CAD7 0%, #D5A6BD 100%)"
                         }
                       >
                         <BeastName

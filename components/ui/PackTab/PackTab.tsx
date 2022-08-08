@@ -139,7 +139,7 @@ const PackTab: FC<Props> = ({
                 style={{
                   borderRadius: "12px",
                 }}
-                className="group block w-full aspect-w-6 aspect-h-10 bg-gray-100 overflow-hidden"
+                className="group block w-full aspect-w-7 aspect-h-10 bg-gray-100 overflow-hidden"
               >
                 <PackTabCard
                   id={"1"}
@@ -181,7 +181,7 @@ const PackTab: FC<Props> = ({
                 style={{
                   borderRadius: "12px",
                 }}
-                className="group block w-full aspect-w-6 aspect-h-10 bg-gray-100 overflow-hidden"
+                className="group block w-full aspect-w-7 aspect-h-10 bg-gray-100 overflow-hidden"
               >
                 <PackTabCard
                   id={"2"}
@@ -212,7 +212,7 @@ const PackTab: FC<Props> = ({
                 style={{
                   borderRadius: "12px",
                 }}
-                className="group block w-full aspect-w-6 aspect-h-10 bg-gray-100 overflow-hidden"
+                className="group block w-full aspect-w-7 aspect-h-10 bg-gray-100 overflow-hidden"
               >
                 <PackTabCard
                   id={"3"}
@@ -243,7 +243,7 @@ const PackTab: FC<Props> = ({
                 style={{
                   borderRadius: "12px",
                 }}
-                className="group block w-full aspect-w-6 aspect-h-10 bg-gray-100 overflow-hidden"
+                className="group block w-full aspect-w-7 aspect-h-10 bg-gray-100 overflow-hidden"
               >
                 <PackTabCard
                   id={"4"}

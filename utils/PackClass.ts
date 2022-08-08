@@ -13,6 +13,7 @@ class PackClass {
   beastDescription: String
   beastMaxAdminMintAllowed: number
   beastSkin: String
+  elements: any
 
   constructor(
     id: number,
@@ -29,6 +30,7 @@ class PackClass {
     beastDescription: String,
     beastMaxAdminMintAllowed: number,
     beastSkin: String,
+    elements: any,
   ) {
     this.id = id
     this.uuid = uuid || 0
@@ -44,6 +46,7 @@ class PackClass {
     this.beastDescription = beastDescription
     this.beastMaxAdminMintAllowed = beastMaxAdminMintAllowed
     this.beastSkin = beastSkin
+    this.elements = elements
   }
 
   get type() {
