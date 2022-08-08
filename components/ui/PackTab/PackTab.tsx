@@ -28,7 +28,7 @@ const Wrapper = styled.div`
   width: 100%;
   overflow: hidden;
   overflow-y: scroll;
-  height: 600px;
+  height: 700px;
   margin-top: 20px;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
@@ -121,7 +121,7 @@ const PackTab: FC<Props> = ({
       {packCount != null ? (
         <ul
           role="list"
-          className="grid grid-cols-2 gap-x-5 gap-y-5 sm:grid-cols-3 sm:gap-x-6 md:grid-cols-4 lg:grid-cols-2 xl:gap-x-7 xl:grid-cols-3 2xl:grid-cols-4"
+          className="grid grid-cols-2 gap-x-5 gap-y-5 sm:grid-cols-3 sm:gap-x-6 md:grid-cols-3 lg:grid-cols-1 xl:gap-x-7 xl:grid-cols-2 2xl:grid-cols-3"
         >
           {packCount[1] > 0 ? (
             <li className="relative">

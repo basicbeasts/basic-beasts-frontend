@@ -12,7 +12,7 @@ const Container = styled.div`
   color: #fff;
   margin-top: 30px;
 
-  height: 600px;
+  height: 800px;
 `
 
 type Props = {

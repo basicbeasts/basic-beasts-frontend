@@ -14,12 +14,15 @@ const Container = styled.div<{
     pointer !important;
   padding: 20px;
   background: ${(props) => props.bgColor || "#E5E8E7"};
+  display: flex;
+  flex-direction: column;
 `
 
 const Img = styled.img`
   user-drag: none;
   -webkit-user-drag: none;
-  margin-bottom: 15px;
+
+  margin: 0 15px 15px;
 `
 
 const Wrapper = styled.div`
@@ -27,6 +30,10 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   text-align: center;
+`
+
+const TextContainer = styled.div`
+  height: 50px;
 `
 
 const ButtonWrapper = styled.div`
@@ -41,7 +48,7 @@ const Button = styled.button<{
 }>`
   text-transform: uppercase;
   padding: 0 20px 3px;
-  font-size: 1.5vw;
+  font-size: 1.8em;
   background-color: ${(props) => props.bgColor};
   color: ${(props) => props.fontColor};
 
@@ -57,7 +64,8 @@ const Button = styled.button<{
     font-size: 7vw;
   }
   @media (max-width: 1010px) {
-    width: 26vw;
+    //width: 10vw;
+    font-size: 2em;
   }
   &:active {
     transition: all 0.1s ease 0s;
@@ -106,8 +114,9 @@ const PackTabCard: FC<BeastThumbnailProps> = ({
       <>
         <Img src={image.src} />
         <Wrapper>
-          <div>One random 1-star beast</div>
-          <div>Amount: {packCount}</div>
+          <TextContainer>
+            <div>Amount: {packCount}</div>
+          </TextContainer>
           <ButtonWrapper>
             <Button
               borderColor={
