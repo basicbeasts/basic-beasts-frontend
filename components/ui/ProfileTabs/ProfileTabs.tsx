@@ -35,6 +35,7 @@ type Props = {
   setNewBeast: any
   newTokens: any
   setNewTokens: any
+  fetchUserBeasts: any
 }
 
 const ProfileTabs: FC<Props> = ({
@@ -57,6 +58,7 @@ const ProfileTabs: FC<Props> = ({
   setNewBeast,
   newTokens,
   setNewTokens,
+  fetchUserBeasts,
 }) => {
   const [hasPacks, setHasPacks] = useState(false)
 
@@ -104,7 +106,11 @@ const ProfileTabs: FC<Props> = ({
         notify={filter !== "packs" && hasPacks}
       />
       {filter === "beast collection" && (
-        <BeastTab selectBeast={selectBeast} beasts={beasts} />
+        <BeastTab
+          selectBeast={selectBeast}
+          beasts={beasts}
+          fetchUserBeasts={fetchUserBeasts}
+        />
       )}
       {filter === "items" && (
         <ItemTab

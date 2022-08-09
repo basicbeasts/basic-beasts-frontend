@@ -74,6 +74,7 @@ type Props = {
   // count: any
   // selectedBeast: any
   beasts: any
+  fetchUserBeasts: any
 }
 
 type Beast = {
@@ -103,8 +104,10 @@ const BeastTab: FC<Props> = ({
   // count,
   // selectedBeast,
   beasts,
+  fetchUserBeasts,
 }: {
   selectBeast: Dispatch<SetStateAction<string | null>>
+  fetchUserBeasts: any
   // count: Dispatch<SetStateAction<number>>
   // selectedBeast: string | null
   beasts: any[]
@@ -133,10 +136,18 @@ const BeastTab: FC<Props> = ({
 
   const [selectedBeast, setSelectedBeast] = useState<Beast | null>(null)
   const [open, setOpen] = useState(false)
+  const [displayNickname, setDisplayNickname] = useState<string | null>(null)
 
   return (
     <Wrapper>
-      <BeastModalView beast={selectedBeast} open={open} setOpen={setOpen} />
+      <BeastModalView
+        beast={selectedBeast}
+        open={open}
+        setOpen={setOpen}
+        fetchUserBeasts={fetchUserBeasts}
+        displayNickname={displayNickname}
+        setDisplayNickname={setDisplayNickname}
+      />
       {beasts != null ? (
         <ul
           role="list"
@@ -149,6 +160,7 @@ const BeastTab: FC<Props> = ({
               onClick={() => {
                 setOpen(true)
                 setSelectedBeast(beast)
+                setDisplayNickname(null)
               }}
             >
               <div
@@ -221,7 +233,7 @@ const BeastTab: FC<Props> = ({
           <li></li>
         </ul>
       ) : (
-        ""
+        "No beasts found"
       )}
 
       {/* Example of loading */}

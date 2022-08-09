@@ -4,197 +4,130 @@ import { CheckIcon } from "@heroicons/react/outline"
 
 import star from "public/basic_starLevel.png"
 import styled from "styled-components"
+import {
+  send,
+  transaction,
+  args,
+  arg,
+  payer,
+  proposer,
+  authorizations,
+  limit,
+  authz,
+  decode,
+  tx,
+} from "@onflow/fcl"
+import * as t from "@onflow/types"
 
-const DialogPanel = styled(Dialog.Panel)<TailwindProps>`
-  border-radius: 20px;
+const ActionItem = styled.div`
+  padding: 10px 0;
+  width: 100%;
+`
+
+const FuncArgInput = styled.input`
+  background: transparent;
+  border: 1px solid #222;
+  color: #222;
+  font-size: 1.5em;
+  padding: 10px 0px 10px 20px;
+  border-radius: 8px 0 0 8px;
+  width: 50%;
+  cursor: pointer;
+  margin-right: -1px;
+
+  outline: none;
+`
+
+const FuncArgButton = styled.button`
+  background: transparent;
+  border: 1px solid #222;
+  color: #222;
+  font-size: 1.5em;
+  padding: 10px 20px;
+  border-radius: 0 8px 8px 0;
+  cursor: pointer;
+  &:hover {
+    background: #000000;
+    color: #fff;
+  }
+`
+
+const Title = styled.div`
+  font-size: 2.5em;
+  margin-bottom: 20px;
+`
+
+const Wrapper = styled.div`
+  margin: 0 20px;
 `
 
 const Container = styled.div`
-  /* width: 400px; */
-  background: #fff;
-  font-size: 18px;
-  user-drag: none;
-  -webkit-user-drag: none;
-  user-select: none;
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
+  align-items: center;
 `
-
-// -----------------------------------------------------------------------
-// Header
-// Styling for the header of a Beast Card
-// -----------------------------------------------------------------------
-
-const Header = styled.div<Omit<Color, "background">>`
-  height: 220px;
-  background: ${(props) => props.colorCode};
-  padding: 28px 35px;
-  color: #242526;
-`
-
-const BeastName = styled.h3`
-  margin: 0;
-  font-size: 55px;
-  font-weight: normal;
-  line-height: 50px;
-`
-
-const HeaderDetails = styled.div`
-  display: table;
-  clear: both;
-  width: 100%;
-  margin-top: 10px;
-`
-
-const Serial = styled.div`
-  float: left;
-  font-size: 1.3em;
-`
-
-const RightHeaderDetails = styled.div`
-  float: right;
-`
-
-const DexNumber = styled.div`
-  font-size: 1.3em;
-  text-align: right;
-`
-
-const StarImg = styled.img`
-  width: 1.2em;
-  margin-left: 5px;
-  margin-top: 1px;
-  user-drag: none;
-  -webkit-user-drag: none;
-`
-
-const StarLevel = styled.div`
-  height: 40px;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-auto-flow: row;
-`
-
-// -----------------------------------------------------------------------
-// Content
-// Styling for the content of a Beast Card
-// -----------------------------------------------------------------------
-
-const Content = styled.div`
-  height: 360px;
-  background: #fff;
-  padding: 3vw;
-  font-size: 1.2em;
-  color: #242526;
-`
-
-const Img = styled.img`
-  width: 180px;
-  margin: auto;
-  top: -60px;
-  position: relative;
-  user-drag: none;
-  -webkit-user-drag: none;
-`
-
-const Description = styled.div`
-  margin-top: 10px;
-`
-
-const InfoContainer = styled.ul`
-  display: table;
-  clear: both;
-  margin-top: 15px;
-`
-
-const InfoLabel = styled.div`
-  float: left;
-  width: 150px;
-  color: #868889;
-`
-
-const InfoText = styled.div`
-  float: right;
-`
-
-const InfoListItem = styled.span`
-  margin-right: 30px;
-`
-
-const BasicSkills = styled.div`
-  display: table;
-  clear: both;
-  height: 95px;
-`
-
-const Skills = styled.div`
-  float: right;
-  margin-top: 5px;
-`
-
-const Skill = styled.div`
-  height: 25px;
-`
-
-const BasicSkillsLabel = styled.div`
-  float: left;
-  margin-right: 45px;
-  font-size: 25px;
-  @media (max-width: 450px) {
-    margin-right: 33px;
-  }
-`
-
-const UltimateSkill = styled.div<Omit<Button, "background">>`
-  display: table;
-  clear: both;
-  width: 100%;
-  margin: 25px auto;
-  background-color: ${(props) => props.backgroundColor || "#FFE595"};
-  box-shadow: -3px 0px 0px 0px ${(props) => props.outset || "#B3A068"},
-    0px -3px 0px 0px ${(props) => props.outset || "#B3A068"},
-    0px 3px 0px 0px ${(props) => props.outset || "#B3A068"},
-    3px 0px 0px 0px ${(props) => props.outset || "#B3A068"},
-    inset -3px -3px ${(props) => props.inset || "#E6CE86"};
-  padding: 5px 15px;
-  font-size: 1.1em;
-`
-
-const UltimateSkillLabel = styled.div`
-  float: left;
-  margin-right: 32px;
-  @media (max-width: 450px) {
-    margin-right: 20px;
-  }
-`
-
-const SkillName = styled.div`
-  float: right;
-  width: 150px;
-`
-
-type Color = {
-  colorCode: any
-}
-
-type Button = {
-  backgroundColor: string
-  outset: string
-  inset: string
-}
-
-type TailwindProps = {
-  className: any
-}
 
 type Props = {
-  beast: any
+  beastID: any
   open: boolean
   setOpen: any
+  fetchUserBeasts: any
+  beastModalSetOpen: any
+  setDisplayNickname: any
+  beastName: any
 }
 
-const BeastModalView: FC<Props> = ({ beast, open, setOpen }) => {
+const BeastModalView: FC<Props> = ({
+  beastID,
+  open,
+  setOpen,
+  fetchUserBeasts,
+  beastModalSetOpen,
+  setDisplayNickname,
+  beastName,
+}) => {
+  const [nickname, setNickname] = useState<string | null>("")
+
+  const changeNickname = async () => {
+    try {
+      const res = await send([
+        transaction(`
+        import BasicBeasts from 0xBasicBeasts
+        
+        transaction(nickname: String, id: UInt64) {
+        
+            let beastRef: &BasicBeasts.NFT
+        
+            prepare(acct: AuthAccount) {
+        
+                let collectionRef = acct.borrow<&BasicBeasts.Collection>(from: BasicBeasts.CollectionStoragePath)
+                    ?? panic("Could not borrow a reference to the stored Beast collection")
+        
+                self.beastRef = collectionRef.borrowEntireBeast(id: id)!
+        
+            }
+            execute {
+                self.beastRef.setNickname(nickname: nickname)
+            }
+        }
+        `),
+        args([arg(nickname, t.String), arg(parseInt(beastID), t.UInt64)]),
+        payer(authz),
+        proposer(authz),
+        authorizations([authz]),
+        limit(9999),
+      ]).then(decode)
+      setOpen(false)
+      if (nickname != "") {
+        setDisplayNickname(nickname)
+      } else {
+        setDisplayNickname(beastName)
+      }
+      await tx(res).onceSealed()
+      await fetchUserBeasts()
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setOpen}>
@@ -211,7 +144,7 @@ const BeastModalView: FC<Props> = ({ beast, open, setOpen }) => {
         </Transition.Child>
 
         <div className="fixed z-10 inset-0 overflow-y-auto">
-          <div className="flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0">
+          <Container className="flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -220,8 +153,31 @@ const BeastModalView: FC<Props> = ({ beast, open, setOpen }) => {
               leave="ease-in duration-200"
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-            ></Transition.Child>
-          </div>
+            >
+              <Dialog.Panel
+                style={{ borderRadius: "20px", width: "100%" }}
+                className="relative bg-white rounded-lg pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-sm sm:w-full md:max-w-xl"
+              >
+                <Wrapper>
+                  <ActionItem>
+                    <Title>Change Nickname</Title>
+                    <FuncArgInput
+                      placeholder="Nickname"
+                      type="text"
+                      onChange={(e: any) => setNickname(e.target.value)}
+                    />
+                    <FuncArgButton
+                      onClick={() => {
+                        changeNickname()
+                      }}
+                    >
+                      Save on-chain
+                    </FuncArgButton>
+                  </ActionItem>
+                </Wrapper>
+              </Dialog.Panel>
+            </Transition.Child>
+          </Container>
         </div>
       </Dialog>
     </Transition.Root>

@@ -49,6 +49,11 @@ const ContentLeft = styled.div`
   float: left;
   color: #fff;
   margin-left: 100px;
+
+  //Responsive
+  @media (max-width: 1240px) {
+    margin-left: 0px;
+  }
 `
 const ContentRight = styled.div`
   float: right;
@@ -63,11 +68,11 @@ const BeastName = styled(motion.div)`
   //Responsive
   @media (max-width: 1240px) {
     font-size: 20em;
-    height: 250px;
+    height: 300px;
   }
   @media (max-width: 1000px) {
     font-size: 13em;
-    height: 180px;
+    height: 200px;
   }
   @media (max-width: 600px) {
     font-size: 8em;
@@ -126,7 +131,17 @@ const StarImg = styled.img`
 const Beast = styled(motion.div)``
 
 const BeastImg = styled.img`
-  width: 40vw;
+  position: absolute;
+  width: 37vw;
+  margin-top: 200px;
+  right: 2vw;
+  //Responsive
+  @media (max-width: 1240px) {
+  }
+  @media (max-width: 1000px) {
+  }
+  @media (max-width: 600px) {
+  }
 `
 
 const CloseIcon = styled.div`

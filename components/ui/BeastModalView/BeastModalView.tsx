@@ -186,6 +186,51 @@ const IconImg = styled.img`
   margin-top: 5px;
 `
 
+const ToolTipText = styled.span`
+  visibility: hidden;
+  width: 200px;
+  background-color: rgba(0, 0, 0);
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 10px;
+  position: absolute;
+  z-index: 99999;
+  bottom: 100%;
+  right: -100px;
+  font-size: 1em;
+  text-transform: capitalize;
+
+  @media (max-width: 1010px) {
+    /* width: 340px;
+    font-size: 4vw;
+    margin-left: -170px; */
+  }
+
+  //bottom arrow
+  ::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: black transparent transparent transparent;
+  }
+`
+
+const ToolTip = styled.div`
+  position: relative;
+  display: inline-block;
+  cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
+      14 0,
+    pointer !important;
+  &:hover span {
+    visibility: visible;
+  }
+`
+
 type Color = {
   colorCode: any
 }
@@ -204,9 +249,19 @@ type Props = {
   beast: any
   open: boolean
   setOpen: any
+  fetchUserBeasts: any
+  displayNickname: any
+  setDisplayNickname: any
 }
 
-const BeastModalView: FC<Props> = ({ beast, open, setOpen }) => {
+const BeastModalView: FC<Props> = ({
+  beast,
+  open,
+  setOpen,
+  fetchUserBeasts,
+  displayNickname,
+  setDisplayNickname,
+}) => {
   const [open2, setOpen2] = useState(false)
 
   return (
@@ -240,9 +295,13 @@ const BeastModalView: FC<Props> = ({ beast, open, setOpen }) => {
                 className="relative bg-white rounded-lg pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-sm sm:w-full md:max-w-xl"
               >
                 <ChangeNicknameModal
-                  beast={beast}
+                  beastID={beast?.id}
                   open={open2}
                   setOpen={setOpen2}
+                  fetchUserBeasts={fetchUserBeasts}
+                  beastModalSetOpen={setOpen}
+                  setDisplayNickname={setDisplayNickname}
+                  beastName={beast?.name}
                 />
                 <div>
                   {beast != null ? (
@@ -260,13 +319,18 @@ const BeastModalView: FC<Props> = ({ beast, open, setOpen }) => {
                             : "linear-gradient(180deg, #E6CAD7 0%, #D5A6BD 100%)"
                         }
                       >
-                        <BeastName
-                          onClick={() => {
-                            setOpen2(true)
-                          }}
-                        >
-                          {beast.nickname}
-                        </BeastName>
+                        <ToolTip>
+                          <BeastName
+                            onClick={() => {
+                              setOpen2(true)
+                            }}
+                          >
+                            {displayNickname == null
+                              ? beast.nickname
+                              : displayNickname}
+                          </BeastName>
+                          <ToolTipText>Change Nickname</ToolTipText>
+                        </ToolTip>
                         <HeaderDetails>
                           <Serial>
                             Serial #{beast.serialNumber} |{" "}

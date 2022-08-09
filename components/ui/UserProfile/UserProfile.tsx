@@ -53,6 +53,7 @@ type FuncProps = {
   setNewBeast: any
   newTokens: any
   setNewTokens: any
+  fetchUserBeasts: any
 }
 
 const UserProfile: FC<FuncProps> = ({
@@ -67,6 +68,7 @@ const UserProfile: FC<FuncProps> = ({
   setNewBeast,
   newTokens,
   setNewTokens,
+  fetchUserBeasts,
 }) => {
   const [selectedBeast, setSelectedBeast] = useState<string | null>(null)
   const [selectedItem, setSelectedItem] = useState<string | null>(null)
@@ -105,6 +107,7 @@ const UserProfile: FC<FuncProps> = ({
             setNewBeast={setNewBeast}
             newTokens={newTokens}
             setNewTokens={setNewTokens}
+            fetchUserBeasts={fetchUserBeasts}
           />
         </RightColumn>
       </Wrapper>

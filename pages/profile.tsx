@@ -575,6 +575,7 @@ const Profile: NextPage = () => {
         setNewBeast={setNewBeast}
         newTokens={newTokens}
         setNewTokens={setNewTokens}
+        fetchUserBeasts={fetchUserBeasts}
       />
     </div>
   )

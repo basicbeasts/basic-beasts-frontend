@@ -24,6 +24,9 @@ const Wrapper = styled.div`
   @media (max-width: 1140px) {
     width: 100%;
   }
+  @media (max-width: 1000px) {
+    height: 650px;
+  }
   //Scroll in div
   width: 100%;
   overflow: hidden;
@@ -260,7 +263,7 @@ const PackTab: FC<Props> = ({
           )}
         </ul>
       ) : (
-        "No Packs"
+        "No packs found"
       )}
     </Wrapper>
   )

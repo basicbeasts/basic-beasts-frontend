@@ -6,6 +6,7 @@ import HeroImg from "public/hero/HeroImg-Desktop.png"
 import HeroImgMobile from "public/hero/HeroImg-Mobile.png"
 import useTranslation from "next-translate/useTranslation"
 // import DecentologyLogo from "public/decentology.svg"
+import FilecoinLogo from "public/filecoin.svg"
 
 const Grid = styled.div`
   margin: 0 auto;
@@ -66,6 +67,7 @@ const IconContainer = styled.div`
     text-align: center;
     margin-bottom: 30px;
   }
+  display: flex;
 `
 
 const Icon = styled.img`
@@ -171,7 +173,7 @@ const Hero: FC = () => {
         </TextContainer>
         <IconContainer>
           <Icon src={FlowLogo.src} />
-          {/* <Icon src={DecentologyLogo.src} /> */}
+          <Icon src={FilecoinLogo.src} />
         </IconContainer>
       </Description>
     </Grid>

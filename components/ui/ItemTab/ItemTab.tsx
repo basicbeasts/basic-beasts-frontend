@@ -141,118 +141,129 @@ const ItemTab: FC<Props> = ({
         setOpen={setOpen}
         balance={balance}
       />
-      <ul
-        role="list"
-        className="grid grid-cols-2 gap-x-5 gap-y-5 sm:grid-cols-3 sm:gap-x-6 md:grid-cols-4 lg:grid-cols-2 xl:gap-x-7 xl:grid-cols-3 2xl:grid-cols-4"
-      >
-        <li
-          key={1}
-          className="relative"
-          onClick={() => {
-            setOpen(true)
-            setItem(items[0])
-            setBalance(sushiBalance)
-          }}
+      {sushiBalance == null &&
+      emptyPotionBottleBalance == null &&
+      poopBalance == null ? (
+        "No items found"
+      ) : (
+        <ul
+          role="list"
+          className="grid grid-cols-2 gap-x-5 gap-y-5 sm:grid-cols-3 sm:gap-x-6 md:grid-cols-4 lg:grid-cols-2 xl:gap-x-7 xl:grid-cols-3 2xl:grid-cols-4"
         >
-          <div
-            style={{
-              borderRadius: "20px 20px 0 0",
+          <li
+            key={1}
+            className="relative"
+            onClick={() => {
+              setOpen(true)
+              setItem(items[0])
+              setBalance(sushiBalance)
             }}
-            className="group block w-full aspect-w-6 aspect-h-6 bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden"
           >
-            <ItemTabCard
-              id={"1"}
-              className="object-cover group-hover:opacity-90"
-              image={sushi}
-            />
-          </div>
-          <div>
-            <ThumbnailDetails
-              style={{ borderRadius: "0 0 20px 20px" }}
-              backgroundColor={"#E4A9A2"}
+            <div
+              style={{
+                borderRadius: "20px 20px 0 0",
+              }}
+              className="group block w-full aspect-w-6 aspect-h-6 bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden"
             >
-              <ThumbnailLabel>
-                <div style={{ fontSize: "2em" }}>{parseInt(sushiBalance)}x</div>
-              </ThumbnailLabel>
-            </ThumbnailDetails>
-          </div>
-        </li>
-        <li
-          key={2}
-          className="relative"
-          onClick={() => {
-            setOpen(true)
-            setItem(items[1])
-            setBalance(emptyPotionBottleBalance)
-          }}
-        >
-          <div
-            style={{
-              borderRadius: "20px 20px 0 0",
+              <ItemTabCard
+                id={"1"}
+                className="object-cover group-hover:opacity-90"
+                image={sushi}
+              />
+            </div>
+            <div>
+              <ThumbnailDetails
+                style={{ borderRadius: "0 0 20px 20px" }}
+                backgroundColor={"#E4A9A2"}
+              >
+                <ThumbnailLabel>
+                  <div style={{ fontSize: "2em" }}>
+                    {parseInt(sushiBalance)}x
+                  </div>
+                </ThumbnailLabel>
+              </ThumbnailDetails>
+            </div>
+          </li>
+          <li
+            key={2}
+            className="relative"
+            onClick={() => {
+              setOpen(true)
+              setItem(items[1])
+              setBalance(emptyPotionBottleBalance)
             }}
-            className="group block w-full aspect-w-6 aspect-h-6 bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden"
           >
-            <ItemTabCard
-              id={"2"}
-              className="object-cover group-hover:opacity-90"
-              image={emptyPotionBottle}
-            />
-          </div>
-          <div>
-            <ThumbnailDetails
-              style={{ borderRadius: "0 0 20px 20px" }}
-              backgroundColor={"#396042"}
+            <div
+              style={{
+                borderRadius: "20px 20px 0 0",
+              }}
+              className="group block w-full aspect-w-6 aspect-h-6 bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden"
             >
-              <ThumbnailLabel>
-                <div style={{ fontSize: "2em" }}>
-                  {parseInt(emptyPotionBottleBalance)}x
-                </div>
-              </ThumbnailLabel>
-            </ThumbnailDetails>
-          </div>
-        </li>
-        <li
-          key={3}
-          className="relative"
-          onClick={() => {
-            setOpen(true)
-            setItem(items[2])
-            setBalance(poopBalance)
-          }}
-        >
-          <div
-            style={{
-              borderRadius: "20px 20px 0 0",
+              <ItemTabCard
+                id={"2"}
+                className="object-cover group-hover:opacity-90"
+                image={emptyPotionBottle}
+              />
+            </div>
+            <div>
+              <ThumbnailDetails
+                style={{ borderRadius: "0 0 20px 20px" }}
+                backgroundColor={"#396042"}
+              >
+                <ThumbnailLabel>
+                  <div style={{ fontSize: "2em" }}>
+                    {parseInt(emptyPotionBottleBalance)}x
+                  </div>
+                </ThumbnailLabel>
+              </ThumbnailDetails>
+            </div>
+          </li>
+          <li
+            key={3}
+            className="relative"
+            onClick={() => {
+              setOpen(true)
+              setItem(items[2])
+              setBalance(poopBalance)
             }}
-            className="group block w-full aspect-w-6 aspect-h-6 bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden"
           >
-            <ItemTabCard
-              id={"3"}
-              className="object-cover group-hover:opacity-90"
-              image={poop}
-            />
-          </div>
-          <div>
-            <ThumbnailDetails
-              style={{ borderRadius: "0 0 20px 20px" }}
-              backgroundColor={"#604E39"}
+            <div
+              style={{
+                borderRadius: "20px 20px 0 0",
+              }}
+              className="group block w-full aspect-w-6 aspect-h-6 bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden"
             >
-              <ThumbnailLabel>
-                <div style={{ fontSize: "2em" }}>{parseInt(poopBalance)}x</div>
-              </ThumbnailLabel>
-            </ThumbnailDetails>
-          </div>
-        </li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-      </ul>
+              <ItemTabCard
+                id={"3"}
+                className="object-cover group-hover:opacity-90"
+                image={poop}
+              />
+            </div>
+            <div>
+              <ThumbnailDetails
+                style={{ borderRadius: "0 0 20px 20px" }}
+                backgroundColor={"#604E39"}
+              >
+                <ThumbnailLabel>
+                  <div style={{ fontSize: "2em" }}>
+                    {parseInt(poopBalance)}x
+                  </div>
+                </ThumbnailLabel>
+              </ThumbnailDetails>
+            </div>
+          </li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+      )}
+
       {/* Example of loading */}
       {/* {query.$state.isLoading ? (
         <Spinner />
