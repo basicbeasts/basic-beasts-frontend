@@ -70,7 +70,6 @@ type Color = {
 }
 
 type Props = {
-  selectBeast: Dispatch<SetStateAction<string | null>>
   // count: any
   // selectedBeast: any
   beasts: any
@@ -100,13 +99,9 @@ type Beast = {
 }
 
 const BeastTab: FC<Props> = ({
-  selectBeast,
-  // count,
-  // selectedBeast,
   beasts,
   fetchUserBeasts,
 }: {
-  selectBeast: Dispatch<SetStateAction<string | null>>
   fetchUserBeasts: any
   // count: Dispatch<SetStateAction<number>>
   // selectedBeast: string | null

@@ -71,11 +71,7 @@ const ThumbnailLabel = styled.div`
 `
 
 type Props = {
-  selectItem: any
-  // count: any
-  // selectedItem: any
   sushiBalance: any
-
   emptyPotionBottleBalance: any
   poopBalance: any
 }
@@ -85,14 +81,12 @@ type ThumbnailDetailsProps = {
 }
 
 const ItemTab: FC<Props> = ({
-  selectItem,
   sushiBalance,
   emptyPotionBottleBalance,
   poopBalance,
 }: // count,
 // selectedItem,
 {
-  selectItem: Dispatch<SetStateAction<string | null>>
   sushiBalance: any
   emptyPotionBottleBalance: any
   poopBalance: any

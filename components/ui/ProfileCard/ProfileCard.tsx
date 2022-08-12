@@ -85,8 +85,13 @@ const HunterScore = styled.div`
   font-size: 1.5em;
 `
 
-const ProfileCard: FC = () => {
+type Props = {
+  hunterScore: any
+}
+
+const ProfileCard: FC<Props> = ({ hunterScore }) => {
   const address = "0xfd4c97b7b23969df"
+
   return (
     <Container>
       <CardImage src={ShinyImg.src} />
@@ -126,7 +131,7 @@ const ProfileCard: FC = () => {
         </ProfileAddress>
         <HunterScore>
           Hunter Score
-          <div>10,000</div>
+          <div>{hunterScore.toLocaleString()}</div>
         </HunterScore>
       </Content>
     </Container>

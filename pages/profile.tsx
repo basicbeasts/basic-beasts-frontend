@@ -22,6 +22,7 @@ const Profile: NextPage = () => {
   const [poopBalance, setPoopBalance] = useState(0)
   const [newBeast, setNewBeast] = useState(false)
   const [newTokens, setNewTokens] = useState(false)
+  const [hunterScore, setHunterScore] = useState(0)
   //const [userPacks, setUserPacks] = useState()
 
   //const { userPacks, fetchUserPacks } = useUser()
@@ -39,6 +40,7 @@ const Profile: NextPage = () => {
       fetchSushi()
       fetchEmptyPotionBottle()
       fetchPoop()
+      getHunterScore()
     }
   }, [user?.addr])
 
@@ -523,6 +525,25 @@ const Profile: NextPage = () => {
     }
   }
 
+  const getHunterScore = async () => {
+    try {
+      let res = await query({
+        cadence: `
+        import HunterScore from 0xHunterScore
+
+        pub fun main(acct: Address): UInt32? {
+          return HunterScore.getHunterScore(wallet: acct)
+        }
+        `,
+        args: (arg: any, t: any) => [arg(user?.addr, t.Address)],
+      })
+      console.log("Hunter Score: " + res)
+      setHunterScore(res)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <div>
       {/* {userPacks != null ? "Not null" : "Null"} */}
@@ -576,6 +597,7 @@ const Profile: NextPage = () => {
         newTokens={newTokens}
         setNewTokens={setNewTokens}
         fetchUserBeasts={fetchUserBeasts}
+        hunterScore={hunterScore}
       />
     </div>
   )

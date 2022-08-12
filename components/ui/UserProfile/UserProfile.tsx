@@ -54,6 +54,7 @@ type FuncProps = {
   newTokens: any
   setNewTokens: any
   fetchUserBeasts: any
+  hunterScore: any
 }
 
 const UserProfile: FC<FuncProps> = ({
@@ -69,10 +70,8 @@ const UserProfile: FC<FuncProps> = ({
   newTokens,
   setNewTokens,
   fetchUserBeasts,
+  hunterScore,
 }) => {
-  const [selectedBeast, setSelectedBeast] = useState<string | null>(null)
-  const [selectedItem, setSelectedItem] = useState<string | null>(null)
-  const [selectedPack, setSelectedPack] = useState<string | null>(null)
   const [filter, setFilter] = useState<"beast collection" | "items" | "packs">(
     "beast collection",
   )
@@ -80,22 +79,16 @@ const UserProfile: FC<FuncProps> = ({
   return (
     <Container>
       <MobileProfileCardWrapper>
-        <ProfileCard />
+        <ProfileCard hunterScore={hunterScore} />
       </MobileProfileCardWrapper>
       <Wrapper>
         <LeftColumn>
-          <ProfileCard />
+          <ProfileCard hunterScore={hunterScore} />
         </LeftColumn>
         <RightColumn>
           <ProfileTabs
-            selectBeast={setSelectedBeast}
-            currentBeast={selectedBeast}
-            selectItem={setSelectedItem}
-            currentItem={selectedItem}
-            selectPack={setSelectedPack}
             filter={filter}
             selectFilter={setFilter}
-            currentPack={selectedPack}
             beasts={beasts}
             toggle={toggle}
             selectPackType={selectPackType}

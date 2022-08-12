@@ -72,25 +72,16 @@ type ThumbnailDetails = {
 }
 
 type Props = {
-  selectPack: any
-  // count: any
-  // selectedPack: any
   toggle: () => void
   selectPackType: Dispatch<SetStateAction<string | null>>
   packCount: any
 }
 
 const PackTab: FC<Props> = ({
-  selectPack,
-  // count,
-  // selectedPack,
   toggle,
   selectPackType,
   packCount,
 }: {
-  selectPack: Dispatch<SetStateAction<string | null>>
-  // count: Dispatch<SetStateAction<number>>
-  // selectedPack: string | null
   toggle: () => void
   selectPackType: Dispatch<SetStateAction<string | null>>
   packCount: any

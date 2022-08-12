@@ -16,13 +16,7 @@ const Container = styled.div`
 `
 
 type Props = {
-  selectBeast: Dispatch<SetStateAction<string | null>>
-  currentBeast: string | null
-  selectItem: Dispatch<SetStateAction<string | null>>
-  currentItem: string | null
-  selectPack: Dispatch<SetStateAction<string | null>>
   selectFilter: Dispatch<SetStateAction<"beast collection" | "items" | "packs">>
-  currentPack: string | null
   filter: "beast collection" | "items" | "packs"
   beasts: any
   toggle: () => void
@@ -39,14 +33,8 @@ type Props = {
 }
 
 const ProfileTabs: FC<Props> = ({
-  selectBeast,
-  currentBeast,
   filter,
   selectFilter,
-  selectItem,
-  currentItem,
-  selectPack,
-  currentPack,
   beasts,
   toggle,
   selectPackType,
@@ -106,15 +94,10 @@ const ProfileTabs: FC<Props> = ({
         notify={filter !== "packs" && hasPacks}
       />
       {filter === "beast collection" && (
-        <BeastTab
-          selectBeast={selectBeast}
-          beasts={beasts}
-          fetchUserBeasts={fetchUserBeasts}
-        />
+        <BeastTab beasts={beasts} fetchUserBeasts={fetchUserBeasts} />
       )}
       {filter === "items" && (
         <ItemTab
-          selectItem={selectItem}
           sushiBalance={sushiBalance}
           emptyPotionBottleBalance={emptyPotionBottleBalance}
           poopBalance={poopBalance}
@@ -122,7 +105,6 @@ const ProfileTabs: FC<Props> = ({
       )}
       {filter === "packs" && (
         <PackTab
-          selectPack={selectPack}
           toggle={toggle}
           selectPackType={selectPackType}
           packCount={packCount}
