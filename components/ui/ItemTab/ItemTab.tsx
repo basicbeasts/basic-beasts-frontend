@@ -25,7 +25,7 @@ const Wrapper = styled.div`
   width: 100%;
   overflow: hidden;
   overflow-y: scroll;
-  height: 600px;
+  height: 800px;
   margin-top: 20px;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */

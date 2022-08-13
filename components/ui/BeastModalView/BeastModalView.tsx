@@ -231,6 +231,10 @@ const ToolTip = styled.div`
   }
 `
 
+const ContainerCenter = styled.div`
+  align-items: center;
+`
+
 type Color = {
   colorCode: any
 }
@@ -280,7 +284,7 @@ const BeastModalView: FC<Props> = ({
         </Transition.Child>
 
         <div className="fixed z-10 inset-0 overflow-y-auto">
-          <div className="flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0">
+          <ContainerCenter className="flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -437,7 +441,7 @@ const BeastModalView: FC<Props> = ({
                 </div>
               </Dialog.Panel>
             </Transition.Child>
-          </div>
+          </ContainerCenter>
         </div>
       </Dialog>
     </Transition.Root>

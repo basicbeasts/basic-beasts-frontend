@@ -41,6 +41,7 @@ const Profile: NextPage = () => {
       fetchEmptyPotionBottle()
       fetchPoop()
       getHunterScore()
+      getPersonalDexicon()
     }
   }, [user?.addr])
 
@@ -537,8 +538,28 @@ const Profile: NextPage = () => {
         `,
         args: (arg: any, t: any) => [arg(user?.addr, t.Address)],
       })
-      console.log("Hunter Score: " + res)
       setHunterScore(res)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const getPersonalDexicon = async () => {
+    try {
+      let res = await query({
+        cadence: `
+        import HunterScore from 0xHunterScore
+
+        pub fun main(acct: Address): [UInt32]? {
+          return HunterScore.getBeastTemplatesCollected(wallet: acct)
+        }
+        `,
+        args: (arg: any, t: any) => [arg(user?.addr, t.Address)],
+      })
+      res.sort(function (a: any, b: any) {
+        return a - b
+      })
+      console.log("Personal Dexicon" + res)
     } catch (error) {
       console.log(error)
     }
