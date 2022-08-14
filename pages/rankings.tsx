@@ -5,6 +5,9 @@ import { useEffect, useState } from "react"
 import { useAuth } from "@components/auth/AuthProvider"
 import { query } from "@onflow/fcl"
 
+// TODO: highlight ranking list row if user has connected wallet to easier find themselves
+// Add check leaderboard rank on profile page
+
 const Rankings: NextPage = () => {
   const [allHunterScores, setAllHunterScores] = useState()
   const [allBeastsCollected, setAllBeastsCollected] = useState<any>()
@@ -12,11 +15,9 @@ const Rankings: NextPage = () => {
   const { user } = useAuth()
 
   useEffect(() => {
-    if (user?.addr != null) {
-      fetchAllHunterScores()
-      fetchAllBeastsCollected()
-    }
-  }, [user?.addr])
+    fetchAllHunterScores()
+    fetchAllBeastsCollected()
+  })
 
   const fetchAllHunterScores = async () => {
     try {
@@ -57,16 +58,22 @@ const Rankings: NextPage = () => {
   return (
     <div>
       <HeaderDark title="Rankings" description="The top Beast Hunters at BB" />
-      <div>Hunter Scores</div>
-      <pre>{JSON.stringify(allHunterScores, null, 2)}</pre>
-      <div>All Beasts Collected</div>
-      <pre>
-        {JSON.stringify(
-          allBeastsCollected["0x805727b65285a84d"].length,
-          null,
-          2,
-        )}
-      </pre>
+      {allHunterScores != null && allBeastsCollected != null ? (
+        <>
+          <div>Hunter Scores</div>
+          <pre>{JSON.stringify(allHunterScores, null, 2)}</pre>
+          <div>All Beasts Collected</div>
+          <pre>
+            {JSON.stringify(
+              allBeastsCollected["0x805727b65285a84d"].length,
+              null,
+              2,
+            )}
+          </pre>
+        </>
+      ) : (
+        ""
+      )}
     </div>
   )
 }
