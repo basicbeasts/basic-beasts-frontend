@@ -15,8 +15,6 @@ const Rankings: NextPage = () => {
   const [allHunterScores, setAllHunterScores] = useState<any>()
   const [allBeastsCollected, setAllBeastsCollected] = useState<any>()
 
-  const { user } = useAuth()
-
   useEffect(() => {
     fetchHunterData()
   }, [])
@@ -33,8 +31,6 @@ const Rankings: NextPage = () => {
         `,
       })
       return res
-      setAllHunterScores(res)
-      console.log("all hunter scores" + res)
     } catch (error) {
       console.log(error)
     }
@@ -52,8 +48,6 @@ const Rankings: NextPage = () => {
         `,
       })
       return res
-      setAllBeastsCollected(res)
-      console.log("all beast collected" + res)
     } catch (error) {
       console.log(error)
     }
@@ -91,8 +85,45 @@ const Rankings: NextPage = () => {
       }
       hunterData.push(hunter)
     }
-    console.log(hunterData)
-    setHunterData(hunterData)
+
+    // assign rank by hunter score
+    hunterData.sort((a: any, b: any) => b.hunterScore - a.hunterScore)
+    var hunterDataRanked: any = []
+    var rank = 1
+    for (let item in hunterData) {
+      let data = hunterData[item]
+      var updatedHunter = {
+        address: data.address,
+        numberOfBeastsCollected: data.numberOfBeastsCollected,
+        hunterScore: data.hunterScore,
+        name: data.name,
+        rankByHunterScore: rank,
+      }
+      hunterDataRanked.push(updatedHunter)
+      rank = rank + 1
+    }
+
+    // assign rank by hunter score
+    hunterDataRanked.sort(
+      (a: any, b: any) => b.numberOfBeastsCollected - a.numberOfBeastsCollected,
+    )
+    var hunterDataRankedByTotalBeasts: any = []
+    var rankByTotalBeasts = 1
+    for (let item in hunterDataRanked) {
+      let data = hunterDataRanked[item]
+      var newHunter = {
+        address: data.address,
+        numberOfBeastsCollected: data.numberOfBeastsCollected,
+        hunterScore: data.hunterScore,
+        name: data.name,
+        rankByHunterScore: data.rankByHunterScore,
+        rankByTotalBeasts: rankByTotalBeasts,
+      }
+      hunterDataRankedByTotalBeasts.push(newHunter)
+      rankByTotalBeasts = rankByTotalBeasts + 1
+    }
+
+    setHunterData(hunterDataRankedByTotalBeasts)
   }
 
   return (
@@ -105,7 +136,7 @@ const Rankings: NextPage = () => {
             allBeastsCollected={allBeastsCollected}
             hunterData={hunterData}
           />
-          <div>Hunter Scores</div>
+          {/* <div>Hunter Scores</div>
           <pre>{JSON.stringify(allHunterScores, null, 2)}</pre>
           <div>All Beasts Collected</div>
           <pre>{JSON.stringify(allBeastsCollected, null, 2)}</pre>
@@ -119,19 +150,19 @@ const Rankings: NextPage = () => {
             </pre>
           ) : (
             ""
-          )}
+          )} */}
         </>
       ) : (
         ""
       )}
-      {hunterData != null ? (
+      {/* {hunterData != null ? (
         <>
           <div>Hunter Data</div>
           <pre>{JSON.stringify(hunterData, null, 2)}</pre>
         </>
       ) : (
         ""
-      )}
+      )} */}
     </div>
   )
 }
