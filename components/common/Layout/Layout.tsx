@@ -25,6 +25,42 @@ fcl
   .put("0xHunterScore", process.env.NEXT_PUBLIC_HUNTER_SCORE_ADDRESS)
   .put("0xPack", process.env.NEXT_PUBLIC_PACK_ADDRESS)
   .put("0xInbox", process.env.NEXT_PUBLIC_INBOX_ADDRESS)
+  .put("0xProfile", process.env.NEXT_PUBLIC_PROFILE_ADDRESS)
+  .put("0xFiatToken", process.env.NEXT_PUBLIC_FIAT_TOKEN_ADDRESS)
+  .put("0xFlowToken", process.env.NEXT_PUBLIC_FLOW_TOKEN_ADDRESS)
+  .put("0xFIND", process.env.NEXT_PUBLIC_FIND_ADDRESS)
+  .put("0xFindMarket", process.env.NEXT_PUBLIC_FIND_MARKET_ADDRESS)
+  .put("0xFindMarketSale", process.env.NEXT_PUBLIC_FIND_MARKET_SALE_ADDRESS)
+  .put(
+    "0xFindMarketDirectOfferEscrow",
+    process.env.NEXT_PUBLIC_FIND_MARKET_DIRECT_OFFER_ESCROW_ADDRESS,
+  )
+  .put(
+    "0xFindMarketDirectOfferSoft",
+    process.env.NEXT_PUBLIC_FIND_MARKET_DIRECT_OFFER_SOFT_ADDRESS,
+  )
+  .put(
+    "0xFindMarketAuctionEscrow",
+    process.env.NEXT_PUBLIC_FIND_MARKET_AUCTION_ESCROW_ADDRESS,
+  )
+  .put(
+    "0xFindMarketAuctionSoft",
+    process.env.NEXT_PUBLIC_FIND_MARKET_AUCTION_SOFT_ADDRESS,
+  )
+  .put("0xDandy", process.env.NEXT_PUBLIC_DANDY_ADDRESS)
+  .put(
+    "0xFindLeaseMarketSale",
+    process.env.NEXT_PUBLIC_FIND_LEASE_MARKET_SALE_ADDRESS,
+  )
+  .put(
+    "0xFindLeaseMarketAuctionSoft",
+    process.env.NEXT_PUBLIC_FIND_LEASE_MARKET_AUCTION_SOFT_ADDRESS,
+  )
+  .put(
+    "0xFindLeaseMarketDirectOfferSoft",
+    process.env.NEXT_PUBLIC_FIND_LEASE_MARKET_DIRECT_OFFER_SOFT_ADDRESS,
+  )
+  .put("0xFindLeaseMarket", process.env.NEXT_PUBLIC_FIND_LEASE_MARKET_ADDRESS)
 
 const Layout: FC = ({ children }) => {
   const [isSideNavbarOpen, setIsSideNavbarOpen] = useState(false)

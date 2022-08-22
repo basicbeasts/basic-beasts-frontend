@@ -49,6 +49,7 @@ const Profile: NextPage = () => {
       fetchPoop()
       getHunterScore()
       getPersonalDexicon()
+      getProfile()
     }
   }, [address])
 
@@ -576,6 +577,27 @@ const Profile: NextPage = () => {
       }
       console.log("Personal Dexicon" + res)
       setDexicon(personalDex)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const getProfile = async () => {
+    try {
+      let res = await query({
+        cadence: `
+        import Profile from 0xProfile
+
+        pub fun main(address: Address) :  Profile.UserProfile? {
+          return getAccount(address)
+            .getCapability<&{Profile.Public}>(Profile.publicPath)
+            .borrow()?.asProfile()
+        }
+        
+        `,
+        args: (arg: any, t: any) => [arg(address, t.Address)],
+      })
+      console.log("resultat: " + res)
     } catch (error) {
       console.log(error)
     }
