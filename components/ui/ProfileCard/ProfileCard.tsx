@@ -7,6 +7,7 @@ import beastTemplates from "data/beastTemplates"
 import { useRouter } from "next/router"
 import profiles from "data/profiles"
 import ChangeProfilePictureModal from "../ChangeProfilePictureModal"
+import { IsAny } from "@tanstack/react-table"
 
 const Container = styled.div`
   background: #1e1e23;
@@ -18,11 +19,22 @@ const Container = styled.div`
   text-transform: uppercase;
 `
 const CardImage = styled.img`
-  object-fit: contain;
-  width: 200px;
+  width: 180px;
   cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
       14 0,
     pointer !important;
+  border-radius: 10px;
+`
+
+const CardImageNoPointer = styled.img`
+  width: 180px;
+  border-radius: 10px;
+`
+
+const ImageContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `
 
 const Content = styled.div`
@@ -130,33 +142,53 @@ const Label = styled.div`
 type Props = {
   hunterScore: any
   dexicon: any
+  profile: any
+  profilePicture: any
+  setProfilePicture: any
+  userAddr: any
 }
 
-const ProfileCard: FC<Props> = ({ hunterScore, dexicon }) => {
+const ProfileCard: FC<Props> = ({
+  hunterScore,
+  dexicon,
+  profile,
+  profilePicture,
+  setProfilePicture,
+  userAddr,
+}) => {
   const router = useRouter()
   const { address }: any = router.query
 
   const [open, setOpen] = useState(false)
 
   const [open2, setOpen2] = useState(false)
-  const [resolvedDexicon, setResolvedDexicon] = useState(false)
-
-  const resolveDexicon = async () => {
-    if (dexicon != null) {
-    }
-  }
 
   return (
     <Container>
       <PersonalDexiconModal open={open} setOpen={setOpen} dexicon={dexicon} />
-      <ChangeProfilePictureModal open={open2} setOpen={setOpen2} />
-      <CardImage src={ShinyImg.src} onClick={() => setOpen2(true)} />
+      <ChangeProfilePictureModal
+        open={open2}
+        setOpen={setOpen2}
+        profile={profile}
+        profilePicture={profilePicture}
+        setProfilePicture={setProfilePicture}
+      />
+
+      <ImageContainer>
+        {userAddr == address ? (
+          <CardImage src={profilePicture} onClick={() => setOpen2(true)} />
+        ) : (
+          <CardImageNoPointer src={profilePicture} />
+        )}
+      </ImageContainer>
       <Content>
-        <ProfileName>
+        {/* <ProfileName>
           {profiles[address as keyof typeof profiles] != null
             ? profiles[address as keyof typeof profiles].name
             : "no name"}
-        </ProfileName>
+        </ProfileName> */}
+
+        <ProfileName>{profile != null ? profile.name : "no name"}</ProfileName>
         <ProfileAddress>
           {/* <div>-bz.find</div> */}
           <ToolTip>
@@ -189,7 +221,7 @@ const ProfileCard: FC<Props> = ({ hunterScore, dexicon }) => {
             <ToolTipText>Copy</ToolTipText>
           </ToolTip>
         </ProfileAddress>
-
+        {/* <pre>{JSON.stringify(profile, null, 2)}</pre> */}
         <HunterScore>
           Hunter Score
           {hunterScore != null ? (

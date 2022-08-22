@@ -4,4 +4,13 @@ const nextTranslate = require("next-translate")
 module.exports = {
   reactStrictMode: true,
   ...nextTranslate(),
+  async redirects() {
+    return [
+      {
+        source: "/profile",
+        destination: "/",
+        permanent: true,
+      },
+    ]
+  },
 }

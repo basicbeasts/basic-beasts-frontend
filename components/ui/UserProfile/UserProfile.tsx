@@ -58,6 +58,9 @@ type FuncProps = {
   hunterScore: any
   dexicon: any
   userAddr: any
+  profile: any
+  profilePicture: any
+  setProfilePicture: any
 }
 
 const UserProfile: FC<FuncProps> = ({
@@ -76,6 +79,9 @@ const UserProfile: FC<FuncProps> = ({
   hunterScore,
   dexicon,
   userAddr,
+  profile,
+  profilePicture,
+  setProfilePicture,
 }) => {
   const [filter, setFilter] = useState<"beast collection" | "items" | "packs">(
     "beast collection",
@@ -84,11 +90,25 @@ const UserProfile: FC<FuncProps> = ({
   return (
     <Container>
       <MobileProfileCardWrapper>
-        <ProfileCard hunterScore={hunterScore} dexicon={dexicon} />
+        <ProfileCard
+          hunterScore={hunterScore}
+          dexicon={dexicon}
+          profile={profile}
+          profilePicture={profilePicture}
+          setProfilePicture={setProfilePicture}
+          userAddr={userAddr}
+        />
       </MobileProfileCardWrapper>
       <Wrapper>
         <LeftColumn>
-          <ProfileCard hunterScore={hunterScore} dexicon={dexicon} />
+          <ProfileCard
+            hunterScore={hunterScore}
+            dexicon={dexicon}
+            profile={profile}
+            profilePicture={profilePicture}
+            setProfilePicture={setProfilePicture}
+            userAddr={userAddr}
+          />
         </LeftColumn>
         <RightColumn>
           <ProfileTabs

@@ -10,6 +10,7 @@ import { query } from "@onflow/fcl"
 import beastTemplates from "data/beastTemplates"
 import { useRouter } from "next/router"
 import Link from "next/link"
+import profilePictures from "data/profilePictures"
 
 const Profile: NextPage = () => {
   const [isRevealOverlayOpen, setIsRevealOverlayOpen] = useState(false)
@@ -30,6 +31,8 @@ const Profile: NextPage = () => {
 
   //const { userPacks, fetchUserPacks } = useUser()
   const [dexicon, setDexicon] = useState()
+  const [profile, setProfile] = useState(null)
+  const [profilePicture, setProfilePicture] = useState(profilePictures[1].image)
 
   const { user } = useAuth()
 
@@ -51,7 +54,7 @@ const Profile: NextPage = () => {
       getPersonalDexicon()
       getProfile()
     }
-  }, [address])
+  }, [address, profile])
 
   type Pack = {
     uuid: any
@@ -597,11 +600,23 @@ const Profile: NextPage = () => {
         `,
         args: (arg: any, t: any) => [arg(address, t.Address)],
       })
-      console.log("resultat: " + res)
+      //Resolve Profile
+      setProfile(res)
+      //Resolve Profile Picture
+      let avatar = res.avatar
+      for (let key in profilePictures) {
+        let element =
+          profilePictures[key as unknown as keyof typeof profilePictures]
+        if (avatar == element.image) {
+          setProfilePicture(element.image)
+        }
+      }
     } catch (error) {
       console.log(error)
     }
   }
+
+  const getProfileImage = async () => {}
 
   return (
     <div>
@@ -642,6 +657,9 @@ const Profile: NextPage = () => {
         hunterScore={hunterScore}
         dexicon={dexicon}
         userAddr={user?.addr}
+        profile={profile}
+        profilePicture={profilePicture}
+        setProfilePicture={setProfilePicture}
       />
     </div>
   )
