@@ -112,9 +112,15 @@ type Props = {
   open: boolean
   setOpen: any
   dexicon: any
+  profileName: any
 }
 
-const PersonalDexiconModal: FC<Props> = ({ open, setOpen, dexicon }) => {
+const PersonalDexiconModal: FC<Props> = ({
+  open,
+  setOpen,
+  dexicon,
+  profileName,
+}) => {
   const personalDexicon = Array.from({ length: 151 }, (_, i) => i + 1)
 
   return (
@@ -151,7 +157,12 @@ const PersonalDexiconModal: FC<Props> = ({ open, setOpen, dexicon }) => {
                   {dexicon != null ? (
                     <>
                       <ActionItem>
-                        <Title>Personal Dexicon</Title>
+                        <Title>
+                          {profileName != null
+                            ? profileName + "´s"
+                            : "Personal"}{" "}
+                          Dexicon
+                        </Title>
                         <Span>{Object.keys(dexicon).length}/151</Span>
                       </ActionItem>
                       <ul

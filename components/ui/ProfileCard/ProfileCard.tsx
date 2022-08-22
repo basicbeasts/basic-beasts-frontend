@@ -16,7 +16,6 @@ const Container = styled.div`
   padding: 35px 0px 0px;
   margin-top: -30%;
   filter: drop-shadow(0 1px 10px #383232);
-  text-transform: uppercase;
 `
 const CardImage = styled.img`
   width: 180px;
@@ -89,9 +88,6 @@ const ToolTipText = styled.span`
 const ToolTip = styled.div`
   position: relative;
   display: inline-block;
-  cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
-      14 0,
-    pointer !important;
   &:hover span {
     visibility: visible;
   }
@@ -101,10 +97,15 @@ const FlowSVG = styled.svg``
 
 const Address = styled.div`
   margin-left: 5px;
+
+  cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
+      14 0,
+    pointer !important;
 `
 const HunterScore = styled.div`
   margin-top: 30px;
   font-size: 1.5em;
+  text-transform: uppercase;
 `
 const Rank = styled.div`
   border-left: 1px solid #5c5e6c;
@@ -165,7 +166,12 @@ const ProfileCard: FC<Props> = ({
 
   return (
     <Container>
-      <PersonalDexiconModal open={open} setOpen={setOpen} dexicon={dexicon} />
+      <PersonalDexiconModal
+        open={open}
+        setOpen={setOpen}
+        dexicon={dexicon}
+        profileName={profile?.name}
+      />
       <ChangeProfilePictureModal
         open={open2}
         setOpen={setOpen2}
@@ -188,7 +194,7 @@ const ProfileCard: FC<Props> = ({
             : "no name"}
         </ProfileName> */}
 
-        <ProfileName>{profile != null ? profile.name : "no name"}</ProfileName>
+        <ProfileName>{profile != null ? profile.name : <></>}</ProfileName>
         <ProfileAddress>
           {/* <div>-bz.find</div> */}
           <ToolTip>
@@ -218,7 +224,6 @@ const ProfileCard: FC<Props> = ({
             <Address>
               {address.slice(0, 6).concat("...").concat(address.slice(-4))}
             </Address>
-            <ToolTipText>Copy</ToolTipText>
           </ToolTip>
         </ProfileAddress>
         {/* <pre>{JSON.stringify(profile, null, 2)}</pre> */}

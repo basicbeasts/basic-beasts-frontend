@@ -616,15 +616,8 @@ const Profile: NextPage = () => {
     }
   }
 
-  const getProfileImage = async () => {}
-
   return (
     <div>
-      <div>pid: {address}</div>
-      <Link href={"/profile/" + user?.addr}>
-        <a>Go to profile</a>
-      </Link>
-
       <RevealOverlay
         isSideNavbarOpen={isRevealOverlayOpen}
         toggle={toggle}
