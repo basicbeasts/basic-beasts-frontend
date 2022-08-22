@@ -7,6 +7,8 @@ import ChangeNicknameModal from "../ChangeNicknameModal"
 import beastTemplates from "data/beastTemplates"
 import MaleIcon from "public/gender_icons/male_icon.png"
 import FemaleIcon from "public/gender_icons/female_icon.png"
+import { useRouter } from "next/router"
+import { useUser } from "@components/user/UserProvider"
 
 const DialogPanel = styled(Dialog.Panel)<TailwindProps>`
   border-radius: 20px;
@@ -44,6 +46,13 @@ const BeastName = styled.h3`
   cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
       14 0,
     pointer !important;
+`
+
+const BeastNameNoPointer = styled.h3`
+  margin: 0;
+  font-size: 55px;
+  font-weight: normal;
+  line-height: 50px;
 `
 
 const HeaderDetails = styled.div`
@@ -256,6 +265,7 @@ type Props = {
   fetchUserBeasts: any
   displayNickname: any
   setDisplayNickname: any
+  userAddr: any
 }
 
 const BeastModalView: FC<Props> = ({
@@ -265,8 +275,12 @@ const BeastModalView: FC<Props> = ({
   fetchUserBeasts,
   displayNickname,
   setDisplayNickname,
+  userAddr,
 }) => {
   const [open2, setOpen2] = useState(false)
+
+  const router = useRouter()
+  const { address }: any = router.query
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -323,18 +337,26 @@ const BeastModalView: FC<Props> = ({
                             : "linear-gradient(180deg, #E6CAD7 0%, #D5A6BD 100%)"
                         }
                       >
-                        <ToolTip>
-                          <BeastName
-                            onClick={() => {
-                              setOpen2(true)
-                            }}
-                          >
+                        {userAddr == address ? (
+                          <ToolTip>
+                            <BeastName
+                              onClick={() => {
+                                setOpen2(true)
+                              }}
+                            >
+                              {displayNickname == null
+                                ? beast.nickname
+                                : displayNickname}
+                            </BeastName>
+                            <ToolTipText>Change Nickname</ToolTipText>
+                          </ToolTip>
+                        ) : (
+                          <BeastNameNoPointer>
                             {displayNickname == null
                               ? beast.nickname
                               : displayNickname}
-                          </BeastName>
-                          <ToolTipText>Change Nickname</ToolTipText>
-                        </ToolTip>
+                          </BeastNameNoPointer>
+                        )}
                         <HeaderDetails>
                           <Serial>
                             Serial #{beast.serialNumber} |{" "}

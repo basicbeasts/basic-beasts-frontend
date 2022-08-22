@@ -57,6 +57,7 @@ type FuncProps = {
   fetchUserBeasts: any
   hunterScore: any
   dexicon: any
+  userAddr: any
 }
 
 const UserProfile: FC<FuncProps> = ({
@@ -74,6 +75,7 @@ const UserProfile: FC<FuncProps> = ({
   fetchUserBeasts,
   hunterScore,
   dexicon,
+  userAddr,
 }) => {
   const [filter, setFilter] = useState<"beast collection" | "items" | "packs">(
     "beast collection",
@@ -104,6 +106,7 @@ const UserProfile: FC<FuncProps> = ({
             newTokens={newTokens}
             setNewTokens={setNewTokens}
             fetchUserBeasts={fetchUserBeasts}
+            userAddr={userAddr}
           />
         </RightColumn>
       </Wrapper>

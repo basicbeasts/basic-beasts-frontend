@@ -4,6 +4,9 @@ import ShinyImg from "public/packs/pack_pf/shiny.png"
 import PersonalDexiconModal from "../PersonalDexiconModal"
 import NextLink from "next/link"
 import beastTemplates from "data/beastTemplates"
+import { useRouter } from "next/router"
+import profiles from "data/profiles"
+import ChangeProfilePictureModal from "../ChangeProfilePictureModal"
 
 const Container = styled.div`
   background: #1e1e23;
@@ -17,6 +20,9 @@ const Container = styled.div`
 const CardImage = styled.img`
   object-fit: contain;
   width: 200px;
+  cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
+      14 0,
+    pointer !important;
 `
 
 const Content = styled.div`
@@ -127,9 +133,12 @@ type Props = {
 }
 
 const ProfileCard: FC<Props> = ({ hunterScore, dexicon }) => {
-  const address = "0xfd4c97b7b23969df"
+  const router = useRouter()
+  const { address }: any = router.query
 
   const [open, setOpen] = useState(false)
+
+  const [open2, setOpen2] = useState(false)
   const [resolvedDexicon, setResolvedDexicon] = useState(false)
 
   const resolveDexicon = async () => {
@@ -140,11 +149,16 @@ const ProfileCard: FC<Props> = ({ hunterScore, dexicon }) => {
   return (
     <Container>
       <PersonalDexiconModal open={open} setOpen={setOpen} dexicon={dexicon} />
-      <CardImage src={ShinyImg.src} />
+      <ChangeProfilePictureModal open={open2} setOpen={setOpen2} />
+      <CardImage src={ShinyImg.src} onClick={() => setOpen2(true)} />
       <Content>
-        <ProfileName>-bz</ProfileName>
+        <ProfileName>
+          {profiles[address as keyof typeof profiles] != null
+            ? profiles[address as keyof typeof profiles].name
+            : "no name"}
+        </ProfileName>
         <ProfileAddress>
-          <div>-bz.find</div>
+          {/* <div>-bz.find</div> */}
           <ToolTip>
             <FlowSVG
               width="15"

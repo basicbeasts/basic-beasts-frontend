@@ -74,6 +74,7 @@ type Props = {
   // selectedBeast: any
   beasts: any
   fetchUserBeasts: any
+  userAddr: any
 }
 
 type Beast = {
@@ -101,11 +102,13 @@ type Beast = {
 const BeastTab: FC<Props> = ({
   beasts,
   fetchUserBeasts,
+  userAddr,
 }: {
   fetchUserBeasts: any
   // count: Dispatch<SetStateAction<number>>
   // selectedBeast: string | null
   beasts: any[]
+  userAddr: any
 }) => {
   //   const query = useQuery()
   //   const beasts =
@@ -142,6 +145,7 @@ const BeastTab: FC<Props> = ({
         fetchUserBeasts={fetchUserBeasts}
         displayNickname={displayNickname}
         setDisplayNickname={setDisplayNickname}
+        userAddr={userAddr}
       />
       {beasts != null ? (
         <ul

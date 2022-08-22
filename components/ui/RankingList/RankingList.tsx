@@ -27,6 +27,7 @@ import {
 
 import { Menu, Transition } from "@headlessui/react"
 import { ChevronDownIcon } from "@heroicons/react/solid"
+import Link from "next/link"
 
 const Container = styled.div`
   color: #fff;
@@ -188,6 +189,7 @@ const columns = [
     cell: (info) => info.renderValue(),
     footer: (info) => info.column.id,
   }),
+  columnHelper.accessor("address", {}),
 ]
 
 const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
@@ -389,41 +391,51 @@ const RankingList: FC<Props> = ({
           )}
           <table>
             <tbody>
-              {table.getRowModel().rows.map((row) => (
+              {table.getRowModel().rows.map((row, i) => (
                 <tr key={row.id}>
-                  <TableRowWrapper>
-                    {row.getVisibleCells().map((cell) => (
-                      <td key={cell.id} className={cell.column.id}>
-                        {cell.column.id == "hunterScore" ? (
-                          <Label>Hunter Score</Label>
-                        ) : cell.column.id == "numberOfBeastsCollected" ? (
-                          <Label>Total Beasts</Label>
-                        ) : (
-                          <></>
-                        )}
+                  <a href={"/profile/" + row.getValue("address")}>
+                    <TableRowWrapper>
+                      {row.getVisibleCells().map((cell) => (
+                        <td key={cell.id} className={cell.column.id}>
+                          {/* <div>value: {row.getValue("address")}</div> */}
+                          {cell.column.id == "address" ? (
+                            <></>
+                          ) : (
+                            <>
+                              {cell.column.id == "hunterScore" ? (
+                                <Label>Hunter Score</Label>
+                              ) : cell.column.id ==
+                                "numberOfBeastsCollected" ? (
+                                <Label>Total Beasts</Label>
+                              ) : (
+                                <></>
+                              )}
 
-                        {/* show rank by...*/}
-                        {rankBy == "hunter score" &&
-                        cell.column.id == "rankByTotalBeasts" ? (
-                          <></>
-                        ) : (
-                          <>
-                            {rankBy == "total beasts" &&
-                            cell.column.id == "rankByHunterScore" ? (
-                              <></>
-                            ) : (
-                              <>
-                                {flexRender(
-                                  cell.column.columnDef.cell,
-                                  cell.getContext(),
-                                )}
-                              </>
-                            )}
-                          </>
-                        )}
-                      </td>
-                    ))}
-                  </TableRowWrapper>
+                              {/* show rank by...*/}
+                              {rankBy == "hunter score" &&
+                              cell.column.id == "rankByTotalBeasts" ? (
+                                <></>
+                              ) : (
+                                <>
+                                  {rankBy == "total beasts" &&
+                                  cell.column.id == "rankByHunterScore" ? (
+                                    <></>
+                                  ) : (
+                                    <>
+                                      {flexRender(
+                                        cell.column.columnDef.cell,
+                                        cell.getContext(),
+                                      )}
+                                    </>
+                                  )}
+                                </>
+                              )}
+                            </>
+                          )}
+                        </td>
+                      ))}
+                    </TableRowWrapper>
+                  </a>
                 </tr>
               ))}
             </tbody>

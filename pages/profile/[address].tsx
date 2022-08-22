@@ -8,6 +8,8 @@ import { useUser } from "@components/user/UserProvider"
 import { useAuth } from "@components/auth/AuthProvider"
 import { query } from "@onflow/fcl"
 import beastTemplates from "data/beastTemplates"
+import { useRouter } from "next/router"
+import Link from "next/link"
 
 const Profile: NextPage = () => {
   const [isRevealOverlayOpen, setIsRevealOverlayOpen] = useState(false)
@@ -31,12 +33,15 @@ const Profile: NextPage = () => {
 
   const { user } = useAuth()
 
+  const router = useRouter()
+  const { address } = router.query
+
   const toggle = () => {
     setIsRevealOverlayOpen(!isRevealOverlayOpen)
   }
 
   useEffect(() => {
-    if (user?.addr != null) {
+    if (address != null) {
       fetchUserPacks()
       fetchUserBeasts()
       fetchSushi()
@@ -45,7 +50,7 @@ const Profile: NextPage = () => {
       getHunterScore()
       getPersonalDexicon()
     }
-  }, [user?.addr])
+  }, [address])
 
   type Pack = {
     uuid: any
@@ -340,7 +345,7 @@ const Profile: NextPage = () => {
         }
         `,
 
-        args: (arg: any, t: any) => [arg(user?.addr, t.Address)],
+        args: (arg: any, t: any) => [arg(address, t.Address)],
       })
       let mappedCollection: any = []
       for (let item in res) {
@@ -394,7 +399,7 @@ const Profile: NextPage = () => {
         }
         `,
 
-        args: (arg: any, t: any) => [arg(user?.addr, t.Address)],
+        args: (arg: any, t: any) => [arg(address, t.Address)],
       })
       setSushiBalance(res)
       console.log("sushi " + res)
@@ -421,7 +426,7 @@ const Profile: NextPage = () => {
         }
         `,
 
-        args: (arg: any, t: any) => [arg(user?.addr, t.Address)],
+        args: (arg: any, t: any) => [arg(address, t.Address)],
       })
       setEmptyPotionBottleBalance(res)
     } catch (err) {
@@ -447,7 +452,7 @@ const Profile: NextPage = () => {
         }
         `,
 
-        args: (arg: any, t: any) => [arg(user?.addr, t.Address)],
+        args: (arg: any, t: any) => [arg(address, t.Address)],
       })
       setPoopBalance(res)
       console.log("sushi " + res)
@@ -480,7 +485,7 @@ const Profile: NextPage = () => {
           return packCollection
         }
         `,
-        args: (arg: any, t: any) => [arg(user?.addr, t.Address)],
+        args: (arg: any, t: any) => [arg(address, t.Address)],
       })
       let mappedPacks = []
 
@@ -538,7 +543,7 @@ const Profile: NextPage = () => {
           return HunterScore.getHunterScore(wallet: acct)
         }
         `,
-        args: (arg: any, t: any) => [arg(user?.addr, t.Address)],
+        args: (arg: any, t: any) => [arg(address, t.Address)],
       })
       setHunterScore(res)
     } catch (error) {
@@ -556,7 +561,7 @@ const Profile: NextPage = () => {
           return HunterScore.getBeastTemplatesCollected(wallet: acct)
         }
         `,
-        args: (arg: any, t: any) => [arg(user?.addr, t.Address)],
+        args: (arg: any, t: any) => [arg(address, t.Address)],
       })
       res.sort(function (a: any, b: any) {
         return a - b
@@ -578,27 +583,10 @@ const Profile: NextPage = () => {
 
   return (
     <div>
-      {/* {userPacks != null ? "Not null" : "Null"} */}
-      {/* {starterPacks != null ? (
-        <div>Starter Packs: {Object.keys(starterPacks).length}</div>
-      ) : (
-        ""
-      )}
-      {metallicPacks != null ? (
-        <div>metallic Packs: {Object.keys(metallicPacks).length}</div>
-      ) : (
-        ""
-      )}
-      {cursedPacks != null ? (
-        <div>cursed Packs: {Object.keys(cursedPacks).length}</div>
-      ) : (
-        ""
-      )}
-      {shinyPacks != null ? (
-        <div>shiny Packs: {Object.keys(shinyPacks).length}</div>
-      ) : (
-        ""
-      )} */}
+      <div>pid: {address}</div>
+      <Link href={"/profile/" + user?.addr}>
+        <a>Go to profile</a>
+      </Link>
 
       <RevealOverlay
         isSideNavbarOpen={isRevealOverlayOpen}
@@ -631,6 +619,7 @@ const Profile: NextPage = () => {
         fetchUserBeasts={fetchUserBeasts}
         hunterScore={hunterScore}
         dexicon={dexicon}
+        userAddr={user?.addr}
       />
     </div>
   )

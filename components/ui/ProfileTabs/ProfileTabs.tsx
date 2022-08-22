@@ -7,6 +7,8 @@ import BeastTab from "../BeastTab"
 import ItemTab from "../ItemTab"
 import PackTab from "../PackTab"
 import { useAuth } from "@components/auth/AuthProvider"
+import { useRouter } from "next/router"
+import { IsAny } from "@tanstack/react-table"
 
 const Container = styled.div`
   color: #fff;
@@ -30,6 +32,7 @@ type Props = {
   newTokens: any
   setNewTokens: any
   fetchUserBeasts: any
+  userAddr: any
 }
 
 const ProfileTabs: FC<Props> = ({
@@ -47,10 +50,14 @@ const ProfileTabs: FC<Props> = ({
   newTokens,
   setNewTokens,
   fetchUserBeasts,
+  userAddr,
 }) => {
   const [hasPacks, setHasPacks] = useState(false)
 
   const { user } = useAuth()
+
+  const router = useRouter()
+  const { address }: any = router.query
 
   useEffect(() => {
     if (user?.addr != null) {
@@ -78,37 +85,53 @@ const ProfileTabs: FC<Props> = ({
         buttonText={"beast collection"}
         notify={filter !== "beast collection" && newBeast}
       />
-      <TabButton
-        onClick={() => {
-          selectFilter("items")
-          setNewTokens(false)
-        }}
-        selected={filter === "items"}
-        buttonText={"Items"}
-        notify={filter !== "items" && newTokens}
-      />
-      <TabButton
-        onClick={() => selectFilter("packs")}
-        selected={filter === "packs"}
-        buttonText={"Packs"}
-        notify={filter !== "packs" && hasPacks}
-      />
+      {user?.addr == address ? (
+        <>
+          <TabButton
+            onClick={() => {
+              selectFilter("items")
+              setNewTokens(false)
+            }}
+            selected={filter === "items"}
+            buttonText={"Items"}
+            notify={filter !== "items" && newTokens}
+          />
+          <TabButton
+            onClick={() => selectFilter("packs")}
+            selected={filter === "packs"}
+            buttonText={"Packs"}
+            notify={filter !== "packs" && hasPacks}
+          />
+        </>
+      ) : (
+        <></>
+      )}
       {filter === "beast collection" && (
-        <BeastTab beasts={beasts} fetchUserBeasts={fetchUserBeasts} />
-      )}
-      {filter === "items" && (
-        <ItemTab
-          sushiBalance={sushiBalance}
-          emptyPotionBottleBalance={emptyPotionBottleBalance}
-          poopBalance={poopBalance}
+        <BeastTab
+          beasts={beasts}
+          fetchUserBeasts={fetchUserBeasts}
+          userAddr={userAddr}
         />
       )}
-      {filter === "packs" && (
-        <PackTab
-          toggle={toggle}
-          selectPackType={selectPackType}
-          packCount={packCount}
-        />
+      {user?.addr == address ? (
+        <>
+          {filter === "items" && (
+            <ItemTab
+              sushiBalance={sushiBalance}
+              emptyPotionBottleBalance={emptyPotionBottleBalance}
+              poopBalance={poopBalance}
+            />
+          )}
+          {filter === "packs" && (
+            <PackTab
+              toggle={toggle}
+              selectPackType={selectPackType}
+              packCount={packCount}
+            />
+          )}
+        </>
+      ) : (
+        <></>
       )}
     </Container>
   )
