@@ -1,12 +1,15 @@
-import { FC } from "react"
+import { FC, useState } from "react"
 import styled from "styled-components"
 import ShinyImg from "public/packs/pack_pf/shiny.png"
+import PersonalDexiconModal from "../PersonalDexiconModal"
+import NextLink from "next/link"
+import beastTemplates from "data/beastTemplates"
 
 const Container = styled.div`
   background: #1e1e23;
   color: #e4be23;
   border-radius: 15px;
-  padding: 35px 45px;
+  padding: 35px 0px 0px;
   margin-top: -30%;
   filter: drop-shadow(0 1px 10px #383232);
   text-transform: uppercase;
@@ -20,7 +23,8 @@ const Content = styled.div`
   margin-top: 20px;
   text-align: center;
   line-height: 2em;
-  width: 200px;
+  width: 300px;
+  height: 220px;
 `
 
 const ProfileName = styled.div`
@@ -84,16 +88,58 @@ const HunterScore = styled.div`
   margin-top: 30px;
   font-size: 1.5em;
 `
+const Rank = styled.div`
+  border-left: 1px solid #5c5e6c;
+
+  border-right: 1px solid #5c5e6c;
+
+  cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
+      14 0,
+    pointer !important;
+`
+
+const PersonalDexicon = styled.div`
+  cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
+      14 0,
+    pointer !important;
+`
+
+const TotalBeasts = styled.div``
+
+const HunterStats = styled.div`
+  background: #1a1a1a;
+  border-radius: 0 0 15px 15px;
+  text-align: center;
+  padding: 15px 5px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-auto-flow: row;
+  line-height: 16px;
+`
+const Label = styled.div`
+  font-size: 0.9em;
+  text-transform: capitalize;
+`
 
 type Props = {
   hunterScore: any
+  dexicon: any
 }
 
-const ProfileCard: FC<Props> = ({ hunterScore }) => {
+const ProfileCard: FC<Props> = ({ hunterScore, dexicon }) => {
   const address = "0xfd4c97b7b23969df"
+
+  const [open, setOpen] = useState(false)
+  const [resolvedDexicon, setResolvedDexicon] = useState(false)
+
+  const resolveDexicon = async () => {
+    if (dexicon != null) {
+    }
+  }
 
   return (
     <Container>
+      <PersonalDexiconModal open={open} setOpen={setOpen} dexicon={dexicon} />
       <CardImage src={ShinyImg.src} />
       <Content>
         <ProfileName>-bz</ProfileName>
@@ -129,11 +175,29 @@ const ProfileCard: FC<Props> = ({ hunterScore }) => {
             <ToolTipText>Copy</ToolTipText>
           </ToolTip>
         </ProfileAddress>
+
         <HunterScore>
           Hunter Score
-          <div>{hunterScore.toLocaleString()}</div>
+          {hunterScore != null ? (
+            <div>{hunterScore.toLocaleString()}</div>
+          ) : (
+            <div>0</div>
+          )}
         </HunterScore>
       </Content>
+      <HunterStats>
+        <PersonalDexicon onClick={() => setOpen(true)}>
+          5/151<Label>Dexicon</Label>
+        </PersonalDexicon>
+        <NextLink href="/rankings">
+          <Rank>
+            #1<Label>Rank</Label>
+          </Rank>
+        </NextLink>
+        <TotalBeasts>
+          2<Label>Total Beasts</Label>
+        </TotalBeasts>
+      </HunterStats>
     </Container>
   )
 }

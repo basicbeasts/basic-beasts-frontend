@@ -26,6 +26,7 @@ const Profile: NextPage = () => {
   //const [userPacks, setUserPacks] = useState()
 
   //const { userPacks, fetchUserPacks } = useUser()
+  const [dexicon, setDexicon] = useState()
 
   const { user } = useAuth()
 
@@ -560,6 +561,7 @@ const Profile: NextPage = () => {
         return a - b
       })
       console.log("Personal Dexicon" + res)
+      setDexicon(res)
     } catch (error) {
       console.log(error)
     }
@@ -619,6 +621,7 @@ const Profile: NextPage = () => {
         setNewTokens={setNewTokens}
         fetchUserBeasts={fetchUserBeasts}
         hunterScore={hunterScore}
+        dexicon={dexicon}
       />
     </div>
   )

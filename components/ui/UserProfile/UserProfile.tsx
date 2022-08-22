@@ -5,6 +5,7 @@ import ProfileTabs from "../ProfileTabs"
 //import beasts from "data/beast-collection-dummy-data"
 import { useAuth } from "@components/auth/AuthProvider"
 import { query } from "@onflow/fcl"
+import { AnyNode } from "postcss"
 
 const Container = styled.div`
   margin-top: 150px;
@@ -55,6 +56,7 @@ type FuncProps = {
   setNewTokens: any
   fetchUserBeasts: any
   hunterScore: any
+  dexicon: any
 }
 
 const UserProfile: FC<FuncProps> = ({
@@ -71,6 +73,7 @@ const UserProfile: FC<FuncProps> = ({
   setNewTokens,
   fetchUserBeasts,
   hunterScore,
+  dexicon,
 }) => {
   const [filter, setFilter] = useState<"beast collection" | "items" | "packs">(
     "beast collection",
@@ -79,11 +82,11 @@ const UserProfile: FC<FuncProps> = ({
   return (
     <Container>
       <MobileProfileCardWrapper>
-        <ProfileCard hunterScore={hunterScore} />
+        <ProfileCard hunterScore={hunterScore} dexicon={dexicon} />
       </MobileProfileCardWrapper>
       <Wrapper>
         <LeftColumn>
-          <ProfileCard hunterScore={hunterScore} />
+          <ProfileCard hunterScore={hunterScore} dexicon={dexicon} />
         </LeftColumn>
         <RightColumn>
           <ProfileTabs
