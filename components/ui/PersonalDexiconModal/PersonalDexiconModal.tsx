@@ -21,7 +21,7 @@ import * as t from "@onflow/types"
 
 const ActionItem = styled.div`
   padding: 10px 0;
-  width: 100%;
+  display: flex;
 `
 
 const FuncArgInput = styled.input`
@@ -55,14 +55,57 @@ const FuncArgButton = styled.button`
 const Title = styled.div`
   font-size: 2.5em;
   margin-bottom: 20px;
+  color: #e4be23;
+  text-transform: uppercase;
 `
 
 const Wrapper = styled.div`
   margin: 0 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `
 
 const Container = styled.div`
   align-items: center;
+`
+
+const BeastContainer = styled.div`
+  height: 80px;
+  width: 80px;
+`
+
+const NoBeastContainer = styled.div`
+  background: #e4bd2325;
+  color: #fff;
+  border-radius: 10px;
+
+  height: 80px;
+  width: 80px;
+  font-size: 35px;
+  text-align: center;
+  display: table-cell;
+  vertical-align: middle;
+`
+
+const Span = styled.div`
+  color: #bd9f23;
+  font-size: 1.3em;
+  padding: 15px;
+`
+
+const DialogContainer = styled(Dialog.Panel)<any>`
+  border-radius: 20px;
+  background: #ffe8a3;
+  width: 100%;
+  max-width: 75%;
+  @media (max-width: 1240px) {
+    max-width: 90%;
+  }
+  @media (max-width: 600px) {
+    max-width: 95%;
+  }
 `
 
 type Props = {
@@ -72,6 +115,8 @@ type Props = {
 }
 
 const PersonalDexiconModal: FC<Props> = ({ open, setOpen, dexicon }) => {
+  const personalDexicon = Array.from({ length: 151 }, (_, i) => i + 1)
+
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setOpen}>
@@ -98,18 +143,41 @@ const PersonalDexiconModal: FC<Props> = ({ open, setOpen, dexicon }) => {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel
-                style={{ borderRadius: "20px", width: "100%", maxWidth: "90%" }}
+              <DialogContainer
+                style={{}}
                 className="relative bg-white rounded-lg pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-sm sm:w-full md:max-w-xl"
               >
                 <Wrapper>
-                  <ActionItem>
-                    <Title>Change Nickname</Title>
-                  </ActionItem>
-                  <pre>{JSON.stringify(dexicon, null, 2)}</pre>
-                  <div>Hello</div>
+                  {dexicon != null ? (
+                    <>
+                      <ActionItem>
+                        <Title>Personal Dexicon</Title>
+                        <Span>{Object.keys(dexicon).length}/151</Span>
+                      </ActionItem>
+                      <ul
+                        role="list"
+                        className="grid grid-cols-4 gap-x-5 gap-y-5 sm:grid-cols-6 sm:gap-x-3 md:grid-cols-8 lg:grid-cols-9 xl:gap-x-6 xl:grid-cols-12 2xl:grid-cols-12"
+                      >
+                        {personalDexicon.map((dex: any, i: any) => (
+                          <li key={i}>
+                            <BeastContainer>
+                              {dexicon[dex] != null ? (
+                                <img src={dexicon[dex]} />
+                              ) : (
+                                <NoBeastContainer key={i}>
+                                  {("00" + dex).slice(-3)}
+                                </NoBeastContainer>
+                              )}
+                            </BeastContainer>
+                          </li>
+                        ))}
+                      </ul>
+                    </>
+                  ) : (
+                    <></>
+                  )}
                 </Wrapper>
-              </Dialog.Panel>
+              </DialogContainer>
             </Transition.Child>
           </Container>
         </div>

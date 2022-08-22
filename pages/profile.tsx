@@ -7,6 +7,7 @@ import PackClass from "utils/PackClass"
 import { useUser } from "@components/user/UserProvider"
 import { useAuth } from "@components/auth/AuthProvider"
 import { query } from "@onflow/fcl"
+import beastTemplates from "data/beastTemplates"
 
 const Profile: NextPage = () => {
   const [isRevealOverlayOpen, setIsRevealOverlayOpen] = useState(false)
@@ -560,8 +561,16 @@ const Profile: NextPage = () => {
       res.sort(function (a: any, b: any) {
         return a - b
       })
+      let personalDex: any = {}
+      for (let key in res) {
+        let element = res[key]
+        let dexNumber =
+          beastTemplates[element as keyof typeof beastTemplates].dexNumber
+        let image = beastTemplates[element as keyof typeof beastTemplates].image
+        personalDex[dexNumber] = image
+      }
       console.log("Personal Dexicon" + res)
-      setDexicon(res)
+      setDexicon(personalDex)
     } catch (error) {
       console.log(error)
     }

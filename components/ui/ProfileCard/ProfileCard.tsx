@@ -187,7 +187,15 @@ const ProfileCard: FC<Props> = ({ hunterScore, dexicon }) => {
       </Content>
       <HunterStats>
         <PersonalDexicon onClick={() => setOpen(true)}>
-          5/151<Label>Dexicon</Label>
+          {dexicon != null ? (
+            <>
+              {Object.keys(dexicon).length}/151<Label>Dexicon</Label>
+            </>
+          ) : (
+            <>
+              0/151<Label>Dexicon</Label>
+            </>
+          )}
         </PersonalDexicon>
         <NextLink href="/rankings">
           <Rank>
