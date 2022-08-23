@@ -57,6 +57,10 @@ const Title = styled.div`
   margin-bottom: 20px;
   color: #e4be23;
   text-transform: uppercase;
+  @media (max-width: 600px) {
+    font-size: 1.5em;
+    margin: 0;
+  }
 `
 
 const Wrapper = styled.div`
@@ -74,6 +78,10 @@ const Container = styled.div`
 const BeastContainer = styled.div`
   height: 80px;
   width: 80px;
+  @media (max-width: 600px) {
+    width: 60px;
+    height: 60px;
+  }
 `
 
 const NoBeastContainer = styled.div`
@@ -87,12 +95,21 @@ const NoBeastContainer = styled.div`
   text-align: center;
   display: table-cell;
   vertical-align: middle;
+  @media (max-width: 600px) {
+    width: 60px;
+    height: 60px;
+    font-size: 25px;
+  }
 `
 
 const Span = styled.div`
   color: #bd9f23;
   font-size: 1.3em;
   padding: 15px;
+  @media (max-width: 600px) {
+    font-size: 1em;
+    padding: 0 0 0 10px;
+  }
 `
 
 const DialogContainer = styled(Dialog.Panel)<any>`
@@ -105,6 +122,27 @@ const DialogContainer = styled(Dialog.Panel)<any>`
   }
   @media (max-width: 600px) {
     max-width: 95%;
+  }
+`
+
+const Icon = styled.div`
+  visibility: hidden;
+  //Responsive
+  @media (max-width: 800px) {
+    visibility: visible;
+    position: absolute;
+    /* top: 1.2rem; */
+    background: transparent;
+    font-size: 20px;
+    outline: none;
+    color: #e4be23;
+    font-size: 50px;
+    left: 15px;
+    top: -10px;
+    cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
+        14 0,
+      pointer !important;
+    z-index: 19;
   }
 `
 
@@ -154,6 +192,9 @@ const PersonalDexiconModal: FC<Props> = ({
                 className="relative bg-white rounded-lg pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-sm sm:w-full md:max-w-xl"
               >
                 <Wrapper>
+                  <Icon className="icon" onClick={() => setOpen(false)}>
+                    {"<"}
+                  </Icon>
                   {dexicon != null ? (
                     <>
                       <ActionItem>

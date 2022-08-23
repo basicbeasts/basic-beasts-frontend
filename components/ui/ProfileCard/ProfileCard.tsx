@@ -1,4 +1,4 @@
-import { FC, useState } from "react"
+import { FC, useEffect, useState } from "react"
 import styled from "styled-components"
 import ShinyImg from "public/packs/pack_pf/shiny.png"
 import PersonalDexiconModal from "../PersonalDexiconModal"
@@ -8,6 +8,7 @@ import { useRouter } from "next/router"
 import profiles from "data/profiles"
 import ChangeProfilePictureModal from "../ChangeProfilePictureModal"
 import { IsAny } from "@tanstack/react-table"
+import { useUser } from "@components/user/UserProvider"
 
 const Container = styled.div`
   background: #1e1e23;
@@ -16,6 +17,10 @@ const Container = styled.div`
   padding: 35px 0px 0px;
   margin-top: -30%;
   filter: drop-shadow(0 1px 10px #383232);
+  @media (max-width: 1024px) {
+    margin-top: 0;
+    padding-top: 50px;
+  }
 `
 const CardImage = styled.img`
   width: 180px;
@@ -42,6 +47,9 @@ const Content = styled.div`
   line-height: 2em;
   width: 300px;
   height: 220px;
+  @media (max-width: 1024px) {
+    width: auto;
+  }
 `
 
 const ProfileName = styled.div`
@@ -160,9 +168,30 @@ const ProfileCard: FC<Props> = ({
   const router = useRouter()
   const { address }: any = router.query
 
+  const { hunterData } = useUser()
+
   const [open, setOpen] = useState(false)
 
   const [open2, setOpen2] = useState(false)
+
+  const [totalBeasts, setTotalBeasts] = useState(0)
+  const [rank, setRank] = useState(0)
+
+  useEffect(() => {
+    if (hunterData != null) {
+      fetchProfileHunterData()
+    }
+  }, [hunterData])
+
+  const fetchProfileHunterData = () => {
+    for (let key in hunterData) {
+      let element = hunterData[key]
+      if (element.address == address) {
+        setTotalBeasts(element.numberOfBeastsCollected)
+        setRank(element.rankByHunterScore)
+      }
+    }
+  }
 
   return (
     <Container>
@@ -250,11 +279,13 @@ const ProfileCard: FC<Props> = ({
         </PersonalDexicon>
         <NextLink href="/rankings">
           <Rank>
-            #1<Label>Rank</Label>
+            {rank != 0 ? <>#{rank}</> : <>-</>}
+            <Label>Rank</Label>
           </Rank>
         </NextLink>
         <TotalBeasts>
-          2<Label>Total Beasts</Label>
+          {totalBeasts != 0 ? <>{totalBeasts}</> : <>-</>}
+          <Label>Total Beasts</Label>
         </TotalBeasts>
       </HunterStats>
     </Container>

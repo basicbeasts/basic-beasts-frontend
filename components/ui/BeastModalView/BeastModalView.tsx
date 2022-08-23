@@ -36,6 +36,9 @@ const Header = styled.div<Omit<Color, "background">>`
   background: ${(props) => props.colorCode};
   padding: 28px 35px;
   color: #242526;
+  @media (max-width: 767px) {
+    padding: 10px;
+  }
 `
 
 const BeastName = styled.h3`

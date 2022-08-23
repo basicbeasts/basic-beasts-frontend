@@ -5,6 +5,7 @@ import useUserBeasts from "@framework/hooks/use-user-beasts.hook"
 import useCurrentUser from "framework/hooks/use-current-user.hook"
 import useCookie from "framework/hooks/use-cookie.hook"
 import useUserPacks from "@framework/hooks/use-user-packs.hook"
+import useHunterData from "@framework/hooks/use-hunter-data.hook"
 
 export interface State {}
 
@@ -30,6 +31,7 @@ const UserProvider: FC = ({ children }) => {
     loadingPack,
     unpack,
   } = useUserPacks(user)
+  const { data: hunterData, fetchHunterData } = useHunterData()
 
   useEffect(() => {
     if (compositeSignature) return
@@ -61,6 +63,8 @@ const UserProvider: FC = ({ children }) => {
         fetchUserPacks,
         loadingPack,
         unpack,
+        hunterData,
+        fetchHunterData,
       }}
     >
       {children}

@@ -38,6 +38,9 @@ const Container = styled.div`
   padding: 0 50px;
   line-height: 1.5em;
   margin-bottom: 120px;
+  @media (max-width: 800px) {
+    padding: 0 5px;
+  }
 `
 
 const InputContainer = styled.div`
@@ -53,22 +56,34 @@ const TableRowWrapper = styled.div`
   align-items: center;
   display: flex;
   padding: 20px;
+  @media (max-width: 800px) {
+    padding: 5px;
+  }
 `
 
 const Label = styled.div`
   color: #bc9d24;
   font-size: 0.5em;
+  @media (max-width: 800px) {
+    font-size: 14px;
+    line-height: 10px;
+  }
 `
 
 const TableStyles = styled.div`
   padding: 1rem;
   color: #2c3042;
   font-size: 1.2em;
+  @media (max-width: 800px) {
+    padding: 0;
+  }
   table {
     border-collapse: separate;
     border-spacing: 0 20px;
-
     width: 100%;
+    @media (max-width: 800px) {
+      border-spacing: 0 15px;
+    }
     tbody {
     }
 
@@ -83,22 +98,50 @@ const TableStyles = styled.div`
       }
     }
     .name {
-      width: 65%;
       overflow: hidden;
     }
+    .address {
+      margin: auto;
+    }
+    @media (max-width: 800px) {
+      .name,
+      .hunterScore,
+      .numberOfBeastsCollected {
+        font-size: 20px;
+      }
+    }
+    /* .numberOfBeastsCollected {
+      text-align: right;
+    }
+    .hunterScore {
+      text-align: right;
+    } */
     .rankByTotalBeasts {
       margin-left: -55px;
+      @media (max-width: 800px) {
+        margin-left: -30px;
+      }
     }
     .rankByHunterScore {
       margin-left: 15px;
+      @media (max-width: 800px) {
+        margin-left: 0px;
+      }
     }
     .rankByHunterScore,
     .rankByTotalBeasts {
       width: 55px;
       font-size: 3em;
+      @media (max-width: 800px) {
+        font-size: 20px;
+        width: 30px;
+      }
     }
     .numberOfBeastsCollected {
       width: 150px;
+      @media (max-width: 800px) {
+        width: auto;
+      }
     }
 
     th,
@@ -179,6 +222,7 @@ const columns = [
     cell: (info) => info.renderValue(),
     footer: (info) => info.column.id,
   }),
+  columnHelper.accessor("address", {}),
   columnHelper.accessor("numberOfBeastsCollected", {
     header: () => "Age",
     cell: (info) => info.renderValue(),
@@ -189,7 +233,6 @@ const columns = [
     cell: (info) => info.renderValue(),
     footer: (info) => info.column.id,
   }),
-  columnHelper.accessor("address", {}),
 ]
 
 const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
@@ -208,8 +251,6 @@ const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
 }
 
 type Props = {
-  allHunterScores: any
-  allBeastsCollected: any
   hunterData: any
 }
 
@@ -236,6 +277,9 @@ const RankByButton = styled.div`
   align-items: center;
   padding: 8px;
   padding-left: 15px;
+  @media (max-width: 800px) {
+    width: 120px;
+  }
 `
 
 const DropDownList = styled.div`
@@ -328,11 +372,7 @@ const DropDown: FC<{ setRankBy: any; setSorting: any }> = ({
   )
 }
 
-const RankingList: FC<Props> = ({
-  allHunterScores,
-  allBeastsCollected,
-  hunterData,
-}) => {
+const RankingList: FC<Props> = ({ hunterData }) => {
   const [rankBy, setRankBy] = useState<"hunter score" | "total beasts">(
     "hunter score",
   )
@@ -461,6 +501,9 @@ const Input = styled.input`
   margin: 0 20px 20px;
   padding-left: 15px;
   width: 100%;
+  @media (max-width: 800px) {
+    margin: 0 10px 20px 0px;
+  }
 `
 
 function DebouncedInput({
