@@ -79,16 +79,16 @@ const Button = styled.button`
   outline: none;
   cursor: pointer;
 
-  transition: all 0.2s ease 0s;
-  -moz-transition: all 0.2s ease 0s;
-  -webkit-transition: all 0.2s ease 0s;
+  transition: all 0.1s ease 0s;
+  -moz-transition: all 0.1s ease 0s;
+  -webkit-transition: all 0.1s ease 0s;
   &:hover {
     background: #e4be23;
     color: #212127;
 
-    transition: all 0.2s ease 0s;
-    -moz-transition: all 0.2s ease 0s;
-    -webkit-transition: all 0.2s ease 0s;
+    transition: all 0.1s ease 0s;
+    -moz-transition: all 0.1s ease 0s;
+    -webkit-transition: all 0.1s ease 0s;
   }
 `
 
@@ -99,8 +99,8 @@ const Title = styled.div`
 
 const Wrapper = styled.div`
   margin: 20px 20px 0;
-  display: flex;
-  flex-direction: row;
+  /* display: flex;
+  flex-direction: row; */
 `
 
 const Container = styled.div`
@@ -344,7 +344,7 @@ const ChangeProfilePictureModal: FC<Props> = ({
                     </div>
                   </>
                 )}
-                <Wrapper>
+                <Wrapper className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3">
                   {Object.keys(profilePictures).map((picture, i) => (
                     <Img
                       key={i}

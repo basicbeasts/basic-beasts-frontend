@@ -9,6 +9,7 @@ import profiles from "data/profiles"
 import ChangeProfilePictureModal from "../ChangeProfilePictureModal"
 import { IsAny } from "@tanstack/react-table"
 import { useUser } from "@components/user/UserProvider"
+import { toast } from "react-toastify"
 
 const Container = styled.div`
   background: #1e1e23;
@@ -57,6 +58,17 @@ const ProfileName = styled.div`
 `
 const ProfileAddress = styled.div`
   font-size: 1.5em;
+
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+
+  &:focus {
+    color: #cead29;
+  }
+  &:active {
+    color: #cead29;
+  }
 `
 
 const ToolTipText = styled.span`
@@ -208,7 +220,6 @@ const ProfileCard: FC<Props> = ({
         profilePicture={profilePicture}
         setProfilePicture={setProfilePicture}
       />
-
       <ImageContainer>
         {userAddr == address ? (
           <CardImage src={profilePicture} onClick={() => setOpen2(true)} />
@@ -224,7 +235,12 @@ const ProfileCard: FC<Props> = ({
         </ProfileName> */}
 
         <ProfileName>{profile != null ? profile.name : <></>}</ProfileName>
-        <ProfileAddress>
+        <ProfileAddress
+          onClick={() => {
+            navigator.clipboard.writeText(address)
+            toast("Copied to clipboard")
+          }}
+        >
           {/* <div>-bz.find</div> */}
           <ToolTip>
             <FlowSVG

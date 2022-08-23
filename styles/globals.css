@@ -190,3 +190,9 @@ a {
       -30px -10px transparent, -20px -20px transparent, -10px -30px transparent;
   }
 }
+
+.Toastify__toast-theme--light {
+  background: #212127 !important;
+  color: #e4be23 !important;
+  box-shadow: 0px 0px 3px 2px #8f7a39 !important;
+}

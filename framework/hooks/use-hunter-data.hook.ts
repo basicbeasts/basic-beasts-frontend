@@ -16,8 +16,8 @@ import {
 } from "@onflow/fcl"
 import * as fcl from "@onflow/fcl"
 import * as FlowTypes from "@onflow/types"
-
 import profiles from "data/profiles"
+import profilePictures from "data/profilePictures"
 
 export default function useHunterData() {
   const [state, dispatch] = useReducer(defaultReducer, {
@@ -127,6 +127,23 @@ export default function useHunterData() {
     var rankByTotalBeasts = 1
     for (let item in hunterDataRanked) {
       let data = hunterDataRanked[item]
+      //check avatar
+      var avatar = profilePictures[1].image
+
+      if (profiles[data.address as keyof typeof profiles] != null) {
+        for (let key in profilePictures) {
+          let picture =
+            profilePictures[key as unknown as keyof typeof profilePictures]
+              .image
+          if (
+            profiles[data.address as keyof typeof profiles].image == picture
+          ) {
+            avatar = picture
+          }
+        }
+      }
+
+      //
       var newHunter = {
         address: data.address,
         numberOfBeastsCollected: data.numberOfBeastsCollected,
@@ -134,6 +151,7 @@ export default function useHunterData() {
         name: data.name,
         rankByHunterScore: data.rankByHunterScore,
         rankByTotalBeasts: rankByTotalBeasts,
+        avatar: avatar,
       }
       hunterDataRankedByTotalBeasts.push(newHunter)
       rankByTotalBeasts = rankByTotalBeasts + 1

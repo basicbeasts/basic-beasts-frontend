@@ -12,6 +12,9 @@ import { useRouter } from "next/router"
 import Link from "next/link"
 import profilePictures from "data/profilePictures"
 
+import { ToastContainer, toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
+
 const Profile: NextPage = () => {
   const [isRevealOverlayOpen, setIsRevealOverlayOpen] = useState(false)
   const [selectedPackType, setSelectedPackType] = useState<string | null>(null)

@@ -104,10 +104,15 @@ const TableStyles = styled.div`
       margin: auto;
     }
     @media (max-width: 800px) {
-      .name,
+      .name {
+        font-size: 14px;
+      }
       .hunterScore,
       .numberOfBeastsCollected {
         font-size: 20px;
+      }
+      .avatar {
+        padding: 0;
       }
     }
     /* .numberOfBeastsCollected {
@@ -173,6 +178,16 @@ const TableStyles = styled.div`
   }
 `
 
+const Img = styled.img`
+  width: 60px;
+  max-width: none;
+  border-radius: 6px;
+  margin-right: 5px;
+  @media (max-width: 800px) {
+    width: 40px;
+  }
+`
+
 type Person = {
   rankByHunterScore: number
   rankByTotalBeasts: number
@@ -180,6 +195,7 @@ type Person = {
   numberOfBeastsCollected: number
   hunterScore: number
   name: string
+  avatar: string
 }
 
 const defaultData: Person[] = [
@@ -217,6 +233,11 @@ const columns = [
     header: () => <span>Rank</span>,
     cell: (info) => info.renderValue(),
     footer: (info) => info.column.id,
+  }),
+  columnHelper.accessor("avatar", {
+    cell: (tableProps: any) => (
+      <Img src={tableProps.row.original.avatar} alt="avatar" />
+    ),
   }),
   columnHelper.accessor("name", {
     cell: (info) => info.renderValue(),
