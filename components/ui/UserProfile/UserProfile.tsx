@@ -24,7 +24,8 @@ const Wrapper = styled.div`
 
 const LeftColumn = styled.div`
   /* background: black; */
-  padding: 0 80px;
+  /* padding: 0 80px; */
+  padding: 0 60px 0 0;
   @media (max-width: 1024px) {
     display: none;
   }

@@ -37,7 +37,7 @@ const Header = styled.div<Omit<Color, "background">>`
   padding: 28px 35px;
   color: #242526;
   @media (max-width: 767px) {
-    padding: 10px;
+    padding: 15px;
   }
 `
 
@@ -49,6 +49,10 @@ const BeastName = styled.h3`
   cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
       14 0,
     pointer !important;
+  @media (max-width: 767px) {
+    font-size: 40px;
+    line-height: 35px;
+  }
 `
 
 const BeastNameNoPointer = styled.h3`
@@ -56,6 +60,10 @@ const BeastNameNoPointer = styled.h3`
   font-size: 55px;
   font-weight: normal;
   line-height: 50px;
+  @media (max-width: 767px) {
+    font-size: 40px;
+    line-height: 35px;
+  }
 `
 
 const HeaderDetails = styled.div`
@@ -63,11 +71,17 @@ const HeaderDetails = styled.div`
   clear: both;
   width: 100%;
   margin-top: 10px;
+  @media (max-width: 767px) {
+    margin-top: 5px;
+  }
 `
 
 const Serial = styled.div`
   float: right;
   font-size: 1.3em;
+  @media (max-width: 767px) {
+    font-size: 20px;
+  }
 `
 
 const RightHeaderDetails = styled.div`
@@ -77,6 +91,10 @@ const RightHeaderDetails = styled.div`
 const DexNumber = styled.div`
   font-size: 1.3em;
   text-align: right;
+  @media (max-width: 767px) {
+    font-size: 20px;
+    text-align: left;
+  }
 `
 
 const StarImg = styled.img`
@@ -85,6 +103,10 @@ const StarImg = styled.img`
   margin-top: 1px;
   user-drag: none;
   -webkit-user-drag: none;
+  @media (max-width: 767px) {
+    width: 20px;
+    margin-left: 0;
+  }
 `
 
 const StarLevel = styled.div`
@@ -105,6 +127,10 @@ const Content = styled.div`
   padding: 3vw;
   font-size: 1.2em;
   color: #242526;
+  @media (max-width: 767px) {
+    font-size: 20px;
+    height: 300px;
+  }
 `
 
 const Img = styled.img`
@@ -114,10 +140,16 @@ const Img = styled.img`
   position: relative;
   user-drag: none;
   -webkit-user-drag: none;
+  @media (max-width: 767px) {
+    top: -30px;
+  }
 `
 
 const Description = styled.div`
   margin-top: 10px;
+  @media (max-width: 767px) {
+    font-size: 20px;
+  }
 `
 
 const InfoContainer = styled.ul`
@@ -130,45 +162,35 @@ const InfoLabel = styled.div`
   float: left;
   width: 130px;
   color: #868889;
+  @media (max-width: 767px) {
+    width: 110px;
+    font-size: 16px;
+  }
 `
 
 const InfoText = styled.div`
   float: right;
+  @media (max-width: 767px) {
+    font-size: 16px;
+  }
 `
 
 const InfoListItem = styled.span`
   margin-right: 30px;
 `
 
-const BasicSkills = styled.div`
-  display: table;
-  clear: both;
-  height: 95px;
-`
-
-const Skills = styled.div`
-  float: right;
-  margin-top: 5px;
-`
-
 const Skill = styled.span`
   margin-right: 30px;
   font-size: 0.9em;
-`
-
-const BasicSkillsLabel = styled.div`
-  float: left;
-  margin-right: 45px;
-  font-size: 25px;
-  @media (max-width: 450px) {
-    margin-right: 33px;
+  @media (max-width: 767px) {
+    margin-right: 10px;
   }
 `
 
 const UltimateSkill = styled.div<Omit<Button, "background">>`
   display: table;
   clear: both;
-  width: 100%;
+  width: 90%;
   margin: 25px auto;
   background-color: ${(props) => props.backgroundColor || "#FFE595"};
   box-shadow: -3px 0px 0px 0px ${(props) => props.outset || "#B3A068"},
@@ -178,6 +200,12 @@ const UltimateSkill = styled.div<Omit<Button, "background">>`
     inset -3px -3px ${(props) => props.inset || "#E6CE86"};
   padding: 5px 15px;
   font-size: 1.1em;
+  position: absolute;
+  bottom: 0;
+  @media (max-width: 767px) {
+    margin-right: 10px;
+    font-size: 16px;
+  }
 `
 
 const UltimateSkillLabel = styled.div`
@@ -190,7 +218,7 @@ const UltimateSkillLabel = styled.div`
 
 const SkillName = styled.div`
   float: right;
-  width: 150px;
+  margin-right: 20px;
 `
 
 const IconImg = styled.img`
@@ -313,7 +341,9 @@ const BeastModalView: FC<Props> = ({
             >
               <Dialog.Panel
                 style={{ borderRadius: "20px" }}
-                className="relative bg-white rounded-lg pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-sm sm:w-full md:max-w-xl"
+                // className="relative bg-white rounded-lg pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-sm sm:w-full md:max-w-xl"
+
+                className="relative bg-white rounded-lg pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 md:max-w-xl"
               >
                 <ChangeNicknameModal
                   beastID={beast?.id}
