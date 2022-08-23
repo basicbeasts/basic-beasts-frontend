@@ -57,7 +57,7 @@ const Profile: NextPage = () => {
       getPersonalDexicon()
       getProfile()
     }
-  }, [address, profile])
+  }, [address])
 
   type Pack = {
     uuid: any
@@ -87,7 +87,6 @@ const Profile: NextPage = () => {
       if (element.packTemplateName == "Shiny Gold") {
         shinyPacksDic[element.id] = element
       }
-      console.log("element id: " + element.id)
     }
     setStarterPacks(starterPacksDic)
     setMetallicPacks(metallicPacksDic)
@@ -99,147 +98,7 @@ const Profile: NextPage = () => {
     count[3] = Object.keys(cursedPacksDic).length
     count[4] = Object.keys(shinyPacksDic).length
     setPackCount(count)
-
-    console.log(
-      "number of starter packs: " + Object.keys(starterPacksDic).length,
-    )
-    console.log(starterPacksDic)
   }
-
-  // const getPacks = () => {
-  //   var starterPacksDic = []
-  //   var metallicPacksDic = []
-  //   var cursedPacksDic = []
-  //   var shinyPacksDic = []
-
-  //   for (let pack in packs) {
-  //     let element = packs[pack]
-  //     var keys = Object.keys(element.beast)
-  //     var key: string = keys[0]
-  //     if (element.packTemplate.name == "Starter") {
-  //       var newPack = {
-  //         uuid: element.uuid,
-  //         id: element.id,
-  //         stockNumber: element.stockNumber,
-  //         serialNumber: element.serialNumber,
-  //         packTemplateName: element.packTemplate.name,
-  //         opened: element.opened,
-  //         beastName:
-  //           element.beast[key as keyof typeof element.beast]?.beastTemplate
-  //             .name,
-  //         beastGender: element.beast[key as keyof typeof element.beast]?.sex,
-  //         beastSerialNumber:
-  //           element.beast[key as keyof typeof element.beast]?.serialNumber,
-  //         beastDexNumber:
-  //           element.beast[key as keyof typeof element.beast]?.beastTemplate
-  //             .dexNumber,
-  //         beastDescription:
-  //           element.beast[key as keyof typeof element.beast]?.beastTemplate
-  //             .description,
-  //         beastMaxAdminMintAllowed:
-  //           element.beast[key as keyof typeof element.beast]?.beastTemplate
-  //             .maxAdminMintAllowed,
-  //         beastSkin:
-  //           element.beast[key as keyof typeof element.beast]?.beastTemplate
-  //             .skin,
-  //       }
-  //       starterPacksDic[newPack.uuid] = newPack
-  //     }
-  //     console.log(starterPacksDic)
-  //     if (element.packTemplate.name == "Metallic Silver") {
-  //       var newPack = {
-  //         uuid: element.uuid,
-  //         id: element.id,
-  //         stockNumber: element.stockNumber,
-  //         serialNumber: element.serialNumber,
-  //         packTemplateName: element.packTemplate.name,
-  //         opened: element.opened,
-  //         beastName:
-  //           element.beast[key as keyof typeof element.beast]?.beastTemplate
-  //             .name,
-  //         beastGender: element.beast[key as keyof typeof element.beast]?.sex,
-  //         beastSerialNumber:
-  //           element.beast[key as keyof typeof element.beast]?.serialNumber,
-  //         beastDexNumber:
-  //           element.beast[key as keyof typeof element.beast]?.beastTemplate
-  //             .dexNumber,
-  //         beastDescription:
-  //           element.beast[key as keyof typeof element.beast]?.beastTemplate
-  //             .description,
-  //         beastMaxAdminMintAllowed:
-  //           element.beast[key as keyof typeof element.beast]?.beastTemplate
-  //             .maxAdminMintAllowed,
-  //         beastSkin:
-  //           element.beast[key as keyof typeof element.beast]?.beastTemplate
-  //             .skin,
-  //       }
-  //       metallicPacksDic[newPack.uuid] = newPack
-  //     }
-  //     if (element.packTemplate.name == "Cursed Black") {
-  //       var newPack = {
-  //         uuid: element.uuid,
-  //         id: element.id,
-  //         stockNumber: element.stockNumber,
-  //         serialNumber: element.serialNumber,
-  //         packTemplateName: element.packTemplate.name,
-  //         opened: element.opened,
-  //         beastName:
-  //           element.beast[key as keyof typeof element.beast]?.beastTemplate
-  //             .name,
-  //         beastGender: element.beast[key as keyof typeof element.beast]?.sex,
-  //         beastSerialNumber:
-  //           element.beast[key as keyof typeof element.beast]?.serialNumber,
-  //         beastDexNumber:
-  //           element.beast[key as keyof typeof element.beast]?.beastTemplate
-  //             .dexNumber,
-  //         beastDescription:
-  //           element.beast[key as keyof typeof element.beast]?.beastTemplate
-  //             .description,
-  //         beastMaxAdminMintAllowed:
-  //           element.beast[key as keyof typeof element.beast]?.beastTemplate
-  //             .maxAdminMintAllowed,
-  //         beastSkin:
-  //           element.beast[key as keyof typeof element.beast]?.beastTemplate
-  //             .skin,
-  //       }
-  //       cursedPacksDic[newPack.uuid] = newPack
-  //     }
-  //     if (element.packTemplate.name == "Shiny Gold") {
-  //       var newPack = {
-  //         uuid: element.uuid,
-  //         id: element.id,
-  //         stockNumber: element.stockNumber,
-  //         serialNumber: element.serialNumber,
-  //         packTemplateName: element.packTemplate.name,
-  //         opened: element.opened,
-  //         beastName:
-  //           element.beast[key as keyof typeof element.beast]?.beastTemplate
-  //             .name,
-  //         beastGender: element.beast[key as keyof typeof element.beast]?.sex,
-  //         beastSerialNumber:
-  //           element.beast[key as keyof typeof element.beast]?.serialNumber,
-  //         beastDexNumber:
-  //           element.beast[key as keyof typeof element.beast]?.beastTemplate
-  //             .dexNumber,
-  //         beastDescription:
-  //           element.beast[key as keyof typeof element.beast]?.beastTemplate
-  //             .description,
-  //         beastMaxAdminMintAllowed:
-  //           element.beast[key as keyof typeof element.beast]?.beastTemplate
-  //             .maxAdminMintAllowed,
-  //         beastSkin:
-  //           element.beast[key as keyof typeof element.beast]?.beastTemplate
-  //             .skin,
-  //       }
-  //       newPack.opened = true
-  //       shinyPacksDic[newPack.uuid] = newPack
-  //     }
-  //   }
-  //   setStarterPacks(starterPacksDic)
-  //   setMetallicPacks(metallicPacksDic)
-  //   setCursedPacks(cursedPacksDic)
-  //   setShinyPacks(shinyPacksDic)
-  // }
 
   const fetchUserBeasts = async () => {
     try {
@@ -381,8 +240,6 @@ const Profile: NextPage = () => {
         mappedCollection.push(beast)
       }
       setUserBeastCollection(mappedCollection)
-
-      console.log("beast collection:" + mappedCollection)
     } catch (err) {
       console.log(err)
     }
@@ -409,7 +266,6 @@ const Profile: NextPage = () => {
         args: (arg: any, t: any) => [arg(address, t.Address)],
       })
       setSushiBalance(res)
-      console.log("sushi " + res)
     } catch (err) {
       console.log(err)
     }
@@ -462,7 +318,6 @@ const Profile: NextPage = () => {
         args: (arg: any, t: any) => [arg(address, t.Address)],
       })
       setPoopBalance(res)
-      console.log("sushi " + res)
     } catch (err) {
       console.log(err)
     }
@@ -581,7 +436,6 @@ const Profile: NextPage = () => {
         let image = beastTemplates[element as keyof typeof beastTemplates].image
         personalDex[dexNumber] = image
       }
-      console.log("Personal Dexicon" + res)
       setDexicon(personalDex)
     } catch (error) {
       console.log(error)
@@ -635,6 +489,7 @@ const Profile: NextPage = () => {
         fetchPoop={fetchPoop}
         setNewBeast={setNewBeast}
         setNewTokens={setNewTokens}
+        getPersonalDexicon={getPersonalDexicon}
       />
 
       <UserProfile
@@ -656,6 +511,7 @@ const Profile: NextPage = () => {
         profile={profile}
         profilePicture={profilePicture}
         setProfilePicture={setProfilePicture}
+        getProfile={getProfile}
       />
     </div>
   )

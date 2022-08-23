@@ -134,6 +134,7 @@ type Props = {
   profile: any
   profilePicture: any
   setProfilePicture: any
+  getProfile: any
 }
 
 const ChangeProfilePictureModal: FC<Props> = ({
@@ -142,6 +143,7 @@ const ChangeProfilePictureModal: FC<Props> = ({
   profile,
   profilePicture,
   setProfilePicture,
+  getProfile,
 }) => {
   const [nickname, setNickname] = useState<string | null>("")
   const [select, setSelect] = useState<any>(profilePictures[1].image)
@@ -214,7 +216,9 @@ const ChangeProfilePictureModal: FC<Props> = ({
         // import FindLeaseMarketDirectOfferEscrow from 0xFindLeaseMarketDirectOfferEscrow
         // import FindLeaseMarket from 0xFindLeaseMarket
 
-        transaction(name: String) {
+        transaction(name: String, avatar: String) {
+
+
           prepare(account: AuthAccount) {
             //if we do not have a profile it might be stored under a different address so we will just remove it
             let profileCapFirst = account.getCapability<&{Profile.Public}>(Profile.publicPath)
@@ -284,10 +288,13 @@ const ChangeProfilePictureModal: FC<Props> = ({
               profile.emitUpdatedEvent()
             }
 
+            profile.setAvatar(avatar)
+
           }
+          
         }
         `),
-        args([arg(nickname, t.String)]),
+        args([arg(nickname, t.String), arg(select, t.String)]),
         payer(authz),
         proposer(authz),
         authorizations([authz]),
@@ -296,6 +303,7 @@ const ChangeProfilePictureModal: FC<Props> = ({
       setOpen(false)
       setProfilePicture(select)
       await tx(res).onceSealed()
+      getProfile()
     } catch (err) {
       console.log(err)
     }

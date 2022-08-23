@@ -163,6 +163,7 @@ type Props = {
   fetchPoop: any
   setNewBeast: any
   setNewTokens: any
+  getPersonalDexicon: any
 }
 
 const PackRevealCard: FC<Props> = ({
@@ -176,11 +177,14 @@ const PackRevealCard: FC<Props> = ({
   fetchPoop,
   setNewBeast,
   setNewTokens,
+  getPersonalDexicon,
 }) => {
   const [packOpened, setPackOpened] = useState(pack.opened)
 
   //const { unpack } = useUser()
   const { user } = useAuth()
+
+  const { fetchHunterData } = useUser()
 
   const unpack = async (packID: String) => {
     try {
@@ -365,7 +369,8 @@ const PackRevealCard: FC<Props> = ({
       fetchSushi()
       fetchEmptyPotionBottle()
       fetchPoop()
-      console.log(pack)
+      getPersonalDexicon()
+      fetchHunterData()
     } catch (err) {
       console.log(err)
     }

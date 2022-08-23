@@ -62,6 +62,7 @@ type FuncProps = {
   profile: any
   profilePicture: any
   setProfilePicture: any
+  getProfile: any
 }
 
 const UserProfile: FC<FuncProps> = ({
@@ -83,6 +84,7 @@ const UserProfile: FC<FuncProps> = ({
   profile,
   profilePicture,
   setProfilePicture,
+  getProfile,
 }) => {
   const [filter, setFilter] = useState<"beast collection" | "items" | "packs">(
     "beast collection",
@@ -98,6 +100,7 @@ const UserProfile: FC<FuncProps> = ({
           profilePicture={profilePicture}
           setProfilePicture={setProfilePicture}
           userAddr={userAddr}
+          getProfile={getProfile}
         />
       </MobileProfileCardWrapper>
       <Wrapper>
@@ -109,6 +112,7 @@ const UserProfile: FC<FuncProps> = ({
             profilePicture={profilePicture}
             setProfilePicture={setProfilePicture}
             userAddr={userAddr}
+            getProfile={getProfile}
           />
         </LeftColumn>
         <RightColumn>

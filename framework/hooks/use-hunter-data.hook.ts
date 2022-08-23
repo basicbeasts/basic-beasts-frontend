@@ -160,7 +160,6 @@ export default function useHunterData() {
     // setHunterData(hunterDataRankedByTotalBeasts)
 
     dispatch({ type: "SUCCESS", payload: hunterDataRankedByTotalBeasts })
-    console.log("hello it works")
   }
 
   return {

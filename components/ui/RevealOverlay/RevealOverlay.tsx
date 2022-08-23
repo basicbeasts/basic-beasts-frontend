@@ -139,6 +139,7 @@ type Props = {
   fetchPoop: any
   setNewBeast: any
   setNewTokens: any
+  getPersonalDexicon: any
 }
 
 const RevealOverlay: FC<Props> = ({
@@ -155,6 +156,7 @@ const RevealOverlay: FC<Props> = ({
   fetchPoop,
   setNewBeast,
   setNewTokens,
+  getPersonalDexicon,
 }: Props) => {
   const { logIn, logOut, user, loggedIn } = useAuth()
   const [selectedPack, setSelectedPack] = useState<string | "0">("0")
@@ -222,6 +224,7 @@ const RevealOverlay: FC<Props> = ({
                     fetchPoop={fetchPoop}
                     setNewBeast={setNewBeast}
                     setNewTokens={setNewTokens}
+                    getPersonalDexicon={getPersonalDexicon}
                   />
                 </li>
               ))}
@@ -244,6 +247,7 @@ const RevealOverlay: FC<Props> = ({
                     fetchPoop={fetchPoop}
                     setNewBeast={setNewBeast}
                     setNewTokens={setNewTokens}
+                    getPersonalDexicon={getPersonalDexicon}
                   />
                 </li>
               ))}
@@ -266,6 +270,7 @@ const RevealOverlay: FC<Props> = ({
                     fetchPoop={fetchPoop}
                     setNewBeast={setNewBeast}
                     setNewTokens={setNewTokens}
+                    getPersonalDexicon={getPersonalDexicon}
                   />
                 </li>
               ))}
@@ -288,6 +293,7 @@ const RevealOverlay: FC<Props> = ({
                     fetchPoop={fetchPoop}
                     setNewBeast={setNewBeast}
                     setNewTokens={setNewTokens}
+                    getPersonalDexicon={getPersonalDexicon}
                   />
                 </li>
               ))}

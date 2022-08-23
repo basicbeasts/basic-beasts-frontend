@@ -167,6 +167,7 @@ type Props = {
   profilePicture: any
   setProfilePicture: any
   userAddr: any
+  getProfile: any
 }
 
 const ProfileCard: FC<Props> = ({
@@ -176,6 +177,7 @@ const ProfileCard: FC<Props> = ({
   profilePicture,
   setProfilePicture,
   userAddr,
+  getProfile,
 }) => {
   const router = useRouter()
   const { address }: any = router.query
@@ -219,6 +221,7 @@ const ProfileCard: FC<Props> = ({
         profile={profile}
         profilePicture={profilePicture}
         setProfilePicture={setProfilePicture}
+        getProfile={getProfile}
       />
       <ImageContainer>
         {userAddr == address ? (
