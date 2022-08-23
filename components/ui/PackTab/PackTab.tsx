@@ -125,7 +125,7 @@ const PackTab: FC<Props> = ({
                   backgroundColor={"#737374"}
                 >
                   <ThumbnailLabel>
-                    <div>Starter</div>
+                    <div>{"Starter" + " (" + packCount[1] + ")"}</div>
                   </ThumbnailLabel>
                 </ThumbnailDetails>
               </div>
@@ -167,7 +167,7 @@ const PackTab: FC<Props> = ({
                   backgroundColor={"#889AAF"}
                 >
                   <ThumbnailLabel>
-                    <div>Metallic Silver</div>
+                    <div>{"Metallic Silver" + " (" + packCount[2] + ")"}</div>
                   </ThumbnailLabel>
                 </ThumbnailDetails>
               </div>
@@ -198,7 +198,7 @@ const PackTab: FC<Props> = ({
                   backgroundColor={"#751AD0"}
                 >
                   <ThumbnailLabel>
-                    <div>Cursed Black</div>
+                    <div>{"Cursed Black" + " (" + packCount[3] + ")"}</div>
                   </ThumbnailLabel>
                 </ThumbnailDetails>
               </div>
@@ -229,7 +229,9 @@ const PackTab: FC<Props> = ({
                   backgroundColor={"#FFDA66"}
                 >
                   <ThumbnailLabel>
-                    <div style={{ color: "#A15813" }}>Shiny Gold</div>
+                    <div style={{ color: "#A15813" }}>
+                      {"Shiny Gold" + " (" + packCount[4] + ")"}
+                    </div>
                   </ThumbnailLabel>
                 </ThumbnailDetails>
               </div>
