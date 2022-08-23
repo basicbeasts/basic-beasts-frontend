@@ -113,6 +113,10 @@ const Box = styled.div<any>`
   background: ${(props) => (props.selected ? "#ffe595" : "#425066")};
 `
 
+const Notice = styled.div`
+  margin-top: 10px;
+`
+
 const Img = styled.img<any>`
   height: 100px;
   width: 100px;
@@ -394,17 +398,27 @@ const ChangeProfilePictureModal: FC<Props> = ({
                         Save on-chain
                       </FuncArgButton>
                     </ActionItem>
+                    <Notice>
+                      Notice: This will create an find.xyz profile on-chain as
+                      well.
+                    </Notice>
                   </>
                 ) : (
-                  <div>
-                    <Button
-                      onClick={() => {
-                        changeProfilePicture()
-                      }}
-                    >
-                      Save on-chain
-                    </Button>
-                  </div>
+                  <>
+                    <div>
+                      <Button
+                        onClick={() => {
+                          changeProfilePicture()
+                        }}
+                      >
+                        Save on-chain
+                      </Button>
+                    </div>
+                    <Notice>
+                      Notice: This change will affect your find.xyz profile
+                      picture on-chain as well.
+                    </Notice>
+                  </>
                 )}
               </DialogPanel>
             </Transition.Child>

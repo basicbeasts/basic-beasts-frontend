@@ -190,7 +190,7 @@ const Skill = styled.span`
 const UltimateSkill = styled.div<Omit<Button, "background">>`
   display: table;
   clear: both;
-  width: 90%;
+  width: 80%;
   margin: 25px auto;
   background-color: ${(props) => props.backgroundColor || "#FFE595"};
   box-shadow: -3px 0px 0px 0px ${(props) => props.outset || "#B3A068"},

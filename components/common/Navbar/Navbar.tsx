@@ -282,7 +282,7 @@ const Navbar: FC<FuncProps> = ({ toggle, router }) => {
               </NextLink>
             </NavItem>
 
-            {!loggedIn ? (
+            {/* {!loggedIn ? (
               <NavItem>
                 <NextLink href="/marketplace">
                   <A
@@ -310,7 +310,7 @@ const Navbar: FC<FuncProps> = ({ toggle, router }) => {
                   </A>
                 </NextLink>
               </NavItem>
-            )}
+            )} */}
 
             <NavItem>
               <NextLink href="/dexicon">
@@ -325,7 +325,52 @@ const Navbar: FC<FuncProps> = ({ toggle, router }) => {
                 </A>
               </NextLink>
             </NavItem>
+
             <NavItem>
+              <NextLink href={"/rankings/"}>
+                <A
+                  font={
+                    lang === "ru"
+                      ? "arial, sans-serif"
+                      : "Pixelar, sans-serif, arial"
+                  }
+                >
+                  Rankings
+                </A>
+              </NextLink>
+            </NavItem>
+            <NavItem>
+              <NextLink href="/inbox">
+                <A
+                  font={
+                    lang === "ru"
+                      ? "arial, sans-serif"
+                      : "Pixelar, sans-serif, arial"
+                  }
+                >
+                  Inbox
+                </A>
+              </NextLink>
+            </NavItem>
+            {user?.addr != null ? (
+              <NavItem>
+                <NextLink href={"/profile/" + user?.addr}>
+                  <A
+                    font={
+                      lang === "ru"
+                        ? "arial, sans-serif"
+                        : "Pixelar, sans-serif, arial"
+                    }
+                  >
+                    Profile
+                  </A>
+                </NextLink>
+              </NavItem>
+            ) : (
+              <></>
+            )}
+
+            {/* <NavItem>
               <A
                 font={
                   lang === "ru"
@@ -352,7 +397,7 @@ const Navbar: FC<FuncProps> = ({ toggle, router }) => {
                 Discord&nbsp;
                 <ExternalLinkIcon src={externalLinkIcon.src} />
               </A>
-            </NavItem>
+            </NavItem> */}
             <LanguageSwitcher router={router} />
 
             {/* {router.locales.map((locale) => (
