@@ -76,15 +76,27 @@ const ProfileTabs: FC<Props> = ({
 
   return (
     <Container>
-      <TabButton
-        selected={filter === "beast collection"}
-        onClick={() => {
-          selectFilter("beast collection")
-          setNewBeast(false)
-        }}
-        buttonText={"beast collection"}
-        notify={filter !== "beast collection" && newBeast}
-      />
+      {beasts != null ? (
+        <TabButton
+          selected={filter === "beast collection"}
+          onClick={() => {
+            selectFilter("beast collection")
+            setNewBeast(false)
+          }}
+          buttonText={"beast collection" + " (" + beasts.length + ")"}
+          notify={filter !== "beast collection" && newBeast}
+        />
+      ) : (
+        <TabButton
+          selected={filter === "beast collection"}
+          onClick={() => {
+            selectFilter("beast collection")
+            setNewBeast(false)
+          }}
+          buttonText={"beast collection"}
+          notify={filter !== "beast collection" && newBeast}
+        />
+      )}
       {user?.addr == address ? (
         <>
           <TabButton
