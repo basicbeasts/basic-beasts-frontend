@@ -18,6 +18,8 @@ import {
   tx,
 } from "@onflow/fcl"
 import * as t from "@onflow/types"
+import { toast } from "react-toastify"
+import { faClinicMedical } from "@fortawesome/free-solid-svg-icons"
 
 const ActionItem = styled.div`
   padding: 10px 0;
@@ -87,6 +89,8 @@ const BeastModalView: FC<Props> = ({
   const [nickname, setNickname] = useState<string | null>("")
 
   const changeNickname = async () => {
+    const id = toast.loading("Pending...")
+
     try {
       const res = await send([
         transaction(`
@@ -121,7 +125,52 @@ const BeastModalView: FC<Props> = ({
       } else {
         setDisplayNickname(beastName)
       }
-      await tx(res).onceSealed()
+      tx(res).subscribe((res: any) => {
+        console.log("Status:" + res.status)
+        if (res.status === 0) {
+          toast.update(id, {
+            render: "Pending...",
+            type: "default",
+            isLoading: true,
+            autoClose: 5000,
+          })
+        }
+        if (res.status === 1) {
+          toast.update(id, {
+            render: "Finalizing...",
+            type: "default",
+            isLoading: true,
+            autoClose: 5000,
+          })
+        }
+        if (res.status === 2) {
+          toast.update(id, {
+            render: "Executing...",
+            type: "default",
+            isLoading: true,
+            autoClose: 5000,
+          })
+        }
+        if (res.status === 3) {
+          toast.update(id, {
+            render: "Sealing...",
+            type: "default",
+            isLoading: true,
+            autoClose: 5000,
+          })
+        }
+      })
+      await tx(res)
+        .onceSealed()
+        .then((result: any) => {
+          toast.update(id, {
+            render: "Sealed",
+            type: "success",
+            isLoading: false,
+            autoClose: 5000,
+          })
+        })
+      setNickname("")
       await fetchUserBeasts()
     } catch (err) {
       console.log(err)

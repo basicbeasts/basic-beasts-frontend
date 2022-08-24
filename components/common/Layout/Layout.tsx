@@ -5,12 +5,15 @@ import SideNavbar from "@components/common/SideNavbar"
 import * as fcl from "@onflow/fcl"
 import Head from "next/head"
 import { useRouter } from "next/dist/client/router"
+import { ToastContainer, toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 //Configure FCL
 fcl
   .config()
   .put("accessNode.api", process.env.NEXT_PUBLIC_ACCESS_NODE_API)
-  .put("challenge.handshake", process.env.NEXT_PUBLIC_CHALLENGE_HANDSHAKE)
+  .put("discovery.wallet", process.env.NEXT_PUBLIC_CHALLENGE_HANDSHAKE)
+  .put("discovery.wallet.method", "HTTP/POST") // Needed for testnet to work as it does not allow iframe
   .put("0xFungibleToken", process.env.NEXT_PUBLIC_FUNGIBLE_TOKEN_ADDRESS)
   .put("0xFUSD", process.env.NEXT_PUBLIC_FUSD_ADDRESS)
   .put("0xNonFungibleToken", process.env.NEXT_PUBLIC_NON_FUNGIBLE_TOKEN_ADDRESS)
@@ -81,6 +84,7 @@ const Layout: FC = ({ children }) => {
           crossOrigin=""
         />
       </Head>
+      <ToastContainer position="bottom-right" pauseOnFocusLoss={false} />
       <SideNavbar isSideNavbarOpen={isSideNavbarOpen} toggle={toggle} />
       <Navbar toggle={toggle} router={router} />
       <main>{children}</main>
