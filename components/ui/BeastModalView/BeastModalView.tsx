@@ -228,8 +228,8 @@ const IconImg = styled.img`
 
 const ToolTipText = styled.span`
   visibility: hidden;
-  width: 200px;
-  background-color: rgba(0, 0, 0);
+  width: 180px;
+  background-color: rgba(0, 0, 0, 0.8);
   color: #fff;
   text-align: center;
   border-radius: 6px;
