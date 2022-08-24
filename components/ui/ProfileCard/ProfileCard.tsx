@@ -30,16 +30,16 @@ const CardImage = styled.img`
     pointer !important;
   border-radius: 10px;
 
-  border: solid 2px #e4be23;
-  background: #e4be23;
+  /* border: solid 2px #e4be23;
+  background: #e4be23; */
 `
 
 const CardImageNoPointer = styled.img`
   width: 180px;
   border-radius: 10px;
 
-  border: solid 2px #e4be23;
-  background: #e4be23;
+  /* border: solid 2px #e4be23;
+  background: #e4be23; */
 `
 
 const ImageContainer = styled.div`
