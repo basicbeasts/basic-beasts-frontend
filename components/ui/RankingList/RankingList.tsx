@@ -373,7 +373,7 @@ const DropDown: FC<{ setRankBy: any; setSorting: any }> = ({
                       ])
                     }}
                     className={classNames(
-                      active ? "bg-gray-100" : "",
+                      active ? "bg-gray-700" : "",
                       "block px-4 py-2 text-sm",
                     )}
                   >
@@ -394,7 +394,7 @@ const DropDown: FC<{ setRankBy: any; setSorting: any }> = ({
                       ])
                     }}
                     className={classNames(
-                      active ? "bg-gray-100" : "",
+                      active ? "bg-gray-700" : "",
                       "block px-4 py-2 text-sm",
                     )}
                   >

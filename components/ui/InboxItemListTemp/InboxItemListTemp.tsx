@@ -85,7 +85,7 @@ const InboxItemListTemp: FC = () => {
   useEffect(() => {
     fetchInbox()
     getNumberOfPacks()
-  }, [centralizedInbox, user?.addr])
+  }, [user?.addr])
 
   const getNumberOfPacks = () => {
     let starterCount = 0
@@ -204,6 +204,7 @@ const InboxItemListTemp: FC = () => {
             autoClose: 5000,
           })
         })
+      fetchInbox()
     } catch (err) {
       toast.update(id, {
         render: () => <div>Error, try again later...</div>,
@@ -238,7 +239,6 @@ pub fun main(adminAcct: Address, wallet: Address): &[NonFungibleToken.NFT]? {
         ],
       })
       setCentralizedInbox(res)
-      console.log("inbox" + res)
     } catch (err) {
       console.log(err)
     }

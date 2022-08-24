@@ -12,7 +12,7 @@ import ShinyImg from "public/packs/pack_pf/shiny.png"
 import useTranslation from "next-translate/useTranslation"
 
 const Container = styled.div`
-  padding: 6em 6em 3em;
+  margin: 6em 6em 3em;
   position: relative;
   -webkit-box-pack: center;
   justify-content: center;

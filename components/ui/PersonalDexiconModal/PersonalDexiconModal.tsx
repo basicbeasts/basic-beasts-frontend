@@ -226,7 +226,31 @@ const PersonalDexiconModal: FC<Props> = ({
                       </ul>
                     </>
                   ) : (
-                    <></>
+                    <>
+                      <ActionItem>
+                        <Title>
+                          {profileName != null
+                            ? profileName + "´s"
+                            : "Personal"}{" "}
+                          Dexicon
+                        </Title>
+                        <Span>0/151</Span>
+                      </ActionItem>
+                      <ul
+                        role="list"
+                        className="grid grid-cols-4 gap-x-5 gap-y-5 sm:grid-cols-6 sm:gap-x-3 md:grid-cols-8 lg:grid-cols-9 xl:gap-x-6 xl:grid-cols-12 2xl:grid-cols-12"
+                      >
+                        {personalDexicon.map((dex: any, i: any) => (
+                          <li key={i}>
+                            <BeastContainer>
+                              <NoBeastContainer key={i}>
+                                {("00" + dex).slice(-3)}
+                              </NoBeastContainer>
+                            </BeastContainer>
+                          </li>
+                        ))}
+                      </ul>
+                    </>
                   )}
                 </Wrapper>
               </DialogContainer>

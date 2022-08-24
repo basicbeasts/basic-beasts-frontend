@@ -20,6 +20,11 @@ const profiles = {
     image:
       "https://raw.githubusercontent.com/basicbeasts/basic-beasts-frontend/main/public/profile_pictures/bb_face_040.png",
   },
+  "0xb79aa9cff91abc25": {
+    name: "Dense16",
+    image:
+      "https://raw.githubusercontent.com/basicbeasts/basic-beasts-frontend/main/public/profile_pictures/bb_face_037.png",
+  },
 }
 
 export default profiles

@@ -298,7 +298,7 @@ const ProfileCard: FC<Props> = ({
             </>
           ) : (
             <>
-              0/151<Label>Dexicon</Label>
+              -<Label>Dexicon</Label>
             </>
           )}
         </PersonalDexicon>

@@ -1,7 +1,12 @@
-import { FC, useRef, useState } from "react"
+import { FC, useEffect, useRef, useState, Fragment } from "react"
 import styled from "styled-components"
 import NextLink from "next/link"
-import { faBars, faEllipsisV, faGlobe } from "@fortawesome/free-solid-svg-icons"
+import {
+  faBars,
+  faEllipsisV,
+  faGlobe,
+  faCopy,
+} from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useAuth } from "@components/auth/AuthProvider"
 import { useUser } from "@components/user/UserProvider"
@@ -9,6 +14,11 @@ import externalLinkIcon from "public/basic_external_link.png"
 import { NextRouter } from "next/dist/client/router"
 import useTranslation from "next-translate/useTranslation"
 import LanguageSwitcher from "@components/ui/LanguageSwitcher"
+import profilePictures from "data/profilePictures"
+import { query } from "@onflow/fcl"
+import InboxIcon from "public/basic_inbox_icon.png"
+import { Menu, Transition } from "@headlessui/react"
+import { toast } from "react-toastify"
 
 const Nav = styled.header<{ font: string; fontSize: string }>`
   background: #111823;
@@ -216,6 +226,8 @@ const LoggedInContainer = styled.div`
   @media (max-width: 899px) {
     padding-top: 15px;
   }
+  margin-right: 40px;
+  margin-top: 10px;
 `
 
 const LeftBox = styled.div`
@@ -238,6 +250,63 @@ const MobileLanguageSwitcher = styled.div`
   margin-right: 80px;
 `
 
+const ProfileImg = styled.img`
+  width: 60px;
+  max-width: none;
+  border-radius: 15px;
+  margin-right: 5px;
+
+  border: solid 2px #f3cb23;
+  background: #f3cb23;
+  @media (max-width: 800px) {
+    width: 40px;
+  }
+  &:hover {
+    opacity: 0.9;
+  }
+`
+
+const Img = styled.img`
+  width: 70px;
+  max-width: none;
+  border-radius: 6px;
+  margin: 0 5px 0;
+  @media (max-width: 800px) {
+    width: 40px;
+  }
+  &:hover {
+    opacity: 0.9;
+  }
+`
+
+const MenuItems = styled<any>(Menu.Items)`
+  background-color: #212127;
+  color: #f3cb23;
+  border-radius: 10px;
+  text-align: left;
+  font-size: 22px;
+  padding: 10px 0;
+`
+
+const CopyIcon = styled(FontAwesomeIcon)`
+  font-size: 9px;
+  margin-left: 2px;
+`
+
+const Divider = styled.hr`
+  margin: 5px 15px;
+  border-color: #5c5e6c;
+`
+
+const Balance = styled.div`
+  cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABFklEQVRYR9WXURLDIAhE6/0PbSdOtUpcd1Gnpv1KGpTHBpCE1/cXq+vrMph7dGvXZTtpfW10DCA5jrH1H0Jhs5E0hnZdCR+vb5S8Nn8mQCeS9BdSalYJqMBjAGzq59xAESN7VFVUgV8AZB/dZBR7QTFDCqGquvUBVVoEtgIwpQRzmANSFHgWQKExHdIrPeuMvQNDarXe6nC/AutgV3JW+6bgqQLeV8FekRtgV+ToDKEKnACYKsfZjjkam7a0ZpYTytwmgainpC3HvwBocgKOxqRjehoR9DFKNFYtOwCGYCszobeCbl26N6yyQ6g8X/Wex/rBPsNEV6qAMaJPMynIHQCoSqS9JSMmwef51LflTgCRszU7DvAGiV6mHWfsaVUAAAAASUVORK5CYII=),
+    auto !important;
+`
+
+function classNames(...classes: any) {
+  return classes.filter(Boolean).join(" ")
+}
+
 type FuncProps = {
   toggle: () => void
   router: NextRouter
@@ -245,10 +314,50 @@ type FuncProps = {
 
 const Navbar: FC<FuncProps> = ({ toggle, router }) => {
   const { logIn, logOut, user, loggedIn } = useAuth()
+  const [profile, setProfile] = useState<any>()
+  const [profilePicture, setProfilePicture] = useState(profilePictures[1].image)
 
   const { balance } = useUser()
 
   let { t, lang } = useTranslation()
+
+  useEffect(() => {
+    if (user != null) {
+      getProfile()
+    }
+  }, [user?.addr])
+
+  const getProfile = async () => {
+    try {
+      let res = await query({
+        cadence: `
+        import Profile from 0xProfile
+
+        pub fun main(address: Address) :  Profile.UserProfile? {
+          return getAccount(address)
+            .getCapability<&{Profile.Public}>(Profile.publicPath)
+            .borrow()?.asProfile()
+        }
+        
+        `,
+        args: (arg: any, t: any) => [arg(user?.addr, t.Address)],
+      })
+      //Resolve Profile
+      setProfile(res)
+
+      //Resolve Profile Picture
+      let avatar = res.avatar
+      for (let key in profilePictures) {
+        let element =
+          profilePictures[key as unknown as keyof typeof profilePictures]
+        if (avatar == element.image) {
+          setProfilePicture(element.image)
+        }
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <>
@@ -339,19 +448,6 @@ const Navbar: FC<FuncProps> = ({ toggle, router }) => {
                 </A>
               </NextLink>
             </NavItem>
-            <NavItem>
-              <NextLink href="/inbox">
-                <A
-                  font={
-                    lang === "ru"
-                      ? "arial, sans-serif"
-                      : "Pixelar, sans-serif, arial"
-                  }
-                >
-                  Inbox
-                </A>
-              </NextLink>
-            </NavItem>
             {user?.addr != null ? (
               <NavItem>
                 <NextLink href={"/profile/" + user?.addr}>
@@ -362,7 +458,7 @@ const Navbar: FC<FuncProps> = ({ toggle, router }) => {
                         : "Pixelar, sans-serif, arial"
                     }
                   >
-                    Profile
+                    Collection
                   </A>
                 </NextLink>
               </NavItem>
@@ -436,8 +532,122 @@ const Navbar: FC<FuncProps> = ({ toggle, router }) => {
               </WalletConnect>
             ) : (
               <>
-                <LoggedInContainer onClick={toggle}>
+                <LoggedInContainer>
                   <LeftBox>
+                    <Menu as="div" className="ml-3 relative">
+                      <div>
+                        <Menu.Button className="bg-gray-800 flex text-sm rounded-full">
+                          <span className="sr-only">Open user menu</span>
+
+                          <ProfileImg src={profilePicture} />
+                        </Menu.Button>
+                      </div>
+                      <Transition
+                        as={Fragment}
+                        enter="transition ease-out duration-100"
+                        enterFrom="transform opacity-0 scale-95"
+                        enterTo="transform opacity-100 scale-100"
+                        leave="transition ease-in duration-75"
+                        leaveFrom="transform opacity-100 scale-100"
+                        leaveTo="transform opacity-0 scale-95"
+                      >
+                        <MenuItems className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5 focus:outline-none">
+                          <Menu.Item>
+                            <Balance
+                              style={{
+                                textTransform: "none",
+                              }}
+                              className={"block px-4 text-md"}
+                            >
+                              {profile != null ? profile.name : <></>}
+                            </Balance>
+                          </Menu.Item>
+                          <Menu.Item>
+                            {({ active }) => (
+                              <div
+                                style={{ textTransform: "capitalize" }}
+                                onClick={() => {
+                                  navigator.clipboard.writeText(user?.addr)
+                                  toast("Copied to clipboard")
+                                }}
+                                className={classNames(
+                                  active ? "bg-gray-700" : "",
+                                  "block px-4 text-sm",
+                                )}
+                              >
+                                {user?.addr
+                                  .slice(0, 6)
+                                  .concat("...")
+                                  .concat(user?.addr.slice(-4))}
+                                <CopyIcon icon={faCopy} />
+                              </div>
+                            )}
+                          </Menu.Item>
+                          <Menu.Item>
+                            <Balance
+                              style={{
+                                textTransform: "capitalize",
+                              }}
+                              className={"block px-4 text-sm"}
+                            >
+                              FUSD:{" "}
+                              {!balance
+                                ? "0.00"
+                                : balance.toLocaleString().slice(0, -6)}
+                            </Balance>
+                          </Menu.Item>
+                          <Divider />
+                          <Menu.Item>
+                            {({ active }) => (
+                              <a
+                                href={"/profile/" + user?.addr}
+                                className={classNames(
+                                  active ? "bg-gray-700" : "",
+                                  "block px-4 text-sm",
+                                )}
+                              >
+                                Profile
+                              </a>
+                            )}
+                          </Menu.Item>
+                          <Menu.Item>
+                            {({ active }) => (
+                              <a
+                                href="/inbox"
+                                className={classNames(
+                                  active ? "bg-gray-700" : "",
+                                  "block px-4 text-sm",
+                                )}
+                              >
+                                Inbox
+                              </a>
+                            )}
+                          </Menu.Item>
+                          <Menu.Item>
+                            {({ active }) => (
+                              <a
+                                onClick={() => logOut()}
+                                className={classNames(
+                                  active ? "bg-gray-700" : "",
+                                  "block px-4 text-sm",
+                                )}
+                              >
+                                Sign out
+                              </a>
+                            )}
+                          </Menu.Item>
+                        </MenuItems>
+                      </Transition>
+                    </Menu>
+                  </LeftBox>
+                  <RightBox>
+                    <NextLink href="/inbox">
+                      <a>
+                        <Img src={InboxIcon.src} />
+                      </a>
+                    </NextLink>
+                  </RightBox>
+                  {/* <LeftBox>
                     <UserAddress>{user.addr}</UserAddress>
                     <A
                       font={
@@ -451,7 +661,7 @@ const Navbar: FC<FuncProps> = ({ toggle, router }) => {
                   </LeftBox>
                   <RightBox>
                     <DropDownIcon icon={faEllipsisV} />
-                  </RightBox>
+                  </RightBox> */}
                 </LoggedInContainer>
               </>
             )}
