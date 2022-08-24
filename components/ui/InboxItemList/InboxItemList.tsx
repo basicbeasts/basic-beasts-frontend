@@ -21,6 +21,7 @@ import {
 } from "@onflow/fcl"
 import * as t from "@onflow/types"
 import { useAuth } from "@components/auth/AuthProvider"
+import { toast } from "react-toastify"
 
 const Container = styled.div`
   max-width: 1400px;
@@ -83,6 +84,8 @@ const InboxItemList: FC = () => {
   }
 
   const claimAllMails = async () => {
+    const id = toast.loading("Initializing...")
+
     try {
       const res = await send([
         transaction(`
@@ -133,9 +136,50 @@ const InboxItemList: FC = () => {
         authorizations([authz]),
         limit(9999),
       ]).then(decode)
-      const trx = await tx(res).onceSealed()
-      console.log("sealed")
+
+      tx(res).subscribe((res: any) => {
+        if (res.status === 1) {
+          toast.update(id, {
+            render: "Pending...",
+            type: "default",
+            isLoading: true,
+            autoClose: 5000,
+          })
+        }
+        if (res.status === 2) {
+          toast.update(id, {
+            render: "Finalizing...",
+            type: "default",
+            isLoading: true,
+            autoClose: 5000,
+          })
+        }
+        if (res.status === 3) {
+          toast.update(id, {
+            render: "Executing...",
+            type: "default",
+            isLoading: true,
+            autoClose: 5000,
+          })
+        }
+      })
+      await tx(res)
+        .onceSealed()
+        .then((result: any) => {
+          toast.update(id, {
+            render: "Transaction Sealed",
+            type: "success",
+            isLoading: false,
+            autoClose: 5000,
+          })
+        })
     } catch (err) {
+      toast.update(id, {
+        render: () => <div>Error, try again later...</div>,
+        type: "error",
+        isLoading: false,
+        autoClose: 5000,
+      })
       console.log(err)
     }
   }

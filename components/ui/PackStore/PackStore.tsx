@@ -986,13 +986,7 @@ const PackStore: FC = () => {
 
   return (
     <Container>
-      <ToastContainer
-        autoClose={4000}
-        hideProgressBar
-        position="top-center"
-        theme="dark"
-      />
-      {loading ? <Spinner /> : <></>}
+      {/* {loading ? <Spinner /> : <></>} */}
       <Content>
         <TextContainer>
           <Title fontSize={lang === "ru" ? "5vw" : "7vw"}>

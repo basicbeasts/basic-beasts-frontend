@@ -18,6 +18,7 @@ import {
 import * as fcl from "@onflow/fcl"
 import * as FlowTypes from "@onflow/types"
 import { PURCHASE } from "flow/transactions/transaction.purchase"
+import { toast } from "react-toastify"
 
 export default function useFUSD(user: any) {
   const [state, dispatch] = useReducer(defaultReducer, {
@@ -51,6 +52,8 @@ export default function useFUSD(user: any) {
   const purchase = async (amount: any, address: any) => {
     dispatch({ type: "PROCESSING" })
 
+    const id = toast.loading("Initializing...")
+
     try {
       const res = await send([
         transaction(PURCHASE),
@@ -64,13 +67,55 @@ export default function useFUSD(user: any) {
         limit(9999),
       ]).then(decode)
       // wait for transaction to be mined
-      const trx = await tx(res).onceSealed()
+
+      tx(res).subscribe((res: any) => {
+        if (res.status === 1) {
+          toast.update(id, {
+            render: "Pending...",
+            type: "default",
+            isLoading: true,
+            autoClose: 5000,
+          })
+        }
+        if (res.status === 2) {
+          toast.update(id, {
+            render: "Finalizing...",
+            type: "default",
+            isLoading: true,
+            autoClose: 5000,
+          })
+        }
+        if (res.status === 3) {
+          toast.update(id, {
+            render: "Executing...",
+            type: "default",
+            isLoading: true,
+            autoClose: 5000,
+          })
+        }
+      })
+      const trx = await tx(res)
+        .onceSealed()
+        .then((result: any) => {
+          toast.update(id, {
+            render: "Transaction Sealed",
+            type: "success",
+            isLoading: false,
+            autoClose: 5000,
+          })
+        })
       // this will refetch the balance once transaction is mined
       // basically acts as a dispatcher allowing to update balance once transaction is mined
       getFUSDBalance()
       // we return the transaction body and can handle it in the component
       return trx
     } catch (err) {
+      toast.update(id, {
+        render: "Error, try again later...",
+        type: "error",
+        isLoading: false,
+        autoClose: 5000,
+      })
       dispatch({ type: "ERROR" })
       console.log(err)
     }

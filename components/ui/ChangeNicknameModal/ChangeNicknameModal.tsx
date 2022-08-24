@@ -1,4 +1,4 @@
-import { FC, Fragment, useState } from "react"
+import { FC, Fragment, useRef, useState } from "react"
 import { Dialog, Transition } from "@headlessui/react"
 import { CheckIcon } from "@heroicons/react/outline"
 
@@ -19,7 +19,6 @@ import {
 } from "@onflow/fcl"
 import * as t from "@onflow/types"
 import { toast } from "react-toastify"
-import { faClinicMedical } from "@fortawesome/free-solid-svg-icons"
 
 const ActionItem = styled.div`
   padding: 10px 0;
@@ -89,7 +88,7 @@ const BeastModalView: FC<Props> = ({
   const [nickname, setNickname] = useState<string | null>("")
 
   const changeNickname = async () => {
-    const id = toast.loading("Pending...")
+    const id = toast.loading("Initializing...")
 
     try {
       const res = await send([
@@ -126,8 +125,7 @@ const BeastModalView: FC<Props> = ({
         setDisplayNickname(beastName)
       }
       tx(res).subscribe((res: any) => {
-        console.log("Status:" + res.status)
-        if (res.status === 0) {
+        if (res.status === 1) {
           toast.update(id, {
             render: "Pending...",
             type: "default",
@@ -135,7 +133,7 @@ const BeastModalView: FC<Props> = ({
             autoClose: 5000,
           })
         }
-        if (res.status === 1) {
+        if (res.status === 2) {
           toast.update(id, {
             render: "Finalizing...",
             type: "default",
@@ -143,17 +141,9 @@ const BeastModalView: FC<Props> = ({
             autoClose: 5000,
           })
         }
-        if (res.status === 2) {
-          toast.update(id, {
-            render: "Executing...",
-            type: "default",
-            isLoading: true,
-            autoClose: 5000,
-          })
-        }
         if (res.status === 3) {
           toast.update(id, {
-            render: "Sealing...",
+            render: "Executing...",
             type: "default",
             isLoading: true,
             autoClose: 5000,
@@ -164,7 +154,7 @@ const BeastModalView: FC<Props> = ({
         .onceSealed()
         .then((result: any) => {
           toast.update(id, {
-            render: "Sealed",
+            render: "Transaction Sealed",
             type: "success",
             isLoading: false,
             autoClose: 5000,
@@ -173,7 +163,15 @@ const BeastModalView: FC<Props> = ({
       setNickname("")
       await fetchUserBeasts()
     } catch (err) {
+      toast.update(id, {
+        render: () => <div>Error, try again later...</div>,
+        type: "error",
+        isLoading: false,
+        autoClose: 5000,
+      })
       console.log(err)
+
+      setNickname("")
     }
   }
 

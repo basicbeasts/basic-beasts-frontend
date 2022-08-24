@@ -26,6 +26,8 @@ const SideNavbarContainer = styled.aside<{
   transition: 0.3s ease-in-out;
   opacity: ${({ isSideNavbarOpen }) => (isSideNavbarOpen ? "100%" : "0")};
   top: ${({ isSideNavbarOpen }) => (isSideNavbarOpen ? "0" : "-100%")};
+  visibility: ${({ isSideNavbarOpen }) =>
+    isSideNavbarOpen ? "visible" : "hidden"};
 `
 
 const CloseIcon = styled(FontAwesomeIcon)`
@@ -52,10 +54,12 @@ const Icon = styled.div`
   }
 `
 
-const SideNavbarWrapper = styled.div`
+const SideNavbarWrapper = styled.div<{
+  isSideNavbarOpen: boolean
+}>`
+  display: ${({ isSideNavbarOpen }) => (isSideNavbarOpen ? "grid" : "none")};
   padding: 35px 20vw 0px;
   z-index: 1;
-  display: grid;
 
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -68,7 +72,7 @@ const SideNavbarWrapper = styled.div`
   width: 100%;
   overflow: hidden;
   overflow-y: scroll;
-  height: 600px;
+  height: 750px;
   margin-top: 20px;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
@@ -204,7 +208,7 @@ const RevealOverlay: FC<Props> = ({
       )}
       <Icon onClick={toggle}>{"<"}</Icon>
       <Title>{packType} Packs</Title>
-      <SideNavbarWrapper>
+      <SideNavbarWrapper isSideNavbarOpen={isSideNavbarOpen}>
         <ul
           role="list"
           className="grid grid-cols-1 gap-x-5 gap-y-8 sm:grid-cols-1 sm:gap-x-6 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3"
@@ -301,28 +305,6 @@ const RevealOverlay: FC<Props> = ({
           ) : (
             ""
           )}
-
-          {/* To prevent big gap due to fixed height, which is needed for the scroll */}
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
         </ul>
       </SideNavbarWrapper>
       {/* <ButtonWrapper>

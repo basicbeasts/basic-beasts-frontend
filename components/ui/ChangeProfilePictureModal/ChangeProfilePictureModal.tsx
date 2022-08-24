@@ -19,6 +19,7 @@ import {
 } from "@onflow/fcl"
 import * as t from "@onflow/types"
 import profilePictures from "data/profilePictures"
+import { toast } from "react-toastify"
 
 const ActionItem = styled.div`
   padding: 10px 0;
@@ -157,6 +158,8 @@ const ChangeProfilePictureModal: FC<Props> = ({
   }, [profilePicture])
 
   const changeProfilePicture = async () => {
+    const id = toast.loading("Initializing...")
+
     try {
       const res = await send([
         transaction(`
@@ -188,13 +191,56 @@ const ChangeProfilePictureModal: FC<Props> = ({
       ]).then(decode)
       setOpen(false)
       setProfilePicture(select)
-      await tx(res).onceSealed()
+      tx(res).subscribe((res: any) => {
+        if (res.status === 1) {
+          toast.update(id, {
+            render: "Pending...",
+            type: "default",
+            isLoading: true,
+            autoClose: 5000,
+          })
+        }
+        if (res.status === 2) {
+          toast.update(id, {
+            render: "Finalizing...",
+            type: "default",
+            isLoading: true,
+            autoClose: 5000,
+          })
+        }
+        if (res.status === 3) {
+          toast.update(id, {
+            render: "Executing...",
+            type: "default",
+            isLoading: true,
+            autoClose: 5000,
+          })
+        }
+      })
+      await tx(res)
+        .onceSealed()
+        .then((result: any) => {
+          toast.update(id, {
+            render: "Transaction Sealed",
+            type: "success",
+            isLoading: false,
+            autoClose: 5000,
+          })
+        })
     } catch (err) {
+      toast.update(id, {
+        render: () => <div>Error, try again later...</div>,
+        type: "error",
+        isLoading: false,
+        autoClose: 5000,
+      })
       console.log(err)
     }
   }
 
   const createProfile = async () => {
+    const id = toast.loading("Initializing...")
+
     try {
       const res = await send([
         transaction(`
@@ -306,9 +352,50 @@ const ChangeProfilePictureModal: FC<Props> = ({
       ]).then(decode)
       setOpen(false)
       setProfilePicture(select)
-      await tx(res).onceSealed()
+      tx(res).subscribe((res: any) => {
+        if (res.status === 1) {
+          toast.update(id, {
+            render: "Pending...",
+            type: "default",
+            isLoading: true,
+            autoClose: 5000,
+          })
+        }
+        if (res.status === 2) {
+          toast.update(id, {
+            render: "Finalizing...",
+            type: "default",
+            isLoading: true,
+            autoClose: 5000,
+          })
+        }
+        if (res.status === 3) {
+          toast.update(id, {
+            render: "Executing...",
+            type: "default",
+            isLoading: true,
+            autoClose: 5000,
+          })
+        }
+      })
+      await tx(res)
+        .onceSealed()
+        .then((result: any) => {
+          toast.update(id, {
+            render: "Transaction Sealed",
+            type: "success",
+            isLoading: false,
+            autoClose: 5000,
+          })
+        })
       getProfile()
     } catch (err) {
+      toast.update(id, {
+        render: () => <div>Error, try again later...</div>,
+        type: "error",
+        isLoading: false,
+        autoClose: 5000,
+      })
       console.log(err)
     }
   }

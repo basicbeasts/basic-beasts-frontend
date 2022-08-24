@@ -21,6 +21,30 @@ import {
 } from "@onflow/fcl"
 import * as t from "@onflow/types"
 import { useAuth } from "@components/auth/AuthProvider"
+import { toast } from "react-toastify"
+import NextLink from "next/link"
+
+const Button = styled.button`
+  padding: 8px 24px 12px 26px;
+  margin-right: 2px;
+  margin-top: 20px;
+  font-size: 26px;
+  background-color: #feff95;
+  box-shadow: -3px 0px 0px 0px #a15813, 0px -3px 0px 0px #a15813,
+    0px 3px 0px 0px #a15813, 3px 0px 0px 0px #a15813, inset -3px -3px #f3cb23;
+  color: #a75806;
+  border: none;
+  transition: all 0.1s ease 0s;
+  -moz-transition: all 0.1s ease 0s;
+  -webkit-transition: all 0.1s ease 0s;
+  &:active {
+    transition: all 0.1s ease 0s;
+    -moz-transition: all 0.1s ease 0s;
+    -webkit-transition: all 0.1s ease 0s;
+    box-shadow: -3px 0px 0px 0px #a15813, 0px -3px 0px 0px #a15813,
+      0px 3px 0px 0px #a15813, 3px 0px 0px 0px #a15813, inset 3px 3px #f3cb23;
+  }
+`
 
 const Container = styled.div`
   max-width: 1400px;
@@ -92,6 +116,8 @@ const InboxItemListTemp: FC = () => {
   }
 
   const claimAllMails = async () => {
+    const id = toast.loading("Initializing...")
+
     try {
       const res = await send([
         transaction(`
@@ -142,9 +168,49 @@ const InboxItemListTemp: FC = () => {
         authorizations([authz]),
         limit(9999),
       ]).then(decode)
-      const trx = await tx(res).onceSealed()
-      console.log("sealed")
+      tx(res).subscribe((res: any) => {
+        if (res.status === 1) {
+          toast.update(id, {
+            render: "Pending...",
+            type: "default",
+            isLoading: true,
+            autoClose: 5000,
+          })
+        }
+        if (res.status === 2) {
+          toast.update(id, {
+            render: "Finalizing...",
+            type: "default",
+            isLoading: true,
+            autoClose: 5000,
+          })
+        }
+        if (res.status === 3) {
+          toast.update(id, {
+            render: "Executing...",
+            type: "default",
+            isLoading: true,
+            autoClose: 5000,
+          })
+        }
+      })
+      await tx(res)
+        .onceSealed()
+        .then((result: any) => {
+          toast.update(id, {
+            render: "Transaction Sealed",
+            type: "success",
+            isLoading: false,
+            autoClose: 5000,
+          })
+        })
     } catch (err) {
+      toast.update(id, {
+        render: () => <div>Error, try again later...</div>,
+        type: "error",
+        isLoading: false,
+        autoClose: 5000,
+      })
       console.log(err)
     }
   }
@@ -244,6 +310,16 @@ pub fun main(adminAcct: Address, wallet: Address): &[NonFungibleToken.NFT]? {
                 <EmptyMessage>
                   you can expect to receive your packs latest 14 days after the
                   drop.
+                </EmptyMessage>
+                <div style={{ marginTop: "40px" }}>
+                  <EmptyMessage>Check for packs in Profile.</EmptyMessage>
+                </div>
+                <EmptyMessage>
+                  <Button>
+                    <NextLink href={"/profile/" + user?.addr}>
+                      Visit Profile
+                    </NextLink>
+                  </Button>
                 </EmptyMessage>
               </>
             )}

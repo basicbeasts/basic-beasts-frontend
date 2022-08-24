@@ -23,6 +23,7 @@ import { useAuth } from "@components/auth/AuthProvider"
 import MaleIcon from "public/gender_icons/male_icon.png"
 import FemaleIcon from "public/gender_icons/female_icon.png"
 import beastTemplates from "data/beastTemplates"
+import { toast } from "react-toastify"
 
 const Container = styled.div`
   text-align: center;
@@ -187,6 +188,8 @@ const PackRevealCard: FC<Props> = ({
   const { fetchHunterData } = useUser()
 
   const unpack = async (packID: String) => {
+    const id = toast.loading("Initializing...")
+
     try {
       const res = await send([
         transaction(`
@@ -362,7 +365,42 @@ const PackRevealCard: FC<Props> = ({
       revealModalOpen()
       pack.opened = true
       setPackOpened(pack.opened)
-      await tx(res).onceSealed()
+      tx(res).subscribe((res: any) => {
+        if (res.status === 1) {
+          toast.update(id, {
+            render: "Pending...",
+            type: "default",
+            isLoading: true,
+            autoClose: 5000,
+          })
+        }
+        if (res.status === 2) {
+          toast.update(id, {
+            render: "Finalizing...",
+            type: "default",
+            isLoading: true,
+            autoClose: 5000,
+          })
+        }
+        if (res.status === 3) {
+          toast.update(id, {
+            render: "Executing...",
+            type: "default",
+            isLoading: true,
+            autoClose: 5000,
+          })
+        }
+      })
+      await tx(res)
+        .onceSealed()
+        .then((result: any) => {
+          toast.update(id, {
+            render: "Transaction Sealed",
+            type: "success",
+            isLoading: false,
+            autoClose: 5000,
+          })
+        })
       setNewBeast(true)
       setNewTokens(true)
       fetchUserBeasts()
@@ -372,6 +410,12 @@ const PackRevealCard: FC<Props> = ({
       getPersonalDexicon()
       fetchHunterData()
     } catch (err) {
+      toast.update(id, {
+        render: () => <div>Error, try again later...</div>,
+        type: "error",
+        isLoading: false,
+        autoClose: 5000,
+      })
       console.log(err)
     }
   }
