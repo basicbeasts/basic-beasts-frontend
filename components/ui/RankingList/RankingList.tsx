@@ -96,9 +96,21 @@ const TableStyles = styled.div`
           border-bottom: 0;
         }
       }
+
+      &:hover {
+        .name {
+          color: #cead29;
+        }
+        .imgProfilePicture {
+          border: solid 2px #e4be23;
+          background: #e4be23;
+        }
+      }
     }
+
     .name {
       overflow: hidden;
+      color: #e4be23;
     }
     .address {
       margin: auto;
@@ -183,6 +195,9 @@ const Img = styled.img`
   max-width: none;
   border-radius: 6px;
   margin-right: 5px;
+
+  /* border: solid 2px #e4be23;
+  background: #e4be23; */
   @media (max-width: 800px) {
     width: 40px;
   }
@@ -236,7 +251,11 @@ const columns = [
   }),
   columnHelper.accessor("avatar", {
     cell: (tableProps: any) => (
-      <Img src={tableProps.row.original.avatar} alt="avatar" />
+      <Img
+        className="imgProfilePicture"
+        src={tableProps.row.original.avatar}
+        alt="avatar"
+      />
     ),
   }),
   columnHelper.accessor("name", {

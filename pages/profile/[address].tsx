@@ -39,6 +39,8 @@ const Profile: NextPage = () => {
 
   const { user } = useAuth()
 
+  const { fetchHunterData } = useUser()
+
   const router = useRouter()
   const { address } = router.query
 
@@ -56,6 +58,7 @@ const Profile: NextPage = () => {
       getHunterScore()
       getPersonalDexicon()
       getProfile()
+      fetchHunterData()
     }
   }, [address])
 
