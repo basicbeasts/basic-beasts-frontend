@@ -69,14 +69,14 @@ const MobileIcon = styled(FontAwesomeIcon)`
   cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
       14 0,
     pointer !important;
-  @media (min-width: 1100px) {
+  @media (min-width: 1025px) {
     display: none;
   }
 `
 
 const NavMenu = styled.ul`
   display: none;
-  @media (min-width: 1100px) {
+  @media (min-width: 1025px) {
     display: flex;
     align-items: center;
     list-style: none;
@@ -96,9 +96,6 @@ const A = styled.a<{ font: string }>`
   padding: 0 1rem;
   height: 100%;
   cursor: pointer;
-  @media (max-width: 1010px) {
-    padding: 0 0.5rem;
-  }
 `
 
 const WalletConnect = styled.div``
@@ -157,7 +154,7 @@ const BtnLink = styled.a<{ fontSize: string; padding: string }>`
     right: -6px;
   }
 
-  @media (max-width: 1099px) {
+  @media (max-width: 1025px) {
     display: none;
   }
 `
@@ -193,11 +190,13 @@ const RemoveTopCorners = styled.div`
 
 const RightNav = styled.div`
   display: flex;
-  @media (min-width: 900px) {
+  margin-top: 5px;
+  @media (min-width: 1025px) {
     display: flex;
     align-items: center;
     list-style: none;
     text-align: center;
+    margin-top: 0px;
   }
 `
 
@@ -216,26 +215,32 @@ const DropDownIcon = styled(FontAwesomeIcon)`
 `
 
 const LoggedInContainer = styled.div`
-  cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
-      14 0,
-    pointer !important;
   &:after {
     display: table;
     clear: both;
   }
-  @media (max-width: 899px) {
-    padding-top: 15px;
-  }
   margin-right: 40px;
   margin-top: 10px;
+
+  @media (max-width: 1024px) {
+    display: none;
+  }
 `
 
 const LeftBox = styled.div`
   float: left;
+
+  cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
+      14 0,
+    pointer !important;
 `
 
 const RightBox = styled.div`
   float: right;
+
+  cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
+      14 0,
+    pointer !important;
 `
 
 const ExternalLinkIcon = styled.img`
@@ -243,24 +248,122 @@ const ExternalLinkIcon = styled.img`
 `
 
 const MobileLanguageSwitcher = styled.div`
-  @media (min-width: 1100px) {
+  @media (min-width: 1025px) {
     display: none;
   }
-  margin-top: 28px;
-  margin-right: 80px;
+  margin-top: 13px;
+  margin-right: 15px;
+
+  // Stuff
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  flex-flow: row nowrap;
+  position: relative;
+  white-space: nowrap;
+  background: rgba(22, 22, 26, 0.04);
+  line-height: 40px;
+  padding-right: 11px;
+  min-width: auto;
+  border: 1px solid;
+  border-radius: 22px;
+  transition: all 0.15s ease-in-out 0s;
+  transform-origin: center center;
+  user-select: none;
+
+  backdrop-filter: blur(20px) !important;
+  background: #222427;
+  border-color: #393b3d;
+
+  height: 55px;
+  width: 55px;
+
+  cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
+      14 0,
+    pointer !important;
+
+  &:hover {
+    color: #f3c923ce;
+  }
+`
+
+const MobileInboxButton = styled.button`
+  @media (min-width: 1025px) {
+    display: none;
+  }
+  margin-top: 3px;
+  margin-right: 15px;
+
+  // Stuff
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  flex-flow: row nowrap;
+  position: relative;
+  white-space: nowrap;
+  background: rgba(22, 22, 26, 0.04);
+  line-height: 40px;
+  /* padding-right: 11px; */
+  min-width: auto;
+  border: 1px solid;
+  border-radius: 22px;
+  transition: all 0.15s ease-in-out 0s;
+  transform-origin: center center;
+  user-select: none;
+
+  backdrop-filter: blur(20px) !important;
+  background: #222427;
+  border-color: #393b3d;
+
+  height: 55px;
+  width: 55px;
+
+  cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
+      14 0,
+    pointer !important;
+
+  &:hover {
+    color: #f3c923ce;
+  }
+`
+
+const MobileInboxIcon = styled.img`
+  width: 50px;
+  max-width: none;
+  border-radius: 6px;
+  margin: 2px 5px 0;
+  /* @media (max-width: 800px) {
+  width: 40px;
+} */
+  &:hover {
+    opacity: 0.9;
+  }
+`
+
+const MobileRedDot = styled.span`
+  color: #cc3333;
+  position: absolute;
+  padding-left: 24px;
+  top: 0px;
+  font-size: 25px;
+  font-family: "Courier New", Courier, monospace;
 `
 
 const ProfileImg = styled.img`
   width: 60px;
   max-width: none;
-  border-radius: 15px;
+  border-radius: 13px;
   margin-right: 5px;
 
   border: solid 2px #f3cb23;
   background: #f3cb23;
-  @media (max-width: 800px) {
+  /* @media (max-width: 800px) {
     width: 40px;
-  }
+  } */
   &:hover {
     opacity: 0.9;
   }
@@ -271,9 +374,9 @@ const Img = styled.img`
   max-width: none;
   border-radius: 6px;
   margin: 0 5px 0;
-  @media (max-width: 800px) {
+  /* @media (max-width: 800px) {
     width: 40px;
-  }
+  } */
   &:hover {
     opacity: 0.9;
   }
@@ -319,6 +422,15 @@ const RedDotDropDown = styled.span`
   margin-top: 2px;
   font-size: 25px;
   font-family: "Courier New", Courier, monospace;
+`
+
+const MobileLoggedInContainer = styled.div`
+  display: flex;
+  margin-right: 0px;
+  margin-top: 10px;
+  @media (min-width: 1025px) {
+    display: none;
+  }
 `
 
 function classNames(...classes: any) {
@@ -536,6 +648,28 @@ const Navbar: FC<FuncProps> = ({ toggle, router }) => {
               </WalletConnect>
             ) : (
               <>
+                <MobileLoggedInContainer>
+                  {centralizedInbox != null ? (
+                    <>
+                      {currentPath != "/inbox" &&
+                      centralizedInbox.length > 0 ? (
+                        <>
+                          <MobileInboxButton>
+                            <MobileInboxIcon src={InboxIcon.src} />
+                            <MobileRedDot>•</MobileRedDot>
+                          </MobileInboxButton>
+                        </>
+                      ) : (
+                        <></>
+                      )}{" "}
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                  <div>
+                    <ProfileImg src={profilePicture} />
+                  </div>
+                </MobileLoggedInContainer>
                 <LoggedInContainer>
                   <LeftBox>
                     <Menu as="div" className="ml-3 relative">

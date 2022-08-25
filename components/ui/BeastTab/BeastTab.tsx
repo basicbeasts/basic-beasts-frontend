@@ -1,4 +1,4 @@
-import React, { FC, Dispatch, SetStateAction, useState } from "react"
+import React, { FC, useState } from "react"
 import styled from "styled-components"
 import BeastTabCard from "../BeastTabCard"
 import star from "public/basic_starLevel.png"
@@ -28,10 +28,6 @@ const Wrapper = styled.div`
   &::-webkit-scrollbar {
     display: none;
   }
-`
-
-const BeastTabCardWrapper = styled.div`
-  max-width: 110px;
 `
 
 const ThumbnailDetails = styled.div<Omit<Color, "background">>`
@@ -135,9 +131,24 @@ const BeastTab: FC<Props> = ({
   const [selectedBeast, setSelectedBeast] = useState<Beast | null>(null)
   const [open, setOpen] = useState(false)
   const [displayNickname, setDisplayNickname] = useState<string | null>(null)
+  const [sort, setSort] = useState("")
+
+  const sortBeasts = () => {
+    if (beasts != null) {
+      beasts.sort((a, b) => a.dexNumber - b.dexNumber)
+      beasts.sort((a, b) => a.beastTemplateID - b.beastTemplateID)
+    }
+    setSort("Sort by Dex Number")
+  }
 
   return (
     <Wrapper>
+      {/* example buttons start */}
+      <button onClick={() => sortBeasts()}>Sort by dex number low-high</button>
+
+      <div>empty space</div>
+      {/* example buttons end */}
+
       <BeastModalView
         beast={selectedBeast}
         open={open}

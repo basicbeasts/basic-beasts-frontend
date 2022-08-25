@@ -16,8 +16,7 @@ const LanguageSwitcherIcon = styled(FontAwesomeIcon)`
   cursor: pointer;
   z-index: 3;
   color: #f3cb23;
-  font-size: 18px;
-  margin-top: 5px;
+  font-size: 20px;
   cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
       14 0,
     pointer !important;
@@ -26,12 +25,12 @@ const LanguageSwitcherIcon = styled(FontAwesomeIcon)`
   }
 `
 
-const MenuItems = styled.div`
-  background: #212127;
-  z-index: 10;
-  @media (max-width: 1100px) {
-    width: 100px;
-  }
+const MenuItems = styled<any>(Menu.Items)`
+  background-color: #212127;
+  color: #f3cb23;
+  border-radius: 10px;
+  text-align: left;
+  padding: 10px 0;
 `
 
 const A = styled.a<{ fontSize: string }>`
@@ -41,7 +40,6 @@ const A = styled.a<{ fontSize: string }>`
   display: flex;
   align-items: center;
   text-decoration: none;
-  padding: 0 1rem;
   height: 100%;
   cursor: pointer;
   @media (max-width: 1010px) {
@@ -55,9 +53,9 @@ type FuncProps = {
 
 const LanguageSwitcher: FC<FuncProps> = ({ router }) => {
   return (
-    <Menu as="div" className="text-left">
+    <Menu as="div" className="ml-3 relative">
       <div>
-        <Menu.Button className="inline-flex justify-center w-full rounded-md shadow-sm px-4 py-2 text-sm font-medium text-gray-700 ">
+        <Menu.Button className="bg-gray-800 flex text-sm rounded-full">
           <LanguageSwitcherIcon icon={faGlobe} />
         </Menu.Button>
       </div>
@@ -71,39 +69,37 @@ const LanguageSwitcher: FC<FuncProps> = ({ router }) => {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <MenuItems>
-          <Menu.Items className="origin-top-right absolute mt-2 w-56 rounded-md shadow-lg bg-black ring-1 ring-black ring-opacity-5 focus:outline-none">
-            <div className="py-1">
-              {router.locales != null
-                ? router.locales.map((locale) => (
-                    <div key={locale}>
-                      <NextLink href={router.asPath} locale={locale}>
-                        <Menu.Item>
-                          {({ active }) => (
-                            <A
-                              fontSize={locale === "ru" ? "15px" : "20px"}
-                              href="#"
-                              className={classNames(
-                                active
-                                  ? "bg-gray-100 text-gray-900"
-                                  : "text-gray-700",
-                                "block px-4 py-2 text-sm",
-                              )}
-                            >
-                              {locale == "en-US"
-                                ? "English"
-                                : locale == "ru"
-                                ? "Русский"
-                                : ""}
-                            </A>
-                          )}
-                        </Menu.Item>
-                      </NextLink>
-                    </div>
-                  ))
-                : ""}
-            </div>
-          </Menu.Items>
+        <MenuItems className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5 focus:outline-none">
+          <div className="py-1">
+            {router.locales != null
+              ? router.locales.map((locale) => (
+                  <div key={locale}>
+                    <NextLink href={router.asPath} locale={locale}>
+                      <Menu.Item>
+                        {({ active }) => (
+                          <A
+                            fontSize={locale === "ru" ? "10px" : "14px"}
+                            href="#"
+                            className={classNames(
+                              active
+                                ? "bg-gray-700 text-gray-900"
+                                : "text-gray-700",
+                              "block px-4 text-sm",
+                            )}
+                          >
+                            {locale == "en-US"
+                              ? "English"
+                              : locale == "ru"
+                              ? "Русский"
+                              : ""}
+                          </A>
+                        )}
+                      </Menu.Item>
+                    </NextLink>
+                  </div>
+                ))
+              : ""}
+          </div>
         </MenuItems>
       </Transition>
     </Menu>
