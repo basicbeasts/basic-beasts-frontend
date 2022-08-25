@@ -303,6 +303,24 @@ const Balance = styled.div`
     auto !important;
 `
 
+const RedDot = styled.span`
+  color: #cc3333;
+  position: absolute;
+  padding-left: 8px;
+  top: 18px;
+  font-size: 30px;
+  font-family: "Courier New", Courier, monospace;
+`
+
+const RedDotDropDown = styled.span`
+  color: #cc3333;
+  position: absolute;
+  padding-left: 1px;
+  margin-top: 2px;
+  font-size: 25px;
+  font-family: "Courier New", Courier, monospace;
+`
+
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ")
 }
@@ -317,7 +335,9 @@ const Navbar: FC<FuncProps> = ({ toggle, router }) => {
   const [profile, setProfile] = useState<any>()
   const [profilePicture, setProfilePicture] = useState(profilePictures[1].image)
 
-  const { balance } = useUser()
+  const { balance, centralizedInbox } = useUser()
+
+  const currentPath = router.asPath
 
   let { t, lang } = useTranslation()
 
@@ -495,22 +515,6 @@ const Navbar: FC<FuncProps> = ({ toggle, router }) => {
               </A>
             </NavItem> */}
             <LanguageSwitcher router={router} />
-
-            {/* {router.locales.map((locale) => (
-              <NavItem key={locale}>
-                <NextLink href={router.asPath} locale={locale}>
-                  <A>
-                    {locale == "en-US" ? (
-                      <>English</>
-                    ) : locale == "ru" ? (
-                      <>Русский</>
-                    ) : (
-                      ""
-                    )}
-                  </A>
-                </NextLink>
-              </NavItem>
-            ))} */}
           </NavMenu>
 
           <RightNav>
@@ -553,14 +557,18 @@ const Navbar: FC<FuncProps> = ({ toggle, router }) => {
                       >
                         <MenuItems className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5 focus:outline-none">
                           <Menu.Item>
-                            <Balance
-                              style={{
-                                textTransform: "none",
-                              }}
-                              className={"block px-4 text-md"}
-                            >
-                              {profile != null ? profile.name : <></>}
-                            </Balance>
+                            {({ active }) => (
+                              <a
+                                style={{ textTransform: "none" }}
+                                href={"/profile/" + user?.addr}
+                                className={classNames(
+                                  active ? "bg-gray-700" : "",
+                                  "block px-4 text-md",
+                                )}
+                              >
+                                {profile != null ? profile.name : <></>}
+                              </a>
+                            )}
                           </Menu.Item>
                           <Menu.Item>
                             {({ active }) => (
@@ -619,7 +627,20 @@ const Navbar: FC<FuncProps> = ({ toggle, router }) => {
                                   "block px-4 text-sm",
                                 )}
                               >
-                                Inbox
+                                {centralizedInbox != null ? (
+                                  <>
+                                    {currentPath != "/inbox" &&
+                                    centralizedInbox.length > 0 ? (
+                                      <>
+                                        Inbox<RedDotDropDown>•</RedDotDropDown>
+                                      </>
+                                    ) : (
+                                      "Inbox"
+                                    )}
+                                  </>
+                                ) : (
+                                  "Inbox"
+                                )}
                               </a>
                             )}
                           </Menu.Item>
@@ -643,7 +664,19 @@ const Navbar: FC<FuncProps> = ({ toggle, router }) => {
                   <RightBox>
                     <NextLink href="/inbox">
                       <a>
-                        <Img src={InboxIcon.src} />
+                        <Img src={InboxIcon.src} />{" "}
+                        {centralizedInbox != null ? (
+                          <>
+                            {currentPath != "/inbox" &&
+                            centralizedInbox.length > 0 ? (
+                              <RedDot>•</RedDot>
+                            ) : (
+                              <></>
+                            )}{" "}
+                          </>
+                        ) : (
+                          <></>
+                        )}
                       </a>
                     </NextLink>
                   </RightBox>

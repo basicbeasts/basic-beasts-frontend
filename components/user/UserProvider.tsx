@@ -6,6 +6,7 @@ import useCurrentUser from "framework/hooks/use-current-user.hook"
 import useCookie from "framework/hooks/use-cookie.hook"
 import useUserPacks from "@framework/hooks/use-user-packs.hook"
 import useHunterData from "@framework/hooks/use-hunter-data.hook"
+import useInbox from "@framework/hooks/use-user-inbox.hook"
 
 export interface State {}
 
@@ -32,6 +33,16 @@ const UserProvider: FC = ({ children }) => {
     unpack,
   } = useUserPacks(user)
   const { data: hunterData, fetchHunterData } = useHunterData()
+  const {
+    centralizedInbox,
+    starterPacks,
+    metallicPacks,
+    cursedPacks,
+    shinyPacks,
+    claimAllMails,
+    fetchInbox,
+    getNumberOfPacks,
+  } = useInbox(user)
 
   useEffect(() => {
     if (compositeSignature) return
@@ -65,6 +76,14 @@ const UserProvider: FC = ({ children }) => {
         unpack,
         hunterData,
         fetchHunterData,
+        centralizedInbox,
+        starterPacks,
+        metallicPacks,
+        cursedPacks,
+        shinyPacks,
+        claimAllMails,
+        fetchInbox,
+        getNumberOfPacks,
       }}
     >
       {children}
