@@ -170,8 +170,31 @@ const BeastTab: FC<Props> = ({
 
   const sortByElement = () => {
     if (beasts != null) {
+      //Electric > Water > Grass > Fire > Normal
     }
-    setSort("Sort by Element type Electric > Water > Grass > Fire > Normal")
+    setSort("Sort by Element")
+  }
+
+  const sortByNicknameAZ = () => {
+    if (beasts != null) {
+    }
+    setSort("Sort by Nickname A-Z")
+  }
+
+  const sortByNicknameZA = () => {
+    if (beasts != null) {
+    }
+    setSort("Sort by Nickname Z-A")
+  }
+  const sortByYoungest = () => {
+    if (beasts != null) {
+    }
+    setSort("Sort by Youngest")
+  }
+  const sortByOldest = () => {
+    if (beasts != null) {
+    }
+    setSort("Sort by Oldest")
   }
 
   return (
