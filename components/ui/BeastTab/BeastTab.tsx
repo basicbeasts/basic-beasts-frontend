@@ -156,45 +156,108 @@ const BeastTab: FC<Props> = ({
 
   const sortByDexLowHigh = () => {
     if (beasts != null) {
-      beasts.sort((a, b) => a.dexNumber - b.dexNumber)
       beasts.sort((a, b) => a.beastTemplateID - b.beastTemplateID)
+      beasts.sort((a, b) => a.dexNumber - b.dexNumber)
     }
     setSort("Sort by Dex Number Low - High")
   }
 
   const sortByDexHighLow = () => {
     if (beasts != null) {
+      beasts.sort((a, b) => a.beastTemplateID - b.beastTemplateID)
+      beasts.sort((a, b) => b.dexNumber - a.dexNumber)
     }
     setSort("Sort by Dex Number High - Low")
   }
 
-  const sortByElement = () => {
+  const sortBySerialLowHigh = () => {
     if (beasts != null) {
-      //Electric > Water > Grass > Fire > Normal
+      beasts.sort((a, b) => a.beastTemplateID - b.beastTemplateID)
+      beasts.sort((a, b) => a.serialNumber - b.serialNumber)
+    }
+    setSort("Sort by Serial Number Low - High")
+  }
+
+  const sortBySerialHighLow = () => {
+    if (beasts != null) {
+      beasts.sort((a, b) => a.beastTemplateID - b.beastTemplateID)
+      beasts.sort((a, b) => b.serialNumber - a.serialNumber)
+    }
+    setSort("Sort by Serial Number High - Low")
+  }
+
+  const sortByElement = () => {
+    const dic = { Electric: 1, Water: 2, Grass: 3, Fire: 4, Normal: 5 }
+    if (beasts != null) {
+      beasts.sort((a, b) => {
+        var aValue = 0
+        var bValue = 0
+        aValue = dic[a.elements[0] as keyof typeof dic]
+        bValue = dic[b.elements[0] as keyof typeof dic]
+        if (aValue < bValue) return -1
+        if (aValue > bValue) return 1
+        return 0
+      })
     }
     setSort("Sort by Element")
   }
 
   const sortByNicknameAZ = () => {
     if (beasts != null) {
+      beasts.sort((a, b) => (a.nickname > b.nickname ? 1 : -1))
     }
     setSort("Sort by Nickname A-Z")
   }
 
   const sortByNicknameZA = () => {
     if (beasts != null) {
+      beasts.sort((a, b) => (a.nickname < b.nickname ? 1 : -1))
     }
     setSort("Sort by Nickname Z-A")
   }
-  const sortByYoungest = () => {
-    if (beasts != null) {
+
+  const sortBySkinLowHigh = () => {
+    const dic = {
+      Normal: 1,
+      "Metallic Silver": 2,
+      "Cursed Black": 3,
+      "Shiny Gold": 4,
+      "Mythic Diamond": 5,
     }
-    setSort("Sort by Youngest")
+    if (beasts != null) {
+      beasts.sort((a, b) => {
+        var aValue = 0
+        var bValue = 0
+        aValue = dic[a.skin as keyof typeof dic]
+        bValue = dic[b.skin as keyof typeof dic]
+        if (aValue < bValue) return -1
+        if (aValue > bValue) return 1
+        return 0
+      })
+    }
+    setSort("Sort by Skin Low - High")
   }
-  const sortByOldest = () => {
-    if (beasts != null) {
+
+  const sortBySkinHighLow = () => {
+    const dic = {
+      Normal: 1,
+      "Metallic Silver": 2,
+      "Cursed Black": 3,
+      "Shiny Gold": 4,
+      "Mythic Diamond": 5,
     }
-    setSort("Sort by Oldest")
+    if (beasts != null) {
+      beasts.sort((a, b) => {
+        var aValue = 0
+        var bValue = 0
+        aValue = dic[a.skin as keyof typeof dic]
+        bValue = dic[b.skin as keyof typeof dic]
+        if (aValue < bValue) return 1
+        if (aValue > bValue) return -1
+        return 0
+      })
+    }
+    setSort("Sort by Skin High - Low")
   }
 
   return (
@@ -204,6 +267,24 @@ const BeastTab: FC<Props> = ({
         <Button onClick={() => sortByDexLowHigh()}>
           Sort by dex number low-high
         </Button>
+        <Button onClick={() => sortByDexHighLow()}>
+          Sort by dex number high-low
+        </Button>
+        <Button onClick={() => sortBySerialLowHigh()}>
+          Sort by serial number low-high
+        </Button>
+        <Button onClick={() => sortBySerialHighLow()}>
+          Sort by serial number high-low
+        </Button>
+        <Button onClick={() => sortBySkinLowHigh()}>
+          Sort by skin low-high
+        </Button>
+        <Button onClick={() => sortBySkinHighLow()}>
+          Sort by skin high-low
+        </Button>
+        <Button onClick={() => sortByNicknameAZ()}>Sort by nickname A-Z</Button>
+        <Button onClick={() => sortByNicknameZA()}>Sort by nickname Z-A</Button>
+        <Button onClick={() => sortByElement()}>Sort by element</Button>
       </span>
 
       <div style={{ marginTop: "30px" }} />
