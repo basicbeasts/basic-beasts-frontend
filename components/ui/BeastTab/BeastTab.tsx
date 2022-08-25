@@ -154,19 +154,31 @@ const BeastTab: FC<Props> = ({
   const [displayNickname, setDisplayNickname] = useState<string | null>(null)
   const [sort, setSort] = useState("")
 
-  const sortBeasts = () => {
+  const sortByDexLowHigh = () => {
     if (beasts != null) {
       beasts.sort((a, b) => a.dexNumber - b.dexNumber)
       beasts.sort((a, b) => a.beastTemplateID - b.beastTemplateID)
     }
-    setSort("Sort by Dex Number")
+    setSort("Sort by Dex Number Low - High")
+  }
+
+  const sortByDexHighLow = () => {
+    if (beasts != null) {
+    }
+    setSort("Sort by Dex Number High - Low")
+  }
+
+  const sortByElement = () => {
+    if (beasts != null) {
+    }
+    setSort("Sort by Element type Electric > Water > Grass > Fire > Normal")
   }
 
   return (
     <Wrapper>
       {/* example buttons start */}
       <span>
-        <Button onClick={() => sortBeasts()}>
+        <Button onClick={() => sortByDexLowHigh()}>
           Sort by dex number low-high
         </Button>
       </span>
