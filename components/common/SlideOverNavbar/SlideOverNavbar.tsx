@@ -3,11 +3,14 @@ import styled from "styled-components"
 import { Fragment, useState } from "react"
 import { Dialog, Transition } from "@headlessui/react"
 import { XIcon } from "@heroicons/react/outline"
+import { useAuth } from "@components/auth/AuthProvider"
 
 const OverlayBg = styled.div`
   backdrop-filter: blur(20px);
   background: rgba(33, 33, 39, 0.5);
 `
+
+const Container = styled.div``
 
 const PanelBg = styled.div`
   background: #212127;
@@ -15,6 +18,9 @@ const PanelBg = styled.div`
   padding-right: 10px;
   padding-left: 10px;
   color: #f3cb23;
+  box-shadow: 0px 0px 8px 1px #8f7a39;
+  text-transform: uppercase;
+  font-size: 20px;
 
   @media (max-width: 400px) {
     border-radius: 0px;
@@ -38,16 +44,14 @@ const CloseContainer = styled.div`
   justify-content: end;
 `
 
-const CloseButton = styled.div`
-  z-index: 9999;
-`
-
 type Props = {
   open: boolean
   setOpen: Dispatch<SetStateAction<boolean>>
 }
 
 const SlideOverNavbar: FC<Props> = ({ open, setOpen }: Props) => {
+  const { loggedIn } = useAuth()
+
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setOpen}>
@@ -55,7 +59,7 @@ const SlideOverNavbar: FC<Props> = ({ open, setOpen }: Props) => {
 
         <div className="fixed inset-0 overflow-hidden">
           <div className="absolute inset-0 overflow-hidden">
-            <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
+            <Container className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
               <Transition.Child
                 as={Fragment}
                 enter="transform transition ease-in-out duration-500 sm:duration-700"
@@ -67,16 +71,7 @@ const SlideOverNavbar: FC<Props> = ({ open, setOpen }: Props) => {
               >
                 <DialogPanel className="pointer-events-auto w-screen max-w-sm">
                   <PanelBg className="flex h-full flex-col py-6">
-                    {/* <div className="px-4 sm:px-6">
-                      <div className="flex items-start justify-between">
-                        <DialogTitle className="text-lg font-medium">
-                          {" "}
-                          Panel title{" "}
-                        </DialogTitle>
-                      </div>
-                    </div> */}
                     <div className="relative flex-1 px-4 sm:px-6">
-                      {/* Replace with your content */}
                       <div className="absolute inset-0 px-4 sm:px-6">
                         <CloseContainer className="ml-3 flex h-7 items-center">
                           <button type="button" onClick={() => setOpen(false)}>
@@ -84,14 +79,27 @@ const SlideOverNavbar: FC<Props> = ({ open, setOpen }: Props) => {
                             <div>x</div>
                           </button>
                         </CloseContainer>
-                        <div style={{ marginTop: "-20px" }}>Hello</div>
+                        <div
+                          style={{
+                            marginTop: "-30px",
+                            lineHeight: "45px",
+                            fontSize: "40px",
+                          }}
+                        >
+                          {!loggedIn ? "Sign In" : "Profile"}
+                        </div>
+                        <div>Store</div>
+                        <div>Rankings</div>
+                        <div>Dexicon</div>
+                        <div>Whitepaper</div>
+                        <div>Discord</div>
+                        {!loggedIn ? <></> : <div>Sign out</div>}
                       </div>
-                      {/* /End replace */}
                     </div>
                   </PanelBg>
                 </DialogPanel>
               </Transition.Child>
-            </div>
+            </Container>
           </div>
         </div>
       </Dialog>

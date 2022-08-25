@@ -69,7 +69,7 @@ fcl
 const Layout: FC = ({ children }) => {
   const [isSideNavbarOpen, setIsSideNavbarOpen] = useState(false)
 
-  const [open, setOpen] = useState(true)
+  const [open, setOpen] = useState(false)
 
   const toggle = () => {
     setIsSideNavbarOpen(!isSideNavbarOpen)
