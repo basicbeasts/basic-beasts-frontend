@@ -98,6 +98,7 @@ export default function useUserPacks(user: any) {
         mappedPacks.push(pack)
       }
       dispatch({ type: "SUCCESS", payload: mappedPacks })
+      console.log("use-user-packs.hook.ts: fetchUserPacks()")
     } catch (err) {
       dispatch({ type: "ERROR" })
       console.log(err)

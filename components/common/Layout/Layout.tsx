@@ -7,6 +7,7 @@ import Head from "next/head"
 import { useRouter } from "next/dist/client/router"
 import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
+import SlideOverNavbar from "../SlideOverNavbar"
 
 //Configure FCL
 fcl
@@ -68,6 +69,8 @@ fcl
 const Layout: FC = ({ children }) => {
   const [isSideNavbarOpen, setIsSideNavbarOpen] = useState(false)
 
+  const [open, setOpen] = useState(true)
+
   const toggle = () => {
     setIsSideNavbarOpen(!isSideNavbarOpen)
   }
@@ -85,6 +88,7 @@ const Layout: FC = ({ children }) => {
         />
       </Head>
       <ToastContainer position="bottom-right" pauseOnFocusLoss={false} />
+      <SlideOverNavbar open={open} setOpen={setOpen} />
       <SideNavbar isSideNavbarOpen={isSideNavbarOpen} toggle={toggle} />
       <Navbar toggle={toggle} router={router} />
       <main>{children}</main>

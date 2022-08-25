@@ -46,31 +46,40 @@ const NavbarContainer = styled.nav`
   max-height: 90px;
 `
 
+const NavLogoContainer = styled.div`
+  margin-left: 20px;
+  margin-top: 15px;
+  @media (max-width: 1024px) {
+    display: none;
+  }
+`
+
+const MobileNavLogoContainer = styled.div`
+  margin-left: 20px;
+  margin-top: 28px;
+  @media (min-width: 1025px) {
+    display: none;
+  }
+`
+
 const NavLogo = styled.a`
   color: #f3cb23;
   cursor: pointer;
   font-size: 50px;
-  line-height: 30px;
-  margin-left: 20px;
-  margin-top: 10px;
+  line-height: 5px;
   text-transform: capitalize;
 `
 
-const MobileIcon = styled(FontAwesomeIcon)`
-  display: block;
-  position: absolute;
-  top: 0;
-  right: 0%;
-  transform: translate(-100%, 60%);
-  font-size: 2.8rem;
-  cursor: pointer;
-  color: #fff;
-  z-index: 3;
-  cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
-      14 0,
-    pointer !important;
-  @media (min-width: 1025px) {
-    display: none;
+const MobileMenuIcon = styled(FontAwesomeIcon)`
+  width: 18px !important;
+  max-width: none;
+  border-radius: 6px;
+  margin: 2px 5px 0;
+  /* @media (max-width: 800px) {
+width: 40px;
+} */
+  &:hover {
+    opacity: 0.9;
   }
 `
 
@@ -186,6 +195,9 @@ const RemoveTopCorners = styled.div`
     top: -2px;
     left: -2px;
   }
+  @media (max-width: 1025px) {
+    display: none;
+  }
 `
 
 const RightNav = styled.div`
@@ -219,7 +231,7 @@ const LoggedInContainer = styled.div`
     display: table;
     clear: both;
   }
-  margin-right: 40px;
+  margin-right: 0px;
   margin-top: 10px;
 
   @media (max-width: 1024px) {
@@ -251,8 +263,14 @@ const MobileLanguageSwitcher = styled.div`
   @media (min-width: 1025px) {
     display: none;
   }
-  margin-top: 13px;
-  margin-right: 15px;
+`
+
+const MobileInboxButton = styled.button`
+  @media (min-width: 1025px) {
+    display: none;
+  }
+  margin-top: 3px;
+  margin-right: 10px;
 
   // Stuff
   display: flex;
@@ -265,7 +283,7 @@ const MobileLanguageSwitcher = styled.div`
   white-space: nowrap;
   background: rgba(22, 22, 26, 0.04);
   line-height: 40px;
-  padding-right: 11px;
+  /* padding-right: 11px; */
   min-width: auto;
   border: 1px solid;
   border-radius: 22px;
@@ -277,8 +295,8 @@ const MobileLanguageSwitcher = styled.div`
   background: #222427;
   border-color: #393b3d;
 
-  height: 55px;
-  width: 55px;
+  height: 50px;
+  width: 50px;
 
   cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
       14 0,
@@ -289,7 +307,7 @@ const MobileLanguageSwitcher = styled.div`
   }
 `
 
-const MobileInboxButton = styled.button`
+const MobileMenuButton = styled.button`
   @media (min-width: 1025px) {
     display: none;
   }
@@ -319,8 +337,8 @@ const MobileInboxButton = styled.button`
   background: #222427;
   border-color: #393b3d;
 
-  height: 55px;
-  width: 55px;
+  height: 50px;
+  width: 65px;
 
   cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
       14 0,
@@ -332,7 +350,7 @@ const MobileInboxButton = styled.button`
 `
 
 const MobileInboxIcon = styled.img`
-  width: 50px;
+  width: 40px;
   max-width: none;
   border-radius: 6px;
   margin: 2px 5px 0;
@@ -349,7 +367,7 @@ const MobileRedDot = styled.span`
   position: absolute;
   padding-left: 24px;
   top: 0px;
-  font-size: 25px;
+  font-size: 22px;
   font-family: "Courier New", Courier, monospace;
 `
 
@@ -357,7 +375,7 @@ const ProfileImg = styled.img`
   width: 60px;
   max-width: none;
   border-radius: 13px;
-  margin-right: 5px;
+  margin-right: 0px;
 
   border: solid 2px #f3cb23;
   background: #f3cb23;
@@ -426,11 +444,59 @@ const RedDotDropDown = styled.span`
 
 const MobileLoggedInContainer = styled.div`
   display: flex;
-  margin-right: 0px;
+  margin-right: 10px;
   margin-top: 10px;
   @media (min-width: 1025px) {
     display: none;
   }
+`
+const MobileConnect = styled.button`
+  @media (min-width: 1025px) {
+    display: none;
+  }
+  margin-top: 13px;
+  margin-right: 0px;
+  color: #222427;
+  font-size: 20px;
+
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  flex-flow: row nowrap;
+  position: relative;
+  white-space: nowrap;
+  background: rgba(22, 22, 26, 0.04);
+  line-height: 40px;
+  /* padding-right: 11px; */
+  min-width: auto;
+  border: 1px solid;
+  border-radius: 22px;
+  transition: all 0.15s ease-in-out 0s;
+  transform-origin: center center;
+  user-select: none;
+
+  backdrop-filter: blur(20px) !important;
+  background: #f3cb23;
+  border-color: #f3cb23;
+
+  height: 50px;
+  width: 100px;
+
+  cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
+      14 0,
+    pointer !important;
+
+  &:hover {
+    color: #f3cb23;
+    background: #222427;
+    border-color: #393b3d;
+  }
+`
+
+const MobileProfileIconContainer = styled.div`
+  margin-top: -3px;
 `
 
 function classNames(...classes: any) {
@@ -446,6 +512,7 @@ const Navbar: FC<FuncProps> = ({ toggle, router }) => {
   const { logIn, logOut, user, loggedIn } = useAuth()
   const [profile, setProfile] = useState<any>()
   const [profilePicture, setProfilePicture] = useState(profilePictures[1].image)
+  const [open, setOpen] = useState(true)
 
   const { balance, centralizedInbox } = useUser()
 
@@ -486,6 +553,7 @@ const Navbar: FC<FuncProps> = ({ toggle, router }) => {
           setProfilePicture(element.image)
         }
       }
+      console.log("Navbar.ts: getProfile()")
     } catch (error) {
       console.log(error)
     }
@@ -500,13 +568,21 @@ const Navbar: FC<FuncProps> = ({ toggle, router }) => {
         fontSize={lang === "ru" ? "18px" : "26px"}
       >
         <NavbarContainer>
-          <NextLink href="/">
-            <NavLogo>
-              Basic
-              <br />
-              Beasts
-            </NavLogo>
-          </NextLink>
+          <NavLogoContainer>
+            <NextLink href="/">
+              <NavLogo>
+                Basic
+                <br />
+                <div>Beasts</div>
+              </NavLogo>
+            </NextLink>
+          </NavLogoContainer>
+
+          <MobileNavLogoContainer>
+            <NextLink href="/">
+              <NavLogo>BB</NavLogo>
+            </NextLink>
+          </MobileNavLogoContainer>
 
           <NavMenu>
             <NavItem>
@@ -630,12 +706,22 @@ const Navbar: FC<FuncProps> = ({ toggle, router }) => {
           </NavMenu>
 
           <RightNav>
+            {!loggedIn ? (
+              <MobileConnect onClick={() => logIn()}>Connect</MobileConnect>
+            ) : (
+              <></>
+            )}
             <MobileLanguageSwitcher>
               <LanguageSwitcher router={router} />
             </MobileLanguageSwitcher>
             {!loggedIn ? (
-              <WalletConnect>
-                <MobileIcon icon={faBars} onClick={toggle} />
+              <>
+                <MobileLoggedInContainer>
+                  <MobileMenuButton>
+                    <MobileMenuIcon icon={faBars} />
+                  </MobileMenuButton>
+                </MobileLoggedInContainer>
+                {/* <MobileIcon icon={faBars} onClick={toggle} /> */}
                 <RemoveTopCorners>
                   <BtnLink
                     onClick={() => logIn()}
@@ -645,7 +731,7 @@ const Navbar: FC<FuncProps> = ({ toggle, router }) => {
                     {t("common:connect-wallet")}
                   </BtnLink>
                 </RemoveTopCorners>
-              </WalletConnect>
+              </>
             ) : (
               <>
                 <MobileLoggedInContainer>
@@ -654,27 +740,39 @@ const Navbar: FC<FuncProps> = ({ toggle, router }) => {
                       {currentPath != "/inbox" &&
                       centralizedInbox.length > 0 ? (
                         <>
-                          <MobileInboxButton>
-                            <MobileInboxIcon src={InboxIcon.src} />
-                            <MobileRedDot>•</MobileRedDot>
-                          </MobileInboxButton>
+                          <NextLink href="/inbox">
+                            <a>
+                              <MobileInboxButton>
+                                <MobileInboxIcon src={InboxIcon.src} />
+                                <MobileRedDot>•</MobileRedDot>
+                              </MobileInboxButton>
+                            </a>
+                          </NextLink>
                         </>
                       ) : (
-                        <></>
+                        <>
+                          <NextLink href="/inbox">
+                            <a>
+                              <MobileInboxButton>
+                                <MobileInboxIcon src={InboxIcon.src} />
+                              </MobileInboxButton>
+                            </a>
+                          </NextLink>
+                        </>
                       )}{" "}
                     </>
                   ) : (
                     <></>
                   )}
-                  <div>
+                  <MobileProfileIconContainer>
                     <ProfileImg src={profilePicture} />
-                  </div>
+                  </MobileProfileIconContainer>
                 </MobileLoggedInContainer>
                 <LoggedInContainer>
                   <LeftBox>
                     <Menu as="div" className="ml-3 relative">
                       <div>
-                        <Menu.Button className="bg-gray-800 flex text-sm rounded-full">
+                        <Menu.Button className="flex text-sm rounded-full">
                           <span className="sr-only">Open user menu</span>
 
                           <ProfileImg src={profilePicture} />

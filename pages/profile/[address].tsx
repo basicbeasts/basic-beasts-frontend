@@ -243,6 +243,7 @@ const Profile: NextPage = () => {
         mappedCollection.push(beast)
       }
       setUserBeastCollection(mappedCollection)
+      console.log("profile/[address].tsx: fetchUserBeasts()")
     } catch (err) {
       console.log(err)
     }
@@ -269,6 +270,7 @@ const Profile: NextPage = () => {
         args: (arg: any, t: any) => [arg(address, t.Address)],
       })
       setSushiBalance(res)
+      console.log("profile/[address].tsx: fetchSushi()")
     } catch (err) {
       console.log(err)
     }
@@ -295,6 +297,7 @@ const Profile: NextPage = () => {
         args: (arg: any, t: any) => [arg(address, t.Address)],
       })
       setEmptyPotionBottleBalance(res)
+      console.log("profile/[address].tsx: fetchEmptyPotionBottle()")
     } catch (err) {
       console.log(err)
     }
@@ -321,6 +324,7 @@ const Profile: NextPage = () => {
         args: (arg: any, t: any) => [arg(address, t.Address)],
       })
       setPoopBalance(res)
+      console.log("profile/[address].tsx: fetchPoop()")
     } catch (err) {
       console.log(err)
     }
@@ -393,6 +397,7 @@ const Profile: NextPage = () => {
       }
 
       getPacks(mappedPacks)
+      console.log("profile/[address].tsx: fetchUserPacks()")
     } catch (err) {
       console.log(err)
     }
@@ -411,6 +416,7 @@ const Profile: NextPage = () => {
         args: (arg: any, t: any) => [arg(address, t.Address)],
       })
       setHunterScore(res)
+      console.log("profile/[address].tsx: getHunterScore()")
     } catch (error) {
       console.log(error)
     }
@@ -440,6 +446,7 @@ const Profile: NextPage = () => {
         personalDex[dexNumber] = image
       }
       setDexicon(personalDex)
+      console.log("profile/[address].tsx: getPersonalDexicon()")
     } catch (error) {
       console.log(error)
     }
@@ -471,6 +478,7 @@ const Profile: NextPage = () => {
           setProfilePicture(element.image)
         }
       }
+      console.log("profile/[address].tsx: getProfile()")
     } catch (error) {
       console.log(error)
     }

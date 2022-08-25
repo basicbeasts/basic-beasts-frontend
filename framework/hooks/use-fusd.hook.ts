@@ -41,6 +41,7 @@ export default function useFUSD(user: any) {
         args: (arg: any, t: any) => [arg(user?.addr, t.Address)],
       })
       dispatch({ type: "SUCCESS", payload: response })
+      console.log("use-fusd.hook.ts: getFUSDBalance()")
     } catch (err) {
       dispatch({ type: "ERROR" })
       console.log(err)

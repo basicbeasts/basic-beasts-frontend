@@ -186,6 +186,7 @@ pub fun main(adminAcct: Address, wallet: Address): &[NonFungibleToken.NFT]? {
         ],
       })
       setCentralizedInbox(res)
+      console.log("use-user-inbox.hook.ts: fetchInbox()")
     } catch (err) {
       console.log(err)
     }
