@@ -28,7 +28,9 @@ export default function useFUSD(user: any) {
   })
 
   useEffect(() => {
-    getFUSDBalance()
+    if (user?.addr != null) {
+      getFUSDBalance()
+    }
     //eslint-disable-next-line
   }, [user?.addr])
 

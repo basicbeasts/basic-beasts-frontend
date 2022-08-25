@@ -163,9 +163,9 @@ const BtnLink = styled.a<{ fontSize: string; padding: string }>`
     right: -6px;
   }
 
-  @media (max-width: 1025px) {
+  /* @media (max-width: 1024px) {
     display: none;
-  }
+  } */
 `
 
 const RemoveTopCorners = styled.div`
@@ -195,7 +195,7 @@ const RemoveTopCorners = styled.div`
     top: -2px;
     left: -2px;
   }
-  @media (max-width: 1025px) {
+  @media (max-width: 1024px) {
     display: none;
   }
 `
@@ -506,13 +506,13 @@ function classNames(...classes: any) {
 type FuncProps = {
   toggle: () => void
   router: NextRouter
+  setOpen: any
 }
 
-const Navbar: FC<FuncProps> = ({ toggle, router }) => {
+const Navbar: FC<FuncProps> = ({ toggle, router, setOpen }) => {
   const { logIn, logOut, user, loggedIn } = useAuth()
   const [profile, setProfile] = useState<any>()
   const [profilePicture, setProfilePicture] = useState(profilePictures[1].image)
-  const [open, setOpen] = useState(true)
 
   const { balance, centralizedInbox } = useUser()
 
@@ -521,7 +521,7 @@ const Navbar: FC<FuncProps> = ({ toggle, router }) => {
   let { t, lang } = useTranslation()
 
   useEffect(() => {
-    if (user != null) {
+    if (user?.addr != null) {
       getProfile()
     }
   }, [user?.addr])
@@ -717,7 +717,7 @@ const Navbar: FC<FuncProps> = ({ toggle, router }) => {
             {!loggedIn ? (
               <>
                 <MobileLoggedInContainer>
-                  <MobileMenuButton>
+                  <MobileMenuButton onClick={() => setOpen(true)}>
                     <MobileMenuIcon icon={faBars} />
                   </MobileMenuButton>
                 </MobileLoggedInContainer>

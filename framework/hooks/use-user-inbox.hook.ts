@@ -31,7 +31,9 @@ export default function useInbox(user: any) {
   const [centralizedInbox, setCentralizedInbox] = useState<any>()
 
   useEffect(() => {
-    fetchInbox()
+    if (user?.addr) {
+      fetchInbox()
+    }
   }, [user?.addr])
 
   const getNumberOfPacks = () => {

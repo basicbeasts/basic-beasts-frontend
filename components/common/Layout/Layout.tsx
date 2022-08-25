@@ -90,7 +90,7 @@ const Layout: FC = ({ children }) => {
       <ToastContainer position="bottom-right" pauseOnFocusLoss={false} />
       <SlideOverNavbar open={open} setOpen={setOpen} />
       <SideNavbar isSideNavbarOpen={isSideNavbarOpen} toggle={toggle} />
-      <Navbar toggle={toggle} router={router} />
+      <Navbar toggle={toggle} router={router} setOpen={setOpen} />
       <main>{children}</main>
       <Footer />
     </>

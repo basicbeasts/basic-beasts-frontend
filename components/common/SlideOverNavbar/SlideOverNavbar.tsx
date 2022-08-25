@@ -11,8 +11,10 @@ const OverlayBg = styled.div`
 
 const PanelBg = styled.div`
   background: #212127;
-
   border-radius: 16px;
+  padding-right: 10px;
+  padding-left: 10px;
+  color: #f3cb23;
 
   @media (max-width: 400px) {
     border-radius: 0px;
@@ -28,6 +30,16 @@ const DialogPanel = styled<any>(Dialog.Panel)`
 
 const DialogTitle = styled<any>(Dialog.Title)`
   color: #f3cb23;
+`
+
+const CloseContainer = styled.div`
+  font-size: 40px;
+  z-index: 999;
+  justify-content: end;
+`
+
+const CloseButton = styled.div`
+  z-index: 9999;
 `
 
 type Props = {
@@ -55,31 +67,24 @@ const SlideOverNavbar: FC<Props> = ({ open, setOpen }: Props) => {
               >
                 <DialogPanel className="pointer-events-auto w-screen max-w-sm">
                   <PanelBg className="flex h-full flex-col py-6">
-                    <div className="px-4 sm:px-6">
+                    {/* <div className="px-4 sm:px-6">
                       <div className="flex items-start justify-between">
                         <DialogTitle className="text-lg font-medium">
                           {" "}
                           Panel title{" "}
                         </DialogTitle>
-                        <div className="ml-3 flex h-7 items-center">
-                          <button
-                            type="button"
-                            className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                            onClick={() => setOpen(false)}
-                          >
+                      </div>
+                    </div> */}
+                    <div className="relative flex-1 px-4 sm:px-6">
+                      {/* Replace with your content */}
+                      <div className="absolute inset-0 px-4 sm:px-6">
+                        <CloseContainer className="ml-3 flex h-7 items-center">
+                          <button type="button" onClick={() => setOpen(false)}>
                             <span className="sr-only">Close panel</span>
                             <div>x</div>
                           </button>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="relative mt-6 flex-1 px-4 sm:px-6">
-                      {/* Replace with your content */}
-                      <div className="absolute inset-0 px-4 sm:px-6">
-                        <div
-                          className="h-full border-2 border-dashed border-gray-200"
-                          aria-hidden="true"
-                        />
+                        </CloseContainer>
+                        <div style={{ marginTop: "-20px" }}>Hello</div>
                       </div>
                       {/* /End replace */}
                     </div>

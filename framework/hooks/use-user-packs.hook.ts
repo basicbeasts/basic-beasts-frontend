@@ -26,7 +26,9 @@ export default function useUserPacks(user: any) {
   })
 
   useEffect(() => {
-    fetchUserPacks()
+    if (user?.addr) {
+      fetchUserPacks()
+    }
     //eslint-disable-next-line
   }, [user?.addr])
 
