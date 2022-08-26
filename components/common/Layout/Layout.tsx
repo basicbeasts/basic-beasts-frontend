@@ -73,6 +73,7 @@ const Layout: FC = ({ children }) => {
   const [open, setOpen] = useState(false)
 
   const [profilePicture, setProfilePicture] = useState(profilePictures[1].image)
+  const [profile, setProfile] = useState<any>()
 
   const toggle = () => {
     setIsSideNavbarOpen(!isSideNavbarOpen)
@@ -95,6 +96,8 @@ const Layout: FC = ({ children }) => {
         open={open}
         setOpen={setOpen}
         profilePicture={profilePicture}
+        profile={profile}
+        router={router}
       />
       <Navbar
         toggle={toggle}
@@ -102,6 +105,8 @@ const Layout: FC = ({ children }) => {
         setOpen={setOpen}
         profilePicture={profilePicture}
         setProfilePicture={setProfilePicture}
+        profile={profile}
+        setProfile={setProfile}
       />
       <main>{children}</main>
       <Footer />

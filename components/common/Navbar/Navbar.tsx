@@ -512,6 +512,8 @@ type FuncProps = {
   setOpen: any
   profilePicture: any
   setProfilePicture: any
+  profile: any
+  setProfile: any
 }
 
 const Navbar: FC<FuncProps> = ({
@@ -520,9 +522,11 @@ const Navbar: FC<FuncProps> = ({
   setOpen,
   profilePicture,
   setProfilePicture,
+  profile,
+  setProfile,
 }) => {
   const { logIn, logOut, user, loggedIn } = useAuth()
-  const [profile, setProfile] = useState<any>()
+  // const [profile, setProfile] = useState<any>()
   // const [profilePicture, setProfilePicture] = useState(profilePictures[1].image)
 
   const { balance, centralizedInbox } = useUser()
@@ -533,11 +537,11 @@ const Navbar: FC<FuncProps> = ({
 
   useEffect(() => {
     if (user?.addr != null) {
-      getProfile()
+      getCurrentUserProfile()
     }
   }, [user?.addr])
 
-  const getProfile = async () => {
+  const getCurrentUserProfile = async () => {
     try {
       let res = await query({
         cadence: `
@@ -564,7 +568,7 @@ const Navbar: FC<FuncProps> = ({
           setProfilePicture(element.image)
         }
       }
-      console.log("Navbar.ts: getProfile()")
+      console.log("Navbar.ts: getCurrentUserProfile()")
     } catch (error) {
       console.log(error)
     }
@@ -641,6 +645,19 @@ const Navbar: FC<FuncProps> = ({
             )} */}
 
             <NavItem>
+              <NextLink href={"/rankings/"}>
+                <A
+                  font={
+                    lang === "ru"
+                      ? "arial, sans-serif"
+                      : "Pixelar, sans-serif, arial"
+                  }
+                >
+                  Rankings
+                </A>
+              </NextLink>
+            </NavItem>
+            <NavItem>
               <NextLink href="/dexicon">
                 <A
                   font={
@@ -654,19 +671,6 @@ const Navbar: FC<FuncProps> = ({
               </NextLink>
             </NavItem>
 
-            <NavItem>
-              <NextLink href={"/rankings/"}>
-                <A
-                  font={
-                    lang === "ru"
-                      ? "arial, sans-serif"
-                      : "Pixelar, sans-serif, arial"
-                  }
-                >
-                  Rankings
-                </A>
-              </NextLink>
-            </NavItem>
             {user?.addr != null ? (
               <NavItem>
                 <NextLink href={"/profile/" + user?.addr}>
@@ -713,7 +717,9 @@ const Navbar: FC<FuncProps> = ({
                 <ExternalLinkIcon src={externalLinkIcon.src} />
               </A>
             </NavItem> */}
-            <LanguageSwitcher router={router} />
+            <div style={{ marginTop: "5px" }}>
+              <LanguageSwitcher router={router} />
+            </div>
           </NavMenu>
 
           <RightNav>

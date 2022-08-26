@@ -8,6 +8,8 @@ import { useUser } from "@components/user/UserProvider"
 import { faCopy } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { toast } from "react-toastify"
+import externalLinkIcon from "public/basic_external_link.png"
+import Link from "next/link"
 
 const OverlayBg = styled.div`
   backdrop-filter: blur(20px);
@@ -38,10 +40,6 @@ const DialogPanel = styled<any>(Dialog.Panel)`
   }
 `
 
-const DialogTitle = styled<any>(Dialog.Title)`
-  color: #f3cb23;
-`
-
 const CloseContainer = styled.div`
   font-size: 40px;
   z-index: 999;
@@ -60,29 +58,120 @@ const ProfileImg = styled.img`
     width: 40px;
   } */
   &:hover {
-    opacity: 0.9;
   }
 `
 
 const CopyIcon = styled(FontAwesomeIcon)`
-  font-size: 9px;
+  font-size: 13px;
   margin-left: 2px;
+  padding-bottom: 3px;
+`
+
+const ExternalLinkIcon = styled.img`
+  width: 10px;
+  margin-top: 10px;
+  margin-left: 2px;
+`
+
+const SignIn = styled.div`
+  margin-top: -30px;
+  margin-right: 40px;
+  line-height: 45px;
+  font-size: 43px;
+  cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
+      14 0,
+    pointer !important;
+  &:hover {
+    opacity: 0.8;
+  }
+`
+
+const Divider = styled.hr`
+  margin: 10px 50px 10px 0;
+  border-color: #5c5e6c;
+`
+
+const Header = styled.div`
+  margin-top: -30px;
+  margin-right: 40px;
+  line-height: 45px;
+  font-size: 30px;
+  display: flex;
+  cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
+      14 0,
+    pointer !important;
+  &:hover {
+    opacity: 0.8;
+  }
+`
+
+const HeaderProfileName = styled.div`
+  margin-left: 15px;
+  margin-top: 8px;
+  text-transform: none;
+`
+
+const CopyToClipboard = styled.div`
+  text-transform: none;
+  margin-top: 10px;
+  cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
+      14 0,
+    pointer !important;
+  &:hover {
+    opacity: 0.8;
+  }
+`
+
+const LargeNavItem = styled.div`
+  font-size: 35px;
+  line-height: 43px;
+  cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
+      14 0,
+    pointer !important;
+  &:hover {
+    opacity: 0.8;
+  }
+`
+
+const SmallNavItem = styled.div`
+  cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
+      14 0,
+    pointer !important;
+  &:hover {
+    opacity: 0.8;
+  }
+`
+const RedDot = styled.span`
+  color: #cc3333;
+  padding-left: 2px;
+  font-size: 20px;
+  font-family: "Courier New", Courier, monospace;
 `
 
 type Props = {
   open: boolean
   setOpen: Dispatch<SetStateAction<boolean>>
   profilePicture: any
+  profile: any
+  router: any
 }
 
 const SlideOverNavbar: FC<Props> = ({
   open,
   setOpen,
   profilePicture,
+  profile,
+  router,
 }: Props) => {
   const { user, logIn, logOut, loggedIn } = useAuth()
 
   const { balance, centralizedInbox } = useUser()
+
+  const currentPath = router.asPath
+
+  const close = () => {
+    setOpen(false)
+  }
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -106,7 +195,11 @@ const SlideOverNavbar: FC<Props> = ({
                     <div className="relative flex-1 px-4 sm:px-6">
                       <div className="absolute inset-0 px-4 sm:px-6">
                         <CloseContainer className="ml-3 flex h-7 items-center">
-                          <button type="button" onClick={() => setOpen(false)}>
+                          <button
+                            style={{ outline: "none" }}
+                            type="button"
+                            onClick={() => close()}
+                          >
                             <span className="sr-only">Close panel</span>
                             <div>x</div>
                           </button>
@@ -114,47 +207,32 @@ const SlideOverNavbar: FC<Props> = ({
                         <div>
                           {!loggedIn ? (
                             <>
-                              <div
-                                style={{
-                                  marginTop: "-30px",
-                                  lineHeight: "45px",
-                                  fontSize: "43px",
+                              <SignIn
+                                onClick={() => {
+                                  logIn()
+                                  close()
                                 }}
                               >
                                 Sign In
-                              </div>
-                              <hr
-                                style={{
-                                  margin: "10px 50px 10px 0",
-                                  borderColor: "#5c5e6c",
-                                }}
-                              />
+                              </SignIn>
+                              <Divider />
                             </>
                           ) : (
                             <>
-                              <div
-                                style={{
-                                  marginTop: "-30px",
-                                  lineHeight: "45px",
-                                  fontSize: "43px",
-                                  display: "flex",
-                                }}
-                              >
-                                <ProfileImg src={profilePicture} />
-                                <div
-                                  style={{
-                                    marginLeft: "10px",
-                                    marginTop: "5px",
-                                  }}
-                                >
-                                  williblue
-                                </div>
-                              </div>
-                              <div
-                                style={{
-                                  textTransform: "none",
-                                  marginTop: "10px",
-                                }}
+                              <Link href={"/profile/" + user?.addr}>
+                                <Header onClick={() => close()}>
+                                  <ProfileImg src={profilePicture} />
+                                  <HeaderProfileName>
+                                    {profile != null
+                                      ? profile.name
+                                      : user?.addr
+                                          .slice(0, 6)
+                                          .concat("...")
+                                          .concat(user?.addr.slice(-4))}
+                                  </HeaderProfileName>
+                                </Header>
+                              </Link>
+                              <CopyToClipboard
                                 onClick={() => {
                                   navigator.clipboard.writeText(user?.addr)
                                   toast("Copied to clipboard")
@@ -162,65 +240,85 @@ const SlideOverNavbar: FC<Props> = ({
                               >
                                 {user?.addr}
                                 <CopyIcon icon={faCopy} />
-                              </div>
+                              </CopyToClipboard>
                               <div>
                                 FUSD:{" "}
                                 {!balance
                                   ? "0.00"
                                   : balance.toLocaleString().slice(0, -6)}
                               </div>
-                              <hr
-                                style={{
-                                  margin: "10px 50px 10px 0",
-                                  borderColor: "#5c5e6c",
-                                }}
-                              />
-                              <div
-                                style={{
-                                  fontSize: "35px",
-                                  lineHeight: "43px",
+                              <Divider />
+                              <Link href={"/profile/" + user?.addr}>
+                                <LargeNavItem onClick={() => close()}>
+                                  Profile
+                                </LargeNavItem>
+                              </Link>
+                              <Link href="/inbox">
+                                <SmallNavItem onClick={() => close()}>
+                                  Inbox
+                                  {centralizedInbox != null ? (
+                                    <>
+                                      {currentPath != "/inbox" &&
+                                      centralizedInbox.length > 0 ? (
+                                        <RedDot>•</RedDot>
+                                      ) : (
+                                        <></>
+                                      )}{" "}
+                                    </>
+                                  ) : (
+                                    <></>
+                                  )}
+                                </SmallNavItem>
+                              </Link>
+                              <SmallNavItem
+                                onClick={() => {
+                                  logOut()
+                                  close()
                                 }}
                               >
-                                Profile
-                              </div>
-                              <div>Inbox</div>
-                              <div>Sign out</div>
-                              <hr
-                                style={{
-                                  margin: "10px 50px 10px 0",
-                                  borderColor: "#5c5e6c",
-                                }}
-                              />
+                                Sign out
+                              </SmallNavItem>
+                              <Divider />
                             </>
                           )}
                         </div>
-                        <div
-                          style={{
-                            fontSize: "35px",
-                            lineHeight: "43px",
-                          }}
+                        <Link href="/store">
+                          <LargeNavItem onClick={() => close()}>
+                            Store
+                          </LargeNavItem>
+                        </Link>
+                        <Link href="/rankings">
+                          <LargeNavItem onClick={() => close()}>
+                            Rankings
+                          </LargeNavItem>
+                        </Link>
+                        <Link href="/dexicon">
+                          <LargeNavItem onClick={() => close()}>
+                            Dexicon
+                          </LargeNavItem>
+                        </Link>
+
+                        <a
+                          target="_blank"
+                          href="https://whitepaper.basicbeasts.io/"
                         >
-                          Store
-                        </div>
-                        <div
-                          style={{
-                            fontSize: "35px",
-                            lineHeight: "43px",
-                          }}
-                        >
-                          Rankings
-                        </div>
-                        <div
-                          style={{
-                            fontSize: "35px",
-                            lineHeight: "43px",
-                          }}
-                        >
-                          Dexicon
-                        </div>
-                        <div style={{ marginTop: "5px" }}>Whitepaper</div>
-                        <div>Discord</div>
-                        {/* {!loggedIn ? <></> : <div>Sign out</div>} */}
+                          <SmallNavItem
+                            style={{ display: "flex", marginTop: "5px" }}
+                          >
+                            Whitepaper
+                            <div>
+                              <ExternalLinkIcon src={externalLinkIcon.src} />
+                            </div>
+                          </SmallNavItem>
+                        </a>
+                        <a target="_blank" href="https://discord.gg/xgFtWhwSaR">
+                          <SmallNavItem style={{ display: "flex" }}>
+                            <div>Discord</div>
+                            <div>
+                              <ExternalLinkIcon src={externalLinkIcon.src} />
+                            </div>
+                          </SmallNavItem>
+                        </a>
                       </div>
                     </div>
                   </PanelBg>
