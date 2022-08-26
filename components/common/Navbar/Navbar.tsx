@@ -787,7 +787,12 @@ const Navbar: FC<FuncProps> = ({
                 </MobileLoggedInContainer>
                 <LoggedInContainer>
                   <LeftBox>
-                    <Menu as="div" className="ml-3 relative">
+                    <ProfileImg
+                      src={profilePicture}
+                      onClick={() => setOpen(true)}
+                    />
+                    {/** Don't delete. 'Old' desktop navbar */}
+                    {/* <Menu as="div" className="ml-3 relative">
                       <div>
                         <Menu.Button className="flex text-sm rounded-full">
                           <span className="sr-only">Open user menu</span>
@@ -908,7 +913,7 @@ const Navbar: FC<FuncProps> = ({
                           </Menu.Item>
                         </MenuItems>
                       </Transition>
-                    </Menu>
+                    </Menu> */}
                   </LeftBox>
                   <RightBox>
                     <NextLink href="/inbox">
@@ -929,21 +934,6 @@ const Navbar: FC<FuncProps> = ({
                       </a>
                     </NextLink>
                   </RightBox>
-                  {/* <LeftBox>
-                    <UserAddress>{user.addr}</UserAddress>
-                    <A
-                      font={
-                        lang === "ru"
-                          ? "arial, sans-serif"
-                          : "Pixelar, sans-serif, arial"
-                      }
-                    >
-                      {!balance ? <></> : balance.slice(0, -6)} ₣USD
-                    </A>
-                  </LeftBox>
-                  <RightBox>
-                    <DropDownIcon icon={faEllipsisV} />
-                  </RightBox> */}
                 </LoggedInContainer>
               </>
             )}
