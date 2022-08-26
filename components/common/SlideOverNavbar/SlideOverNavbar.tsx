@@ -4,6 +4,10 @@ import { Fragment, useState } from "react"
 import { Dialog, Transition } from "@headlessui/react"
 import { XIcon } from "@heroicons/react/outline"
 import { useAuth } from "@components/auth/AuthProvider"
+import { useUser } from "@components/user/UserProvider"
+import { faCopy } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { toast } from "react-toastify"
 
 const OverlayBg = styled.div`
   backdrop-filter: blur(20px);
@@ -44,13 +48,41 @@ const CloseContainer = styled.div`
   justify-content: end;
 `
 
+const ProfileImg = styled.img`
+  width: 60px;
+  max-width: none;
+  border-radius: 13px;
+  margin-right: 0px;
+
+  border: solid 2px #f3cb23;
+  background: #f3cb23;
+  /* @media (max-width: 800px) {
+    width: 40px;
+  } */
+  &:hover {
+    opacity: 0.9;
+  }
+`
+
+const CopyIcon = styled(FontAwesomeIcon)`
+  font-size: 9px;
+  margin-left: 2px;
+`
+
 type Props = {
   open: boolean
   setOpen: Dispatch<SetStateAction<boolean>>
+  profilePicture: any
 }
 
-const SlideOverNavbar: FC<Props> = ({ open, setOpen }: Props) => {
-  const { loggedIn } = useAuth()
+const SlideOverNavbar: FC<Props> = ({
+  open,
+  setOpen,
+  profilePicture,
+}: Props) => {
+  const { user, logIn, logOut, loggedIn } = useAuth()
+
+  const { balance, centralizedInbox } = useUser()
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -79,21 +111,116 @@ const SlideOverNavbar: FC<Props> = ({ open, setOpen }: Props) => {
                             <div>x</div>
                           </button>
                         </CloseContainer>
+                        <div>
+                          {!loggedIn ? (
+                            <>
+                              <div
+                                style={{
+                                  marginTop: "-30px",
+                                  lineHeight: "45px",
+                                  fontSize: "43px",
+                                }}
+                              >
+                                Sign In
+                              </div>
+                              <hr
+                                style={{
+                                  margin: "10px 50px 10px 0",
+                                  borderColor: "#5c5e6c",
+                                }}
+                              />
+                            </>
+                          ) : (
+                            <>
+                              <div
+                                style={{
+                                  marginTop: "-30px",
+                                  lineHeight: "45px",
+                                  fontSize: "43px",
+                                  display: "flex",
+                                }}
+                              >
+                                <ProfileImg src={profilePicture} />
+                                <div
+                                  style={{
+                                    marginLeft: "10px",
+                                    marginTop: "5px",
+                                  }}
+                                >
+                                  williblue
+                                </div>
+                              </div>
+                              <div
+                                style={{
+                                  textTransform: "none",
+                                  marginTop: "10px",
+                                }}
+                                onClick={() => {
+                                  navigator.clipboard.writeText(user?.addr)
+                                  toast("Copied to clipboard")
+                                }}
+                              >
+                                {user?.addr}
+                                <CopyIcon icon={faCopy} />
+                              </div>
+                              <div>
+                                FUSD:{" "}
+                                {!balance
+                                  ? "0.00"
+                                  : balance.toLocaleString().slice(0, -6)}
+                              </div>
+                              <hr
+                                style={{
+                                  margin: "10px 50px 10px 0",
+                                  borderColor: "#5c5e6c",
+                                }}
+                              />
+                              <div
+                                style={{
+                                  fontSize: "35px",
+                                  lineHeight: "43px",
+                                }}
+                              >
+                                Profile
+                              </div>
+                              <div>Inbox</div>
+                              <div>Sign out</div>
+                              <hr
+                                style={{
+                                  margin: "10px 50px 10px 0",
+                                  borderColor: "#5c5e6c",
+                                }}
+                              />
+                            </>
+                          )}
+                        </div>
                         <div
                           style={{
-                            marginTop: "-30px",
-                            lineHeight: "45px",
-                            fontSize: "40px",
+                            fontSize: "35px",
+                            lineHeight: "43px",
                           }}
                         >
-                          {!loggedIn ? "Sign In" : "Profile"}
+                          Store
                         </div>
-                        <div>Store</div>
-                        <div>Rankings</div>
-                        <div>Dexicon</div>
-                        <div>Whitepaper</div>
+                        <div
+                          style={{
+                            fontSize: "35px",
+                            lineHeight: "43px",
+                          }}
+                        >
+                          Rankings
+                        </div>
+                        <div
+                          style={{
+                            fontSize: "35px",
+                            lineHeight: "43px",
+                          }}
+                        >
+                          Dexicon
+                        </div>
+                        <div style={{ marginTop: "5px" }}>Whitepaper</div>
                         <div>Discord</div>
-                        {!loggedIn ? <></> : <div>Sign out</div>}
+                        {/* {!loggedIn ? <></> : <div>Sign out</div>} */}
                       </div>
                     </div>
                   </PanelBg>

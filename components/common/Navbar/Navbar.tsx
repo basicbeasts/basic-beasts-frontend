@@ -510,12 +510,20 @@ type FuncProps = {
   toggle: () => void
   router: NextRouter
   setOpen: any
+  profilePicture: any
+  setProfilePicture: any
 }
 
-const Navbar: FC<FuncProps> = ({ toggle, router, setOpen }) => {
+const Navbar: FC<FuncProps> = ({
+  toggle,
+  router,
+  setOpen,
+  profilePicture,
+  setProfilePicture,
+}) => {
   const { logIn, logOut, user, loggedIn } = useAuth()
   const [profile, setProfile] = useState<any>()
-  const [profilePicture, setProfilePicture] = useState(profilePictures[1].image)
+  // const [profilePicture, setProfilePicture] = useState(profilePictures[1].image)
 
   const { balance, centralizedInbox } = useUser()
 

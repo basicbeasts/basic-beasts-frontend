@@ -8,6 +8,7 @@ import { useRouter } from "next/dist/client/router"
 import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import SlideOverNavbar from "../SlideOverNavbar"
+import profilePictures from "data/profilePictures"
 
 //Configure FCL
 fcl
@@ -71,6 +72,8 @@ const Layout: FC = ({ children }) => {
 
   const [open, setOpen] = useState(false)
 
+  const [profilePicture, setProfilePicture] = useState(profilePictures[1].image)
+
   const toggle = () => {
     setIsSideNavbarOpen(!isSideNavbarOpen)
   }
@@ -88,9 +91,18 @@ const Layout: FC = ({ children }) => {
         />
       </Head>
       <ToastContainer position="bottom-right" pauseOnFocusLoss={false} />
-      <SlideOverNavbar open={open} setOpen={setOpen} />
-      <SideNavbar isSideNavbarOpen={isSideNavbarOpen} toggle={toggle} />
-      <Navbar toggle={toggle} router={router} setOpen={setOpen} />
+      <SlideOverNavbar
+        open={open}
+        setOpen={setOpen}
+        profilePicture={profilePicture}
+      />
+      <Navbar
+        toggle={toggle}
+        router={router}
+        setOpen={setOpen}
+        profilePicture={profilePicture}
+        setProfilePicture={setProfilePicture}
+      />
       <main>{children}</main>
       <Footer />
     </>
