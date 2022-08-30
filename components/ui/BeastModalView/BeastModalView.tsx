@@ -1,4 +1,4 @@
-import { FC, Fragment, useState } from "react"
+import { FC, Fragment, useEffect, useState } from "react"
 import { Dialog, Transition } from "@headlessui/react"
 import { CheckIcon } from "@heroicons/react/outline"
 import star from "public/basic_starLevel.png"
@@ -9,6 +9,7 @@ import MaleIcon from "public/gender_icons/male_icon.png"
 import FemaleIcon from "public/gender_icons/female_icon.png"
 import { useRouter } from "next/router"
 import { useUser } from "@components/user/UserProvider"
+import EvolvableBeastThumbnail from "../EvolvableBeastThumbnail"
 
 const DialogPanel = styled(Dialog.Panel)<TailwindProps>`
   border-radius: 20px;
@@ -122,14 +123,16 @@ const StarLevel = styled.div`
 // -----------------------------------------------------------------------
 
 const Content = styled.div`
-  height: 360px;
+  height: 440px;
+
+  width: 576px;
+
   background: #fff;
   padding: 3vw;
   font-size: 1.2em;
   color: #242526;
   @media (max-width: 767px) {
     font-size: 20px;
-    height: 300px;
   }
 `
 
@@ -275,6 +278,19 @@ const ContainerCenter = styled.div`
   align-items: center;
 `
 
+const ListWrapper = styled.div`
+  width: 100%;
+  overflow: hidden;
+  overflow-y: scroll;
+  height: 250px;
+  margin-top: 20px;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`
+
 type Color = {
   colorCode: any
 }
@@ -297,6 +313,18 @@ type Props = {
   displayNickname: any
   setDisplayNickname: any
   userAddr: any
+  evolvableBeasts: any
+}
+
+const tabs = [
+  { name: "Info", href: "#info" },
+  { name: "Evolution", href: "#evolution" },
+  { name: "Breeding", href: "#breeding" },
+  { name: "Supply", href: "#supply" },
+]
+
+function classNames(...classes: any) {
+  return classes.filter(Boolean).join(" ")
 }
 
 const BeastModalView: FC<Props> = ({
@@ -307,11 +335,28 @@ const BeastModalView: FC<Props> = ({
   displayNickname,
   setDisplayNickname,
   userAddr,
+  evolvableBeasts,
 }) => {
   const [open2, setOpen2] = useState(false)
+  const [filter, setFilter] = useState("Info")
+  const [selectedBeasts, setSelectedBeasts] = useState<any>([beast?.id])
 
   const router = useRouter()
   const { address }: any = router.query
+
+  const handleChange = (id: any) => {
+    if (selectedBeasts.includes(id)) {
+      //remove
+      setSelectedBeasts(selectedBeasts.filter((beast: any) => beast != id))
+    } else if (selectedBeasts.length < 3) {
+      //add
+      setSelectedBeasts((selectedBeasts: any) => [...selectedBeasts, id])
+    }
+  }
+
+  useEffect(() => {
+    setSelectedBeasts([beast?.id])
+  }, [beast])
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -416,78 +461,171 @@ const BeastModalView: FC<Props> = ({
                           }
                         />
                       </Header>
+
                       <Content>
-                        <Description>{beast.description}</Description>
-                        <InfoContainer>
-                          <InfoLabel>Gender</InfoLabel>
-                          <InfoText>
-                            {beast.sex == "Male" ? (
-                              <IconImg src={MaleIcon.src} />
-                            ) : (
-                              <IconImg src={FemaleIcon.src} />
-                            )}
-                          </InfoText>
-                        </InfoContainer>
-                        <InfoContainer>
-                          <InfoLabel>Type</InfoLabel>
-                          <InfoText>
-                            {beast.elements != null
-                              ? beast.elements.map((element: any, i: any) => (
-                                  <InfoListItem key={i}>{element}</InfoListItem>
-                                ))
-                              : ""}
-                          </InfoText>
-                        </InfoContainer>
-                        <InfoContainer>
-                          <InfoLabel>Basic Skills</InfoLabel>
-                          <InfoText>
-                            {beast.basicSkills != null
-                              ? beast.basicSkills.map((skill: any, i: any) => (
-                                  <Skill key={i}>{skill}</Skill>
-                                ))
-                              : ""}
-                          </InfoText>
-                        </InfoContainer>
-                        <UltimateSkill
-                          backgroundColor={
-                            beast.elements[0] == "Electric"
-                              ? "#FFE595"
-                              : beast.elements[0] == "Water"
-                              ? "#A4C2F4"
-                              : beast.elements[0] == "Grass"
-                              ? "#B7D7A8"
-                              : beast.elements[0] == "Fire"
-                              ? "#EA9999"
-                              : "#D5A6BD"
-                          }
-                          outset={
-                            beast.elements[0] == "Electric"
-                              ? "#B3A068"
-                              : beast.elements[0] == "Water"
-                              ? "#7388AB"
-                              : beast.elements[0] == "Grass"
-                              ? "#92AC86"
-                              : beast.elements[0] == "Fire"
-                              ? "#BB7A7A"
-                              : "#AA8597"
-                          }
-                          inset={
-                            beast.elements[0] == "Electric"
-                              ? "#E6CE86"
-                              : beast.elements[0] == "Water"
-                              ? "#94AFDC"
-                              : beast.elements[0] == "Grass"
-                              ? "#A5C297"
-                              : beast.elements[0] == "Fire"
-                              ? "#D38A8A"
-                              : "#C095AA"
-                          }
-                        >
-                          <UltimateSkillLabel>
-                            Ultimate Skill
-                          </UltimateSkillLabel>
-                          <SkillName>{beast.ultimateSkill}</SkillName>
-                        </UltimateSkill>
+                        {userAddr === address ? (
+                          <div>
+                            <div className="sm:hidden">
+                              <label htmlFor="tabs" className="sr-only">
+                                Select a tab
+                              </label>
+                              {/* Use an "onChange" listener to redirect the user to the selected tab URL. */}
+                              <select
+                                id="tabs"
+                                name="tabs"
+                                className="block w-full focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+                                // defaultValue={
+                                //   // tabs?.find((tab: any) => tab?.current)?.name
+                                //   // filter
+                                // }
+                                defaultValue={"Select page"}
+                                onChange={(e) => setFilter(e.target.value)}
+                              >
+                                {tabs.map((tab) => (
+                                  <option key={tab.name}>{tab.name}</option>
+                                ))}
+                              </select>
+                            </div>
+                            <div className="hidden sm:block">
+                              <div className="border-b border-gray-200">
+                                <nav className="-mb-px flex" aria-label="Tabs">
+                                  {tabs.map((tab) => (
+                                    <a
+                                      key={tab.name}
+                                      href={tab.href}
+                                      className={classNames(
+                                        tab.name === filter
+                                          ? "border-indigo-500 text-indigo-600"
+                                          : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300",
+                                        "w-1/4 py-4 px-1 text-center border-b-2 font-medium text-sm",
+                                      )}
+                                      aria-current={
+                                        tab.name === filter ? "page" : undefined
+                                      }
+                                      onClick={() => setFilter(tab.name)}
+                                    >
+                                      {tab.name}
+                                    </a>
+                                  ))}
+                                </nav>
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          <></>
+                        )}
+                        {filter === "Info" ? (
+                          <>
+                            <Description>{beast.description}</Description>
+                            <InfoContainer>
+                              <InfoLabel>Gender</InfoLabel>
+                              <InfoText>
+                                {beast.sex == "Male" ? (
+                                  <IconImg src={MaleIcon.src} />
+                                ) : (
+                                  <IconImg src={FemaleIcon.src} />
+                                )}
+                              </InfoText>
+                            </InfoContainer>
+                            <InfoContainer>
+                              <InfoLabel>Type</InfoLabel>
+                              <InfoText>
+                                {beast.elements != null
+                                  ? beast.elements.map(
+                                      (element: any, i: any) => (
+                                        <InfoListItem key={i}>
+                                          {element}
+                                        </InfoListItem>
+                                      ),
+                                    )
+                                  : ""}
+                              </InfoText>
+                            </InfoContainer>
+                            <InfoContainer>
+                              <InfoLabel>Basic Skills</InfoLabel>
+                              <InfoText>
+                                {beast.basicSkills != null
+                                  ? beast.basicSkills.map(
+                                      (skill: any, i: any) => (
+                                        <Skill key={i}>{skill}</Skill>
+                                      ),
+                                    )
+                                  : ""}
+                              </InfoText>
+                            </InfoContainer>
+                            <UltimateSkill
+                              backgroundColor={
+                                beast.elements[0] == "Electric"
+                                  ? "#FFE595"
+                                  : beast.elements[0] == "Water"
+                                  ? "#A4C2F4"
+                                  : beast.elements[0] == "Grass"
+                                  ? "#B7D7A8"
+                                  : beast.elements[0] == "Fire"
+                                  ? "#EA9999"
+                                  : "#D5A6BD"
+                              }
+                              outset={
+                                beast.elements[0] == "Electric"
+                                  ? "#B3A068"
+                                  : beast.elements[0] == "Water"
+                                  ? "#7388AB"
+                                  : beast.elements[0] == "Grass"
+                                  ? "#92AC86"
+                                  : beast.elements[0] == "Fire"
+                                  ? "#BB7A7A"
+                                  : "#AA8597"
+                              }
+                              inset={
+                                beast.elements[0] == "Electric"
+                                  ? "#E6CE86"
+                                  : beast.elements[0] == "Water"
+                                  ? "#94AFDC"
+                                  : beast.elements[0] == "Grass"
+                                  ? "#A5C297"
+                                  : beast.elements[0] == "Fire"
+                                  ? "#D38A8A"
+                                  : "#C095AA"
+                              }
+                            >
+                              <UltimateSkillLabel>
+                                Ultimate Skill
+                              </UltimateSkillLabel>
+                              <SkillName>{beast.ultimateSkill}</SkillName>
+                            </UltimateSkill>
+                          </>
+                        ) : (
+                          <></>
+                        )}
+                        {filter === "Evolution" && evolvableBeasts != null ? (
+                          <>
+                            <ListWrapper>
+                              <ul
+                                role="list"
+                                className="grid grid-4 gap-x-2 gap-y-4 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-4"
+                              >
+                                {evolvableBeasts[beast.beastTemplateID].map(
+                                  (beast: any, i: any) => (
+                                    <>
+                                      <li
+                                        key={i}
+                                        onClick={() => handleChange(beast?.id)}
+                                      >
+                                        <div>
+                                          <EvolvableBeastThumbnail
+                                            beast={beast}
+                                          />
+                                        </div>
+                                      </li>
+                                    </>
+                                  ),
+                                )}
+                              </ul>
+                            </ListWrapper>
+                          </>
+                        ) : (
+                          <></>
+                        )}
                       </Content>
                     </Container>
                   ) : (

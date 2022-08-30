@@ -36,6 +36,7 @@ const Profile: NextPage = () => {
   const [dexicon, setDexicon] = useState()
   const [profile, setProfile] = useState(null)
   const [profilePicture, setProfilePicture] = useState(profilePictures[1].image)
+  const [evolvableBeasts, setEvolvableBeasts] = useState(null)
 
   const { user } = useAuth()
 
@@ -243,6 +244,32 @@ const Profile: NextPage = () => {
         mappedCollection.push(beast)
       }
       setUserBeastCollection(mappedCollection)
+      // Get evolvable beast dictionary {beastTemplateID: [beasts]}
+      var beasts = [...mappedCollection]
+      beasts.sort((a, b) => a.serialNumber - b.serialNumber)
+      beasts.sort((a, b) => a.beastTemplateID - b.beastTemplateID)
+      let evolvableBeasts: any = {}
+      for (let key in beastTemplates) {
+        const element =
+          beastTemplates[key as unknown as keyof typeof beastTemplates]
+
+        if (element.starLevel < 3) {
+          let beastsOfSameTemplate = []
+          var i = 0
+          while (i < beasts.length) {
+            const beast = beasts[i]
+            if (beast.beastTemplateID == element.beastTemplateID) {
+              beastsOfSameTemplate.push(beast)
+              beasts.splice(i, i + 1)
+            } else {
+              i++
+            }
+          }
+          evolvableBeasts[element.beastTemplateID] = beastsOfSameTemplate
+        }
+      }
+      console.log(evolvableBeasts)
+      setEvolvableBeasts(evolvableBeasts)
       console.log("profile/[address].tsx: fetchUserBeasts()")
     } catch (err) {
       console.log(err)
@@ -523,6 +550,7 @@ const Profile: NextPage = () => {
         profilePicture={profilePicture}
         setProfilePicture={setProfilePicture}
         getProfile={getProfile}
+        evolvableBeasts={evolvableBeasts}
       />
     </div>
   )
