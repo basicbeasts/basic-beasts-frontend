@@ -21,7 +21,6 @@ const SideNavbarContainer = styled.aside<{
   height: 100%;
   background: #111823;
   align-items: center;
-  top: 0;
   left: 0;
   transition: 0.3s ease-in-out;
   opacity: ${({ isSideNavbarOpen }) => (isSideNavbarOpen ? "100%" : "0")};

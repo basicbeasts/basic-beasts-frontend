@@ -11,6 +11,9 @@ const Container = styled(motion.div)`
   width: clamp(100%, 700px, 90%);
   height: 100%;
   z-index: 9999;
+
+  top: 0;
+  position: fixed;
 `
 
 //Maybe it should start with a plain black/grey background and transition to the actual color.

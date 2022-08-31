@@ -10,6 +10,7 @@ import FemaleIcon from "public/gender_icons/female_icon.png"
 import { useRouter } from "next/router"
 import { useUser } from "@components/user/UserProvider"
 import EvolvableBeastThumbnail from "../EvolvableBeastThumbnail"
+import EvolutionModal from "../EvolutionModal"
 
 const DialogPanel = styled(Dialog.Panel)<TailwindProps>`
   border-radius: 20px;
@@ -123,7 +124,7 @@ const StarLevel = styled.div`
 // -----------------------------------------------------------------------
 
 const Content = styled.div`
-  height: 440px;
+  height: 500px;
 
   width: 576px;
 
@@ -282,13 +283,47 @@ const ListWrapper = styled.div`
   width: 100%;
   overflow: hidden;
   overflow-y: scroll;
-  height: 250px;
+  height: 270px;
   margin-top: 20px;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
   &::-webkit-scrollbar {
     display: none;
   }
+  padding: 5px;
+`
+
+const EvolveButton = styled.button`
+  width: 100px;
+  border-color: rgb(22, 22, 26);
+  color: rgb(255, 255, 255);
+  background: rgb(22, 22, 26);
+  padding: 3px 15px 4px;
+  border-radius: 14px;
+  text-transform: capitalize;
+  &:hover {
+    color: rgb(255, 255, 255);
+    border-color: rgb(22, 22, 26);
+    background: rgb(0, 0, 0);
+  }
+  &:focus {
+    color: rgb(255, 255, 255);
+    border-color: rgb(22, 22, 26);
+    background: rgb(0, 0, 0);
+  }
+  &:active {
+    transform: scale(0.95);
+  }
+`
+
+const DisabledEvolveButton = styled.button`
+  width: 100px;
+  border-color: rgb(22, 22, 26);
+  color: rgb(255, 255, 255);
+  background: rgb(108, 108, 115);
+  padding: 3px 15px 4px;
+  border-radius: 14px;
+  text-transform: capitalize;
 `
 
 type Color = {
@@ -314,6 +349,7 @@ type Props = {
   setDisplayNickname: any
   userAddr: any
   evolvableBeasts: any
+  setEvolutionModalOpen: any
 }
 
 const tabs = [
@@ -336,6 +372,7 @@ const BeastModalView: FC<Props> = ({
   setDisplayNickname,
   userAddr,
   evolvableBeasts,
+  setEvolutionModalOpen,
 }) => {
   const [open2, setOpen2] = useState(false)
   const [filter, setFilter] = useState("Info")
@@ -495,7 +532,15 @@ const BeastModalView: FC<Props> = ({
                                       href={tab.href}
                                       className={classNames(
                                         tab.name === filter
-                                          ? "border-indigo-500 text-indigo-600"
+                                          ? beast.elements[0] == "Electric"
+                                            ? "border-yellow-500 text-yellow-600"
+                                            : beast.elements[0] == "Water"
+                                            ? "border-blue-500 text-blue-600"
+                                            : beast.elements[0] == "Grass"
+                                            ? "border-green-500 text-green-600"
+                                            : beast.elements[0] == "Fire"
+                                            ? "border-rose-500 text-rose-600"
+                                            : "border-pink-500 text-pink-600"
                                           : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300",
                                         "w-1/4 py-4 px-1 text-center border-b-2 font-medium text-sm",
                                       )}
@@ -599,6 +644,17 @@ const BeastModalView: FC<Props> = ({
                         )}
                         {filter === "Evolution" && evolvableBeasts != null ? (
                           <>
+                            {selectedBeasts.length === 3 ? (
+                              <EvolveButton
+                                onClick={() => setEvolutionModalOpen(true)}
+                              >
+                                evolve
+                              </EvolveButton>
+                            ) : (
+                              <DisabledEvolveButton>
+                                disabled
+                              </DisabledEvolveButton>
+                            )}
                             <ListWrapper>
                               <ul
                                 role="list"
@@ -614,6 +670,9 @@ const BeastModalView: FC<Props> = ({
                                         <div>
                                           <EvolvableBeastThumbnail
                                             beast={beast}
+                                            selected={selectedBeasts.includes(
+                                              beast?.id,
+                                            )}
                                           />
                                         </div>
                                       </li>
@@ -626,6 +685,8 @@ const BeastModalView: FC<Props> = ({
                         ) : (
                           <></>
                         )}
+                        {filter === "Breeding" ? <div>Coming soon</div> : <></>}
+                        {filter === "Supply" ? <div>Coming soon</div> : <></>}
                       </Content>
                     </Container>
                   ) : (

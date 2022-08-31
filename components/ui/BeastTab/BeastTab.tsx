@@ -5,6 +5,7 @@ import BeastModalView from "../BeastModalView"
 import { Menu, Transition } from "@headlessui/react"
 import { ChevronDownIcon } from "@heroicons/react/solid"
 import { FC, useState, Fragment } from "react"
+import EvolutionModal from "../EvolutionModal"
 
 const Wrapper = styled.div`
   padding: 35px 20px 0px;
@@ -116,7 +117,7 @@ const SortOptions = styled.div`
   position: flex;
   margin-bottom: 15px;
   display: flex;
-  z-index: 100;
+  z-index: 2;
   justify-content: right;
 `
 
@@ -476,6 +477,8 @@ const BeastTab: FC<Props> = ({
   const [displayNickname, setDisplayNickname] = useState<string | null>(null)
   const [sortBy, setSortBy] = useState("SORT BY")
 
+  const [evolutionModalOpen, setEvolutionModalOpen] = useState(true)
+
   // const filterElementElectric = beasts.filter((Beast: any) => {
   //   if (beasts != null) {
   //     return Beast.element === "Electric"
@@ -511,6 +514,10 @@ const BeastTab: FC<Props> = ({
         <div style={{ marginTop: "0" }} />
         {/* example buttons end */}
 
+        <SortOptions>
+          <DropDown beasts={beasts} sortBy={sortBy} setSortBy={setSortBy} />
+        </SortOptions>
+
         <BeastModalView
           beast={selectedBeast}
           open={open}
@@ -520,10 +527,13 @@ const BeastTab: FC<Props> = ({
           setDisplayNickname={setDisplayNickname}
           userAddr={userAddr}
           evolvableBeasts={evolvableBeasts}
+          setEvolutionModalOpen={setEvolutionModalOpen}
         />
-        <SortOptions>
-          <DropDown beasts={beasts} sortBy={sortBy} setSortBy={setSortBy} />
-        </SortOptions>
+        <EvolutionModal
+          handleClose={() => setEvolutionModalOpen(false)}
+          RevealModalOpen={evolutionModalOpen}
+          packId={selectedBeast?.beastTemplateID || "1"}
+        />
         {beasts != null ? (
           <ul
             role="list"
