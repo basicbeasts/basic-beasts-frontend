@@ -21,7 +21,7 @@ const Container = styled.div<any>`
   }
   box-shadow: ${(props) =>
     props.selected
-      ? `inset 0px 0px 10px ${props.outset}, 0px 0px 3px 3px ${props.outset}`
+      ? `inset 0px 0px 20px ${props.outset}, 0px 0px 3px 3px ${props.outset}`
       : "none"};
   /* scale: ${(props) => (props.selected ? "1.05" : "none")}; */
 `

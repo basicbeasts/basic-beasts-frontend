@@ -6,6 +6,8 @@ import star from "public/basic_starLevel.png"
 import starEmpty from "public/basic_starLevel_empty.png"
 import { useQuery } from "../../../gqty"
 import beastTemplates from "data/beastTemplates"
+import temp from "public/temp/002_temp.png"
+import effect from "public/temp/80557-reward-light-effect.gif"
 
 const Container = styled(motion.div)`
   width: clamp(100%, 700px, 90%);
@@ -211,6 +213,39 @@ const dropIn = {
   exit: {},
 }
 
+const Circle = styled(motion.div)`
+  background: #fff;
+  border-radius: 50%;
+  position: absolute;
+
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+
+  top: 250px;
+
+  width: 200px;
+  height: 200px;
+`
+
+const EvolvedBeastImg = styled.img``
+
+const EvolvedBeastContainer = styled(motion.div)`
+  position: absolute;
+  width: 400px;
+  top: 150px;
+
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+
+  @media (max-width: 600px) {
+    width: 300px;
+  }
+`
+
 type FuncProps = {
   handleClose: () => void
   RevealModalOpen: boolean
@@ -320,44 +355,92 @@ const EvolutionModal: FC<FuncProps> = ({
                         delay: 1.4,
                       }}
                     >
-                      <BeastContainer3
-                        style={{ top: 50 }}
-                        animate={{ top: 250 }}
-                        transition={{ delay: 3, duration: 1.5 }}
+                      <Beast
+                        animate={{ opacity: [1, 0] }}
+                        transition={{
+                          duration: 0.5,
+                          delay: 4,
+                        }}
                       >
-                        <motion.div
-                          animate={{ filter: "brightness(0) invert(1)" }}
-                          transition={{ delay: 3.3, duration: 1.2 }}
+                        <BeastContainer3
+                          style={{ top: 50 }}
+                          animate={{ top: 250 }}
+                          transition={{ delay: 3, duration: 1.5 }}
                         >
-                          <BeastImg src={beast1.imageTransparentBg} />
-                        </motion.div>
-                      </BeastContainer3>
-                      <BeastContainer
-                        style={{ right: "50%" }}
-                        animate={{ right: 0 }}
-                        transition={{ delay: 3, duration: 1.5 }}
-                      >
-                        <motion.div
-                          animate={{ filter: "brightness(0) invert(1)" }}
-                          transition={{ delay: 3.3, duration: 1.2 }}
+                          <motion.div
+                            animate={{ filter: "brightness(0) invert(1)" }}
+                            transition={{ delay: 3.3, duration: 1.2 }}
+                          >
+                            <BeastImg src={beast1.imageTransparentBg} />
+                          </motion.div>
+                        </BeastContainer3>
+                        <BeastContainer
+                          style={{ right: "50%" }}
+                          animate={{ right: 0 }}
+                          transition={{ delay: 3, duration: 1.5 }}
                         >
-                          <BeastImg src={beast1.imageTransparentBg} />
-                        </motion.div>
-                      </BeastContainer>
+                          <motion.div
+                            animate={{ filter: "brightness(0) invert(1)" }}
+                            transition={{ delay: 3.3, duration: 1.2 }}
+                          >
+                            <BeastImg src={beast1.imageTransparentBg} />
+                          </motion.div>
+                        </BeastContainer>
 
-                      <BeastContainer2
-                        style={{ left: "50%" }}
-                        animate={{ left: 0 }}
-                        transition={{ delay: 3, duration: 1.5 }}
-                      >
-                        <motion.div
-                          animate={{ filter: "brightness(0) invert(1)" }}
-                          transition={{ delay: 3.3, duration: 1.2 }}
+                        <BeastContainer2
+                          style={{ left: "50%" }}
+                          animate={{ left: 0 }}
+                          transition={{ delay: 3, duration: 1.5 }}
                         >
-                          <BeastImg src={beast1.imageTransparentBg} />
-                        </motion.div>
-                      </BeastContainer2>
+                          <motion.div
+                            animate={{ filter: "brightness(0) invert(1)" }}
+                            transition={{ delay: 3.3, duration: 1.2 }}
+                          >
+                            <BeastImg src={beast1.imageTransparentBg} />
+                          </motion.div>
+                        </BeastContainer2>
+                      </Beast>
                     </Beast>
+                    <EvolvedBeastContainer
+                      animate={{ opacity: [0, 1], scale: [0.5, 2, 1] }}
+                      transition={{ duration: 1.2, delay: 4.2 }}
+                    >
+                      <img src={effect.src} />
+                    </EvolvedBeastContainer>
+                    <EvolvedBeastContainer
+                      animate={{ opacity: [0, 1], scale: [1.1, 0.8, 1] }}
+                      transition={{ duration: 0.8, delay: 4.6 }}
+                    >
+                      <EvolvedBeastImg src={temp.src} />
+                    </EvolvedBeastContainer>
+
+                    <EvolvedBeastContainer
+                      style={{ filter: "brightness(0) invert(1)" }}
+                      animate={{ opacity: [0, 1, 0], scale: [0.3, 1.2] }}
+                      transition={{ duration: 1, delay: 3.9 }}
+                    >
+                      <EvolvedBeastImg src={temp.src} />
+                    </EvolvedBeastContainer>
+                    <motion.div
+                      animate={{ opacity: [0, 1] }}
+                      transition={{
+                        delay: 4,
+                      }}
+                    >
+                      {/* <Circle
+                        style={{ top: "300px", width: "50px", height: "50px" }}
+                        animate={{
+                          top: "250px",
+                          width: "200px",
+                          height: "200px",
+                        }}
+                        transition={{ delay: 4, duration: 1 }}
+                      /> */}
+                      <Circle
+                        animate={{ opacity: [0, 1, 0], scale: [1, 2] }}
+                        transition={{ duration: 1.2, delay: 3.7 }}
+                      />
+                    </motion.div>
                   </ContentRight>
                 </Content>
               </Bg>
