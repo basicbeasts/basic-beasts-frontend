@@ -316,13 +316,21 @@ const EvolveButton = styled.button`
   &:active {
     transform: scale(0.95);
   }
+  &:disabled {
+    background: gray;
+    color: #fff;
+    opacity: 0.35;
+    &:active {
+      transform: none;
+    }
+  }
 `
 
 const DisabledEvolveButton = styled.button`
   width: 100px;
   border-color: rgb(22, 22, 26);
   color: rgb(255, 255, 255);
-  background: rgb(108, 108, 115);
+  background: grey;
   padding: 3px 15px 4px;
   border-radius: 14px;
   text-transform: capitalize;
@@ -803,17 +811,24 @@ const BeastModalView: FC<Props> = ({
                                 </Body>
                               </EvolutionSelectionLeft>
                               <EvolutionSelectionRight>
-                                {selectedBeasts.length === 3 ? (
+                                <EvolveButton
+                                  disabled={selectedBeasts.length != 3}
+                                  onClick={() => setEvolutionModalOpen(true)}
+                                >
+                                  evolve
+                                </EvolveButton>
+                                {/* {selectedBeasts.length === 3 ? (
                                   <EvolveButton
+                                    disabled={selectedBeasts.length != 3}
                                     onClick={() => setEvolutionModalOpen(true)}
                                   >
                                     evolve
                                   </EvolveButton>
                                 ) : (
                                   <DisabledEvolveButton>
-                                    disabled
+                                    evolve
                                   </DisabledEvolveButton>
-                                )}
+                                )} */}
                               </EvolutionSelectionRight>
                             </EvolutionSelectionContainer>
                             <ListWrapper>
