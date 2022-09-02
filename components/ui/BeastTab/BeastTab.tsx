@@ -4,11 +4,11 @@ import star from "public/basic_starLevel.png"
 import BeastModalView from "../BeastModalView"
 import { Menu, Transition } from "@headlessui/react"
 import { ChevronDownIcon } from "@heroicons/react/solid"
-import { FC, useState, Fragment } from "react"
+import { FC, useState, Fragment, useEffect } from "react"
 import EvolutionModal from "../EvolutionModal"
 
 const Wrapper = styled.div`
-  padding: 35px 20px 0px;
+  padding: 20px 20px 100px;
   z-index: 1;
   display: grid;
 
@@ -89,12 +89,12 @@ const SortByButton = styled.div`
   background: transparent;
   outline: none;
   &::placeholder {
-    color: #bc9d24;
+    color: #e4be23;
   }
   text-transform: uppercase;
   width: 200px;
   font-size: 1em;
-  color: #bc9d24;
+  color: #e4be23;
   &:hover {
     background: transparent;
   }
@@ -102,23 +102,62 @@ const SortByButton = styled.div`
   align-items: center;
   padding: 8px;
   padding-left: 15px;
-  /* @media (max-width: 800px) {
-    width: 200px;
-  } */
+  margin-left: 20px;
+  // margin-right: 18px;
+  @media (max-width: 413px) {
+    width: 185px;
+    margin: 0 15px;
+  }
+  @media (max-width: 391px) {
+    width: 185px;
+    margin: 0 5px;
+  }
+  @media (max-width: 361px) {
+    width: 165px;
+    margin-left: 5px;
+  }
 `
 const DropDownList = styled.div`
+  width: 200px;
+  margin-left: 24px;
   background-color: #212127;
   color: #bc9d24;
   border-radius: 10px;
-  border-color: #bc9d24;
-  border-width: 1px;
+  @media (max-width: 413px) {
+    width: 185px;
+    margin: 0 10px;
+  }
+  @media (max-width: 391px) {
+    width: 185px;
+    margin: 0 33px;
+  }
+
+  @media (max-width: 361px) {
+    margin-left: 44px;
+  }
 `
-const SortOptions = styled.div`
-  position: flex;
-  margin-bottom: 15px;
-  display: flex;
-  z-index: 2;
-  justify-content: right;
+
+const FuncArgInput = styled.input`
+  background: transparent;
+  border-radius: 10px;
+  border: solid #bc9d24 2px;
+  color: #fff;
+  font-size: 1em;
+  padding: 8px;
+  padding-left: 15px;
+  width: 175px;
+  height: 44px;
+  cursor: pointer;
+  margin-bottom: 0;
+  outline: none;
+  @media (max-width: 361px) {
+    margin-left: 37px;
+    padding: 6px;
+  }
+  &::placeholder {
+    color: #e4be23;
+    text-transform: uppercase;
+  }
 `
 
 function classNames(...classes: any) {
@@ -127,6 +166,24 @@ function classNames(...classes: any) {
 
 const A = styled.a`
   font-size: 1em;
+`
+
+const HeaderBeastCollection = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: right;
+  align-items: center;
+  padding-right: 20px;
+  padding-top: 8px;
+  margin-top: 20px;
+  position: relative;
+  z-index: 5;
+  @media (max-width: 413px) {
+    padding-right: 7px;
+  }
+  @media (max-width: 391px) {
+    padding-right: 7px;
+  }
 `
 
 const DropDown: FC<{
@@ -253,7 +310,7 @@ const DropDown: FC<{
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+        <Menu.Items className="origin-top-right absolute right-0 mt-2 w-56 rounded-md focus:outline-none">
           <DropDownList>
             <div className="py-1">
               <Menu.Item>
@@ -261,14 +318,14 @@ const DropDown: FC<{
                   <A
                     onClick={() => {
                       sortByDexLowHigh()
-                      setSortBy("Dex Number (Low-High)")
+                      setSortBy("Dex No. (Low-High)")
                     }}
                     className={classNames(
                       active ? "bg-gray-700" : "",
                       "block px-4 py-2 text-sm",
                     )}
                   >
-                    Dex Number (Low-High)
+                    Dex No. (Low-High)
                   </A>
                 )}
               </Menu.Item>
@@ -276,7 +333,7 @@ const DropDown: FC<{
                 {({ active }) => (
                   <A
                     onClick={() => {
-                      setSortBy("Dex Number (High-Low)")
+                      setSortBy("Dex No. (High-Low)")
                       sortByDexHighLow()
                     }}
                     className={classNames(
@@ -284,7 +341,7 @@ const DropDown: FC<{
                       "block px-4 py-2 text-sm",
                     )}
                   >
-                    Dex Number (High-Low)
+                    Dex No. (High-Low)
                   </A>
                 )}
               </Menu.Item>
@@ -317,22 +374,6 @@ const DropDown: FC<{
                     )}
                   >
                     Nickname Z-A
-                  </A>
-                )}
-              </Menu.Item>
-              <Menu.Item>
-                {({ active }) => (
-                  <A
-                    onClick={() => {
-                      setSortBy("Elements")
-                      sortByElement()
-                    }}
-                    className={classNames(
-                      active ? "bg-gray-700" : "",
-                      "block px-4 py-2 text-sm",
-                    )}
-                  >
-                    Elements
                   </A>
                 )}
               </Menu.Item>
@@ -397,6 +438,22 @@ const DropDown: FC<{
                     )}
                   >
                     Skin (Low-High)
+                  </A>
+                )}
+              </Menu.Item>
+              <Menu.Item>
+                {({ active }) => (
+                  <A
+                    onClick={() => {
+                      setSortBy("Element Type")
+                      sortByElement()
+                    }}
+                    className={classNames(
+                      active ? "bg-gray-700" : "",
+                      "block px-4 py-2 text-sm",
+                    )}
+                  >
+                    Element Type
                   </A>
                 )}
               </Menu.Item>
@@ -472,13 +529,38 @@ const BeastTab: FC<Props> = ({
   //     // eslint-disable-next-line react-hooks/exhaustive-deps
   //   }, [query.$state.isLoading])
 
+  const [displayBeasts, setDisplayBeasts] = useState<any>(null)
   const [selectedBeast, setSelectedBeast] = useState<any>(null)
   const [open, setOpen] = useState(false)
   const [displayNickname, setDisplayNickname] = useState<string | null>(null)
   const [sortBy, setSortBy] = useState("SORT BY")
 
-  const [evolutionModalOpen, setEvolutionModalOpen] = useState(true)
+  const [evolutionModalOpen, setEvolutionModalOpen] = useState(false)
+  const [search, setSearch] = useState<string | null>("")
 
+  useEffect(() => {
+    if (beasts != null) {
+      setDisplayBeasts(beasts)
+    }
+  }, [beasts])
+
+  useEffect(() => {
+    if (search != "") {
+      filterNickname(search)
+    } else {
+      setDisplayBeasts(beasts)
+    }
+  }, [search])
+
+  const filterNickname = (filters: any) => {
+    if (beasts != null) {
+      const newBeasts = beasts.filter((beast: any) =>
+        beast.nickname.toLowerCase().includes(filters.toString()),
+      )
+      // setElementFilter((elementFilter: any) => [...elementFilter, "Electric"])
+      setDisplayBeasts(newBeasts)
+    }
+  }
   // const filterElementElectric = beasts.filter((Beast: any) => {
   //   if (beasts != null) {
   //     return Beast.element === "Electric"
@@ -502,6 +584,18 @@ const BeastTab: FC<Props> = ({
 
   return (
     <>
+      <HeaderBeastCollection>
+        <FuncArgInput
+          placeholder="Search"
+          type="text"
+          onChange={(e: any) => setSearch(e.target.value.toLowerCase())}
+        />
+        <DropDown
+          beasts={displayBeasts}
+          sortBy={sortBy}
+          setSortBy={setSortBy}
+        />
+      </HeaderBeastCollection>
       <Wrapper>
         {/* example buttons start */}
         {/* <span>
@@ -511,12 +605,7 @@ const BeastTab: FC<Props> = ({
           <Button onClick={filterElementAll}>all</Button>
         </span> */}
 
-        <div style={{ marginTop: "0" }} />
         {/* example buttons end */}
-
-        <SortOptions>
-          <DropDown beasts={beasts} sortBy={sortBy} setSortBy={setSortBy} />
-        </SortOptions>
 
         <BeastModalView
           beast={selectedBeast}
@@ -534,12 +623,12 @@ const BeastTab: FC<Props> = ({
           RevealModalOpen={evolutionModalOpen}
           packId={selectedBeast?.beastTemplateID || "1"}
         />
-        {beasts != null ? (
+        {displayBeasts != null ? (
           <ul
             role="list"
             className="grid grid-cols-2 gap-x-5 gap-y-5 sm:grid-cols-3 sm:gap-x-6 md:grid-cols-4 lg:grid-cols-2 xl:gap-x-6 xl:grid-cols-3 2xl:grid-cols-4"
           >
-            {beasts.map((beast: any) => (
+            {displayBeasts.map((beast: any) => (
               <li
                 key={beast.id}
                 className="relative"

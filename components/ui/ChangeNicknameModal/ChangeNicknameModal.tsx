@@ -51,6 +51,11 @@ const FuncArgButton = styled.button`
     background: #000000;
     color: #fff;
   }
+  &:disabled {
+    background: gray;
+    color: #fff;
+    opacity: 0.35;
+  }
 `
 
 const Title = styled.div`
@@ -64,6 +69,10 @@ const Wrapper = styled.div`
 
 const Container = styled.div`
   align-items: center;
+`
+
+const NicknameLengthWarning = styled.div`
+  color: red;
 `
 
 type Props = {
@@ -86,6 +95,8 @@ const BeastModalView: FC<Props> = ({
   beastName,
 }) => {
   const [nickname, setNickname] = useState<string | null>("")
+  const [nicknameWarning, setNicknameWarning] = useState<string>("")
+  const [nicknameValidity, setNicknameValidity] = useState(true)
 
   const changeNickname = async () => {
     const id = toast.loading("Initializing...")
@@ -211,15 +222,39 @@ const BeastModalView: FC<Props> = ({
                     <FuncArgInput
                       placeholder="Nickname"
                       type="text"
-                      onChange={(e: any) => setNickname(e.target.value)}
+                      onChange={(e: any) => {
+                        if (e.target.value.length < 16) {
+                          if (!e.target.value.startsWith(" ")) {
+                            setNicknameValidity(true)
+                            setNickname(e.target.value)
+                            setNicknameWarning("")
+                          } else {
+                            setNicknameValidity(false)
+                            setNicknameWarning(
+                              "Nickname can't start with space",
+                            )
+                          }
+                        } else {
+                          setNicknameValidity(false)
+                          setNicknameWarning(
+                            "Nickname must be less than 16 characters",
+                          )
+                        }
+                      }}
                     />
                     <FuncArgButton
+                      disabled={!nicknameValidity}
                       onClick={() => {
-                        changeNickname()
+                        if (nicknameValidity) {
+                          changeNickname()
+                        }
                       }}
                     >
                       Save on-chain
                     </FuncArgButton>
+                    <NicknameLengthWarning>
+                      {nicknameWarning}
+                    </NicknameLengthWarning>
                   </ActionItem>
                 </Wrapper>
               </Dialog.Panel>
