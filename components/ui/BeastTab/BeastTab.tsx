@@ -121,7 +121,7 @@ const DropDownList = styled.div`
   width: 200px;
   margin-left: 24px;
   background-color: #212127;
-  color: #bc9d24;
+  color: #e4be23;
   border-radius: 10px;
   @media (max-width: 413px) {
     width: 185px;
