@@ -11,6 +11,8 @@ import { useRouter } from "next/router"
 import { useUser } from "@components/user/UserProvider"
 import EvolvableBeastThumbnail from "../EvolvableBeastThumbnail"
 import EvolutionModal from "../EvolutionModal"
+import { toast } from "react-toastify"
+import Link from "next/link"
 
 const DialogPanel = styled(Dialog.Panel)<TailwindProps>`
   border-radius: 20px;
@@ -284,7 +286,7 @@ const ListWrapper = styled.div`
   overflow: hidden;
   overflow-y: scroll;
   height: 270px;
-  margin-top: 20px;
+  margin-top: 15px;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
   &::-webkit-scrollbar {
@@ -324,6 +326,72 @@ const DisabledEvolveButton = styled.button`
   padding: 3px 15px 4px;
   border-radius: 14px;
   text-transform: capitalize;
+`
+
+const EvolutionSelectionContainer = styled.div`
+  display: table;
+  clear: both;
+  width: 100%;
+  padding: 5px 10px 0px 5px;
+  margin-top: 15px;
+`
+
+const EvolutionSelectionLeft = styled.div`
+  float: left;
+
+  line-height: 1em;
+`
+
+const EvolutionSelectionRight = styled.div`
+  float: right;
+`
+
+const Heading = styled.div`
+  font-size: 1.2em;
+`
+
+const Body = styled.div`
+  font-size: 0.8em;
+  color: #868889;
+`
+
+const HighlightNumber = styled.span`
+  color: black;
+  font-size: 1.2em;
+`
+
+const NotEnoughContainer = styled.div`
+  background: #e9e9ea;
+  padding: 20px 10px 30px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  margin-top: 20px;
+`
+
+const Button = styled.button`
+  border-color: rgb(22, 22, 26);
+  color: rgb(255, 255, 255);
+  background: rgb(22, 22, 26);
+  padding: 4px 20px 5px;
+  border-radius: 12px;
+  font-size: 0.8em;
+  text-transform: capitalize;
+  &:hover {
+    color: rgb(255, 255, 255);
+    border-color: rgb(22, 22, 26);
+    background: rgb(0, 0, 0);
+  }
+  &:focus {
+    color: rgb(255, 255, 255);
+    border-color: rgb(22, 22, 26);
+    background: rgb(0, 0, 0);
+  }
+  &:active {
+    transform: scale(0.95);
+  }
 `
 
 type Color = {
@@ -377,22 +445,38 @@ const BeastModalView: FC<Props> = ({
   const [open2, setOpen2] = useState(false)
   const [filter, setFilter] = useState("Info")
   const [selectedBeasts, setSelectedBeasts] = useState<any>([beast?.id])
+  const [serialOneSelected, setSerialOneSelected] = useState<any>(false)
 
   const router = useRouter()
   const { address }: any = router.query
 
-  const handleChange = (id: any) => {
+  const handleChange = (id: any, serial: any) => {
     if (selectedBeasts.includes(id)) {
       //remove
       setSelectedBeasts(selectedBeasts.filter((beast: any) => beast != id))
+      // Check serial one
+      if (serial == 1) {
+        setSerialOneSelected(false)
+        toast.success("Serial #1 deselected")
+      }
     } else if (selectedBeasts.length < 3) {
       //add
       setSelectedBeasts((selectedBeasts: any) => [...selectedBeasts, id])
+      // Check serial one
+      if (serial == 1) {
+        setSerialOneSelected(true)
+        toast.warning("Serial #1 selected for evolution")
+      }
     }
   }
 
   useEffect(() => {
-    setSelectedBeasts([beast?.id])
+    setSerialOneSelected(false)
+    if (beast?.serialNumber != 1) {
+      setSelectedBeasts([beast?.id])
+    } else {
+      setSelectedBeasts([])
+    }
   }, [beast])
 
   return (
@@ -644,17 +728,94 @@ const BeastModalView: FC<Props> = ({
                         )}
                         {filter === "Evolution" && evolvableBeasts != null ? (
                           <>
-                            {selectedBeasts.length === 3 ? (
-                              <EvolveButton
-                                onClick={() => setEvolutionModalOpen(true)}
-                              >
-                                evolve
-                              </EvolveButton>
+                            {evolvableBeasts[beast?.beastTemplateID].length <
+                            3 ? (
+                              <>
+                                <NotEnoughContainer>
+                                  <Body
+                                    style={{
+                                      margin: "0px 0 20px",
+                                      textAlign: "center",
+                                      fontSize: "1em",
+                                    }}
+                                  >
+                                    You need at least 3 beasts of the <br />{" "}
+                                    same skin and star level to do Evolution
+                                  </Body>
+                                  <div>
+                                    <Link href="/store">
+                                      <a>
+                                        <Button>Buy Packs</Button>
+                                      </a>
+                                    </Link>
+                                    <Link href="/marketplace">
+                                      <a>
+                                        <Button style={{ margin: "0 15px 0" }}>
+                                          Marketplace
+                                        </Button>
+                                      </a>
+                                    </Link>
+                                    <a
+                                      target="_blank"
+                                      href="https://discord.gg/xgFtWhwSaR"
+                                    >
+                                      <Button>Beg Frens</Button>
+                                    </a>
+                                  </div>
+                                </NotEnoughContainer>
+                              </>
                             ) : (
-                              <DisabledEvolveButton>
-                                disabled
-                              </DisabledEvolveButton>
+                              <></>
                             )}
+                            <EvolutionSelectionContainer>
+                              <EvolutionSelectionLeft>
+                                <Heading>{beast?.name} Collection</Heading>
+                                <Body>
+                                  {serialOneSelected ? (
+                                    <>
+                                      <span style={{ color: "red" }}>
+                                        Warning: Serial #1 selected
+                                      </span>
+                                    </>
+                                  ) : selectedBeasts.length == 3 ? (
+                                    <>
+                                      <span>Ready to evolve</span>
+                                    </>
+                                  ) : selectedBeasts.length == 2 ? (
+                                    <>
+                                      <span>Select </span>
+                                      <HighlightNumber>1</HighlightNumber>
+                                      <span> more beast to evolve</span>
+                                    </>
+                                  ) : selectedBeasts.length == 1 ? (
+                                    <>
+                                      <span>Select </span>
+                                      <HighlightNumber>2</HighlightNumber>
+                                      <span> more beasts to evolve</span>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <span>Select </span>
+                                      <HighlightNumber>3</HighlightNumber>
+                                      <span> beasts to evolve</span>
+                                    </>
+                                  )}
+                                </Body>
+                              </EvolutionSelectionLeft>
+                              <EvolutionSelectionRight>
+                                {selectedBeasts.length === 3 ? (
+                                  <EvolveButton
+                                    onClick={() => setEvolutionModalOpen(true)}
+                                  >
+                                    evolve
+                                  </EvolveButton>
+                                ) : (
+                                  <DisabledEvolveButton>
+                                    disabled
+                                  </DisabledEvolveButton>
+                                )}
+                              </EvolutionSelectionRight>
+                            </EvolutionSelectionContainer>
                             <ListWrapper>
                               <ul
                                 role="list"
@@ -665,7 +826,12 @@ const BeastModalView: FC<Props> = ({
                                     <>
                                       <li
                                         key={i}
-                                        onClick={() => handleChange(beast?.id)}
+                                        onClick={() =>
+                                          handleChange(
+                                            beast?.id,
+                                            beast?.serialNumber,
+                                          )
+                                        }
                                       >
                                         <div>
                                           <EvolvableBeastThumbnail
