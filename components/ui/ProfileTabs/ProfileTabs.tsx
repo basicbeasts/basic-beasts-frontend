@@ -34,6 +34,8 @@ type Props = {
   fetchUserBeasts: any
   userAddr: any
   evolvableBeasts: any
+  allEvolutionPairs: any
+  getPersonalDexicon: any
 }
 
 const ProfileTabs: FC<Props> = ({
@@ -53,6 +55,8 @@ const ProfileTabs: FC<Props> = ({
   fetchUserBeasts,
   userAddr,
   evolvableBeasts,
+  allEvolutionPairs,
+  getPersonalDexicon,
 }) => {
   const [hasPacks, setHasPacks] = useState(false)
 
@@ -126,6 +130,8 @@ const ProfileTabs: FC<Props> = ({
           fetchUserBeasts={fetchUserBeasts}
           userAddr={userAddr}
           evolvableBeasts={evolvableBeasts}
+          allEvolutionPairs={allEvolutionPairs}
+          getPersonalDexicon={getPersonalDexicon}
         />
       )}
       {user?.addr == address ? (

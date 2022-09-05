@@ -37,6 +37,7 @@ const Profile: NextPage = () => {
   const [profile, setProfile] = useState(null)
   const [profilePicture, setProfilePicture] = useState(profilePictures[1].image)
   const [evolvableBeasts, setEvolvableBeasts] = useState(null)
+  const [allEvolutionPairs, setAllEvolutionPairs] = useState(null)
 
   const { user } = useAuth()
 
@@ -60,6 +61,7 @@ const Profile: NextPage = () => {
       getPersonalDexicon()
       getProfile()
       fetchHunterData()
+      getAllEvolutionPairs()
     }
   }, [address])
 
@@ -243,6 +245,7 @@ const Profile: NextPage = () => {
         }
         mappedCollection.push(beast)
       }
+      mappedCollection.sort((a: any, b: any) => b.id - a.id)
       setUserBeastCollection(mappedCollection)
       // Get evolvable beast dictionary {beastTemplateID: [beasts]}
       var beasts = [...mappedCollection]
@@ -253,23 +256,22 @@ const Profile: NextPage = () => {
         const element =
           beastTemplates[key as unknown as keyof typeof beastTemplates]
 
-        if (element.starLevel < 3) {
-          let beastsOfSameTemplate = []
-          var i = 0
-          while (i < beasts.length) {
-            const beast = beasts[i]
-            if (beast.beastTemplateID == element.beastTemplateID) {
-              beastsOfSameTemplate.push(beast)
-              beasts.splice(i, i + 1)
-            } else {
-              i++
-            }
+        let beastsOfSameTemplate = []
+        var i = 0
+        while (i < beasts.length) {
+          const beast = beasts[i]
+          if (beast.beastTemplateID == element.beastTemplateID) {
+            beastsOfSameTemplate.push(beast)
+            beasts.splice(i, i + 1)
+          } else {
+            i++
           }
-          evolvableBeasts[element.beastTemplateID] = beastsOfSameTemplate
         }
+        evolvableBeasts[element.beastTemplateID] = beastsOfSameTemplate
       }
       console.log(evolvableBeasts)
       setEvolvableBeasts(evolvableBeasts)
+      getHunterScore()
       console.log("profile/[address].tsx: fetchUserBeasts()")
     } catch (err) {
       console.log(err)
@@ -511,6 +513,23 @@ const Profile: NextPage = () => {
     }
   }
 
+  const getAllEvolutionPairs = async () => {
+    try {
+      let response = await query({
+        cadence: `
+        import Evolution from 0xEvolution
+        
+        pub fun main(): {UInt32: UInt32} {
+          return Evolution.getAllEvolutionPairs()
+        }
+        `,
+      })
+      setAllEvolutionPairs(response)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   return (
     <div>
       <RevealOverlay
@@ -551,6 +570,8 @@ const Profile: NextPage = () => {
         setProfilePicture={setProfilePicture}
         getProfile={getProfile}
         evolvableBeasts={evolvableBeasts}
+        allEvolutionPairs={allEvolutionPairs}
+        getPersonalDexicon={getPersonalDexicon}
       />
     </div>
   )

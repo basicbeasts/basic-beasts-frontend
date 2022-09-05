@@ -13,7 +13,7 @@ import PackTabCard from "../PackTabCard"
 import BuyButton from "@components/ui/BuyButton"
 
 const Wrapper = styled.div`
-  padding: 35px 20px 0px;
+  padding: 35px 20px;
   z-index: 1;
   display: grid;
 

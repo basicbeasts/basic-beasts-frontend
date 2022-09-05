@@ -476,6 +476,8 @@ type Props = {
   fetchUserBeasts: any
   userAddr: any
   evolvableBeasts: any
+  allEvolutionPairs: any
+  getPersonalDexicon: any
 }
 
 type Beast = {
@@ -506,6 +508,8 @@ const BeastTab: FC<Props> = ({
   fetchUserBeasts,
   userAddr,
   evolvableBeasts,
+  allEvolutionPairs,
+  getPersonalDexicon,
 }) => {
   //   const query = useQuery()
   //   const beasts =
@@ -537,12 +541,19 @@ const BeastTab: FC<Props> = ({
 
   const [evolutionModalOpen, setEvolutionModalOpen] = useState(false)
   const [search, setSearch] = useState<string | null>("")
+  const [evolvedBeastId, setEvolvedBeastId] = useState(null)
 
   useEffect(() => {
     if (beasts != null) {
       setDisplayBeasts(beasts)
     }
   }, [beasts])
+
+  useEffect(() => {
+    if (allEvolutionPairs != null && selectedBeast != null) {
+      setEvolvedBeastId(allEvolutionPairs[selectedBeast.beastTemplateID])
+    }
+  }, [selectedBeast])
 
   useEffect(() => {
     if (search != "") {
@@ -617,11 +628,14 @@ const BeastTab: FC<Props> = ({
           userAddr={userAddr}
           evolvableBeasts={evolvableBeasts}
           setEvolutionModalOpen={setEvolutionModalOpen}
+          allEvolutionPairs={allEvolutionPairs}
+          getPersonalDexicon={getPersonalDexicon}
         />
         <EvolutionModal
           handleClose={() => setEvolutionModalOpen(false)}
           RevealModalOpen={evolutionModalOpen}
           packId={selectedBeast?.beastTemplateID || "1"}
+          evolvedBeastId={evolvedBeastId}
         />
         {displayBeasts != null ? (
           <ul
@@ -669,7 +683,8 @@ const BeastTab: FC<Props> = ({
                       <div style={{ fontSize: "1.3em" }}>{beast.nickname}</div>
                       <div style={{ fontSize: "1.3em" }}>
                         #{beast.serialNumber} |{" "}
-                        {beast.maxAdminMintAllowed <= 1000
+                        {beast.maxAdminMintAllowed <= 1000 &&
+                        beast.maxAdminMintAllowed != 0
                           ? beast.maxAdminMintAllowed
                           : "?"}
                       </div>

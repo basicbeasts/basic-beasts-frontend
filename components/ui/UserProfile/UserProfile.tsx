@@ -64,6 +64,8 @@ type FuncProps = {
   setProfilePicture: any
   getProfile: any
   evolvableBeasts: any
+  allEvolutionPairs: any
+  getPersonalDexicon: any
 }
 
 const UserProfile: FC<FuncProps> = ({
@@ -87,6 +89,8 @@ const UserProfile: FC<FuncProps> = ({
   setProfilePicture,
   getProfile,
   evolvableBeasts,
+  allEvolutionPairs,
+  getPersonalDexicon,
 }) => {
   const [filter, setFilter] = useState<"beast collection" | "items" | "packs">(
     "beast collection",
@@ -135,6 +139,8 @@ const UserProfile: FC<FuncProps> = ({
             fetchUserBeasts={fetchUserBeasts}
             userAddr={userAddr}
             evolvableBeasts={evolvableBeasts}
+            allEvolutionPairs={allEvolutionPairs}
+            getPersonalDexicon={getPersonalDexicon}
           />
         </RightColumn>
       </Wrapper>

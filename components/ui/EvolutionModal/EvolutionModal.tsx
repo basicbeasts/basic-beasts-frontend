@@ -66,26 +66,6 @@ const ContentRight = styled.div`
   margin-top: 5vw; */
 `
 
-const BeastName = styled(motion.div)`
-  font-size: 26em;
-  height: 1em;
-
-  //Responsive
-  @media (max-width: 1240px) {
-    font-size: 20em;
-    height: 300px;
-  }
-  @media (max-width: 1000px) {
-    font-size: 13em;
-    height: 200px;
-  }
-  @media (max-width: 600px) {
-    font-size: 8em;
-    height: 120px;
-    margin-top: 80px;
-  }
-`
-
 const StarLevelLabel = styled(motion.div)`
   font-size: 10em;
 
@@ -101,37 +81,7 @@ const StarLevelLabel = styled(motion.div)`
   }
 `
 
-const StarLevel = styled.div`
-  display: flex;
-`
-
 const Star = styled(motion.div)``
-
-const StarImg = styled.img`
-  width: 100px;
-  margin-left: 0px;
-  margin-right: 10px;
-
-  //Responsive
-  @media (max-width: 1240px) {
-    width: 70px;
-    margin-left: 0px;
-    margin-right: 5px;
-    margin-top: 10px;
-  }
-  @media (max-width: 1000px) {
-    width: 50px;
-    margin-left: 0px;
-    margin-right: 5px;
-    margin-top: 20px;
-  }
-  @media (max-width: 600px) {
-    width: 30px;
-    margin-left: 0px;
-    margin-right: 5px;
-    margin-top: 20px;
-  }
-`
 
 const Beast = styled(motion.div)``
 
@@ -246,20 +196,84 @@ const EvolvedBeastContainer = styled(motion.div)`
   }
 `
 
+const BeastName = styled(motion.div)`
+  position: absolute;
+  text-align: center;
+  top: 500px;
+
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  font-size: 5em;
+
+  //Responsive
+  @media (max-width: 1240px) {
+  }
+  @media (max-width: 1000px) {
+  }
+  @media (max-width: 600px) {
+  }
+`
+
+const StarLevel = styled.div`
+  display: flex;
+
+  position: absolute;
+  top: 610px;
+
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  width: 100px;
+`
+
+const StarImg = styled.img`
+  /* width: 50px; */
+  /* margin-left: 0px;
+  margin-right: 10px; */
+  padding: 1px;
+
+  /* //Responsive
+  @media (max-width: 1240px) {
+    width: 70px;
+    margin-left: 0px;
+    margin-right: 5px;
+    margin-top: 10px;
+  }
+  @media (max-width: 1000px) {
+    width: 50px;
+    margin-left: 0px;
+    margin-right: 5px;
+    margin-top: 20px;
+  }
+  @media (max-width: 600px) {
+    width: 30px;
+    margin-left: 0px;
+    margin-right: 5px;
+    margin-top: 20px;
+  } */
+`
+
 type FuncProps = {
   handleClose: () => void
   RevealModalOpen: boolean
   packId: string | "0"
+  evolvedBeastId: any
 }
 
 const EvolutionModal: FC<FuncProps> = ({
   handleClose,
   packId,
   RevealModalOpen,
+  evolvedBeastId,
 }) => {
   //TODO
   const num: any = parseInt(packId)
   const beast1 = beastTemplates[num as keyof typeof beastTemplates]
+  const evolvedBeast =
+    beastTemplates[evolvedBeastId as keyof typeof beastTemplates]
 
   return (
     <>
@@ -411,7 +425,7 @@ const EvolutionModal: FC<FuncProps> = ({
                       animate={{ opacity: [0, 1], scale: [1.1, 0.8, 1] }}
                       transition={{ duration: 0.8, delay: 4.6 }}
                     >
-                      <EvolvedBeastImg src={temp.src} />
+                      <EvolvedBeastImg src={evolvedBeast?.imageTransparentBg} />
                     </EvolvedBeastContainer>
 
                     <EvolvedBeastContainer
@@ -419,7 +433,7 @@ const EvolutionModal: FC<FuncProps> = ({
                       animate={{ opacity: [0, 1, 0], scale: [0.3, 1.2] }}
                       transition={{ duration: 1, delay: 3.9 }}
                     >
-                      <EvolvedBeastImg src={temp.src} />
+                      <EvolvedBeastImg src={evolvedBeast?.imageTransparentBg} />
                     </EvolvedBeastContainer>
                     <motion.div
                       animate={{ opacity: [0, 1] }}
@@ -442,6 +456,47 @@ const EvolutionModal: FC<FuncProps> = ({
                       />
                     </motion.div>
                   </ContentRight>
+                  <BeastName
+                    animate={{ opacity: [0, 1] }}
+                    transition={{
+                      delay: 6,
+                    }}
+                  >
+                    {evolvedBeast?.name}
+                  </BeastName>
+                  <StarLevel>
+                    {Array.from(Array(evolvedBeast.starLevel), (e, i) => {
+                      return (
+                        <Star
+                          key={i}
+                          animate={{
+                            opacity: [0, 1],
+                          }}
+                          transition={{
+                            delay: 6.5,
+                          }}
+                        >
+                          <StarImg src={star.src} />
+                        </Star>
+                      )
+                    })}
+                    {Array.from(
+                      Array(3 - (evolvedBeast.starLevel ?? 0)),
+                      (e, i) => {
+                        return (
+                          <Star
+                            key={i}
+                            animate={{ opacity: [0, 1] }}
+                            transition={{
+                              delay: 6.5,
+                            }}
+                          >
+                            <StarImg src={starEmpty.src} />
+                          </Star>
+                        )
+                      },
+                    )}
+                  </StarLevel>
                 </Content>
               </Bg>
             </Wrapper>
