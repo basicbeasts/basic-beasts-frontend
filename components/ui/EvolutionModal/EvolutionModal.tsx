@@ -8,6 +8,7 @@ import { useQuery } from "../../../gqty"
 import beastTemplates from "data/beastTemplates"
 import temp from "public/temp/002_temp.png"
 import effect from "public/temp/80557-reward-light-effect.gif"
+import SpotLightAnimation from "../SpotLightAnimation"
 
 const Container = styled(motion.div)`
   width: clamp(100%, 700px, 90%);
@@ -256,6 +257,10 @@ const StarImg = styled.img`
   } */
 `
 
+const AnimationContainer = styled.div`
+  margin-top: 200px;
+`
+
 type FuncProps = {
   handleClose: () => void
   RevealModalOpen: boolean
@@ -415,11 +420,14 @@ const EvolutionModal: FC<FuncProps> = ({
                         </BeastContainer2>
                       </Beast>
                     </Beast>
+
                     <EvolvedBeastContainer
                       animate={{ opacity: [0, 1], scale: [0.5, 2, 1] }}
                       transition={{ duration: 1.2, delay: 4.2 }}
                     >
-                      <img src={effect.src} />
+                      <AnimationContainer>
+                        <SpotLightAnimation />
+                      </AnimationContainer>
                     </EvolvedBeastContainer>
                     <EvolvedBeastContainer
                       animate={{ opacity: [0, 1], scale: [1.1, 0.8, 1] }}
