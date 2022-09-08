@@ -9,6 +9,8 @@ import {
 } from "react"
 import styled from "styled-components"
 import {
+  Column,
+  Table as ReactTable,
   createColumnHelper,
   flexRender,
   getCoreRowModel,
@@ -16,7 +18,9 @@ import {
   SortingState,
   getSortedRowModel,
   FilterFn,
+  ColumnDef,
   getFilteredRowModel,
+  getPaginationRowModel,
 } from "@tanstack/react-table"
 
 import {
@@ -98,6 +102,7 @@ const TableStyles = styled.div`
       }
 
       &:hover {
+        transform: scale(1.005);
         .name {
           color: #cead29;
         }
@@ -274,7 +279,6 @@ const columns = [
     footer: (info) => info.column.id,
   }),
 ]
-
 const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
   // Rank the item
   const itemRank = rankItem(row.getValue(columnId), value)
@@ -324,6 +328,65 @@ const DropDownList = styled.div`
   background-color: #212127;
   color: #bc9d24;
   border-radius: 10px;
+`
+
+const ChangePageButton = styled.button`
+  border-radius: 10px;
+  border: solid #bc9d24 2px;
+  background: transparent;
+  outline: none;
+  &::placeholder {
+    color: #bc9d24;
+  }
+  text-transform: uppercase;
+  font-size: 1em;
+  color: #bc9d24;
+  &:hover {
+    background: transparent;
+  }
+  &:disabled {
+    cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABFklEQVRYR9WXURLDIAhE6/0PbSdOtUpcd1Gnpv1KGpTHBpCE1/cXq+vrMph7dGvXZTtpfW10DCA5jrH1H0Jhs5E0hnZdCR+vb5S8Nn8mQCeS9BdSalYJqMBjAGzq59xAESN7VFVUgV8AZB/dZBR7QTFDCqGquvUBVVoEtgIwpQRzmANSFHgWQKExHdIrPeuMvQNDarXe6nC/AutgV3JW+6bgqQLeV8FekRtgV+ToDKEKnACYKsfZjjkam7a0ZpYTytwmgainpC3HvwBocgKOxqRjehoR9DFKNFYtOwCGYCszobeCbl26N6yyQ6g8X/Wex/rBPsNEV6qAMaJPMynIHQCoSqS9JSMmwef51LflTgCRszU7DvAGiV6mHWfsaVUAAAAASUVORK5CYII=),
+      auto !important;
+    opacity: 0.4;
+    border: none;
+  }
+  display: flex;
+  align-items: center;
+  padding: 2px 18px;
+`
+
+const Select = styled.select`
+  border-radius: 10px;
+  border: solid #bc9d24 2px;
+  background: transparent;
+  outline: none;
+  &::placeholder {
+    color: #bc9d24;
+  }
+  text-transform: uppercase;
+  font-size: 1em;
+  color: #bc9d24;
+  &:hover {
+    background: transparent;
+  }
+  display: flex;
+  align-items: center;
+  padding: 6.8px 18px;
+
+  option {
+    background-color: #212127;
+    color: #bc9d24;
+  }
+`
+
+// const Option = styled.option`
+//
+// `
+const PaginationDiv = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin-top: 30px;
 `
 
 const A = styled.a`
@@ -426,13 +489,13 @@ const RankingList: FC<Props> = ({ hunterData }) => {
     if (hunterData != null) {
       setData(hunterData)
     }
+    table.setPageSize(5)
   }, [hunterData])
 
   const [data, setData] = useState(() => [...defaultData])
 
   //   const rerender = useReducer(() => ({}), {})[1]
   // used for rerender button
-
   const table = useReactTable({
     data,
     columns,
@@ -448,7 +511,9 @@ const RankingList: FC<Props> = ({ hunterData }) => {
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
   })
+
   return (
     <TableStyles>
       <Container>
@@ -518,6 +583,48 @@ const RankingList: FC<Props> = ({ hunterData }) => {
               ))}
             </tbody>
           </table>
+          <PaginationDiv className="flex items-center gap-2">
+            <ChangePageButton
+              className="border rounded p-1"
+              onClick={() => table.setPageIndex(0)}
+              disabled={!table.getCanPreviousPage()}
+            >
+              {"<<"}
+            </ChangePageButton>
+            <ChangePageButton
+              className="border rounded p-1"
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+            >
+              {"< "}
+              {table.getState().pagination.pageSize *
+                table.getState().pagination.pageIndex +
+                1 +
+                "-" +
+                table.getState().pagination.pageSize *
+                  (table.getState().pagination.pageIndex + 1)}
+            </ChangePageButton>
+            <ChangePageButton
+              className="border rounded p-1"
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+            >
+              {table.getState().pagination.pageSize *
+                (table.getState().pagination.pageIndex + 1) +
+                1 +
+                "-" +
+                table.getState().pagination.pageSize *
+                  (table.getState().pagination.pageIndex + 2)}
+              {" >"}
+            </ChangePageButton>
+            <ChangePageButton
+              className="border rounded p-1"
+              onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+              disabled={!table.getCanNextPage()}
+            >
+              {">>"}
+            </ChangePageButton>
+          </PaginationDiv>
 
           <div className="h-4" />
         </div>
@@ -525,6 +632,7 @@ const RankingList: FC<Props> = ({ hunterData }) => {
     </TableStyles>
   )
 }
+//  }
 
 const Input = styled.input`
   border-radius: 10px;
@@ -543,7 +651,6 @@ const Input = styled.input`
     margin: 0 10px 20px 0px;
   }
 `
-
 function DebouncedInput({
   value: initialValue,
   onChange,
