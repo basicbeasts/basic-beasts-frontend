@@ -210,6 +210,9 @@ const RightNav = styled.div`
     text-align: center;
     margin-top: 0px;
   }
+  @media (max-width: 330px) {
+    transform: scale(0.7);
+  }
 `
 
 const UserAddress = styled.div`

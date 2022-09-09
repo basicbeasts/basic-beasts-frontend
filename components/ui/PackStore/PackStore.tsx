@@ -19,6 +19,9 @@ const Container = styled.div`
   @media (max-width: 899px) {
     padding: 0;
   }
+  @media (max-width: 1010px) {
+    margin: 0;
+  }
 `
 
 const Content = styled.div`

@@ -46,6 +46,9 @@ const ThumbnailDetails = styled.div<Omit<Color, "background">>`
 
 const StarLevel = styled.div`
   vertical-align: middle;
+  @media (max-width: 330px) {
+    display: none;
+  }
 `
 
 const StarImg = styled.img`
@@ -61,6 +64,9 @@ const ThumbnailLabel = styled.div`
   float: right;
   text-align: right;
   line-height: 1.2em;
+  @media (max-width: 330px) {
+    font-size: 0.7em;
+  }
 `
 
 const Button = styled.button`
@@ -137,6 +143,13 @@ const DropDownList = styled.div`
   }
 `
 
+const InputContainer = styled.div`
+  @media (max-width: 440px) {
+    padding: 0 10px;
+    width: 100%;
+  }
+`
+
 const FuncArgInput = styled.input`
   background: transparent;
   border-radius: 10px;
@@ -150,13 +163,13 @@ const FuncArgInput = styled.input`
   cursor: pointer;
   margin-bottom: 0;
   outline: none;
-  @media (max-width: 361px) {
-    margin-left: 37px;
-    padding: 6px;
-  }
   &::placeholder {
     color: #e4be23;
     text-transform: uppercase;
+  }
+  @media (max-width: 440px) {
+    width: 100%;
+    margin-bottom: 8px;
   }
 `
 
@@ -178,11 +191,9 @@ const HeaderBeastCollection = styled.div`
   margin-top: 20px;
   position: relative;
   z-index: 5;
-  @media (max-width: 413px) {
-    padding-right: 7px;
-  }
-  @media (max-width: 391px) {
-    padding-right: 7px;
+  @media (max-width: 440px) {
+    flex-direction: column;
+    padding-right: 0;
   }
 `
 
@@ -596,11 +607,13 @@ const BeastTab: FC<Props> = ({
   return (
     <>
       <HeaderBeastCollection>
-        <FuncArgInput
-          placeholder="Search"
-          type="text"
-          onChange={(e: any) => setSearch(e.target.value.toLowerCase())}
-        />
+        <InputContainer>
+          <FuncArgInput
+            placeholder="Search"
+            type="text"
+            onChange={(e: any) => setSearch(e.target.value.toLowerCase())}
+          />
+        </InputContainer>
         <DropDown
           beasts={displayBeasts}
           sortBy={sortBy}
