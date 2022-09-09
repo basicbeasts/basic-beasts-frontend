@@ -6,7 +6,7 @@ import TwitterImage from "/public/twitter.png"
 import DiscordImage from "/public/discord.png"
 import useTranslation from "next-translate/useTranslation"
 
-const FooterContainer = styled.div`
+const FooterContainer = styled.footer`
   user-select: none;
   box-sizing: border-box;
   text-align: center;
@@ -23,7 +23,7 @@ const FooterContent = styled.div`
   -webkit-box-align: center;
   align-items: center;
   padding: 3em 0px 4em;
-  z-index: 11;
+  z-index: 1;
 `
 
 const NavLogo = styled.a`
