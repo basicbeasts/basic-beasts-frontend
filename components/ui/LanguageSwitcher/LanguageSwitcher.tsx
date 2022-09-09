@@ -75,7 +75,11 @@ const MenuItems = styled<any>(Menu.Items)`
 
   @media (max-width: 1024px) {
     right: 15px;
-    /* margin-top: 25px; */
+  }
+
+  @media (max-width: 440px) {
+    left: 0px;
+    width: 130px;
   }
 `
 
