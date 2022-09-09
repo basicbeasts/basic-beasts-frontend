@@ -61,6 +61,9 @@ const Title = styled.div`
     font-size: 1.5em;
     margin: 0;
   }
+  @media (max-width: 360px) {
+    font-size: 1em;
+  }
 `
 
 const Wrapper = styled.div`
@@ -82,6 +85,10 @@ const BeastContainer = styled.div`
     width: 60px;
     height: 60px;
   }
+  @media (max-width: 360px) {
+    width: 40px;
+    height: 40px;
+  }
 `
 
 const NoBeastContainer = styled.div`
@@ -99,6 +106,12 @@ const NoBeastContainer = styled.div`
     width: 60px;
     height: 60px;
     font-size: 25px;
+  }
+  @media (max-width: 360px) {
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    font-size: 20px;
   }
 `
 
@@ -133,7 +146,6 @@ const Icon = styled.div`
     position: absolute;
     /* top: 1.2rem; */
     background: transparent;
-    font-size: 20px;
     outline: none;
     color: #e4be23;
     font-size: 50px;
@@ -143,6 +155,9 @@ const Icon = styled.div`
         14 0,
       pointer !important;
     z-index: 19;
+  }
+  @media (max-width: 360px) {
+    font-size: 40px;
   }
 `
 

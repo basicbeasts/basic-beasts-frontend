@@ -391,12 +391,13 @@ const Button = styled.button<{
 `
 
 const SubmitButton = styled(Button)<{ width: string; mobileFontSize: string }>`
-  font-size: ${(props) => props.fontSize};
+  /* font-size: ${(props) => props.fontSize}; */
+  font-size: 1.5em;
   width: ${(props) => props.width};
-  @media (max-width: 1010px) {
+  /* @media (max-width: 1010px) {
     width: 36vw;
     font-size: ${(props) => props.mobileFontSize};
-  }
+  } */
   &:active {
     transition: all 0.1s ease 0s;
     -moz-transition: all 0.1s ease 0s;
@@ -415,12 +416,13 @@ const SubmitButtonDisabled = styled.button<{
   fontColor: string
 }>`
   padding: 6px 12px 10px 14px;
-  font-size: 1.5vw;
+  font-size: 1.5em;
   border: none;
   transition: all 0.1s ease 0s;
   -moz-transition: all 0.1s ease 0s;
   -webkit-transition: all 0.1s ease 0s;
   width: 130px;
+
   cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABFklEQVRYR9WXURLDIAhE6/0PbSdOtUpcd1Gnpv1KGpTHBpCE1/cXq+vrMph7dGvXZTtpfW10DCA5jrH1H0Jhs5E0hnZdCR+vb5S8Nn8mQCeS9BdSalYJqMBjAGzq59xAESN7VFVUgV8AZB/dZBR7QTFDCqGquvUBVVoEtgIwpQRzmANSFHgWQKExHdIrPeuMvQNDarXe6nC/AutgV3JW+6bgqQLeV8FekRtgV+ToDKEKnACYKsfZjjkam7a0ZpYTytwmgainpC3HvwBocgKOxqRjehoR9DFKNFYtOwCGYCszobeCbl26N6yyQ6g8X/Wex/rBPsNEV6qAMaJPMynIHQCoSqS9JSMmwef51LflTgCRszU7DvAGiV6mHWfsaVUAAAAASUVORK5CYII=),
     auto !important;
   background-color: ${(props) => props.bgColor};
@@ -429,24 +431,27 @@ const SubmitButtonDisabled = styled.button<{
     `-3px 0px 0px 0px ${props.borderColor}, 0px -3px 0px 0px ${props.borderColor}, 0px 3px 0px 0px ${props.borderColor}, 
     3px 0px 0px 0px ${props.borderColor}, inset -3px -3px ${props.insetBorderColor}`};
 
-  @media (max-width: 1010px) {
+  /* @media (max-width: 1010px) {
     font-size: 7vw;
     width: 26vw;
-  }
+  } */
 `
 
 const ConnectWallet = styled(Button)<{ mobileFontSize: string }>`
-  font-size: ${(props) => props.fontSize};
+  /* font-size: ${(props) => props.fontSize}; */
+  font-size: 1.5em;
   width: auto;
   white-space: nowrap;
-  @media (max-width: 1010px) {
+  /* @media (max-width: 1010px) {
     font-size: ${(props) => props.mobileFontSize};
-  }
+  } */
 `
 
 const NotAvailableButton = styled(Button)<{ mobileFontSize: string }>`
-  font-size: ${(props) => props.fontSize};
-  width: 10vw;
+  /* font-size: ${(props) => props.fontSize}; */
+  font-size: 1.5em;
+  width: auto;
+  padding-left: 20px;
   cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABFklEQVRYR9WXURLDIAhE6/0PbSdOtUpcd1Gnpv1KGpTHBpCE1/cXq+vrMph7dGvXZTtpfW10DCA5jrH1H0Jhs5E0hnZdCR+vb5S8Nn8mQCeS9BdSalYJqMBjAGzq59xAESN7VFVUgV8AZB/dZBR7QTFDCqGquvUBVVoEtgIwpQRzmANSFHgWQKExHdIrPeuMvQNDarXe6nC/AutgV3JW+6bgqQLeV8FekRtgV+ToDKEKnACYKsfZjjkam7a0ZpYTytwmgainpC3HvwBocgKOxqRjehoR9DFKNFYtOwCGYCszobeCbl26N6yyQ6g8X/Wex/rBPsNEV6qAMaJPMynIHQCoSqS9JSMmwef51LflTgCRszU7DvAGiV6mHWfsaVUAAAAASUVORK5CYII=),
     auto !important;
   background-color: ${(props) => props.bgColor};
@@ -455,10 +460,10 @@ const NotAvailableButton = styled(Button)<{ mobileFontSize: string }>`
     `-3px 0px 0px 0px ${props.borderColor}, 0px -3px 0px 0px ${props.borderColor}, 0px 3px 0px 0px ${props.borderColor}, 
     3px 0px 0px 0px ${props.borderColor}, inset -3px -3px ${props.insetBorderColor}`};
 
-  @media (max-width: 1010px) {
+  /* @media (max-width: 1010px) {
     width: 38vw;
     font-size: ${(props) => props.mobileFontSize};
-  }
+  } */
 `
 
 const AlertText = styled.div`
