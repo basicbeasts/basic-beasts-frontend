@@ -8,9 +8,9 @@ const rotate = keyframes`
 `
 
 const Container = styled.div`
-  transform: scale(3);
   display: flex;
   justify-content: center;
+  /* margin-top: 200px; */
   /* align-items: center; */
 
   /* @keyframes scalable {
@@ -36,12 +36,15 @@ const Box = styled.div`
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background-color: rgb(231, 231, 158);
+  background-color: #efef7d;
   /* background: radial-gradient(circle, yellow, rgb(255, 255, 255)) ; */
   filter: blur(0px);
-  box-shadow: 0 0 10px 10px rgb(231, 231, 158), 0 0 20px 10px rgb(231, 231, 158),
-    0 0 30px 10px rgb(231, 231, 158), 0 0 40px 10px rgb(231, 231, 158),
-    0 0 50px 10px rgb(231, 231, 158), 0 0 60px 10px rgb(231, 231, 158);
+  /* box-shadow: 0 0 10px 10px rgb(231, 231, 158), 0 0 15px 10px rgb(231, 231, 158),
+    0 0 20px 10px rgb(231, 231, 158), 0 0 30px 10px rgb(231, 231, 158),
+    0 0 40px 10px rgb(231, 231, 158), 0 0 50px 10px rgb(231, 231, 158),
+    0 0 60px 10px rgb(231, 231, 158); */
+  box-shadow: 0 0 10px 10px #efef7d, 0 0 22px 20px #efef7d;
+
   animation: ${rotate} 10s linear infinite;
 `
 
@@ -50,12 +53,7 @@ const Span = styled.span<any>`
   bottom: 50%;
   width: 25px;
   height: 80px;
-  background: linear-gradient(
-    to top,
-    rgba(231, 231, 158, 1),
-    rgba(231, 231, 158, 0.1),
-    transparent
-  );
+  background: linear-gradient(to top, #efef7d, #efef7d10, transparent);
   clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
 
   transform-origin: bottom center;

@@ -156,11 +156,6 @@ export default function useHunterData() {
         avatar: avatar,
       }
       hunterDataRankedByTotalBeasts.push(newHunter)
-      //TODO Delete this v
-
-      hunterDataRankedByTotalBeasts.push(newHunter)
-
-      //TODO Delete this ^
       rankByTotalBeasts = rankByTotalBeasts + 1
     }
 

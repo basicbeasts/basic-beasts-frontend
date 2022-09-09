@@ -489,7 +489,8 @@ const RankingList: FC<Props> = ({ hunterData }) => {
     if (hunterData != null) {
       setData(hunterData)
     }
-    table.setPageSize(5)
+    // Set Page Size here
+    table.setPageSize(3)
   }, [hunterData])
 
   const [data, setData] = useState(() => [...defaultData])
@@ -584,46 +585,91 @@ const RankingList: FC<Props> = ({ hunterData }) => {
             </tbody>
           </table>
           <PaginationDiv className="flex items-center gap-2">
-            <ChangePageButton
-              className="border rounded p-1"
-              onClick={() => table.setPageIndex(0)}
-              disabled={!table.getCanPreviousPage()}
-            >
-              {"<<"}
-            </ChangePageButton>
-            <ChangePageButton
-              className="border rounded p-1"
-              onClick={() => table.previousPage()}
-              disabled={!table.getCanPreviousPage()}
-            >
-              {"< "}
-              {table.getState().pagination.pageSize *
-                table.getState().pagination.pageIndex +
-                1 +
-                "-" +
-                table.getState().pagination.pageSize *
-                  (table.getState().pagination.pageIndex + 1)}
-            </ChangePageButton>
-            <ChangePageButton
-              className="border rounded p-1"
-              onClick={() => table.nextPage()}
-              disabled={!table.getCanNextPage()}
-            >
-              {table.getState().pagination.pageSize *
-                (table.getState().pagination.pageIndex + 1) +
-                1 +
-                "-" +
-                table.getState().pagination.pageSize *
-                  (table.getState().pagination.pageIndex + 2)}
-              {" >"}
-            </ChangePageButton>
-            <ChangePageButton
-              className="border rounded p-1"
-              onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-              disabled={!table.getCanNextPage()}
-            >
-              {">>"}
-            </ChangePageButton>
+            {table.getState().pagination.pageSize <
+            table.getPrePaginationRowModel().rows.length ? (
+              <>
+                {" "}
+                <ChangePageButton
+                  className="border rounded p-1"
+                  onClick={() => table.setPageIndex(0)}
+                  disabled={!table.getCanPreviousPage()}
+                >
+                  {"<<"}
+                </ChangePageButton>
+                <ChangePageButton
+                  className="border rounded p-1"
+                  onClick={() => table.previousPage()}
+                  disabled={!table.getCanPreviousPage()}
+                >
+                  {"< "}
+                  {table.getState().pagination.pageIndex == 0 ? (
+                    <>
+                      {table.getState().pagination.pageSize *
+                        table.getState().pagination.pageIndex +
+                        1 +
+                        "-" +
+                        table.getState().pagination.pageSize *
+                          (table.getState().pagination.pageIndex + 1)}
+                    </>
+                  ) : (
+                    <>
+                      {table.getState().pagination.pageSize *
+                        (table.getState().pagination.pageIndex - 1) +
+                        1 +
+                        "-" +
+                        table.getState().pagination.pageSize *
+                          (table.getState().pagination.pageIndex - 1 + 1)}
+                    </>
+                  )}
+                </ChangePageButton>
+                <ChangePageButton
+                  className="border rounded p-1"
+                  onClick={() => table.nextPage()}
+                  disabled={!table.getCanNextPage()}
+                >
+                  {table.getCanNextPage() ? (
+                    <>
+                      {table.getState().pagination.pageSize *
+                        (table.getState().pagination.pageIndex + 1) +
+                        1}
+                      -
+                      {table.getState().pagination.pageSize *
+                        (table.getState().pagination.pageIndex + 2) >
+                      table.getPrePaginationRowModel().rows.length ? (
+                        <>{table.getPrePaginationRowModel().rows.length}</>
+                      ) : (
+                        <>
+                          {table.getState().pagination.pageSize *
+                            (table.getState().pagination.pageIndex + 2)}
+                        </>
+                      )}
+                    </>
+                  ) : (
+                    <>
+                      {
+                        table.getState().pagination.pageSize *
+                          table.getState().pagination.pageIndex +
+                          1 +
+                          "-" +
+                          table.getPrePaginationRowModel().rows.length
+                        // table.getState().pagination.pageSize *
+                        //   (table.getState().pagination.pageIndex - 1 + 2)
+                      }
+                    </>
+                  )}
+                  {" >"}
+                </ChangePageButton>
+                <ChangePageButton
+                  className="border rounded p-1"
+                  onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+                  disabled={!table.getCanNextPage()}
+                >
+                  {">>"}
+                </ChangePageButton>
+              </>
+            ) : (
+              <></>
+            )}
           </PaginationDiv>
 
           <div className="h-4" />

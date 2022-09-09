@@ -258,7 +258,15 @@ const StarImg = styled.img`
 `
 
 const AnimationContainer = styled.div`
-  margin-top: 200px;
+  /* margin-top: 0px; */
+  position: absolute;
+  top: 200px;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+
+  transform: scale(3);
 `
 
 type FuncProps = {
@@ -422,7 +430,11 @@ const EvolutionModal: FC<FuncProps> = ({
                     </Beast>
 
                     <EvolvedBeastContainer
-                      animate={{ opacity: [0, 1], scale: [0.5, 2, 1] }}
+                      animate={{
+                        opacity: [0, 1],
+                        scale: [0.5, 2, 1],
+                        top: [150, -50, 150],
+                      }}
                       transition={{ duration: 1.2, delay: 4.2 }}
                     >
                       <AnimationContainer>
