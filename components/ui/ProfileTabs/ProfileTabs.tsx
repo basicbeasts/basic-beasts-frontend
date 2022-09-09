@@ -25,11 +25,10 @@ const TabButtons = styled.div`
 `
 
 const TabButtonContainer = styled.div`
-  margin: 15px;
+  margin: 0 15px;
   @media (max-width: 570px) {
     display: flex;
     justify-content: center;
-    margin: 0 15px;
   }
 `
 

@@ -109,7 +109,7 @@ const RightHeaderDetails = styled.div`
 
 const DexNumber = styled.div`
   font-size: 1.3em;
-  text-align: right;
+  text-align: left;
   @media (max-width: 767px) {
     font-size: 20px;
     text-align: left;
