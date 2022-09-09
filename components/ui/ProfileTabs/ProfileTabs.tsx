@@ -17,6 +17,22 @@ const Container = styled.div`
   height: 800px;
 `
 
+const TabButtons = styled.div`
+  display: flex;
+  @media (max-width: 570px) {
+    display: block;
+  }
+`
+
+const TabButtonContainer = styled.div`
+  margin: 15px;
+  @media (max-width: 570px) {
+    display: flex;
+    justify-content: center;
+    margin: 0 15px;
+  }
+`
+
 type Props = {
   selectFilter: Dispatch<SetStateAction<"beast collection" | "items" | "packs">>
   filter: "beast collection" | "items" | "packs"
@@ -82,48 +98,57 @@ const ProfileTabs: FC<Props> = ({
 
   return (
     <Container>
-      {beasts != null ? (
-        <TabButton
-          selected={filter === "beast collection"}
-          onClick={() => {
-            selectFilter("beast collection")
-            setNewBeast(false)
-          }}
-          buttonText={"beast collection" + " (" + beasts.length + ")"}
-          notify={filter !== "beast collection" && newBeast}
-        />
-      ) : (
-        <TabButton
-          selected={filter === "beast collection"}
-          onClick={() => {
-            selectFilter("beast collection")
-            setNewBeast(false)
-          }}
-          buttonText={"beast collection"}
-          notify={filter !== "beast collection" && newBeast}
-        />
-      )}
-      {user?.addr == address ? (
-        <>
-          <TabButton
-            onClick={() => {
-              selectFilter("items")
-              setNewTokens(false)
-            }}
-            selected={filter === "items"}
-            buttonText={"Items"}
-            notify={filter !== "items" && newTokens}
-          />
-          <TabButton
-            onClick={() => selectFilter("packs")}
-            selected={filter === "packs"}
-            buttonText={"Packs"}
-            notify={filter !== "packs" && hasPacks}
-          />
-        </>
-      ) : (
-        <></>
-      )}
+      <TabButtons>
+        <TabButtonContainer>
+          {beasts != null ? (
+            <TabButton
+              selected={filter === "beast collection"}
+              onClick={() => {
+                selectFilter("beast collection")
+                setNewBeast(false)
+              }}
+              buttonText={"beast collection" + " (" + beasts.length + ")"}
+              notify={filter !== "beast collection" && newBeast}
+            />
+          ) : (
+            <TabButton
+              selected={filter === "beast collection"}
+              onClick={() => {
+                selectFilter("beast collection")
+                setNewBeast(false)
+              }}
+              buttonText={"beast collection"}
+              notify={filter !== "beast collection" && newBeast}
+            />
+          )}
+        </TabButtonContainer>
+        {user?.addr == address ? (
+          <>
+            <TabButtonContainer>
+              <TabButton
+                onClick={() => {
+                  selectFilter("items")
+                  setNewTokens(false)
+                }}
+                selected={filter === "items"}
+                buttonText={"Items"}
+                notify={filter !== "items" && newTokens}
+              />
+            </TabButtonContainer>
+            <TabButtonContainer>
+              <TabButton
+                onClick={() => selectFilter("packs")}
+                selected={filter === "packs"}
+                buttonText={"Packs"}
+                notify={filter !== "packs" && hasPacks}
+              />
+            </TabButtonContainer>
+          </>
+        ) : (
+          <></>
+        )}
+      </TabButtons>
+
       {filter === "beast collection" && (
         <BeastTab
           beasts={beasts}

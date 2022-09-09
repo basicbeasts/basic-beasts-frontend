@@ -16,6 +16,7 @@ const Wrapper = styled.div`
 
 const Image = styled.img`
   width: 80px;
+  object-fit: contain;
 `
 
 const Content = styled.div`
