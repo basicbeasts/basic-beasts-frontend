@@ -1,7 +1,5 @@
 import React, { FC, useEffect, useState } from "react"
 import styled from "styled-components"
-import BeastCard from "@components/ui/BeastCard"
-import data from "data"
 import mails from "data/inbox-dummy-data"
 import InboxPackItem from "../InboxPackItem"
 import BuyButton from "../BuyButton"
