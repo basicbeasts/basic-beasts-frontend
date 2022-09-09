@@ -118,7 +118,7 @@ const DexNumber = styled.div`
 
 const StarImg = styled.img`
   width: 1.2em;
-  margin-left: 5px;
+  margin-right: 5px;
   margin-top: 1px;
   user-drag: none;
   -webkit-user-drag: none;

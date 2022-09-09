@@ -652,7 +652,7 @@ const BeastTab: FC<Props> = ({
         {displayBeasts != null ? (
           <ul
             role="list"
-            className="grid grid-cols-2 gap-x-5 gap-y-5 sm:grid-cols-3 sm:gap-x-6 md:grid-cols-4 lg:grid-cols-2 xl:gap-x-6 xl:grid-cols-3 2xl:grid-cols-4"
+            className="grid grid-cols-2 gap-x-5 gap-y-5 sm:grid-cols-3 sm:gap-x-6 md:grid-cols-4 lg:grid-cols-2 xl:gap-x-6 xl:grid-cols-4 2xl:grid-cols-5"
           >
             {displayBeasts.map((beast: any) => (
               <li
@@ -692,7 +692,14 @@ const BeastTab: FC<Props> = ({
                     }
                   >
                     <ThumbnailLabel>
-                      <div style={{ fontSize: "1.3em" }}>{beast.nickname}</div>
+                      {beast.nickname.length < 13 ? (
+                        <div style={{ fontSize: "1.3em" }}>
+                          {beast.nickname}
+                        </div>
+                      ) : (
+                        <div style={{ fontSize: "1em" }}>{beast.nickname}</div>
+                      )}
+
                       <div style={{ fontSize: "1.3em" }}>
                         #{beast.serialNumber} |{" "}
                         {beast.maxAdminMintAllowed <= 1000 &&
@@ -700,6 +707,16 @@ const BeastTab: FC<Props> = ({
                           ? beast.maxAdminMintAllowed
                           : "?"}
                       </div>
+                    </ThumbnailLabel>
+                    <ThumbnailLabel
+                      style={{
+                        float: "left",
+                        marginTop: "18px",
+                        marginLeft: "3px",
+                        opacity: "0.2",
+                      }}
+                    >
+                      <>{beast?.sex === "Male" ? "♂" : "♀"}</>
                     </ThumbnailLabel>
                     <StarLevel>
                       {Array(beast.starLevel)

@@ -496,6 +496,7 @@ const Profile: NextPage = () => {
         `,
         args: (arg: any, t: any) => [arg(address, t.Address)],
       })
+      console.log("Profile:" + res)
       //Resolve Profile
       setProfile(res)
       //Resolve Profile Picture
@@ -532,6 +533,10 @@ const Profile: NextPage = () => {
 
   return (
     <div>
+      {/* <div style={{ color: "white" }}>
+        {" "}
+        <pre>{JSON.stringify(profile, null, 2)}</pre>
+      </div> */}
       <RevealOverlay
         isSideNavbarOpen={isRevealOverlayOpen}
         toggle={toggle}

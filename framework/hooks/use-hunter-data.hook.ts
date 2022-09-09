@@ -71,6 +71,36 @@ export default function useHunterData() {
     }
   }
 
+  const getAllFindProfiles = async (addresses: any) => {
+    try {
+      let res = await query({
+        cadence: `
+        import Profile from 0xProfile
+
+        pub fun main(addresses: [Address]) : {Address: Profile.UserProfile} {
+            var profiles: {Address: Profile.UserProfile} = {}
+            for address in addresses {
+                let user = getAccount(address)
+                    .getCapability<&{Profile.Public}>(Profile.publicPath)
+                    .borrow()?.asProfile()
+                if (user != nil) {
+                    profiles[user?.address!] = user
+                }
+            }
+            return profiles
+        }
+        
+        
+        `,
+        args: (arg: any, t: any) => [arg(addresses, t.Array(t.Address))],
+      })
+      return res
+    } catch (error) {
+      dispatch({ type: "ERROR" })
+      console.log(error)
+    }
+  }
+
   const fetchHunterData = async () => {
     dispatch({ type: "PROCESSING" })
 
@@ -86,13 +116,22 @@ export default function useHunterData() {
 
     var hunterData: any = []
     var addresses = Object.keys(beastsCollected)
+
+    var findProfiles: any = null
+    await getAllFindProfiles(addresses).then((response: any) => {
+      findProfiles = response
+    })
+
     for (let item in addresses) {
       let address = addresses[item]
-      // Check for .find profile name
+
+      // Check for .find profile name and avatar
+      // First initiate name to shortened wallet address
       var name = address.slice(0, 6).concat("...").concat(address.slice(-4))
-      if (profiles[address as keyof typeof profiles] != null) {
-        if (profiles[address as keyof typeof profiles].name != null) {
-          name = profiles[address as keyof typeof profiles].name
+
+      if (findProfiles[address] != null) {
+        if (findProfiles[address].name != "") {
+          name = findProfiles[address].name
         }
       }
       var hunter = {
@@ -132,14 +171,12 @@ export default function useHunterData() {
       //check avatar
       var avatar = profilePictures[1].image
 
-      if (profiles[data.address as keyof typeof profiles] != null) {
+      if (findProfiles[data.address] != null) {
         for (let key in profilePictures) {
           let picture =
             profilePictures[key as unknown as keyof typeof profilePictures]
               .image
-          if (
-            profiles[data.address as keyof typeof profiles].image == picture
-          ) {
+          if (findProfiles[data.address].avatar == picture) {
             avatar = picture
           }
         }
