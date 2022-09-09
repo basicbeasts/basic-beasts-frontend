@@ -51,6 +51,9 @@ const InputContainer = styled.div`
   display: flex;
 
   margin-right: 20px;
+  @media (max-width: 800px) {
+    margin-right: 0;
+  }
 `
 
 const TableRowWrapper = styled.div`
@@ -319,8 +322,28 @@ const RankByButton = styled.div`
   align-items: center;
   padding: 8px;
   padding-left: 15px;
+  display: table;
+  clear: both;
+  .rank-by {
+    float: left;
+  }
+  svg {
+    float: right;
+    margin-top: 5px;
+    margin-right: 3px;
+  }
   @media (max-width: 800px) {
     width: 120px;
+  }
+  @media (max-width: 330px) {
+    .rank-by {
+      display: none;
+    }
+    width: auto;
+    svg {
+      margin: 0;
+    }
+    padding: 12px;
   }
 `
 
@@ -354,7 +377,7 @@ const ChangePageButton = styled.button`
   align-items: center;
   padding: 2px 18px;
 
-  @media (max-width: 300px) {
+  @media (max-width: 330px) {
     .pageSize {
       display: none;
     }
@@ -408,7 +431,7 @@ const DropDown: FC<{ setRankBy: any; setSorting: any }> = ({
       <div>
         <Menu.Button>
           <RankByButton>
-            Rank by
+            <span className="rank-by">Rank by</span>
             <ChevronDownIcon
               className="-mr-1 ml-2 h-5 w-5"
               aria-hidden="true"

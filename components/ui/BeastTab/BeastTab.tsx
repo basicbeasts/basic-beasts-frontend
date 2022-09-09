@@ -46,9 +46,8 @@ const ThumbnailDetails = styled.div<Omit<Color, "background">>`
 
 const StarLevel = styled.div`
   vertical-align: middle;
-  @media (max-width: 330px) {
-    display: none;
-  }
+  position: absolute;
+  top: 0;
 `
 
 const StarImg = styled.img`
@@ -64,7 +63,7 @@ const ThumbnailLabel = styled.div`
   float: right;
   text-align: right;
   line-height: 1.2em;
-  @media (max-width: 330px) {
+  @media (max-width: 360px) {
     font-size: 0.7em;
   }
 `
