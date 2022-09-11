@@ -488,6 +488,7 @@ type Props = {
   evolvableBeasts: any
   allEvolutionPairs: any
   getPersonalDexicon: any
+  walletAddress: any
 }
 
 type Beast = {
@@ -520,6 +521,7 @@ const BeastTab: FC<Props> = ({
   evolvableBeasts,
   allEvolutionPairs,
   getPersonalDexicon,
+  walletAddress,
 }) => {
   //   const query = useQuery()
   //   const beasts =
@@ -642,6 +644,7 @@ const BeastTab: FC<Props> = ({
           setEvolutionModalOpen={setEvolutionModalOpen}
           allEvolutionPairs={allEvolutionPairs}
           getPersonalDexicon={getPersonalDexicon}
+          walletAddress={walletAddress}
         />
         <EvolutionModal
           handleClose={() => setEvolutionModalOpen(false)}
@@ -652,7 +655,7 @@ const BeastTab: FC<Props> = ({
         {displayBeasts != null ? (
           <ul
             role="list"
-            className="grid grid-cols-2 gap-x-5 gap-y-5 sm:grid-cols-3 sm:gap-x-6 md:grid-cols-4 lg:grid-cols-2 xl:gap-x-6 xl:grid-cols-4 2xl:grid-cols-5"
+            className="grid grid-cols-2 gap-x-5 gap-y-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-5"
           >
             {displayBeasts.map((beast: any) => (
               <li

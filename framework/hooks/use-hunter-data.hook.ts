@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useCallback } from "react"
+import { useEffect, useReducer, useState } from "react"
 import { defaultReducer } from "reducer/defaultReducer"
 import {
   query,
@@ -25,6 +25,8 @@ export default function useHunterData() {
     error: false,
     data: null,
   })
+
+  const [findNames, setFindNames] = useState(null)
 
   useEffect(() => {
     fetchHunterData()
@@ -122,26 +124,41 @@ export default function useHunterData() {
       findProfiles = response
     })
 
+    var findNames: any = {}
+
     for (let item in addresses) {
       let address = addresses[item]
 
       // Check for .find profile name and avatar
       // First initiate name to shortened wallet address
       var name = address.slice(0, 6).concat("...").concat(address.slice(-4))
+      var findName = ""
 
       if (findProfiles[address] != null) {
         if (findProfiles[address].name != "") {
           name = findProfiles[address].name
         }
+        if (findProfiles[address].findName != "") {
+          name = findProfiles[address].findName + ".find"
+          findName = name
+          findNames[findName] = address
+        }
       }
+
+      // Check for .find default .find name
+      //var findName
+
       var hunter = {
         address: address,
         numberOfBeastsCollected: beastsCollected[address].length,
         hunterScore: hunterScores[address],
         name: name,
+        findName: findName,
       }
       hunterData.push(hunter)
     }
+
+    setFindNames(findNames)
 
     // assign rank by hunter score
     hunterData.sort((a: any, b: any) => b.hunterScore - a.hunterScore)
@@ -154,6 +171,7 @@ export default function useHunterData() {
         numberOfBeastsCollected: data.numberOfBeastsCollected,
         hunterScore: data.hunterScore,
         name: data.name,
+        findName: data.findName,
         rankByHunterScore: rank,
       }
       hunterDataRanked.push(updatedHunter)
@@ -188,6 +206,7 @@ export default function useHunterData() {
         numberOfBeastsCollected: data.numberOfBeastsCollected,
         hunterScore: data.hunterScore,
         name: data.name,
+        findName: data.findName,
         rankByHunterScore: data.rankByHunterScore,
         rankByTotalBeasts: rankByTotalBeasts,
         avatar: avatar,
@@ -204,5 +223,6 @@ export default function useHunterData() {
   return {
     ...state,
     fetchHunterData,
+    findNames,
   }
 }

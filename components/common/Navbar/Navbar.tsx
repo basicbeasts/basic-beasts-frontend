@@ -676,17 +676,16 @@ const Navbar: FC<FuncProps> = ({
 
             {user?.addr != null ? (
               <NavItem>
-                <NextLink href={"/profile/" + user?.addr}>
-                  <A
-                    font={
-                      lang === "ru"
-                        ? "arial, sans-serif"
-                        : "Pixelar, sans-serif, arial"
-                    }
-                  >
-                    Collection
-                  </A>
-                </NextLink>
+                <A
+                  font={
+                    lang === "ru"
+                      ? "arial, sans-serif"
+                      : "Pixelar, sans-serif, arial"
+                  }
+                  href={"/profile/" + user?.addr}
+                >
+                  Collection
+                </A>
               </NavItem>
             ) : (
               <></>

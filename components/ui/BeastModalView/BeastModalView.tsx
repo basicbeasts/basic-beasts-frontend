@@ -443,6 +443,7 @@ type Props = {
   setEvolutionModalOpen: any
   allEvolutionPairs: any
   getPersonalDexicon: any
+  walletAddress: any
 }
 
 const tabs = [
@@ -468,6 +469,7 @@ const BeastModalView: FC<Props> = ({
   setEvolutionModalOpen,
   allEvolutionPairs,
   getPersonalDexicon,
+  walletAddress,
 }) => {
   const [open2, setOpen2] = useState(false)
   const [filter, setFilter] = useState("Info")
@@ -688,7 +690,7 @@ const BeastModalView: FC<Props> = ({
                             : "linear-gradient(180deg, #E6CAD7 0%, #D5A6BD 100%)"
                         }
                       >
-                        {userAddr == address ? (
+                        {userAddr == walletAddress ? (
                           <ToolTip>
                             <BeastName
                               onClick={() => {
@@ -737,7 +739,7 @@ const BeastModalView: FC<Props> = ({
                       </Header>
 
                       <Content>
-                        {userAddr === address ? (
+                        {userAddr === walletAddress ? (
                           <div>
                             <div className="sm:hidden">
                               <label htmlFor="tabs" className="sr-only">

@@ -32,7 +32,7 @@ const UserProvider: FC = ({ children }) => {
     loadingPack,
     unpack,
   } = useUserPacks(user)
-  const { data: hunterData, fetchHunterData } = useHunterData()
+  const { data: hunterData, fetchHunterData, findNames } = useHunterData()
   const {
     centralizedInbox,
     starterPacks,
@@ -84,6 +84,7 @@ const UserProvider: FC = ({ children }) => {
         claimAllMails,
         fetchInbox,
         getNumberOfPacks,
+        findNames,
       }}
     >
       {children}

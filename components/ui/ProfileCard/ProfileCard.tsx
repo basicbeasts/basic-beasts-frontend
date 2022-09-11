@@ -174,6 +174,7 @@ type Props = {
   setProfilePicture: any
   userAddr: any
   getProfile: any
+  walletAddress: any
 }
 
 const ProfileCard: FC<Props> = ({
@@ -184,6 +185,7 @@ const ProfileCard: FC<Props> = ({
   setProfilePicture,
   userAddr,
   getProfile,
+  walletAddress,
 }) => {
   const router = useRouter()
   const { address }: any = router.query
@@ -206,7 +208,7 @@ const ProfileCard: FC<Props> = ({
   const fetchProfileHunterData = () => {
     for (let key in hunterData) {
       let element = hunterData[key]
-      if (element.address == address) {
+      if (element.address == walletAddress) {
         setTotalBeasts(element.numberOfBeastsCollected)
         setRank(element.rankByHunterScore)
       }
@@ -230,7 +232,7 @@ const ProfileCard: FC<Props> = ({
         getProfile={getProfile}
       />
       <ImageContainer>
-        {userAddr == address ? (
+        {userAddr == walletAddress ? (
           <CardImage src={profilePicture} onClick={() => setOpen2(true)} />
         ) : (
           <CardImageNoPointer src={profilePicture} />
@@ -243,10 +245,27 @@ const ProfileCard: FC<Props> = ({
             : "no name"}
         </ProfileName> */}
 
-        <ProfileName>{profile != null ? profile.name : <></>}</ProfileName>
+        <ProfileName>
+          {profile != null ? (
+            <>
+              {profile.findName != "" ? (
+                <a
+                  target="_blank"
+                  href={process.env.NEXT_PUBLIC_FIND_WEBSITE + profile.findName}
+                >
+                  {profile.findName + ".find"}
+                </a>
+              ) : (
+                profile.name
+              )}
+            </>
+          ) : (
+            <></>
+          )}
+        </ProfileName>
         <ProfileAddress
           onClick={() => {
-            navigator.clipboard.writeText(address)
+            navigator.clipboard.writeText(walletAddress)
             toast("Copied to clipboard")
           }}
         >
@@ -276,7 +295,10 @@ const ProfileCard: FC<Props> = ({
           </ToolTip>
           <ToolTip>
             <Address>
-              {address.slice(0, 6).concat("...").concat(address.slice(-4))}
+              {walletAddress
+                .slice(0, 6)
+                .concat("...")
+                .concat(walletAddress.slice(-4))}
             </Address>
           </ToolTip>
         </ProfileAddress>

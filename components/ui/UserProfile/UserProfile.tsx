@@ -66,6 +66,7 @@ type FuncProps = {
   evolvableBeasts: any
   allEvolutionPairs: any
   getPersonalDexicon: any
+  walletAddress: any
 }
 
 const UserProfile: FC<FuncProps> = ({
@@ -91,6 +92,7 @@ const UserProfile: FC<FuncProps> = ({
   evolvableBeasts,
   allEvolutionPairs,
   getPersonalDexicon,
+  walletAddress,
 }) => {
   const [filter, setFilter] = useState<"beast collection" | "items" | "packs">(
     "beast collection",
@@ -107,6 +109,7 @@ const UserProfile: FC<FuncProps> = ({
           setProfilePicture={setProfilePicture}
           userAddr={userAddr}
           getProfile={getProfile}
+          walletAddress={walletAddress}
         />
       </MobileProfileCardWrapper>
       <Wrapper>
@@ -119,6 +122,7 @@ const UserProfile: FC<FuncProps> = ({
             setProfilePicture={setProfilePicture}
             userAddr={userAddr}
             getProfile={getProfile}
+            walletAddress={walletAddress}
           />
         </LeftColumn>
         <RightColumn>
@@ -141,6 +145,7 @@ const UserProfile: FC<FuncProps> = ({
             evolvableBeasts={evolvableBeasts}
             allEvolutionPairs={allEvolutionPairs}
             getPersonalDexicon={getPersonalDexicon}
+            walletAddress={walletAddress}
           />
         </RightColumn>
       </Wrapper>

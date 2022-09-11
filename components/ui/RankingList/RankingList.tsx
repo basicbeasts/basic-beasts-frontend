@@ -219,6 +219,7 @@ type Person = {
   hunterScore: number
   name: string
   avatar: string
+  findName: string
 }
 
 const defaultData: Person[] = [
@@ -271,6 +272,7 @@ const columns = [
     footer: (info) => info.column.id,
   }),
   columnHelper.accessor("address", {}),
+  columnHelper.accessor("findName", {}),
   columnHelper.accessor("numberOfBeastsCollected", {
     header: () => "Age",
     cell: (info) => info.renderValue(),
@@ -566,38 +568,50 @@ const RankingList: FC<Props> = ({ hunterData }) => {
             <tbody>
               {table.getRowModel().rows.map((row, i) => (
                 <tr key={row.id}>
-                  <a href={"/profile/" + row.getValue("address")}>
+                  <a
+                    href={
+                      row.getValue("findName") != ""
+                        ? "/profile/" + row.getValue("findName")
+                        : "/profile/" + row.getValue("address")
+                    }
+                  >
                     <TableRowWrapper>
                       {row.getVisibleCells().map((cell) => (
                         <td key={cell.id} className={cell.column.id}>
                           {/* <div>value: {row.getValue("address")}</div> */}
-                          {cell.column.id == "address" ? (
+                          {cell.column.id == "findName" ? (
                             <></>
                           ) : (
                             <>
-                              {cell.column.id == "hunterScore" ? (
-                                <Label>Hunter Score</Label>
-                              ) : cell.column.id ==
-                                "numberOfBeastsCollected" ? (
-                                <Label>Total Beasts</Label>
-                              ) : (
-                                <></>
-                              )}
-
-                              {/* show rank by...*/}
-                              {rankBy == "hunter score" &&
-                              cell.column.id == "rankByTotalBeasts" ? (
+                              {cell.column.id == "address" ? (
                                 <></>
                               ) : (
                                 <>
-                                  {rankBy == "total beasts" &&
-                                  cell.column.id == "rankByHunterScore" ? (
+                                  {cell.column.id == "hunterScore" ? (
+                                    <Label>Hunter Score</Label>
+                                  ) : cell.column.id ==
+                                    "numberOfBeastsCollected" ? (
+                                    <Label>Total Beasts</Label>
+                                  ) : (
+                                    <></>
+                                  )}
+
+                                  {/* show rank by...*/}
+                                  {rankBy == "hunter score" &&
+                                  cell.column.id == "rankByTotalBeasts" ? (
                                     <></>
                                   ) : (
                                     <>
-                                      {flexRender(
-                                        cell.column.columnDef.cell,
-                                        cell.getContext(),
+                                      {rankBy == "total beasts" &&
+                                      cell.column.id == "rankByHunterScore" ? (
+                                        <></>
+                                      ) : (
+                                        <>
+                                          {flexRender(
+                                            cell.column.columnDef.cell,
+                                            cell.getContext(),
+                                          )}
+                                        </>
                                       )}
                                     </>
                                   )}

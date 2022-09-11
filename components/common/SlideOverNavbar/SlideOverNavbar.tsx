@@ -219,7 +219,7 @@ const SlideOverNavbar: FC<Props> = ({
                             </>
                           ) : (
                             <>
-                              <Link href={"/profile/" + user?.addr}>
+                              <a href={"/profile/" + user?.addr}>
                                 <Header onClick={() => close()}>
                                   <ProfileImg src={profilePicture} />
                                   <HeaderProfileName>
@@ -231,7 +231,7 @@ const SlideOverNavbar: FC<Props> = ({
                                           .concat(user?.addr.slice(-4))}
                                   </HeaderProfileName>
                                 </Header>
-                              </Link>
+                              </a>
                               <CopyToClipboard
                                 onClick={() => {
                                   navigator.clipboard.writeText(user?.addr)
@@ -248,11 +248,11 @@ const SlideOverNavbar: FC<Props> = ({
                                   : balance.toLocaleString().slice(0, -6)}
                               </div>
                               <Divider />
-                              <Link href={"/profile/" + user?.addr}>
+                              <a href={"/profile/" + user?.addr}>
                                 <LargeNavItem onClick={() => close()}>
                                   Profile
                                 </LargeNavItem>
-                              </Link>
+                              </a>
                               <Link href="/inbox">
                                 <SmallNavItem onClick={() => close()}>
                                   Inbox

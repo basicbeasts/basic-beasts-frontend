@@ -41,28 +41,71 @@ const Profile: NextPage = () => {
 
   const { user } = useAuth()
 
-  const { fetchHunterData } = useUser()
+  const { fetchHunterData, findNames } = useUser()
 
   const router = useRouter()
   const { address } = router.query
+
+  const [walletAddress, setWalletAddress] = useState<any>(address)
+
+  // const walletAddress =
+  //   findNames[address as keyof typeof findNames] != null
+  //     ? findNames[address as keyof typeof findNames]
+  //     : address
+  // var walletAddress = address
 
   const toggle = () => {
     setIsRevealOverlayOpen(!isRevealOverlayOpen)
   }
 
   useEffect(() => {
-    if (address != null) {
-      fetchUserPacks()
-      fetchUserBeasts()
-      fetchSushi()
-      fetchEmptyPotionBottle()
-      fetchPoop()
-      getHunterScore()
-      getPersonalDexicon()
-      getProfile()
-      fetchHunterData()
-      getAllEvolutionPairs()
+    if (findNames != null) {
+      if (findNames[address as keyof typeof findNames] != null) {
+        setWalletAddress(findNames[address as keyof typeof findNames])
+      }
     }
+    fetchUserPacks()
+    fetchUserBeasts()
+    fetchSushi()
+    fetchEmptyPotionBottle()
+    fetchPoop()
+    getHunterScore()
+    getPersonalDexicon()
+    getProfile()
+    getAllEvolutionPairs()
+  }, [findNames])
+
+  useEffect(() => {
+    fetchHunterData()
+  }, [])
+
+  useEffect(() => {
+    if (address != null) {
+      // Check if findNames[address] != null if true setWalletAddress to findNames[address] else setWalletAddress to address
+      // setWalletAddress(address)
+      // fetchUserPacks()
+      // fetchUserBeasts()
+      // fetchSushi()
+      // fetchEmptyPotionBottle()
+      // fetchPoop()
+      // getHunterScore()
+      // getPersonalDexicon()
+      // getProfile()
+      // fetchHunterData()
+      // getAllEvolutionPairs()
+    }
+    // if (walletAddress != null) {
+    //   fetchUserPacks()
+    //   fetchUserBeasts()
+    //   fetchSushi()
+    //   fetchEmptyPotionBottle()
+    //   fetchPoop()
+    //   getHunterScore()
+    //   getPersonalDexicon()
+    //   getProfile()
+    //   fetchHunterData()
+    //   getAllEvolutionPairs()
+    // }
   }, [address])
 
   type Pack = {
@@ -217,7 +260,7 @@ const Profile: NextPage = () => {
         }
         `,
 
-        args: (arg: any, t: any) => [arg(address, t.Address)],
+        args: (arg: any, t: any) => [arg(walletAddress, t.Address)],
       })
       let mappedCollection: any = []
       for (let item in res) {
@@ -296,7 +339,7 @@ const Profile: NextPage = () => {
         }
         `,
 
-        args: (arg: any, t: any) => [arg(address, t.Address)],
+        args: (arg: any, t: any) => [arg(walletAddress, t.Address)],
       })
       setSushiBalance(res)
       console.log("profile/[address].tsx: fetchSushi()")
@@ -323,7 +366,7 @@ const Profile: NextPage = () => {
         }
         `,
 
-        args: (arg: any, t: any) => [arg(address, t.Address)],
+        args: (arg: any, t: any) => [arg(walletAddress, t.Address)],
       })
       setEmptyPotionBottleBalance(res)
       console.log("profile/[address].tsx: fetchEmptyPotionBottle()")
@@ -350,7 +393,7 @@ const Profile: NextPage = () => {
         }
         `,
 
-        args: (arg: any, t: any) => [arg(address, t.Address)],
+        args: (arg: any, t: any) => [arg(walletAddress, t.Address)],
       })
       setPoopBalance(res)
       console.log("profile/[address].tsx: fetchPoop()")
@@ -383,7 +426,7 @@ const Profile: NextPage = () => {
           return packCollection
         }
         `,
-        args: (arg: any, t: any) => [arg(address, t.Address)],
+        args: (arg: any, t: any) => [arg(walletAddress, t.Address)],
       })
       let mappedPacks = []
 
@@ -442,7 +485,7 @@ const Profile: NextPage = () => {
           return HunterScore.getHunterScore(wallet: acct)
         }
         `,
-        args: (arg: any, t: any) => [arg(address, t.Address)],
+        args: (arg: any, t: any) => [arg(walletAddress, t.Address)],
       })
       setHunterScore(res)
       console.log("profile/[address].tsx: getHunterScore()")
@@ -461,7 +504,7 @@ const Profile: NextPage = () => {
           return HunterScore.getBeastTemplatesCollected(wallet: acct)
         }
         `,
-        args: (arg: any, t: any) => [arg(address, t.Address)],
+        args: (arg: any, t: any) => [arg(walletAddress, t.Address)],
       })
       res.sort(function (a: any, b: any) {
         return a - b
@@ -494,7 +537,7 @@ const Profile: NextPage = () => {
         }
         
         `,
-        args: (arg: any, t: any) => [arg(address, t.Address)],
+        args: (arg: any, t: any) => [arg(walletAddress, t.Address)],
       })
       console.log("Profile:" + res)
       //Resolve Profile
@@ -537,6 +580,15 @@ const Profile: NextPage = () => {
         {" "}
         <pre>{JSON.stringify(profile, null, 2)}</pre>
       </div> */}
+      {/* {findNames != null ? (
+        <div style={{ color: "white" }}>
+          {" "}
+          <pre>{JSON.stringify(walletAddress, null, 2)}</pre>
+        </div>
+      ) : (
+        <></>
+      )} */}
+
       <RevealOverlay
         isSideNavbarOpen={isRevealOverlayOpen}
         toggle={toggle}
@@ -577,6 +629,7 @@ const Profile: NextPage = () => {
         evolvableBeasts={evolvableBeasts}
         allEvolutionPairs={allEvolutionPairs}
         getPersonalDexicon={getPersonalDexicon}
+        walletAddress={walletAddress}
       />
     </div>
   )

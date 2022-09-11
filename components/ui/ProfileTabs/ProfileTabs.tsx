@@ -51,6 +51,7 @@ type Props = {
   evolvableBeasts: any
   allEvolutionPairs: any
   getPersonalDexicon: any
+  walletAddress: any
 }
 
 const ProfileTabs: FC<Props> = ({
@@ -72,6 +73,7 @@ const ProfileTabs: FC<Props> = ({
   evolvableBeasts,
   allEvolutionPairs,
   getPersonalDexicon,
+  walletAddress,
 }) => {
   const [hasPacks, setHasPacks] = useState(false)
 
@@ -121,7 +123,7 @@ const ProfileTabs: FC<Props> = ({
             />
           )}
         </TabButtonContainer>
-        {user?.addr == address ? (
+        {user?.addr == walletAddress ? (
           <>
             <TabButtonContainer>
               <TabButton
@@ -156,9 +158,10 @@ const ProfileTabs: FC<Props> = ({
           evolvableBeasts={evolvableBeasts}
           allEvolutionPairs={allEvolutionPairs}
           getPersonalDexicon={getPersonalDexicon}
+          walletAddress={walletAddress}
         />
       )}
-      {user?.addr == address ? (
+      {user?.addr == walletAddress ? (
         <>
           {filter === "items" && (
             <ItemTab

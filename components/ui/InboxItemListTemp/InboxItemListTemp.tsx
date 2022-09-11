@@ -149,9 +149,7 @@ const InboxItemListTemp: FC = () => {
                 </div>
                 <EmptyMessage>
                   <Button>
-                    <NextLink href={"/profile/" + user?.addr}>
-                      Visit Profile
-                    </NextLink>
+                    <a href={"/profile/" + user?.addr}>Visit Profile</a>
                   </Button>
                 </EmptyMessage>
               </>
