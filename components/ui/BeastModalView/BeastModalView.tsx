@@ -140,8 +140,8 @@ const StarLevel = styled.div`
 // Styling for the content of a Beast Card
 // -----------------------------------------------------------------------
 
-const Content = styled.div`
-  height: 500px;
+const Content = styled.div<any>`
+  height: ${(props) => (props.currentUser ? "470px" : "380px")};
 
   width: 576px;
 
@@ -166,8 +166,8 @@ const Img = styled.img`
   }
 `
 
-const Description = styled.div`
-  margin-top: 10px;
+const Description = styled.div<any>`
+  margin-top: ${(props) => (props.currentUser ? "30px" : "10px")};
   @media (max-width: 767px) {
     font-size: 20px;
   }
@@ -213,6 +213,9 @@ const UltimateSkill = styled.div<Omit<Button, "background">>`
   clear: both;
   width: 80%;
   margin: 25px auto;
+
+  left: 0;
+  right: 0;
   background-color: ${(props) => props.backgroundColor || "#FFE595"};
   box-shadow: -3px 0px 0px 0px ${(props) => props.outset || "#B3A068"},
     0px -3px 0px 0px ${(props) => props.outset || "#B3A068"},
@@ -222,7 +225,7 @@ const UltimateSkill = styled.div<Omit<Button, "background">>`
   padding: 5px 15px;
   font-size: 1.1em;
   position: absolute;
-  bottom: 0;
+  bottom: 20px;
   @media (max-width: 767px) {
     margin-right: 10px;
     font-size: 16px;
@@ -738,7 +741,7 @@ const BeastModalView: FC<Props> = ({
                         />
                       </Header>
 
-                      <Content>
+                      <Content currentUser={userAddr === walletAddress}>
                         {userAddr === walletAddress ? (
                           <div>
                             <div className="sm:hidden">
@@ -800,7 +803,11 @@ const BeastModalView: FC<Props> = ({
                         )}
                         {filter === "Info" ? (
                           <>
-                            <Description>{beast.description}</Description>
+                            <Description
+                              currentUser={userAddr === walletAddress}
+                            >
+                              {beast.description}
+                            </Description>
                             <InfoContainer>
                               <InfoLabel>Gender</InfoLabel>
                               <InfoText>
