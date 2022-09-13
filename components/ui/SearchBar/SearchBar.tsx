@@ -26,7 +26,7 @@ const InputDiv = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  width: 500px;
+  width: 600px;
   padding: 8px;
   background: white;
   border: 2px solid rgb(229, 232, 235);
@@ -53,13 +53,13 @@ const IconDiv = styled.div`
   color: rgb(138, 147, 155);
 `
 const SuggestionList = styled.div<any>`
-  width: 500px;
+  width: 600px;
   background: white;
   border-radius: 10px;
   position: absolute;
   font-size: 24px;
   /* padding: 16px; */
-  max-height: 20vw;
+  max-height: 30vw;
   overflow-y: auto;
   transform: translate(0px, 75px);
   &::-webkit-scrollbar {
@@ -68,7 +68,7 @@ const SuggestionList = styled.div<any>`
 
   p {
     display: flex;
-    padding: 12px 16px;
+    padding: 4px;
 
     border-bottom-width: 1px;
     margin: 0;
@@ -101,6 +101,7 @@ const Img = styled.img`
 const CategoryName = styled.div`
   padding: 16px;
   border-bottom-width: 1px;
+  color: rgb(112, 122, 131);
 `
 
 const SearchBar: FC<{ placeholder: any; data: any; beastData: any }> = ({
@@ -191,16 +192,18 @@ const SearchBar: FC<{ placeholder: any; data: any; beastData: any }> = ({
             onChange={handleFilter}
             onClick={handleFilter}
           />
-          <IconDiv>
-            {wordEntered != "" ? (
-              <div id="clearBtn" onClick={clearInput}>
-                {" "}
-                <b> x </b>{" "}
-              </div>
-            ) : (
-              <></>
-            )}
-          </IconDiv>
+          <a>
+            <IconDiv>
+              {wordEntered != "" ? (
+                <div id="clearBtn" onClick={clearInput}>
+                  {" "}
+                  <b> x </b>{" "}
+                </div>
+              ) : (
+                <></>
+              )}
+            </IconDiv>
+          </a>
         </InputDiv>
         {filteredData.length != 0 || filterBeastData.length != 0 ? (
           <ListWrapper

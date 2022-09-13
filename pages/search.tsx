@@ -15,47 +15,10 @@ const Search: NextPage = () => {
         "https://raw.githubusercontent.com/basicbeasts/basic-beasts-frontend/main/public/profile_pictures/bb_face_040.png",
     },
     {
-      findName: "Dense16",
-      address: "",
+      findName: "dense16",
+      address: "0xb79aa9cff91abc25",
       avatar:
         "https://raw.githubusercontent.com/basicbeasts/basic-beasts-frontend/main/public/profile_pictures/bb_face_037.png",
-    },
-    ,
-    {
-      findName: "Dense16",
-      address: "",
-      avatar:
-        "https://raw.githubusercontent.com/basicbeasts/basic-beasts-frontend/main/public/profile_pictures/bb_face_037.png",
-    },
-    {
-      findName: "bbmercury",
-      address: "0x805727b65285a84d",
-      avatar:
-        "https://raw.githubusercontent.com/basicbeasts/basic-beasts-frontend/main/public/profile_pictures/bb_face_028.png",
-    },
-    {
-      findName: "bbmercury",
-      address: "0x805727b65285a84d",
-      avatar:
-        "https://raw.githubusercontent.com/basicbeasts/basic-beasts-frontend/main/public/profile_pictures/bb_face_028.png",
-    },
-    {
-      findName: "bbmercury",
-      address: "0x805727b65285a84d",
-      avatar:
-        "https://raw.githubusercontent.com/basicbeasts/basic-beasts-frontend/main/public/profile_pictures/bb_face_028.png",
-    },
-    {
-      findName: "bbmercury",
-      address: "0x805727b65285a84d",
-      avatar:
-        "https://raw.githubusercontent.com/basicbeasts/basic-beasts-frontend/main/public/profile_pictures/bb_face_028.png",
-    },
-    {
-      findName: "bbmercury",
-      address: "0x805727b65285a84d",
-      avatar:
-        "https://raw.githubusercontent.com/basicbeasts/basic-beasts-frontend/main/public/profile_pictures/bb_face_028.png",
     },
     {
       findName: "bbmercury",
