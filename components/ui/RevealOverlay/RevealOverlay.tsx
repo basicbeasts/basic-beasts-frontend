@@ -1,4 +1,4 @@
-import { FC, useState } from "react"
+import { FC, useEffect, useState } from "react"
 import styled from "styled-components"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faExternalLinkAlt, faTimes } from "@fortawesome/free-solid-svg-icons"
@@ -11,12 +11,17 @@ import MetallicImg from "public/packs/pack_pf/metallic.png"
 import CursedImg from "public/packs/pack_pf/cursed.png"
 import ShinyImg from "public/packs/pack_pf/shiny.png"
 import PackRevealModal from "../PackRevealModal"
+import PersonalDexiconModal from "../PersonalDexiconModal"
+import BeastModalView from "../BeastModalView"
+import ChangeNicknameModal from "../ChangeNicknameModal"
+import ChangeProfilePictureModal from "../ChangeProfilePictureModal"
+import PackRevealManyModal from "../PackRevealManyModal"
 
-const SideNavbarContainer = styled.aside<{
+const SideNavbarContainer = styled.div<{
   isSideNavbarOpen: boolean
 }>`
   position: fixed;
-  z-index: 999;
+  z-index: 2;
   width: 100%;
   height: 100%;
   background: #111823;
@@ -71,7 +76,7 @@ const SideNavbarWrapper = styled.div<{
   width: 100%;
   overflow: hidden;
   overflow-y: scroll;
-  height: 750px;
+  height: 550px;
   margin-top: 20px;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
@@ -89,7 +94,7 @@ const Title = styled.div`
 `
 
 const ButtonWrapper = styled.div`
-  margin: 15px 0 10px;
+  margin: 50px 0 10px;
   text-align: center;
   width: 100%;
 `
@@ -102,7 +107,7 @@ const Button = styled.button<{
 }>`
   text-transform: uppercase;
   padding: 2px 20px 5px;
-  font-size: 1.5vw;
+  font-size: 1.5em;
   background-color: ${(props) => props.bgColor};
   color: ${(props) => props.fontColor};
 
@@ -115,7 +120,7 @@ const Button = styled.button<{
   -moz-transition: all 0.1s ease 0s;
   -webkit-transition: all 0.1s ease 0s;
   @media (max-width: 1010px) {
-    font-size: 7vw;
+    font-size: 2em;
   }
   &:active {
     transition: all 0.1s ease 0s;
@@ -143,6 +148,7 @@ type Props = {
   setNewBeast: any
   setNewTokens: any
   getPersonalDexicon: any
+  packCount: any
 }
 
 const RevealOverlay: FC<Props> = ({
@@ -160,12 +166,30 @@ const RevealOverlay: FC<Props> = ({
   setNewBeast,
   setNewTokens,
   getPersonalDexicon,
+  packCount,
 }: Props) => {
   const { logIn, logOut, user, loggedIn } = useAuth()
   const [selectedPack, setSelectedPack] = useState<string | "0">("0")
+  const [packsToUnpack, setPacksToUnpack] = useState<any>()
 
   //Modal
   const [RevealModalOpen, setRevealModalOpen] = useState(false)
+  const [RevealManyModalOpen, setRevealManyModalOpen] = useState(false)
+
+  useEffect(() => {
+    if (selectedPackType == "1") {
+      setPacksToUnpack(starterPacks)
+    }
+    if (selectedPackType == "2") {
+      setPacksToUnpack(metallicPacks)
+    }
+    if (selectedPackType == "3") {
+      setPacksToUnpack(cursedPacks)
+    }
+    if (selectedPackType == "4") {
+      setPacksToUnpack(shinyPacks)
+    }
+  }, [selectedPackType])
 
   const close = () => {
     setRevealModalOpen(false)
@@ -173,12 +197,7 @@ const RevealOverlay: FC<Props> = ({
 
   const open = () => {
     setRevealModalOpen(true)
-    if (selectedPack) {
-      openPack()
-    }
   }
-
-  const openPack = () => {}
 
   let packType = "Starter"
   switch (parseInt(selectedPackType)) {
@@ -193,6 +212,8 @@ const RevealOverlay: FC<Props> = ({
       break
   }
 
+  const handleManyPacksReveal = (selectedPackType: any) => {}
+
   return (
     <SideNavbarContainer isSideNavbarOpen={isSideNavbarOpen}>
       {/**TODO: On close. Refetch packs from blockchain.
@@ -203,6 +224,17 @@ const RevealOverlay: FC<Props> = ({
           RevealModalOpen={RevealModalOpen}
           handleClose={close}
           packId={selectedPack}
+        />
+      )}
+      {RevealManyModalOpen && (
+        <PackRevealManyModal
+          open={RevealManyModalOpen}
+          setOpen={setRevealManyModalOpen}
+          packs={packsToUnpack}
+          profile={null}
+          profilePicture={null}
+          setProfilePicture={null}
+          getProfile={null}
         />
       )}
       <Icon onClick={toggle}>{"<"}</Icon>
@@ -306,11 +338,16 @@ const RevealOverlay: FC<Props> = ({
           )}
         </ul>
       </SideNavbarWrapper>
-      {/* <ButtonWrapper>
+      {/* TODO: Hide reveal all button on mobile
+        And remember to make sure the number in the button change when the packs.length decreasing after unpacking.
+      */}
+      <ButtonWrapper>
         <Button
           borderColor={
             selectedPackType === "1"
               ? "#2C323B"
+              : selectedPackType === "2"
+              ? "#5C6988"
               : selectedPackType === "3"
               ? "#751ad0"
               : "#a15813"
@@ -318,6 +355,8 @@ const RevealOverlay: FC<Props> = ({
           insetBorderColor={
             selectedPackType === "1"
               ? "#737374"
+              : selectedPackType === "2"
+              ? "#889AAF"
               : selectedPackType === "3"
               ? "#c746af"
               : "#f3cb23"
@@ -325,6 +364,8 @@ const RevealOverlay: FC<Props> = ({
           bgColor={
             selectedPackType === "1"
               ? "#ababac"
+              : selectedPackType === "2"
+              ? "#E6E8E9"
               : selectedPackType === "3"
               ? "#e3bfff"
               : "#feff95"
@@ -332,17 +373,31 @@ const RevealOverlay: FC<Props> = ({
           fontColor={
             selectedPackType === "1"
               ? "#fff"
+              : selectedPackType === "2"
+              ? "#5C6988"
               : selectedPackType === "3"
               ? "#751ad0"
               : "#a15813"
           }
           onClick={() => {
-            open()
+            setRevealManyModalOpen(true)
+            handleManyPacksReveal(selectedPackType)
           }}
         >
-          Reveal All
+          {selectedPackType === "1" && (
+            <>{packCount[1] < 11 ? "Reveal All" : "Reveal 10"} </>
+          )}
+          {selectedPackType === "2" && (
+            <>{packCount[2] < 11 ? "Reveal All" : "Reveal 10"} </>
+          )}
+          {selectedPackType === "3" && (
+            <>{packCount[3] < 11 ? "Reveal All" : "Reveal 10"} </>
+          )}
+          {selectedPackType === "4" && (
+            <>{packCount[4] < 11 ? "Reveal All" : "Reveal 10"} </>
+          )}
         </Button>
-      </ButtonWrapper> */}
+      </ButtonWrapper>
     </SideNavbarContainer>
   )
 }

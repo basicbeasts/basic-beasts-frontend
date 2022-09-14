@@ -64,7 +64,6 @@ const Profile: NextPage = () => {
         setWalletAddress(findNames[address as keyof typeof findNames])
       }
     }
-    fetchUserPacks()
     fetchUserBeasts()
     fetchSushi()
     fetchEmptyPotionBottle()
@@ -77,6 +76,7 @@ const Profile: NextPage = () => {
 
   useEffect(() => {
     fetchHunterData()
+    fetchUserPacks()
   }, [])
 
   useEffect(() => {
@@ -604,6 +604,7 @@ const Profile: NextPage = () => {
         setNewBeast={setNewBeast}
         setNewTokens={setNewTokens}
         getPersonalDexicon={getPersonalDexicon}
+        packCount={packCount}
       />
 
       <UserProfile
