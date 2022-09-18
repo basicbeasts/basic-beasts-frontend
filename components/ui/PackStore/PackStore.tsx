@@ -1129,10 +1129,10 @@ const PackStore: FC = () => {
         <BottomTextContainer>
           <BottomP>
             {t("home:place-your-order-date", {
-              dateAndTime: "Aug 5 - Aug 8, 12PM PST",
+              dateAndTime: "Sep 16 - Sep 19, 12PM PST",
             })}
           </BottomP>
-          <BottomP>{t("home:announce-winners", { date: "Aug 22" })}</BottomP>
+          <BottomP>{t("home:announce-winners", { date: "Sep 30" })}</BottomP>
         </BottomTextContainer>
       </Content>
     </Container>
