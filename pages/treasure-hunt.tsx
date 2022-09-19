@@ -76,7 +76,11 @@ const Treasure: NextPage = () => {
         }}
       >
         <Button>
-          <a href="https://discord.gg/CG3kfkxb65" target="_blank">
+          <a
+            target="_blank"
+            rel="noreferrer"
+            href="https://discord.gg/CG3kfkxb65"
+          >
             Find The Hunters
           </a>
         </Button>
