@@ -4281,6 +4281,11 @@ react-toastify@^8.0.3:
   dependencies:
     clsx "^1.1.1"
 
+react-type-animation@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/react-type-animation/-/react-type-animation-2.1.1.tgz#0575714ed734d132019c2ec4325e6364eea342b1"
+  integrity sha512-leXq9tZLsfbQWi+1PvsSc2XZYv9CqRrChvuv81M0UPECggBEQgplQzTO9LzgjYNPdnhf4UMeEtZMI4G1qPpuwA==
+
 react@17.0.2:
   version "17.0.2"
   resolved "https://registry.yarnpkg.com/react/-/react-17.0.2.tgz#d0b5cc516d29eb3eee383f75b62864cfb6800037"
