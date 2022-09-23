@@ -13,6 +13,13 @@ fcl
   .put("challenge.handshake", process.env.NEXT_PUBLIC_CHALLENGE_HANDSHAKE)
   .put("0xFungibleToken", process.env.NEXT_PUBLIC_FUNGIBLE_TOKEN_ADDRESS)
   .put("0xFUSD", process.env.NEXT_PUBLIC_FUSD_ADDRESS)
+  .put("0xNonFungibleToken", process.env.NEXT_PUBLIC_NON_FUNGIBLE_TOKEN_ADDRESS)
+  .put("0xMetadataViews", process.env.NEXT_PUBLIC_METADATA_VIEWS_ADDRESS)
+  .put("0xFlowToken", process.env.NEXT_PUBLIC_FLOW_TOKEN_ADDRESS)
+  .put(
+    "0xNFTDayTreasureChest",
+    process.env.NEXT_PUBLIC_NFT_DAY_TREASURE_CHEST_ADDRESS,
+  )
 // .put("0xBasicBeast", process.env.NEXT_PUBLIC_BASIC_BEAST_ADDRESS)
 
 const Layout: FC = ({ children }) => {

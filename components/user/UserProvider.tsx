@@ -18,11 +18,11 @@ const UserProvider: FC = ({ children }) => {
   )
 
   const { data: balance, getFUSDBalance, purchase, loading } = useFUSD(user)
-  const {
-    data: userBeasts,
-    fetchUserBeasts,
-    loadingBeast,
-  } = useUserBeasts(user)
+  // const {
+  //   data: userBeasts,
+  //   fetchUserBeasts,
+  //   loadingBeast,
+  // } = useUserBeasts(user)
 
   useEffect(() => {
     if (compositeSignature) return
@@ -47,9 +47,6 @@ const UserProvider: FC = ({ children }) => {
         getFUSDBalance,
         purchase,
         loading,
-        userBeasts,
-        fetchUserBeasts,
-        loadingBeast,
       }}
     >
       {children}
