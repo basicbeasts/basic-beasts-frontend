@@ -27,6 +27,7 @@ import "react-toastify/dist/ReactToastify.css"
 import ScrollIcon from "public/scroll_icon.png"
 import ScrollModal from "@components/ui/ScrollModal"
 import RewardsModal from "@components/ui/RewardsModal"
+import Chests from "@components/ui/Chests"
 
 const Spacing = styled.div`
   @media (min-width: 1100px) {
@@ -94,19 +95,7 @@ const BlackMarketButton = styled.button`
   }
 `
 
-const Scroll = styled.img`
-  cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
-      14 0,
-    pointer !important;
-  margin-right: 10px;
-`
-
-const FindKeyContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-`
-
-const Treasure: NextPage = () => {
+const BlackMarket: NextPage = () => {
   const { logIn, logOut, user, loggedIn } = useAuth()
 
   const [NFT, setNFT] = useState(null)
@@ -280,22 +269,11 @@ const Treasure: NextPage = () => {
   const Completionist = () => {
     return (
       <div>
-        <FindKeyContainer>
-          <Scroll
-            onClick={() => setOpen(true)}
-            style={{ width: "80px" }}
-            src={ScrollIcon.src}
-          />
-          <div>
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
-              href="https://floats.city/basicbeasts.find/event/602209501"
-            >
-              →
-            </a>
-          </div>
-        </FindKeyContainer>
+        <img
+          onClick={() => setOpen(true)}
+          style={{ width: "80px" }}
+          src={ScrollIcon.src}
+        />
         <Button onClick={() => setOpenRewards(true)}>FUSD Rewards</Button>
       </div>
     )
@@ -314,38 +292,7 @@ const Treasure: NextPage = () => {
       {loggedIn ? (
         <>
           {NFT != null ? (
-            <>
-              <img
-                style={{ width: "300px", marginBottom: "-50px" }}
-                src={
-                  "https://basicbeasts.mypinata.cloud/ipfs/QmUYVdSE1CLdcL8Z7FZdH7ye8tMdGnkbyVPpeQFW6tcYHy"
-                }
-              />
-              <TypeAnimation
-                // Same String at the start will only be typed once, initially
-                sequence={[
-                  "The green shine must be the FUSD!",
-                  1000,
-                  "...",
-                  1000,
-                  "I'll wait a little with claiming it",
-                  1000,
-                  "I still don't know what's inside the chest",
-                  1000,
-                  "I should look for the secret phrase to the key...",
-                  1000,
-                ]}
-                speed={50} // Custom Speed from 1-99 - Default Speed: 40
-                style={{ fontSize: "1.8em", marginBottom: "20px" }}
-                wrapper="span" // Animation will be rendered as a <span>
-                repeat={0} // Repeat this Animation Sequence infinitely
-              />
-              <div style={{ fontSize: "4em", color: "#0ae890" }}>
-                <Countdown date={1664218800000}>
-                  <Completionist />
-                </Countdown>
-              </div>
-            </>
+            <>{/* <Chests /> */}</>
           ) : (
             <>
               <Img src={chest.src} />
@@ -374,4 +321,4 @@ const Treasure: NextPage = () => {
   )
 }
 
-export default Treasure
+export default BlackMarket
