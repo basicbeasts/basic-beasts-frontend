@@ -38,7 +38,8 @@ const Spacing = styled.div`
 const Container = styled.div`
   background: black;
   color: white;
-  height: 80vh;
+  height: 90vh;
+  // height: 3000px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -292,7 +293,7 @@ const BlackMarket: NextPage = () => {
       {loggedIn ? (
         <>
           {NFT != null ? (
-            <>{/* <Chests /> */}</>
+            <>{<Chests />}</>
           ) : (
             <>
               <Img src={chest.src} />
