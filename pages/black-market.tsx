@@ -99,222 +99,28 @@ const BlackMarketButton = styled.button`
 const BlackMarket: NextPage = () => {
   const { logIn, logOut, user, loggedIn } = useAuth()
 
-  const [NFT, setNFT] = useState(null)
-
-  const [whitelist, setWhitelist] = useState<any>(["0x16af873a66616a17"])
-
-  const [open, setOpen] = useState(false)
-
-  const [openRewards, setOpenRewards] = useState(false)
-
-  useEffect(() => {
-    setNFT(null)
-    getChestCollection()
-    getWhitelist()
-  }, [user?.addr])
-
-  const mint = async () => {
-    const id = toast.loading("Initializing...")
-
-    try {
-      const res = await send([
-        transaction(`
-        import NonFungibleToken from 0xNonFungibleToken
-        import MetadataViews from 0xMetadataViews
-        import NFTDayTreasureChest from 0xNFTDayTreasureChest
-
-        pub fun hasChestCollection(_ address: Address): Bool {
-          return getAccount(address)
-            .getCapability<&NFTDayTreasureChest.Collection{NonFungibleToken.CollectionPublic, NFTDayTreasureChest.NFTDayTreasureChestCollectionPublic}>(NFTDayTreasureChest.CollectionPublicPath)
-            .check()
-        }
-
-        transaction() {
-          let chestReceiverRef: &{NonFungibleToken.CollectionPublic}
-
-          prepare(signer: AuthAccount) {
-
-            // Return early if the account already has a collection
-            if signer.borrow<&NFTDayTreasureChest.Collection>(from: NFTDayTreasureChest.CollectionStoragePath) == nil {
-              // Create a new empty collection
-              let collection <- NFTDayTreasureChest.createEmptyCollection()
-  
-              // save it to the account
-              signer.save(<-collection, to: NFTDayTreasureChest.CollectionStoragePath)
-  
-              // create a public capability for the collection
-              signer.link<&{NonFungibleToken.CollectionPublic, NFTDayTreasureChest.NFTDayTreasureChestCollectionPublic, MetadataViews.ResolverCollection}>(
-                  NFTDayTreasureChest.CollectionPublicPath,
-                  target: NFTDayTreasureChest.CollectionStoragePath
-              )
-            }
-
-            self.chestReceiverRef = signer
-            .getCapability(NFTDayTreasureChest.CollectionPublicPath)
-            .borrow<&{NonFungibleToken.CollectionPublic}>()
-            ?? panic("Could not get receiver reference to the NFT Collection")
-
-          }
-
-          execute {
-
-            NFTDayTreasureChest.mintNFT(recipient: self.chestReceiverRef)
-
-          }
-
-        }
-
-        `),
-        payer(authz),
-        proposer(authz),
-        authorizations([authz]),
-        limit(9999),
-      ]).then(decode)
-
-      tx(res).subscribe((res: any) => {
-        if (res.status === 1) {
-          toast.update(id, {
-            render: "Pending...",
-            type: "default",
-            isLoading: true,
-            autoClose: 5000,
-          })
-        }
-        if (res.status === 2) {
-          toast.update(id, {
-            render: "Finalizing...",
-            type: "default",
-            isLoading: true,
-            autoClose: 5000,
-          })
-        }
-        if (res.status === 3) {
-          toast.update(id, {
-            render: "Executing...",
-            type: "default",
-            isLoading: true,
-            autoClose: 5000,
-          })
-        }
-      })
-      await tx(res)
-        .onceSealed()
-        .then((result: any) => {
-          toast.update(id, {
-            render: "Transaction Sealed",
-            type: "success",
-            isLoading: false,
-            autoClose: 5000,
-          })
-        })
-      getWhitelist()
-      getChestCollection()
-    } catch (err) {
-      toast.update(id, {
-        render: () => <div>Error, try again later...</div>,
-        type: "error",
-        isLoading: false,
-        autoClose: 5000,
-      })
-      console.log(err)
-    }
-  }
-
-  const getChestCollection = async () => {
-    try {
-      let response = await query({
-        cadence: `
-        import NFTDayTreasureChest from 0xNFTDayTreasureChest
-        import NonFungibleToken from 0xNonFungibleToken
-
-        // This script borrows an NFT from a collection
-        pub fun main(address: Address): &NonFungibleToken.NFT {
-          let account = getAccount(address)
-
-          let collectionRef = account
-              .getCapability(NFTDayTreasureChest.CollectionPublicPath)
-              .borrow<&{NonFungibleToken.CollectionPublic}>()
-              ?? panic("Could not borrow capability from public collection")
-          
-          let ids = collectionRef.getIDs()
-          
-          return collectionRef.borrowNFT(id: ids[0])
-        }
-        `,
-        args: (arg: any, t: any) => [arg(user?.addr, t.Address)],
-      })
-      setNFT(response)
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
-  const getWhitelist = async () => {
-    try {
-      let response = await query({
-        cadence: `
-        import NFTDayTreasureChest from 0xNFTDayTreasureChest
-        
-        pub fun main(): [Address] {
-          return NFTDayTreasureChest.getWhitelist()
-        }
-        `,
-      })
-      setWhitelist(response)
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
-  // Add Action button to direct to Black Market
   const Completionist = () => {
-    return (
-      <div>
-        <img
-          onClick={() => setOpen(true)}
-          style={{ width: "80px" }}
-          src={ScrollIcon.src}
-        />
-        <Button onClick={() => setOpenRewards(true)}>FUSD Rewards</Button>
-      </div>
-    )
+    return <>{<Chests />}</>
   }
 
   return (
     <Container>
-      <ToastContainer
-        autoClose={4000}
-        hideProgressBar
-        position="top-center"
-        theme="dark"
-      />
-      <ScrollModal open={open} setOpen={setOpen} />
-      <RewardsModal open={openRewards} setOpen={setOpenRewards} />
+      <ToastContainer autoClose={4000} position="bottom-right" theme="dark" />
       {loggedIn ? (
-        <>
-          {NFT != null ? (
-            <>{<Chests />}</>
-          ) : (
-            <>
-              <Img src={chest.src} />
-              <div style={{ fontSize: "2em" }}>
-                The Inspected Treausure Chest can no longer be claimed.
-              </div>
-              <Button>
-                <a
-                  target="_blank"
-                  rel="noreferrer"
-                  href="https://discord.gg/CG3kfkxb65"
-                >
-                  Seek Help
-                </a>
-              </Button>
-            </>
-          )}
-        </>
+        // <>{<Chests />}</>
+        <div style={{ color: "#0ae890" }}>
+          {/* <Countdown date={Date.now() + 1000}>
+            <Completionist />
+          </Countdown> */}
+          <Countdown date={1664726400000}>
+            <Completionist />
+          </Countdown>
+        </div>
       ) : (
         <>
-          <h2 style={{ fontSize: "2em" }}>Connect your wallet to view chest</h2>
+          <h2 style={{ fontSize: "2em" }}>
+            Connect your wallet to view black market
+          </h2>
           <Button onClick={() => logIn()}>Connect Wallet</Button>
         </>
       )}

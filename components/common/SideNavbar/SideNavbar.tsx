@@ -56,7 +56,7 @@ const A = styled.a`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 15px;
+  padding: 10px;
   font-size: 46px;
   text-decoration: none;
   list-style: none;
@@ -189,24 +189,34 @@ const SideNavbar: FC<Props> = ({ isSideNavbarOpen, toggle }: Props) => {
             <A onClick={toggle}>Store</A>
           </NextLink>
 
-          {!loggedIn ? (
-            <NextLink href="/marketplace">
-              <A onClick={toggle}>Marketplace</A>
-            </NextLink>
+          {/* {!loggedIn ? (
+            // <NextLink href="/marketplace">
+            //   <A onClick={toggle}>Marketplace</A>
+            // </NextLink>
+            <></>
           ) : (
             <NextLink href="/collection">
               <A onClick={toggle}>Collection</A>
             </NextLink>
-          )}
+          )} */}
+          <NextLink href="/treasure-hunt">
+            <A onClick={toggle}>Treasure Hunt</A>
+          </NextLink>
+          <NextLink href="/black-market">
+            <A onClick={toggle}>Black Market</A>
+          </NextLink>
+          <NextLink href="/chest-rankings">
+            <A onClick={toggle}>Rankings</A>
+          </NextLink>
           <NextLink href="/dexicon">
             <A onClick={toggle}>Dexicon</A>
           </NextLink>
-          <A target="_blank" href="https://whitepaper.basicbeasts.io/">
+          {/* <A target="_blank" href="https://whitepaper.basicbeasts.io/">
             Whitepaper
           </A>
           <A target="_blank" href="https://discord.gg/xgFtWhwSaR">
             Discord
-          </A>
+          </A> */}
         </SideNavbarMenu>
         {!loggedIn ? (
           <WalletConnect>

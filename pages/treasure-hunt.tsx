@@ -27,27 +27,26 @@ import "react-toastify/dist/ReactToastify.css"
 import ScrollIcon from "public/scroll_icon.png"
 import ScrollModal from "@components/ui/ScrollModal"
 import RewardsModal from "@components/ui/RewardsModal"
-
-const Spacing = styled.div`
-  @media (min-width: 1100px) {
-    padding: 100px 0;
-  }
-`
+import { useUser } from "@components/user/UserProvider"
+import Chest from "public/chest.png"
+import ChestGreenSparkle from "public/chest_green_sparkle.gif"
+import Link from "next/link"
+import FUSDClaimModal from "@components/ui/FUSDClaimModal"
+import ListForSaleModal from "@components/ui/ListForSaleModal"
+import DelistModal from "@components/ui/DelistModal"
 
 const Container = styled.div`
   background: black;
   color: white;
-  height: 80vh;
+  min-height: 80vh;
+  height: auto;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   font-size: 1em;
   text-align: center;
-`
-
-const Img = styled.img`
-  margin: 0;
+  gap: 40px;
 `
 
 const Button = styled.button`
@@ -104,24 +103,100 @@ const Scroll = styled.img`
 const FindKeyContainer = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: center;
 `
+const NumberOfChests = styled.div`
+  // style={{ background: "#111823" }}
+  // className=" absolute rounded-full bottom-8 right-12 w-10 h-10 "
+  position: absolute;
+  display: flex;
+  background: #111823;
+  border-radius: 100%;
+  bottom: 10px;
+  right: 10px;
+  width: 2.5rem;
+  height: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5em;
+  font-weight: 900;
+  color: #f3cb23;
+  padding: 0 0 2px 3px;
+`
+
+const AccordionDiv = styled.div`
+  margin: 50px 0;
+`
+const Panel = styled.div`
+  background: none;
+  /* border: 1px solid gray;
+  border-radius: 10px; */
+  color: #fff;
+  cursor: pointer;
+  padding: 10px;
+  margin: 10px 0;
+
+  text-align: left;
+  font-size: 16px;
+
+  outline: none;
+  transition: 0.4s;
+  // min-width: 20vw;
+  // max-width: 50vw;
+  width: 80vw;
+  @media (min-width: 1060px) {
+    width: 961px;
+  }
+`
+const AccordionTitle = styled.div`
+  display: flex;
+  justify-content: space-between;
+  font-size: 2rem;
+  margin-bottom: 5px;
+  /* border-bottom: 1px solid rgba(220, 220, 220, 0.25); */
+  line-height: 1;
+`
+//
 
 const Treasure: NextPage = () => {
   const { logIn, logOut, user, loggedIn } = useAuth()
 
-  const [NFT, setNFT] = useState(null)
-
-  const [whitelist, setWhitelist] = useState<any>(["0x16af873a66616a17"])
-
   const [open, setOpen] = useState(false)
-
   const [openRewards, setOpenRewards] = useState(false)
+  const [openFUSDClaim, setOpenFUSDClaim] = useState(false)
+  const [IDsWithRewards, setIDsWithRewards] = useState([])
+  const [openListForSale, setOpenListForSale] = useState(false)
+  const [openDelist, setOpenDelist] = useState(false)
+
+  const {
+    totalUserChests,
+    saleIDs,
+    chestIDs,
+    claimedFUSDRewards,
+    getClaimedFUSDRewards,
+    getAllChestSaleOffers,
+    fetchUserChests,
+  } = useUser()
 
   useEffect(() => {
-    setNFT(null)
-    getChestCollection()
-    getWhitelist()
-  }, [user?.addr])
+    checkClaimedFUSDRewards()
+  }, [chestIDs])
+
+  const checkClaimedFUSDRewards = () => {
+    var IDs: any = []
+    for (let key in chestIDs) {
+      if (!claimedFUSDRewards.includes(chestIDs[key])) {
+        IDs.push(chestIDs[key])
+      }
+    }
+    setIDsWithRewards(IDs)
+  }
+
+  useEffect(() => {
+    getClaimedFUSDRewards()
+    getAllChestSaleOffers()
+    fetchUserChests()
+  }, [])
 
   const mint = async () => {
     const id = toast.loading("Initializing...")
@@ -217,8 +292,6 @@ const Treasure: NextPage = () => {
             autoClose: 5000,
           })
         })
-      getWhitelist()
-      getChestCollection()
     } catch (err) {
       toast.update(id, {
         render: () => <div>Error, try again later...</div>,
@@ -230,137 +303,165 @@ const Treasure: NextPage = () => {
     }
   }
 
-  const getChestCollection = async () => {
-    try {
-      let response = await query({
-        cadence: `
-        import NFTDayTreasureChest from 0xNFTDayTreasureChest
-        import NonFungibleToken from 0xNonFungibleToken
+  const accordionData = [
+    {
+      defaultActive: true,
+      title: "What is an NFT?",
+      content: `It means non fungible token`,
+    },
+    {
+      defaultActive: false,
+      title: "What is BB Merch?",
+      content: `It's a digital merch item that can be burned to get a physical version shipped to you. It's a limited edition item so this merch will never be minted again.
+      `,
+    },
+    {
+      defaultActive: false,
+      title: "What is a BB Pack?",
+      content: `A BB pack contains a random 1-star beast. The skin of the beast depends on the pack.`,
+    },
+    {
+      defaultActive: false,
+      title: "What is a BB Voucher?",
+      content: `Probably nothing.`,
+    },
+    {
+      defaultActive: false,
+      title: "What does whitelisted mean?",
+      content: `Everyone who claimed the NFT Day Treasure Chest FLOAT or own a beast but did not inspect the chest. Now have a second chance to acquire a treasure chest on the black market.`,
+    },
+    {
+      defaultActive: false,
+      title: "Why can't I buy a chest?",
+      content: `If you have sold or listed all your chests and used your whitelist you cannot buy a new one.`,
+    },
+  ]
 
-        // This script borrows an NFT from a collection
-        pub fun main(address: Address): &NonFungibleToken.NFT {
-          let account = getAccount(address)
+  const Accordion = ({
+    title,
+    content,
+    defaultActive,
+  }: {
+    title: any
+    content: any
+    defaultActive: Boolean
+  }) => {
+    const [isActive, setIsActive] = useState(defaultActive)
 
-          let collectionRef = account
-              .getCapability(NFTDayTreasureChest.CollectionPublicPath)
-              .borrow<&{NonFungibleToken.CollectionPublic}>()
-              ?? panic("Could not borrow capability from public collection")
-          
-          let ids = collectionRef.getIDs()
-          
-          return collectionRef.borrowNFT(id: ids[0])
-        }
-        `,
-        args: (arg: any, t: any) => [arg(user?.addr, t.Address)],
-      })
-      setNFT(response)
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
-  const getWhitelist = async () => {
-    try {
-      let response = await query({
-        cadence: `
-        import NFTDayTreasureChest from 0xNFTDayTreasureChest
-        
-        pub fun main(): [Address] {
-          return NFTDayTreasureChest.getWhitelist()
-        }
-        `,
-      })
-      setWhitelist(response)
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
-  // Add Action button to direct to Black Market
-  const Completionist = () => {
     return (
-      <div>
-        <FindKeyContainer>
-          <Scroll
-            onClick={() => setOpen(true)}
-            style={{ width: "80px" }}
-            src={ScrollIcon.src}
-          />
-          <div>
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
-              href="https://floats.city/basicbeasts.find/event/602209501"
-            >
-              →
-            </a>
+      <Panel className="accordion-item" onClick={() => setIsActive(!isActive)}>
+        <AccordionTitle>
+          <div>{title}</div>
+          <div>{isActive ? "-" : "+"}</div>
+        </AccordionTitle>
+        {isActive && (
+          <div
+            style={{ marginLeft: "10px", fontSize: "1.2em" }}
+            className="accordion-content"
+          >
+            {content}
           </div>
-        </FindKeyContainer>
-        <Button onClick={() => setOpenRewards(true)}>FUSD Rewards</Button>
-      </div>
+        )}
+      </Panel>
     )
   }
 
   return (
     <Container>
-      <ToastContainer
-        autoClose={4000}
-        hideProgressBar
-        position="top-center"
-        theme="dark"
-      />
+      <ToastContainer autoClose={4000} position="bottom-right" theme="dark" />
+      {/* <Button onClick={() => mint()}>Temp Mint</Button> */}
       <ScrollModal open={open} setOpen={setOpen} />
       <RewardsModal open={openRewards} setOpen={setOpenRewards} />
-      {loggedIn ? (
+      <FUSDClaimModal
+        open={openFUSDClaim}
+        setOpen={setOpenFUSDClaim}
+        IDs={IDsWithRewards}
+        checkClaimedFUSDRewards={checkClaimedFUSDRewards}
+      />
+      <ListForSaleModal
+        open={openListForSale}
+        setOpen={setOpenListForSale}
+        IDs={chestIDs}
+      />
+      <DelistModal open={openDelist} setOpen={setOpenDelist} IDs={saleIDs} />
+
+      {user?.addr != null ? (
         <>
-          {NFT != null ? (
+          {totalUserChests > 0 ? (
             <>
-              <img
-                style={{ width: "300px", marginBottom: "-50px" }}
-                src={
-                  "https://basicbeasts.mypinata.cloud/ipfs/QmUYVdSE1CLdcL8Z7FZdH7ye8tMdGnkbyVPpeQFW6tcYHy"
-                }
-              />
-              <TypeAnimation
-                // Same String at the start will only be typed once, initially
-                sequence={[
-                  "The green shine must be the FUSD!",
-                  1000,
-                  "...",
-                  1000,
-                  "I'll wait a little with claiming it",
-                  1000,
-                  "I still don't know what's inside the chest",
-                  1000,
-                  "I should look for the secret phrase to the key...",
-                  1000,
-                ]}
-                speed={50} // Custom Speed from 1-99 - Default Speed: 40
-                style={{ fontSize: "1.8em", marginBottom: "20px" }}
-                wrapper="span" // Animation will be rendered as a <span>
-                repeat={0} // Repeat this Animation Sequence infinitely
-              />
+              <div className="relative">
+                {IDsWithRewards.length > 0 ? (
+                  <a onClick={() => setOpenFUSDClaim(true)}>
+                    <img
+                      style={{ width: "220px", padding: "20px" }}
+                      src={ChestGreenSparkle.src}
+                    />
+                    <NumberOfChests>{totalUserChests}</NumberOfChests>
+                  </a>
+                ) : (
+                  <>
+                    <img
+                      style={{ width: "220px", padding: "20px" }}
+                      src={Chest.src}
+                    />
+                    <NumberOfChests>{totalUserChests}</NumberOfChests>
+                  </>
+                )}
+              </div>
+
               <div style={{ fontSize: "4em", color: "#0ae890" }}>
-                <Countdown date={1664218800000}>
+                {/* <Countdown date={1664218800000}>
                   <Completionist />
-                </Countdown>
+                </Countdown> */}
+                <div
+                //  style={{ marginLeft: "auto", marginRight: "auto" }}
+                >
+                  <FindKeyContainer>
+                    <Scroll
+                      onClick={() => setOpen(true)}
+                      style={{ width: "80px" }}
+                      src={ScrollIcon.src}
+                    />
+                    <div>
+                      <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href="https://floats.city/basicbeasts.find/event/602209501"
+                      >
+                        →
+                      </a>
+                    </div>
+                  </FindKeyContainer>
+                  <Button onClick={() => setOpenRewards(true)}>Rewards</Button>
+                  <br />
+                  {/* TODO: Remove Temp buttons when black market opens */}
+                  {chestIDs?.length > 0 ? (
+                    <Button onClick={() => setOpenListForSale(true)}>
+                      List Chest
+                    </Button>
+                  ) : (
+                    <></>
+                  )}
+                  {saleIDs?.length > 0 ? (
+                    <Button onClick={() => setOpenDelist(true)}>
+                      Delist Chest
+                    </Button>
+                  ) : (
+                    <></>
+                  )}
+                </div>
               </div>
             </>
           ) : (
             <>
-              <Img src={chest.src} />
-              <div style={{ fontSize: "2em" }}>
-                The Inspected Treausure Chest can no longer be claimed.
+              <div style={{ fontSize: "2em", marginTop: "50px" }}>
+                You don&apos;t own any chests
               </div>
-              <Button>
-                <a
-                  target="_blank"
-                  rel="noreferrer"
-                  href="https://discord.gg/CG3kfkxb65"
-                >
-                  Seek Help
-                </a>
-              </Button>
+              <BlackMarketButton>
+                <Link href="/black-market">
+                  <a>Visit Black Market</a>
+                </Link>
+              </BlackMarketButton>
             </>
           )}
         </>
@@ -370,6 +471,16 @@ const Treasure: NextPage = () => {
           <Button onClick={() => logIn()}>Connect Wallet</Button>
         </>
       )}
+      <AccordionDiv className="accordion">
+        {accordionData.map(({ title, content, defaultActive }, id: any) => (
+          <Accordion
+            key={id}
+            title={title}
+            content={content}
+            defaultActive={defaultActive}
+          />
+        ))}
+      </AccordionDiv>
     </Container>
   )
 }

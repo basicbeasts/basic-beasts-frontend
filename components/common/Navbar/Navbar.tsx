@@ -282,20 +282,21 @@ const Navbar: FC<FuncProps> = ({ toggle, router }) => {
               </NextLink>
             </NavItem>
 
-            {!loggedIn ? (
-              <NavItem>
-                <NextLink href="/marketplace">
-                  <A
-                    font={
-                      lang === "ru"
-                        ? "arial, sans-serif"
-                        : "Pixelar, sans-serif, arial"
-                    }
-                  >
-                    {t("common:marketplace")}
-                  </A>
-                </NextLink>
-              </NavItem>
+            {/* {!loggedIn ? (
+              // <NavItem>
+              //   <NextLink href="/marketplace">
+              //     <A
+              //       font={
+              //         lang === "ru"
+              //           ? "arial, sans-serif"
+              //           : "Pixelar, sans-serif, arial"
+              //       }
+              //     >
+              //       {t("common:marketplace")}
+              //     </A>
+              //   </NextLink>
+              // </NavItem>
+              <></>
             ) : (
               <NavItem>
                 <NextLink href="/collection">
@@ -310,8 +311,47 @@ const Navbar: FC<FuncProps> = ({ toggle, router }) => {
                   </A>
                 </NextLink>
               </NavItem>
-            )}
+            )} */}
 
+            <NavItem>
+              <NextLink href="/treasure-hunt">
+                <A
+                  font={
+                    lang === "ru"
+                      ? "arial, sans-serif"
+                      : "Pixelar, sans-serif, arial"
+                  }
+                >
+                  Treasure Hunt
+                </A>
+              </NextLink>
+            </NavItem>
+            <NavItem>
+              <NextLink href="/black-market">
+                <A
+                  font={
+                    lang === "ru"
+                      ? "arial, sans-serif"
+                      : "Pixelar, sans-serif, arial"
+                  }
+                >
+                  Black Market
+                </A>
+              </NextLink>
+            </NavItem>
+            <NavItem>
+              <NextLink href="/chest-rankings">
+                <A
+                  font={
+                    lang === "ru"
+                      ? "arial, sans-serif"
+                      : "Pixelar, sans-serif, arial"
+                  }
+                >
+                  Rankings
+                </A>
+              </NextLink>
+            </NavItem>
             <NavItem>
               <NextLink href="/dexicon">
                 <A
@@ -325,7 +365,7 @@ const Navbar: FC<FuncProps> = ({ toggle, router }) => {
                 </A>
               </NextLink>
             </NavItem>
-            <NavItem>
+            {/* <NavItem>
               <A
                 font={
                   lang === "ru"
@@ -352,7 +392,7 @@ const Navbar: FC<FuncProps> = ({ toggle, router }) => {
                 Discord&nbsp;
                 <ExternalLinkIcon src={externalLinkIcon.src} />
               </A>
-            </NavItem>
+            </NavItem> */}
             <LanguageSwitcher router={router} />
 
             {/* {router.locales.map((locale) => (

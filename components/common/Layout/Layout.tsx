@@ -20,6 +20,15 @@ fcl
     "0xNFTDayTreasureChest",
     process.env.NEXT_PUBLIC_NFT_DAY_TREASURE_CHEST_ADDRESS,
   )
+  .put(
+    "0xTreasureChestFUSDReward",
+    process.env.NEXT_PUBLIC_NFT_DAY_TREASURE_CHEST_ADDRESS,
+  )
+  .put(
+    "0xBlackMarketplace",
+    process.env.NEXT_PUBLIC_NFT_DAY_TREASURE_CHEST_ADDRESS,
+  )
+  .put("0xProfile", process.env.NEXT_PUBLIC_PROFILE_ADDRESS)
 // .put("0xBasicBeast", process.env.NEXT_PUBLIC_BASIC_BEAST_ADDRESS)
 
 const Layout: FC = ({ children }) => {
