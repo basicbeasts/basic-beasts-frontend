@@ -562,7 +562,7 @@ const Chests: FC = () => {
           delay: 1.4,
         }}
       >
-        {saleOffers.map((saleOffer: any, i: any) => (
+        {saleOffers?.map((saleOffer: any, i: any) => (
           <>
             <RandomChest
               id={saleOffer.id}

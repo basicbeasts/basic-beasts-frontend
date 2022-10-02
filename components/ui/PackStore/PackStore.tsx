@@ -992,7 +992,7 @@ const PackStore: FC = () => {
         position="top-center"
         theme="dark"
       />
-      {loading ? <Spinner /> : <></>}
+      {/* {loading ? <Spinner /> : <></>} */}
       <Content>
         <TextContainer>
           <Title fontSize={lang === "ru" ? "5vw" : "7vw"}>
