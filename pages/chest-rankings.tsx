@@ -80,6 +80,15 @@ const ChestRankings: NextPage = () => {
 
   useEffect(() => {
     var addresses: any = [
+      "0x1a34cb2b01340e1a",
+      "0x3c75ba818f26f705",
+      "0xe64c7f460b03d67b",
+      "0xda0dd4af82f8506d",
+      "0x232a3718b6df6b26",
+      "0x12fbebe1e75cb846",
+      "0xba1e1f6d764c034c",
+      "0x653678e59972c0c7",
+      "0x4eafc975bfc8806d",
       "0xb1da287e72470bf5",
       "0xe1cfe1ba997b5aac",
       "0x4a9710bf56a16ce9",
