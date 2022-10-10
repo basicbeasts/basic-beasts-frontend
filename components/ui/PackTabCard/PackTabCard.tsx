@@ -9,9 +9,9 @@ const Container = styled.div<{
   max-width: inherit;
   width: 100%;
   color: #000;
-  cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
-      14 0,
-    pointer !important;
+  // cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
+  //     14 0,
+  //   pointer !important;
   padding: 20px;
   background: ${(props) => props.bgColor || "#E5E8E7"};
   display: flex;
@@ -21,8 +21,8 @@ const Container = styled.div<{
 const Img = styled.img`
   user-drag: none;
   -webkit-user-drag: none;
-
-  margin: 0 15px 15px;
+  margin: 15px auto 8vh;
+  width: 200px;
 `
 
 const Wrapper = styled.div`
@@ -37,7 +37,13 @@ const TextContainer = styled.div`
 `
 
 const ButtonWrapper = styled.div`
-  margin: 15px 0 10px;
+  margin: 0 auto 20px;
+  width: 100%;
+
+  // position: absolute;
+  // bottom: 40px;
+  // left: 0;
+  // right: 0;
 `
 
 const Button = styled.button<{
@@ -47,7 +53,8 @@ const Button = styled.button<{
   fontColor: string
 }>`
   text-transform: uppercase;
-  padding: 0 20px 3px;
+
+  padding: 0 0 3px;
   font-size: 1.8em;
   background-color: ${(props) => props.bgColor};
   color: ${(props) => props.fontColor};
@@ -57,15 +64,13 @@ const Button = styled.button<{
     3px 0px 0px 0px ${props.borderColor}, inset -3px -3px ${props.insetBorderColor}`};
 
   border: none;
+  width: 75%;
   transition: all 0.1s ease 0s;
   -moz-transition: all 0.1s ease 0s;
   -webkit-transition: all 0.1s ease 0s;
   @media (max-width: 1010px) {
-    font-size: 7vw;
-  }
-  @media (max-width: 1010px) {
     //width: 10vw;
-    font-size: 2em;
+    font-size: 1.8em;
   }
   &:active {
     transition: all 0.1s ease 0s;
@@ -114,9 +119,9 @@ const PackTabCard: FC<BeastThumbnailProps> = ({
       <>
         <Img src={image.src} />
         <Wrapper>
-          <TextContainer>
+          {/* <TextContainer>
             <div>Amount: {packCount}</div>
-          </TextContainer>
+          </TextContainer> */}
           <ButtonWrapper>
             <Button
               borderColor={

@@ -97,7 +97,7 @@ const SortByButton = styled.div`
     color: #e4be23;
   }
   text-transform: uppercase;
-  width: 200px;
+  width: 160px;
   font-size: 1em;
   color: #e4be23;
   &:hover {
@@ -105,22 +105,23 @@ const SortByButton = styled.div`
   }
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 8px;
   padding-left: 15px;
   margin-left: 20px;
   // margin-right: 18px;
-  @media (max-width: 413px) {
-    width: 185px;
+  @media (max-width: 440px) {
+    width: 100%;
     margin: 0 15px;
   }
-  @media (max-width: 391px) {
-    width: 185px;
-    margin: 0 5px;
-  }
-  @media (max-width: 361px) {
-    width: 165px;
-    margin-left: 5px;
-  }
+  // @media (max-width: 391px) {
+  //   width: 185px;
+  //   margin: 0 5px;
+  // }
+  // @media (max-width: 361px) {
+  //   width: 165px;
+  //   margin-left: 5px;
+  // }
 `
 const DropDownList = styled.div`
   width: 200px;
@@ -143,6 +144,9 @@ const DropDownList = styled.div`
 `
 
 const InputContainer = styled.div`
+  @media (max-width: 570px) {
+    width: 100%;
+  }
   @media (max-width: 440px) {
     padding: 0 10px;
     width: 100%;
@@ -165,6 +169,9 @@ const FuncArgInput = styled.input`
   &::placeholder {
     color: #e4be23;
     text-transform: uppercase;
+  }
+  @media (max-width: 570px) {
+    width: 100%;
   }
   @media (max-width: 440px) {
     width: 100%;
@@ -190,9 +197,19 @@ const HeaderBeastCollection = styled.div`
   margin-top: 20px;
   position: relative;
   z-index: 5;
+  @media (max-width: 570px) {
+    justify-content: space-between;
+    padding: 0 20px;
+  }
   @media (max-width: 440px) {
     flex-direction: column;
     padding-right: 0;
+  }
+`
+
+const MenuButton = styled<any>(Menu.Button)`
+  @media (max-width: 440px) {
+    width: 100%;
   }
 `
 
@@ -300,7 +317,7 @@ const DropDown: FC<{
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
-        <Menu.Button>
+        <MenuButton>
           <SortByButton>
             {sortBy}
             <ChevronDownIcon
@@ -308,7 +325,7 @@ const DropDown: FC<{
               aria-hidden="true"
             />
           </SortByButton>
-        </Menu.Button>
+        </MenuButton>
       </div>
 
       <Transition

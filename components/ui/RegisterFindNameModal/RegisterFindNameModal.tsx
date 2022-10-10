@@ -150,7 +150,7 @@ type Props = {
   getProfile: any
 }
 
-const ChangeProfilePictureModal: FC<Props> = ({
+const RegisterFindNameModal: FC<Props> = ({
   open,
   setOpen,
   profile,
@@ -246,43 +246,28 @@ const ChangeProfilePictureModal: FC<Props> = ({
     }
   }
 
-  const createProfile = async () => {
+  const registerFindName = async () => {
     const id = toast.loading("Initializing...")
 
     try {
       const res = await send([
         transaction(`
-        import FungibleToken from 0xFungibleToken
-        import NonFungibleToken from 0xNonFungibleToken
-        import FUSD from 0xFUSD
-        import FiatToken from 0xFiatToken
-        import FlowToken from 0xFlowToken
-        import MetadataViews from 0xMetadataViews
-        import FIND from 0xFIND
-        import Profile from 0xProfile
-        import FindMarket from 0xFindMarket
-        import FindMarketSale from 0xFindMarketSale
-        import FindMarketDirectOfferEscrow from 0xFindMarketDirectOfferEscrow
-        import FindMarketDirectOfferSoft from 0xFindMarketDirectOfferSoft
-        import FindMarketAuctionEscrow from 0xFindMarketAuctionEscrow
-        import FindMarketAuctionSoft from 0xFindMarketAuctionSoft
-        import Dandy from 0xDandy
-        import FindLeaseMarketSale from 0xFindLeaseMarketSale
-        import FindLeaseMarketAuctionSoft from 0xFindLeaseMarketAuctionSoft
-        // import FindLeaseMarketAuctionEscrow from 0xFindLeaseMarketAuctionEscrow
-        import FindLeaseMarketDirectOfferSoft from 0xFindLeaseMarketDirectOfferSoft
-        // import FindLeaseMarketDirectOfferEscrow from 0xFindLeaseMarketDirectOfferEscrow
-        // import FindLeaseMarket from 0xFindLeaseMarket
+        import FungibleToken from "../contracts/standard/FungibleToken.cdc"
+        import FUSD from "../contracts/standard/FUSD.cdc"
+        import FiatToken from "../contracts/standard/FiatToken.cdc"
+        import FlowToken from "../contracts/standard/FlowToken.cdc"
+        import Profile from "../contracts/Profile.cdc"
+        import FIND from "../contracts/FIND.cdc"
+        import NonFungibleToken from "../contracts/standard/NonFungibleToken.cdc"
 
-        transaction(name: String, avatar: String) {
+        transaction(name: String, amount: UFix64) {
 
+          let vaultRef : &FUSD.Vault?
+          let leases : &FIND.LeaseCollection?
+          let price : UFix64
 
           prepare(account: AuthAccount) {
-            //if we do not have a profile it might be stored under a different address so we will just remove it
-            let profileCapFirst = account.getCapability<&{Profile.Public}>(Profile.publicPath)
-            if profileCapFirst.check() {
-              return 
-            }
+
             //the code below has some dead code for this specific transaction, but it is hard to maintain otherwise
             //SYNC with register
             //Add exising FUSD or create a new one and add it
@@ -296,11 +281,24 @@ const ChangeProfilePictureModal: FC<Props> = ({
 
             let usdcCap = account.getCapability<&FiatToken.Vault{FungibleToken.Receiver}>(FiatToken.VaultReceiverPubPath)
             if !usdcCap.check() {
-                account.save( <-FiatToken.createEmptyVault(), to: FiatToken.VaultStoragePath)
-                account.link<&FiatToken.Vault{FungibleToken.Receiver}>( FiatToken.VaultReceiverPubPath, target: FiatToken.VaultStoragePath)
-                account.link<&FiatToken.Vault{FiatToken.ResourceId}>( FiatToken.VaultUUIDPubPath, target: FiatToken.VaultStoragePath)
-                account.link<&FiatToken.Vault{FungibleToken.Balance}>( FiatToken.VaultBalancePubPath, target:FiatToken.VaultStoragePath)
+              account.save( <-FiatToken.createEmptyVault(), to: FiatToken.VaultStoragePath)
+                  account.link<&FiatToken.Vault{FungibleToken.Receiver}>( FiatToken.VaultReceiverPubPath, target: FiatToken.VaultStoragePath)
+                  account.link<&FiatToken.Vault{FiatToken.ResourceId}>( FiatToken.VaultUUIDPubPath, target: FiatToken.VaultStoragePath)
+              account.link<&FiatToken.Vault{FungibleToken.Balance}>( FiatToken.VaultBalancePubPath, target:FiatToken.VaultStoragePath)
             }
+
+            let leaseCollection = account.getCapability<&FIND.LeaseCollection{FIND.LeaseCollectionPublic}>(FIND.LeasePublicPath)
+            if !leaseCollection.check() {
+              account.save(<- FIND.createEmptyLeaseCollection(), to: FIND.LeaseStoragePath)
+              account.link<&FIND.LeaseCollection{FIND.LeaseCollectionPublic}>( FIND.LeasePublicPath, target: FIND.LeaseStoragePath)
+            }
+
+            let bidCollection = account.getCapability<&FIND.BidCollection{FIND.BidCollectionPublic}>(FIND.BidPublicPath)
+            if !bidCollection.check() {
+              account.save(<- FIND.createEmptyBidCollection(receiver: fusdReceiver, leases: leaseCollection), to: FIND.BidStoragePath)
+              account.link<&FIND.BidCollection{FIND.BidCollectionPublic}>( FIND.BidPublicPath, target: FIND.BidStoragePath)
+            }
+
 
             var created=false
             var updated=false
@@ -331,13 +329,11 @@ const ChangeProfilePictureModal: FC<Props> = ({
               updated=true
             }
 
-            //If find name not set and we have a profile set it.
+              //If find name not set and we have a profile set it.
             if profile.getFindName() == "" {
-              if let findName = FIND.reverseLookup(account.address) {
-                profile.setFindName(findName)
-                // If name is set, it will emit Updated Event, there is no need to emit another update event below. 
-                updated=false
-              }
+              profile.setFindName(name)
+              // If name is set, it will emit Updated Event, there is no need to emit another update event below. 
+              updated=false
             }
 
             if created {
@@ -346,11 +342,25 @@ const ChangeProfilePictureModal: FC<Props> = ({
               profile.emitUpdatedEvent()
             }
 
-            profile.setAvatar(avatar)
 
+            self.price=FIND.calculateCost(name)
+            log("The cost for registering this name is ".concat(self.price.toString()))
+            self.vaultRef = account.borrow<&FUSD.Vault>(from: /storage/fusdVault)
+            self.leases=account.borrow<&FIND.LeaseCollection>(from: FIND.LeaseStoragePath)
           }
-          
+
+          pre{
+            self.vaultRef != nil : "Could not borrow reference to the fusdVault!"
+            self.leases != nil : "Could not borrow reference to find lease collection"
+            self.price == amount : "Calculated cost : ".concat(self.price.toString()).concat(" does not match expected cost : ").concat(amount.toString())
+          }
+
+          execute{
+            let payVault <- self.vaultRef!.withdraw(amount: self.price) as! @FUSD.Vault
+            self.leases!.register(name: name, vault: <- payVault)
+          }
         }
+
         `),
         args([arg(nickname, t.String), arg(select, t.String)]),
         payer(authz),
@@ -487,7 +497,7 @@ const ChangeProfilePictureModal: FC<Props> = ({
                       />
                       <FuncArgButton
                         onClick={() => {
-                          createProfile()
+                          registerFindName()
                         }}
                       >
                         Save on-chain
@@ -523,4 +533,4 @@ const ChangeProfilePictureModal: FC<Props> = ({
     </Transition.Root>
   )
 }
-export default ChangeProfilePictureModal
+export default RegisterFindNameModal

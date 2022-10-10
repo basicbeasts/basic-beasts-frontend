@@ -259,7 +259,10 @@ const PurchaseContent = styled.div`
 const QuantitySelector = styled.div`
   display: flex;
   flex-flow: row;
+  align-items: center;
   margin-bottom: 5px;
+  justify-content: center;
+  line-height: 0;
 `
 
 const QuantityButton = styled.button<{
@@ -278,7 +281,7 @@ const QuantityButton = styled.button<{
   -webkit-transition: all 0.1s ease 0s;
   padding: 0 0 2px 1px;
   border-radius: 2px;
-  margin-top: 4px;
+  // margin-top: 4px;
 
   @media (max-width: 1010px) {
     width: 40px;
@@ -291,6 +294,9 @@ const QuantityButton = styled.button<{
     -moz-transition: all 0.1s ease 0s;
     -webkit-transition: all 0.1s ease 0s;
     background-color: ${(props) => props.activeBgColor};
+  }
+  &:disabled {
+    opacity: 0.2;
   }
 `
 
@@ -319,6 +325,7 @@ const InputText = styled.input<{
   background: transparent;
   border: none;
   outline: none;
+  padding-bottom: 3px;
 
   @media (max-width: 1010px) {
     font-size: 36px;
@@ -477,6 +484,7 @@ const AlertText = styled.div`
   }
   @media (max-width: 1010px) {
     width: 250px;
+    text-align: center;
   }
 `
 
@@ -598,7 +606,7 @@ type BuyProps = {
 }
 
 //Open up for sale
-const available = false
+const available = true
 
 const Purchase: FC<BuyProps> = ({
   maxQuantity,
@@ -672,18 +680,19 @@ const Purchase: FC<BuyProps> = ({
               onClick={() => decrementQuantity()}
               bgColor={
                 packType === PackType.STARTER
-                  ? "#cccccd"
+                  ? "#737374"
                   : packType === PackType.CURSED_BLACK
-                  ? "#e3bfff"
-                  : "#ffda66"
+                  ? "#751ad0"
+                  : "#ffbe00"
               }
               activeBgColor={
                 packType === PackType.STARTER
-                  ? "#cccccdcb"
+                  ? "#737374cb"
                   : packType === PackType.CURSED_BLACK
-                  ? "#e3bfffcb"
-                  : "#ffda66cb"
+                  ? "#751ad0cb"
+                  : "#ffbe00cb"
               }
+              disabled={quantity == 1}
             >
               -
             </QuantityButton>
@@ -715,6 +724,7 @@ const Purchase: FC<BuyProps> = ({
                   ? "#751ad0cb"
                   : "#ffbe00cb"
               }
+              disabled={quantity == maxQuantity}
             >
               +
             </QuantityButton>

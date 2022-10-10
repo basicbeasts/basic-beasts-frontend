@@ -1,6 +1,6 @@
 # BasicBeasts.io
 
-Pokémon-inspired NFT collectibles game made by 11-year old and his brother.
+Pokémon-inspired NFT collectibles game made by 10-year old and his brother.
 
 ## Getting Started
 

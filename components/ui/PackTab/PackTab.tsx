@@ -50,16 +50,22 @@ const ThumbnailDetails = styled.div<ThumbnailDetails>`
   width: 100%;
   padding: 5px 10px 25px;
   margin-bottom: -20px;
-  cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
-      14 0,
-    pointer !important;
+  // cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
+  //     14 0,
+  //   pointer !important;
 `
 
 const ThumbnailLabel = styled.div`
   margin: 10px 0;
   text-align: center;
   line-height: 1em;
-  font-size: 1.8em;
+  font-size: calc(1vw + 6px);
+  @media (max-width: 1280px) {
+    font-size: calc(2vw + 8px);
+  }
+  @media (max-width: 640px) {
+    font-size: calc(2vw + 14px);
+  }
 `
 
 const Text = styled.div`
@@ -115,7 +121,7 @@ const PackTab: FC<Props> = ({
       {packCount != null ? (
         <ul
           role="list"
-          className="grid grid-cols-2 gap-x-5 gap-y-5 sm:grid-cols-3 sm:gap-x-6 md:grid-cols-3 lg:grid-cols-1 xl:gap-x-7 xl:grid-cols-2 2xl:grid-cols-3"
+          className="grid grid-cols-1 gap-x-5 gap-y-5 sm:grid-cols-3 sm:gap-x-6 md:grid-cols-3 lg:grid-cols-2 xl:gap-x-7 xl:grid-cols-2 2xl:grid-cols-4"
         >
           {packCount[1] > 0 ? (
             <li className="relative">
@@ -133,7 +139,7 @@ const PackTab: FC<Props> = ({
                 style={{
                   borderRadius: "12px",
                 }}
-                className="group block w-full aspect-w-7 aspect-h-10 sm:aspect-h-11 md:aspect-h-10 lg:aspect-h-9 xl:aspect-h-10 bg-gray-100 overflow-hidden"
+                className="group block bg-gray-100 overflow-hidden"
               >
                 <PackTabCard
                   id={"1"}
@@ -175,7 +181,7 @@ const PackTab: FC<Props> = ({
                 style={{
                   borderRadius: "12px",
                 }}
-                className="group block w-full aspect-w-7 aspect-h-10 sm:aspect-h-11 md:aspect-h-10 lg:aspect-h-9 xl:aspect-h-10 bg-gray-100 overflow-hidden"
+                className="group block w-full bg-gray-100 overflow-hidden"
               >
                 <PackTabCard
                   id={"2"}
@@ -206,7 +212,7 @@ const PackTab: FC<Props> = ({
                 style={{
                   borderRadius: "12px",
                 }}
-                className="group block w-full aspect-w-7 aspect-h-10 sm:aspect-h-11 md:aspect-h-10 lg:aspect-h-9 xl:aspect-h-10 bg-gray-100 overflow-hidden"
+                className="group block w-full bg-gray-100 overflow-hidden"
               >
                 <PackTabCard
                   id={"3"}
@@ -239,7 +245,7 @@ const PackTab: FC<Props> = ({
                 style={{
                   borderRadius: "12px",
                 }}
-                className="group block w-full aspect-w-7 aspect-h-10 sm:aspect-h-11 md:aspect-h-10 lg:aspect-h-9 xl:aspect-h-10 bg-gray-100 overflow-hidden"
+                className="group block bg-gray-100 overflow-hidden"
               >
                 <PackTabCard
                   id={"4"}
