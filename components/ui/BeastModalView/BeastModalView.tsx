@@ -28,6 +28,8 @@ import {
   tx,
 } from "@onflow/fcl"
 import * as t from "@onflow/types"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faChevronUp } from "@fortawesome/free-solid-svg-icons"
 
 const DialogPanel = styled(Dialog.Panel)<TailwindProps>`
   border-radius: 20px;
@@ -151,6 +153,7 @@ const Content = styled.div<any>`
   color: #242526;
   @media (max-width: 767px) {
     font-size: 20px;
+    width: 90vw;
   }
 `
 
@@ -174,23 +177,25 @@ const Description = styled.div<any>`
 `
 
 const InfoContainer = styled.ul`
-  display: table;
+  display: flex;
   clear: both;
   margin-top: 15px;
+  // width: 100%;
 `
 
 const InfoLabel = styled.div`
-  float: left;
   width: 130px;
   color: #868889;
   @media (max-width: 767px) {
+    // width: max-content;
     width: 110px;
     font-size: 16px;
   }
 `
 
 const InfoText = styled.div`
-  float: right;
+  display: flex;
+  flex-wrap: wrap;
   @media (max-width: 767px) {
     font-size: 16px;
   }
@@ -203,6 +208,7 @@ const InfoListItem = styled.span`
 const Skill = styled.span`
   margin-right: 30px;
   font-size: 0.9em;
+  min-width: fit-content;
   @media (max-width: 767px) {
     margin-right: 10px;
   }
@@ -227,7 +233,6 @@ const UltimateSkill = styled.div<Omit<Button, "background">>`
   position: absolute;
   bottom: 20px;
   @media (max-width: 767px) {
-    margin-right: 10px;
     font-size: 16px;
   }
 `
@@ -395,6 +400,15 @@ const NotEnoughContainer = styled.div`
   flex-direction: column;
   border-radius: 10px;
   margin-top: 20px;
+`
+const Select = styled.select`
+  border-radius: 0.375rem;
+  width: 100%;
+  // border: 1px solid rgb(209 213 219);
+  &:focus {
+    --tw-ring-color: rgb(99 102 241);
+    border-color: rgb(99 102 241);
+  }
 `
 
 const Button = styled.button`
@@ -693,6 +707,17 @@ const BeastModalView: FC<Props> = ({
                             : "linear-gradient(180deg, #E6CAD7 0%, #D5A6BD 100%)"
                         }
                       >
+                        <div
+                          className="text-right absolute top-0 left-0 right-3 sm:hidden"
+                          onClick={() => setOpen(false)}
+                        >
+                          {/* <FontAwesomeIcon
+                          
+                            onClick={() => setOpen(false)}
+                            icon={faChevronUp}
+                          /> */}
+                          <div style={{ fontSize: "2em" }}>x</div>
+                        </div>
                         {userAddr == walletAddress ? (
                           <ToolTip>
                             <BeastName
@@ -749,10 +774,10 @@ const BeastModalView: FC<Props> = ({
                                 Select a tab
                               </label>
                               {/* Use an "onChange" listener to redirect the user to the selected tab URL. */}
-                              <select
+                              <Select
                                 id="tabs"
                                 name="tabs"
-                                className="block w-full focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+                                // className="block w-full focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
                                 // defaultValue={
                                 //   // tabs?.find((tab: any) => tab?.current)?.name
                                 //   // filter
@@ -763,7 +788,7 @@ const BeastModalView: FC<Props> = ({
                                 {tabs.map((tab) => (
                                   <option key={tab.name}>{tab.name}</option>
                                 ))}
-                              </select>
+                              </Select>
                             </div>
                             <div className="hidden sm:block">
                               <div className="border-b border-gray-200">
