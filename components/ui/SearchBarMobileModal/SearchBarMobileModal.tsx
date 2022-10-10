@@ -1,9 +1,83 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faSearch } from "@fortawesome/free-solid-svg-icons"
-import React, { useState, useRef, useEffect, FC } from "react"
+import { FC, Fragment, useEffect, useRef, useState } from "react"
+import { Dialog, Transition } from "@headlessui/react"
+import { CheckIcon } from "@heroicons/react/outline"
+
+import star from "public/basic_starLevel.png"
 import styled from "styled-components"
-// import "./SearchBar.css";
+import {
+  send,
+  transaction,
+  args,
+  arg,
+  payer,
+  proposer,
+  authorizations,
+  limit,
+  authz,
+  decode,
+  tx,
+} from "@onflow/fcl"
+import * as t from "@onflow/types"
+import { toast } from "react-toastify"
+import { faSearch } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { motion } from "framer-motion"
+
+const ActionItem = styled.div`
+  padding: 10px 0;
+  width: 100%;
+`
+
+const FuncArgInput = styled.input`
+  background: transparent;
+  border: 1px solid #222;
+  color: #222;
+  font-size: 1.5em;
+  padding: 10px 0px 10px 20px;
+  /* border-radius: 8px 0 0 8px; */
+  width: 50%;
+  cursor: pointer;
+  margin-right: -1px;
+
+  outline: none;
+`
+
+const FuncArgButton = styled.button`
+  background: transparent;
+  border: 1px solid #222;
+  color: #222;
+  font-size: 1.5em;
+  padding: 10px 20px;
+  /* border-radius: 0 8px 8px 0; */
+  cursor: pointer;
+  &:hover {
+    background: #000000;
+    color: #fff;
+  }
+  &:disabled {
+    background: gray;
+    color: #fff;
+    opacity: 0.35;
+  }
+`
+
+const Title = styled.div`
+  font-size: 2.5em;
+  margin-bottom: 20px;
+`
+
+const Wrapper = styled.div`
+  // margin: 0 20px;
+  height: 100vh;
+`
+
+const Container = styled.div`
+  align-items: center;
+`
+
+const NicknameLengthWarning = styled.div`
+  color: red;
+`
 
 const SearchDiv = styled.div`
   display: flex;
@@ -14,18 +88,16 @@ const SearchDiv = styled.div`
 `
 
 const ExtraDiv = styled.div`
-  --width: 40vw;
+  --width: 100vw;
+  --height: 72px;
   display: flex;
-  position: relative;
+  position: absolute;
   justify-content: center;
   /* align-items: center; */
 
   width: var(--width);
   height: auto;
   outline: none;
-  @media (max-width: 621px) {
-    display: none;
-  }
 `
 const DisplayDiv = styled.div`
   @media (max-width: 621px) {
@@ -37,7 +109,7 @@ const RecentDiv = styled.div`
   display: grid;
   /* justify-content: space-between; */
   width: 100%;
-  height: 100%;
+  // height: 100%;
   grid-template-columns: 90% 1fr;
   &:hover {
     box-shadow: rgb(0 0 0 / 16%) 0px 4px 16px;
@@ -49,23 +121,17 @@ const InputDiv = styled.div`
   flex-direction: row;
   justify-content: center;
   width: 100%;
-  outline-width: 2px;
-  outline-style: solid;
   padding: 8px;
   background: white;
-  border: 2px solid white;
-  border-radius: 12px;
+  border-bottom: 1px solid rgb(229, 232, 235);
+  // border-radius: 12px;
   color: rgb(4, 17, 29);
   cursor: text;
   align-items: center;
-  height: 48px;
+  height: var(--height);
   font-size: 24px;
-  transition-property: border-color;
-  transition-duration: 500ms;
-  &:focus-within {
-    /* outline-color: #f3cb23; */
-    border-color: #f3cb23;
-  }
+  /* transition-property: border-color;
+  transition-duration: 500ms; */
 `
 
 const InputBar = styled.input`
@@ -83,6 +149,7 @@ const IconDiv = styled.div`
   max-width: 24px;
   color: rgb(138, 147, 155);
   object-fit: contain;
+  justify-content: center;
 
   ${(props) =>
     props.id === "xButton" &&
@@ -92,13 +159,9 @@ const IconDiv = styled.div`
     font-size: 36px;
   `};
   ${(props) =>
-    props.id === "searchIcon" &&
+    props.id === "backButton" &&
     `
-    
-
-    @media (min-width: 622px) {
-      display: none;
-    }
+    width: 32px;
   `};
 `
 const RemoveBtn = styled.button`
@@ -111,14 +174,14 @@ const RemoveBtn = styled.button`
 const SuggestionList = styled.div<any>`
   width: var(--width);
   background: white;
-  border-radius: 10px;
+  /* border-radius: 10px; */
   position: absolute;
   font-size: 24px;
   /* padding: 16px; */
-  max-height: 30vw;
+  height: 100vh;
   max-width: 100%;
   overflow-y: auto;
-  transform: translate(0, 75px);
+  transform: translate(0, var(--height));
   &::-webkit-scrollbar {
     display: none;
   }
@@ -127,7 +190,7 @@ const SuggestionList = styled.div<any>`
     display: flex;
     padding: 4px;
 
-    border-bottom-width: 1px;
+    border-bottom: 1px solid rgb(229, 232, 235);
     margin: 0;
 
     align-items: center;
@@ -137,12 +200,12 @@ const SuggestionList = styled.div<any>`
   }
 
   /* transition: 10s ease-in-out;
-transition-delay: 2s, 4ms;
-  opacity: ${({ suggestionsShowing }) => (suggestionsShowing ? "100%" : "0")};
-  top: ${({ suggestionsShowing }) => (suggestionsShowing ? "0" : "-100%")}; */
+   transition-delay: 2s, 4ms;
+    opacity: ${({ suggestionsShowing }) => (suggestionsShowing ? "100%" : "0")};
+   top: ${({ suggestionsShowing }) => (suggestionsShowing ? "0" : "-100%")}; */
 `
 
-const ListWrapper = styled(motion.div)`
+const ListWrapper = styled.div`
   width: 100%;
   position: absolute;
   left: 0;
@@ -162,6 +225,7 @@ const CategoryName = styled.div`
   border-bottom-width: 1px;
   color: rgb(112, 122, 131);
 `
+
 const SearchBar: FC<{
   placeholder: any
   data: any
@@ -174,13 +238,13 @@ const SearchBar: FC<{
   const [showRecent, setShowRecent] = useState<any>([])
   const [open, setOpen] = useState(false)
   const [filterRecentData, setFilterRecentData] = useState([...showRecent])
-
   useEffect(() => {
     const recent = window.localStorage.getItem("RECENT_SEARCH")
     if (recent != null) {
       setShowRecent(JSON.parse(recent))
     }
     console.log(recent)
+    setOpen(true)
   }, [])
 
   useEffect(() => {
@@ -307,8 +371,9 @@ const SearchBar: FC<{
     <SearchDiv>
       <ExtraDiv ref={wrapperRef}>
         <InputDiv>
-          <IconDiv>
-            <FontAwesomeIcon icon={faSearch} />
+          <IconDiv id="backButton" onClick={() => setOpenMobileModal(false)}>
+            {" "}
+            <b>&lt;</b>{" "}
           </IconDiv>
           <InputBar
             type="text"
@@ -373,12 +438,9 @@ const SearchBar: FC<{
             </SuggestionList>
 </ListWrapper>: <></> } */}
 
-        {open ? (
-          <ListWrapper
-            initial={{ opacity: 0, top: -20 }}
-            animate={{ opacity: 1, top: 0 }}
-            transition={{ duration: 0.5 }}
-          >
+        {(open && filterRecentData.length != 0) ||
+        (open && wordEntered != "") ? (
+          <ListWrapper onClick={() => setOpen(false)}>
             <SuggestionList
               suggestionsShowing={
                 filteredData.length != 0 || filterBeastData.length != 0
@@ -496,40 +558,68 @@ const SearchBar: FC<{
           <></>
         )}
       </ExtraDiv>
-      <IconDiv id="searchIcon">
-        <FontAwesomeIcon
-          icon={faSearch}
-          onClick={() => setOpenMobileModal(true)}
-        />
-      </IconDiv>
     </SearchDiv>
   )
 }
-// const SearchBarWithIcon: FC<{
-//   placeholder: any
-//   data: any
-//   beastData: any
-//   setOpenMobileModal: any
-// }> = ({ placeholder, data, beastData, setOpenMobileModal }) => {
-//   return (
-//     <div style={{ height: "2000px" }} className="flex justify-center">
-//       <DisplayDiv>
-//         <SearchBar
-//           placeholder="Search"
-//           data={data}
-//           beastData={beastData}
-//           setOpenMobileModal={true}
-//         ></SearchBar>
-//       </DisplayDiv>
 
-//       <IconDiv id="searchIcon">
-//         <FontAwesomeIcon
-//           icon={faSearch}
-//           onClick={() => setOpenMobileModal(true)}
-//         />
-//       </IconDiv>
-//     </div>
-//   )
-// }
+type Props = {
+  data: any
+  beastData: any
+  open: boolean
+  setOpen: any
+}
 
-export default SearchBar
+const SearchBarMobileModal: FC<Props> = ({
+  data,
+  beastData,
+  open,
+  setOpen,
+}) => {
+  return (
+    <Transition.Root show={open} as={Fragment}>
+      <Dialog as="div" className="relative z-10" onClose={setOpen}>
+        <Transition.Child
+          as={Fragment}
+          enter="linear"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="linear"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          <div className="fixed inset-0" />
+        </Transition.Child>
+
+        <div className="fixed z-10 inset-0 overflow-y-auto">
+          <Container className="flex items-end sm:items-center justify-center min-h-full text-center sm:p-0">
+            <Transition.Child
+              as={Fragment}
+              enter="linear"
+              enterFrom="opacity-0"
+              enterTo="opacity-100-0"
+              leave="linear"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <Dialog.Panel
+                style={{ width: "100%" }}
+                className="relative bg-none pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-sm sm:w-full md:max-w-xl"
+              >
+                <Wrapper>
+                  {/* <div className="text-white">Search Bar Mobile</div> */}
+                  <SearchBar
+                    placeholder="Search.."
+                    data={data}
+                    beastData={beastData}
+                    setOpenMobileModal={setOpen}
+                  ></SearchBar>
+                </Wrapper>
+              </Dialog.Panel>
+            </Transition.Child>
+          </Container>
+        </div>
+      </Dialog>
+    </Transition.Root>
+  )
+}
+export default SearchBarMobileModal
