@@ -7,13 +7,13 @@ import { motion } from "framer-motion"
 
 const SearchDiv = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: start;
+  /* justify-content: center; */
   width: 100%;
-  height: 2000px;
+  align-items: center;
 `
 
 const ExtraDiv = styled.div`
+  z-index: 1;
   --width: 40vw;
   display: flex;
   position: relative;
@@ -395,9 +395,7 @@ const SearchBar: FC<{
                     <RecentDiv>
                       <a
                         className="dataItem"
-                        href={
-                          "/profile/" + value.findName?.toLowerCase() + ".find"
-                        }
+                        href={"/profile/" + value.findName?.toLowerCase()}
                         target="_self"
                         onClick={() => {
                           setOpen(false)
@@ -406,7 +404,7 @@ const SearchBar: FC<{
                       >
                         <p>
                           {" "}
-                          <Img src={value.avatar} /> {value.findName}.find{" "}
+                          <Img src={value.avatar} /> {value.findName}
                         </p>
                       </a>
                       <RemoveBtn onClick={() => removeItem(key)}>x</RemoveBtn>
@@ -438,7 +436,7 @@ const SearchBar: FC<{
                 return value.findName != "" ? (
                   <a
                     className="dataItem"
-                    href={"/profile/" + value.findName.toLowerCase() + ".find"}
+                    href={"/profile/" + value.findName.toLowerCase()}
                     target="_self"
                     onClick={() => {
                       setOpen(false)
@@ -448,7 +446,7 @@ const SearchBar: FC<{
                     <p id="hoverShadow">
                       {" "}
                       <Img src={value.avatar} />
-                      {value.findName}.find{" "}
+                      {value.findName}
                     </p>
                   </a>
                 ) : (

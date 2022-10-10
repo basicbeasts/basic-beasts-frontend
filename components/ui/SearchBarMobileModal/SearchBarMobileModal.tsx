@@ -457,9 +457,7 @@ const SearchBar: FC<{
                     <RecentDiv>
                       <a
                         className="dataItem"
-                        href={
-                          "/profile/" + value.findName?.toLowerCase() + ".find"
-                        }
+                        href={"/profile/" + value.findName?.toLowerCase()}
                         target="_self"
                         onClick={() => {
                           setOpen(false)
@@ -468,7 +466,7 @@ const SearchBar: FC<{
                       >
                         <p>
                           {" "}
-                          <Img src={value.avatar} /> {value.findName}.find{" "}
+                          <Img src={value.avatar} /> {value.findName}
                         </p>
                       </a>
                       <RemoveBtn onClick={() => removeItem(key)}>x</RemoveBtn>
@@ -500,7 +498,7 @@ const SearchBar: FC<{
                 return value.findName != "" ? (
                   <a
                     className="dataItem"
-                    href={"/profile/" + value.findName.toLowerCase() + ".find"}
+                    href={"/profile/" + value.findName.toLowerCase()}
                     target="_self"
                     onClick={() => {
                       setOpen(false)
@@ -510,7 +508,7 @@ const SearchBar: FC<{
                     <p id="hoverShadow">
                       {" "}
                       <Img src={value.avatar} />
-                      {value.findName}.find{" "}
+                      {value.findName}
                     </p>
                   </a>
                 ) : (

@@ -15,46 +15,46 @@ function classNames(...classes: any[]) {
 const MobileStyles = styled.div`
   // Mobile Container
 
-  @media (max-width: 1024px) {
-    margin-top: 13px;
-    margin-right: 10px;
+  /* @media (max-width: 1024px) { */
+  margin-top: 13px;
+  margin-right: 10px;
 
-    // Stuff
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    flex-flow: row nowrap;
-    position: relative;
-    white-space: nowrap;
-    /* background: rgba(22, 22, 26, 0.04); */
-    line-height: 40px;
-    /* padding-right: 11px; */
-    min-width: auto;
-    border: 1px solid;
-    border-radius: 20px;
-    transition: all 0.15s ease-in-out 0s;
-    transform-origin: center center;
-    user-select: none;
+  // Stuff
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  flex-flow: row nowrap;
+  position: relative;
+  white-space: nowrap;
+  /* background: rgba(22, 22, 26, 0.04); */
+  line-height: 40px;
+  /* padding-right: 11px; */
+  min-width: auto;
+  border: 1px solid;
+  border-radius: 20px;
+  transition: all 0.15s ease-in-out 0s;
+  transform-origin: center center;
+  user-select: none;
 
-    backdrop-filter: blur(20px) !important;
-    background: #222427;
-    border-color: #393b3d;
+  backdrop-filter: blur(20px) !important;
+  background: #222427;
+  border-color: #393b3d;
 
-    height: 50px;
-    width: 50px;
+  height: 50px;
+  width: 50px;
 
-    color: #f3cb23;
+  color: #f3cb23;
 
-    cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
-        14 0,
-      pointer !important;
+  cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
+      14 0,
+    pointer !important;
 
-    &:hover {
-      color: #f3c923ce !important;
-    }
+  &:hover {
+    color: #f3c923ce !important;
   }
+  /* } */
 `
 
 const LanguageSwitcherIcon = styled(FontAwesomeIcon)`

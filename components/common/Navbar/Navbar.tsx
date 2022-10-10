@@ -19,23 +19,32 @@ import { query } from "@onflow/fcl"
 import InboxIcon from "public/basic_inbox_icon.png"
 import { Menu, Transition } from "@headlessui/react"
 import { toast } from "react-toastify"
+import SearchBar from "@components/ui/SearchBar"
 
 const Nav = styled.header<{ font: string; fontSize: string }>`
   background: #111823;
   height: 90px;
   max-height: 90px;
-  font-size: ${(props) => props.fontSize};
+  top: 0;
+
+  /* font-size: ${(props) => props.fontSize};
   text-transform: uppercase;
   font-family: ${(props) => props.font};
   font-weight: 400;
   letter-spacing: 1px;
-  top: 0;
   z-index: 10;
-  color: #f3cb23;
+  color: #f3cb23; */
 
   @media screen and (max-width: 960px) {
     transition: 0.8s all ease;
   }
+  /* margin: 0px auto;
+  padding: 0px 16px;
+  width: 100%;
+  max-width: 2560px;
+  height: 100%; */
+
+  padding: 0px 16px;
 `
 
 const NavbarContainer = styled.nav`
@@ -44,14 +53,20 @@ const NavbarContainer = styled.nav`
   z-index: 1;
   height: 90px;
   max-height: 90px;
+
+  align-items: center;
 `
 
 const NavLogoContainer = styled.div`
   margin-left: 20px;
-  margin-top: 15px;
+  // margin-top: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   @media (max-width: 1024px) {
     display: none;
   }
+  padding-right: 48px;
 `
 
 const MobileNavLogoContainer = styled.div`
@@ -66,8 +81,12 @@ const NavLogo = styled.a`
   color: #f3cb23;
   cursor: pointer;
   font-size: 50px;
-  line-height: 5px;
+  line-height: 60%;
+  height: fit-content;
   text-transform: capitalize;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  margin-bottom: 7px;
 `
 
 const MobileMenuIcon = styled(FontAwesomeIcon)`
@@ -97,6 +116,7 @@ const NavMenu = styled.ul`
 const NavItem = styled.li``
 
 const A = styled.a<{ font: string }>`
+  font-size: 1.8em;
   font-family: ${(props) => props.font};
   color: #f3cb23 !important;
   display: flex;
@@ -263,15 +283,15 @@ const ExternalLinkIcon = styled.img`
 `
 
 const MobileLanguageSwitcher = styled.div`
-  @media (min-width: 1025px) {
+  /* @media (min-width: 1025px) {
     display: none;
-  }
+  } */
 `
 
 const MobileInboxButton = styled.button`
-  @media (min-width: 1025px) {
+  /* @media (min-width: 1025px) {
     display: none;
-  }
+  } */
   margin-top: 3px;
   margin-right: 10px;
 
@@ -311,9 +331,9 @@ const MobileInboxButton = styled.button`
 `
 
 const MobileMenuButton = styled.button`
-  @media (min-width: 1025px) {
+  /* @media (min-width: 1025px) {
     display: none;
-  }
+  } */
   margin-top: 3px;
   margin-right: 15px;
 
@@ -449,14 +469,14 @@ const MobileLoggedInContainer = styled.div`
   display: flex;
   margin-right: 10px;
   margin-top: 10px;
-  @media (min-width: 1025px) {
+  /* @media (min-width: 1025px) {
     display: none;
-  }
+  } */
 `
 const MobileConnect = styled.button`
-  @media (min-width: 1025px) {
+  /* @media (min-width: 1025px) {
     display: none;
-  }
+  } */
   margin-top: 13px;
   margin-right: 0px;
   color: #222427;
@@ -577,6 +597,20 @@ const Navbar: FC<FuncProps> = ({
     }
   }
 
+  const { hunterData } = useUser()
+  const beastData = [
+    {
+      name: "Saber",
+      imageTransparentBg:
+        "https://raw.githubusercontent.com/basicbeasts/basic-beasts-frontend/main/public/beasts/004_normal.png",
+    },
+    {
+      name: "Moon",
+      imageTransparentBg:
+        "https://raw.githubusercontent.com/basicbeasts/basic-beasts-frontend/main/public/beasts/001_normal.png",
+    },
+  ]
+
   return (
     <>
       <Nav
@@ -602,9 +636,15 @@ const Navbar: FC<FuncProps> = ({
             </NextLink>
           </MobileNavLogoContainer>
 
+          <SearchBar
+            placeholder="Search .find name or address..."
+            data={hunterData}
+            beastData={beastData}
+            setOpenMobileModal={setOpen}
+          />
           <NavMenu>
             <NavItem>
-              <NextLink href="/store">
+              <NextLink href={"/dexicon/"}>
                 <A
                   font={
                     lang === "ru"
@@ -612,41 +652,10 @@ const Navbar: FC<FuncProps> = ({
                       : "Pixelar, sans-serif, arial"
                   }
                 >
-                  {t("common:store")}
+                  Explore
                 </A>
               </NextLink>
             </NavItem>
-
-            {/* {!loggedIn ? (
-              <NavItem>
-                <NextLink href="/marketplace">
-                  <A
-                    font={
-                      lang === "ru"
-                        ? "arial, sans-serif"
-                        : "Pixelar, sans-serif, arial"
-                    }
-                  >
-                    {t("common:marketplace")}
-                  </A>
-                </NextLink>
-              </NavItem>
-            ) : (
-              <NavItem>
-                <NextLink href="/collection">
-                  <A
-                    font={
-                      lang === "ru"
-                        ? "arial, sans-serif"
-                        : "Pixelar, sans-serif, arial"
-                    }
-                  >
-                    {t("common:collection")}
-                  </A>
-                </NextLink>
-              </NavItem>
-            )} */}
-
             <NavItem>
               <NextLink href={"/rankings/"}>
                 <A
@@ -660,68 +669,6 @@ const Navbar: FC<FuncProps> = ({
                 </A>
               </NextLink>
             </NavItem>
-            <NavItem>
-              <NextLink href="/dexicon">
-                <A
-                  font={
-                    lang === "ru"
-                      ? "arial, sans-serif"
-                      : "Pixelar, sans-serif, arial"
-                  }
-                >
-                  Dexicon
-                </A>
-              </NextLink>
-            </NavItem>
-
-            {user?.addr != null ? (
-              <NavItem>
-                <A
-                  font={
-                    lang === "ru"
-                      ? "arial, sans-serif"
-                      : "Pixelar, sans-serif, arial"
-                  }
-                  href={"/profile/" + user?.addr}
-                >
-                  Collection
-                </A>
-              </NavItem>
-            ) : (
-              <></>
-            )}
-
-            {/* <NavItem>
-              <A
-                font={
-                  lang === "ru"
-                    ? "arial, sans-serif"
-                    : "Pixelar, sans-serif, arial"
-                }
-                target="_blank"
-                href="https://whitepaper.basicbeasts.io/"
-              >
-                {t("common:whitepaper")}&nbsp;
-                <ExternalLinkIcon src={externalLinkIcon.src} />
-              </A>
-            </NavItem>
-            <NavItem>
-              <A
-                font={
-                  lang === "ru"
-                    ? "arial, sans-serif"
-                    : "Pixelar, sans-serif, arial"
-                }
-                target="_blank"
-                href="https://discord.gg/xgFtWhwSaR"
-              >
-                Discord&nbsp;
-                <ExternalLinkIcon src={externalLinkIcon.src} />
-              </A>
-            </NavItem> */}
-            <div style={{ marginTop: "5px" }}>
-              <LanguageSwitcher router={router} />
-            </div>
           </NavMenu>
 
           <RightNav>
@@ -787,135 +734,12 @@ const Navbar: FC<FuncProps> = ({
                     <ProfileImg src={profilePicture} />
                   </MobileProfileIconContainer>
                 </MobileLoggedInContainer>
-                <LoggedInContainer>
+                {/* <LoggedInContainer>
                   <LeftBox>
                     <ProfileImg
                       src={profilePicture}
                       onClick={() => setOpen(true)}
                     />
-                    {/** Don't delete. 'Old' desktop navbar */}
-                    {/* <Menu as="div" className="ml-3 relative">
-                      <div>
-                        <Menu.Button className="flex text-sm rounded-full">
-                          <span className="sr-only">Open user menu</span>
-
-                          <ProfileImg src={profilePicture} />
-                        </Menu.Button>
-                      </div>
-                      <Transition
-                        as={Fragment}
-                        enter="transition ease-out duration-100"
-                        enterFrom="transform opacity-0 scale-95"
-                        enterTo="transform opacity-100 scale-100"
-                        leave="transition ease-in duration-75"
-                        leaveFrom="transform opacity-100 scale-100"
-                        leaveTo="transform opacity-0 scale-95"
-                      >
-                        <MenuItems className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5 focus:outline-none">
-                          <Menu.Item>
-                            {({ active }) => (
-                              <a
-                                style={{ textTransform: "none" }}
-                                href={"/profile/" + user?.addr}
-                                className={classNames(
-                                  active ? "bg-gray-700" : "",
-                                  "block px-4 text-md",
-                                )}
-                              >
-                                {profile != null ? profile.name : <></>}
-                              </a>
-                            )}
-                          </Menu.Item>
-                          <Menu.Item>
-                            {({ active }) => (
-                              <div
-                                style={{ textTransform: "capitalize" }}
-                                onClick={() => {
-                                  navigator.clipboard.writeText(user?.addr)
-                                  toast("Copied to clipboard")
-                                }}
-                                className={classNames(
-                                  active ? "bg-gray-700" : "",
-                                  "block px-4 text-sm",
-                                )}
-                              >
-                                {user?.addr
-                                  .slice(0, 6)
-                                  .concat("...")
-                                  .concat(user?.addr.slice(-4))}
-                                <CopyIcon icon={faCopy} />
-                              </div>
-                            )}
-                          </Menu.Item>
-                          <Menu.Item>
-                            <Balance
-                              style={{
-                                textTransform: "capitalize",
-                              }}
-                              className={"block px-4 text-sm"}
-                            >
-                              FUSD:{" "}
-                              {!balance
-                                ? "0.00"
-                                : balance.toLocaleString().slice(0, -6)}
-                            </Balance>
-                          </Menu.Item>
-                          <Divider />
-                          <Menu.Item>
-                            {({ active }) => (
-                              <a
-                                href={"/profile/" + user?.addr}
-                                className={classNames(
-                                  active ? "bg-gray-700" : "",
-                                  "block px-4 text-sm",
-                                )}
-                              >
-                                Profile
-                              </a>
-                            )}
-                          </Menu.Item>
-                          <Menu.Item>
-                            {({ active }) => (
-                              <a
-                                href="/inbox"
-                                className={classNames(
-                                  active ? "bg-gray-700" : "",
-                                  "block px-4 text-sm",
-                                )}
-                              >
-                                {centralizedInbox != null ? (
-                                  <>
-                                    {currentPath != "/inbox" &&
-                                    centralizedInbox.length > 0 ? (
-                                      <>
-                                        Inbox<RedDotDropDown>•</RedDotDropDown>
-                                      </>
-                                    ) : (
-                                      "Inbox"
-                                    )}
-                                  </>
-                                ) : (
-                                  "Inbox"
-                                )}
-                              </a>
-                            )}
-                          </Menu.Item>
-                          <Menu.Item>
-                            {({ active }) => (
-                              <a
-                                onClick={() => logOut()}
-                                className={classNames(
-                                  active ? "bg-gray-700" : "",
-                                  "block px-4 text-sm",
-                                )}
-                              >
-                                Sign out
-                              </a>
-                            )}
-                          </Menu.Item>
-                        </MenuItems>
-                      </Transition>
-                    </Menu> */}
                   </LeftBox>
                   <RightBox>
                     <NextLink href="/inbox">
@@ -936,7 +760,7 @@ const Navbar: FC<FuncProps> = ({
                       </a>
                     </NextLink>
                   </RightBox>
-                </LoggedInContainer>
+                </LoggedInContainer> */}
               </>
             )}
           </RightNav>

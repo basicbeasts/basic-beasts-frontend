@@ -3,6 +3,7 @@ import SearchBarMobileModal from "@components/ui/SearchBarMobileModal"
 import type { NextPage } from "next"
 import styled from "styled-components"
 import { useState } from "react"
+import { useUser } from "@components/user/UserProvider"
 
 const Container = styled.div`
   height: 400px;
@@ -50,20 +51,23 @@ const Search: NextPage = () => {
 
   const [open, setOpen] = useState(false)
 
+  const { hunterData } = useUser()
+
   return (
     <>
       <SearchBarMobileModal
         open={open}
         setOpen={setOpen}
-        data={data}
+        data={hunterData}
         beastData={beastData}
       />
       <SearchBar
         placeholder="Search .find name or address..."
-        data={data}
+        data={hunterData}
         beastData={beastData}
         setOpenMobileModal={setOpen}
       />
+      <pre>{JSON.stringify(hunterData, null, 2)}</pre>
     </>
   )
 }
