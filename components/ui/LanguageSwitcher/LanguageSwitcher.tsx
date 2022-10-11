@@ -16,8 +16,8 @@ const MobileStyles = styled.div`
   // Mobile Container
 
   /* @media (max-width: 1024px) { */
-  margin-top: 13px;
-  margin-right: 10px;
+  // margin-top: 13px;
+  // margin-right: 10px;
 
   // Stuff
   display: flex;
@@ -103,7 +103,7 @@ type FuncProps = {
 
 const LanguageSwitcher: FC<FuncProps> = ({ router }) => {
   return (
-    <Menu as="div" className="ml-3 relative">
+    <Menu as="div" className="relative">
       <div>
         <Menu.Button className=" flex text-sm rounded-full">
           <MobileStyles>

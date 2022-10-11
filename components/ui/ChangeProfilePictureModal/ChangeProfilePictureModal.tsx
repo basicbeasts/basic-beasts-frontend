@@ -475,6 +475,12 @@ const ChangeProfilePictureModal: FC<Props> = ({
                       }
                     />
                   ))}
+                  <div
+                    className="text-right absolute -top-1 right-4 sm:hidden"
+                    onClick={() => setOpen(false)}
+                  >
+                    <div style={{ fontSize: "2.5em" }}>x</div>
+                  </div>
                 </Wrapper>
                 {profile == null ? (
                   <>

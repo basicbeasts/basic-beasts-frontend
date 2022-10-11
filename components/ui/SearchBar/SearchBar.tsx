@@ -128,7 +128,7 @@ const SuggestionList = styled.div<any>`
   max-height: 30vw;
   max-width: 100%;
   overflow-y: auto;
-  transform: translate(0, 75px);
+  transform: translate(0, 65px);
   color: #f3cb23;
   &::-webkit-scrollbar {
     display: none;

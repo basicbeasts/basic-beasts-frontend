@@ -21,7 +21,7 @@ const SideNavbarContainer = styled.div<{
   isSideNavbarOpen: boolean
 }>`
   position: fixed;
-  z-index: 2;
+  z-index: 7;
   width: 100%;
   height: 100%;
   background: #111823;

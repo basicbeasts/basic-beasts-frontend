@@ -26,7 +26,6 @@ const Nav = styled.header<{ font: string; fontSize: string }>`
   height: 90px;
   max-height: 90px;
   top: 0;
-
   /* font-size: ${(props) => props.fontSize};
   text-transform: uppercase;
   font-family: ${(props) => props.font};
@@ -222,7 +221,10 @@ const RemoveTopCorners = styled.div`
 
 const RightNav = styled.div`
   display: flex;
-  margin-top: 5px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-left: 10px;
   @media (min-width: 1025px) {
     display: flex;
     align-items: center;
@@ -283,6 +285,7 @@ const ExternalLinkIcon = styled.img`
 `
 
 const MobileLanguageSwitcher = styled.div`
+  height: auto;
   /* @media (min-width: 1025px) {
     display: none;
   } */
@@ -292,7 +295,7 @@ const MobileInboxButton = styled.button`
   /* @media (min-width: 1025px) {
     display: none;
   } */
-  margin-top: 3px;
+  // margin-top: 3px;
   margin-right: 10px;
 
   // Stuff
@@ -468,8 +471,10 @@ const RedDotDropDown = styled.span`
 
 const MobileLoggedInContainer = styled.div`
   display: flex;
+  align-items: center;
+  justify-content: center;
   margin-right: 10px;
-  margin-top: 10px;
+  // margin-top: 10px;
   /* @media (min-width: 1025px) {
     display: none;
   } */
@@ -520,7 +525,7 @@ const MobileConnect = styled.button`
 `
 
 const MobileProfileIconContainer = styled.div`
-  margin-top: -3px;
+  // margin-top: -3px;
   cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
       14 0,
     pointer !important;

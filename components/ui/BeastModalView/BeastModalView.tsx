@@ -39,6 +39,7 @@ const Container = styled.div`
   /* width: 400px; */
   background: #fff;
   font-size: 18px;
+  border-radius: 20px;
   user-drag: none;
   -webkit-user-drag: none;
   user-select: none;
@@ -57,6 +58,7 @@ const Header = styled.div<Omit<Color, "background">>`
   background: ${(props) => props.colorCode};
   padding: 28px 35px;
   color: #242526;
+  border-radius: 20px 20px 0 0;
   @media (max-width: 767px) {
     padding: 15px;
   }
@@ -266,7 +268,8 @@ const ToolTipText = styled.span`
   position: absolute;
   z-index: 99999;
   bottom: 100%;
-  right: -100px;
+  left: 50%;
+  transform: translateX(-50%);
   font-size: 1em;
   text-transform: capitalize;
 
@@ -432,6 +435,14 @@ const Button = styled.button`
   &:active {
     transform: scale(0.95);
   }
+`
+const EvolutionUl = styled.ul`
+  // className="grid auto-cols-auto grid-flow-col min-w-fit justify-items-center"
+  // display: grid;
+  // grid-template-columns: repeat(auto-fill, 1fr);
+  // grid-auto-flow: column;
+  // justify-items: center;
+  // min-width: 0;
 `
 
 type Color = {
@@ -680,7 +691,7 @@ const BeastModalView: FC<Props> = ({
                 style={{ borderRadius: "20px" }}
                 // className="relative bg-white rounded-lg pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-sm sm:w-full md:max-w-xl"
 
-                className="relative bg-white rounded-lg pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 md:max-w-xl"
+                className="relative bg-white pb-4 text-left shadow-xl transform transition-all sm:my-8 md:max-w-xl"
               >
                 <ChangeNicknameModal
                   beastID={beast?.id}
@@ -691,7 +702,7 @@ const BeastModalView: FC<Props> = ({
                   setDisplayNickname={setDisplayNickname}
                   beastName={beast?.name}
                 />
-                <div>
+                <div style={{ borderRadius: "20px" }}>
                   {beast != null ? (
                     <Container>
                       <Header
@@ -1019,9 +1030,10 @@ const BeastModalView: FC<Props> = ({
                                   </EvolutionSelectionRight>
                                 </EvolutionSelectionContainer>
                                 <ListWrapper>
-                                  <ul
+                                  <EvolutionUl
                                     role="list"
-                                    className="grid grid-4 gap-x-2 gap-y-4 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-4"
+                                    className="grid gap-x-2 gap-y-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-4"
+                                    // className="grid gap-x-2 gap-y-4 grid-cols-3 sm:grid-cols-4"
                                   >
                                     {evolvableBeasts[beast.beastTemplateID].map(
                                       (beast: any, i: any) => (
@@ -1047,7 +1059,7 @@ const BeastModalView: FC<Props> = ({
                                         </>
                                       ),
                                     )}
-                                  </ul>
+                                  </EvolutionUl>
                                 </ListWrapper>
                               </>
                             ) : (
