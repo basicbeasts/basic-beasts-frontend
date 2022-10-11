@@ -13,14 +13,16 @@ const SearchDiv = styled.div`
 `
 
 const ExtraDiv = styled.div`
-  z-index: 1;
-  --width: 40vw;
+  z-index: 6;
+  /* --width: 40vw; */
+  --width: 100%;
   display: flex;
   position: relative;
   justify-content: center;
   /* align-items: center; */
 
-  width: var(--width);
+  /* width: var(--width); */
+  width: 100%;
   height: auto;
   outline: none;
   @media (max-width: 621px) {
@@ -41,6 +43,8 @@ const RecentDiv = styled.div`
   grid-template-columns: 90% 1fr;
   &:hover {
     box-shadow: rgb(0 0 0 / 16%) 0px 4px 16px;
+
+    transform: scale(1.005);
   }
 `
 
@@ -49,13 +53,13 @@ const InputDiv = styled.div`
   flex-direction: row;
   justify-content: center;
   width: 100%;
-  outline-width: 2px;
-  outline-style: solid;
+  /* outline-width: 1.5px;
+  outline-style: solid; */
   padding: 8px;
-  background: white;
-  border: 2px solid white;
+  background: transparent;
+  border: 1.5px solid #f3cb23;
   border-radius: 12px;
-  color: rgb(4, 17, 29);
+  /* color: #fff; */
   cursor: text;
   align-items: center;
   height: 48px;
@@ -64,7 +68,7 @@ const InputDiv = styled.div`
   transition-duration: 500ms;
   &:focus-within {
     /* outline-color: #f3cb23; */
-    border-color: #f3cb23;
+    border-color: #a0861f;
   }
 `
 
@@ -75,13 +79,17 @@ const InputBar = styled.input`
   outline: none;
   width: 100%;
   padding: 1px 2px;
+  color: #fff;
+  &::placeholder {
+    color: #f3cb23;
+  }
 `
 const IconDiv = styled.div`
   display: flex;
   margin-right: 8px;
   //margin-bottom: 5px;
   max-width: 24px;
-  color: rgb(138, 147, 155);
+  color: #f3cb23;
   object-fit: contain;
 
   ${(props) =>
@@ -104,13 +112,15 @@ const IconDiv = styled.div`
 const RemoveBtn = styled.button`
   min-width: 20px;
   min-height: 20px;
-  color: rgb(138, 147, 155);
+  color: #f3c923ce;
   font-size: 36px;
-  border-bottom-width: 1px;
+  border-top-width: 1px;
+  border-color: #464854;
+  margin-right: 16px;
 `
 const SuggestionList = styled.div<any>`
   width: var(--width);
-  background: white;
+  background: #212127;
   border-radius: 10px;
   position: absolute;
   font-size: 24px;
@@ -119,6 +129,7 @@ const SuggestionList = styled.div<any>`
   max-width: 100%;
   overflow-y: auto;
   transform: translate(0, 75px);
+  color: #f3cb23;
   &::-webkit-scrollbar {
     display: none;
   }
@@ -126,14 +137,22 @@ const SuggestionList = styled.div<any>`
   p {
     display: flex;
     padding: 4px;
-
-    border-bottom-width: 1px;
+    padding: 4px 0;
+    border-top-width: 1px;
+    border-color: #464854;
     margin: 0;
+    margin: 0 16px;
 
     align-items: center;
   }
+  #recentItem {
+    margin: 0 0 0 16px;
+  }
   #hoverShadow:hover {
+    /* box-shadow: #f3cb23 0px 4px 16px; */
+
     box-shadow: rgb(0 0 0 / 16%) 0px 4px 16px;
+    transform: scale(1.005);
   }
 
   /* transition: 10s ease-in-out;
@@ -152,15 +171,18 @@ const ListWrapper = styled(motion.div)`
 const Img = styled.img`
   width: 32px;
   height: 32px;
-  margin: 8px 12px;
+  margin: 8px 12px 8px 0px;
   object-fit: contain;
   border-radius: 3px;
 `
 
 const CategoryName = styled.div`
-  padding: 16px;
-  border-bottom-width: 1px;
-  color: rgb(112, 122, 131);
+  padding: 16px 0;
+  margin: 0 16px;
+
+  /* border-bottom-width: 1px; */
+  border-color: #464854;
+  color: #f3c923ce;
 `
 const SearchBar: FC<{
   placeholder: any
@@ -228,7 +250,7 @@ const SearchBar: FC<{
     setOpen(true)
     const searchWord = event.target.value
     setWordEntered(searchWord)
-    const newFilter = data.filter((value: any) => {
+    const newFilter = data?.filter((value: any) => {
       return (
         value.findName?.toLowerCase().includes(searchWord?.toLowerCase()) ||
         value.address?.toLowerCase().includes(searchWord?.toLowerCase())
@@ -308,7 +330,7 @@ const SearchBar: FC<{
       <ExtraDiv ref={wrapperRef}>
         <InputDiv>
           <IconDiv>
-            <FontAwesomeIcon icon={faSearch} />
+            <FontAwesomeIcon style={{ width: "20px" }} icon={faSearch} />
           </IconDiv>
           <InputBar
             type="text"
@@ -322,7 +344,7 @@ const SearchBar: FC<{
               <IconDiv id="xButton">
                 <div id="clearBtn" onClick={clearInput}>
                   {" "}
-                  <b>x</b>{" "}
+                  x{" "}
                 </div>
               </IconDiv>
             </a>
@@ -381,7 +403,7 @@ const SearchBar: FC<{
           >
             <SuggestionList
               suggestionsShowing={
-                filteredData.length != 0 || filterBeastData.length != 0
+                filteredData?.length != 0 || filterBeastData?.length != 0
               }
             >
               {filterRecentData?.length != 0 && (
@@ -402,7 +424,7 @@ const SearchBar: FC<{
                           updateRecentList(value)
                         }}
                       >
-                        <p>
+                        <p id="recentItem">
                           {" "}
                           <Img src={value.avatar} /> {value.findName}
                         </p>
@@ -420,7 +442,7 @@ const SearchBar: FC<{
                           updateRecentList(value)
                         }}
                       >
-                        <p>
+                        <p id="recentItem">
                           {" "}
                           <Img src={value.avatar} />
                           {value.address}{" "}
@@ -431,8 +453,10 @@ const SearchBar: FC<{
                   )
                 })
                 .reverse()}
-              {filteredData.length != 0 && <CategoryName>Hunters</CategoryName>}
-              {filteredData.slice(0, 15).map((value: any, key: any) => {
+              {filteredData?.length != 0 && (
+                <CategoryName>Beast Hunters</CategoryName>
+              )}
+              {filteredData?.slice(0, 15).map((value: any, key: any) => {
                 return value.findName != "" ? (
                   <a
                     className="dataItem"
