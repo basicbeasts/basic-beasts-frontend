@@ -10,6 +10,9 @@ const SearchDiv = styled.div`
   /* justify-content: center; */
   width: 100%;
   align-items: center;
+  @media (max-width: 621px) {
+    justify-content: right;
+  }
 `
 
 const ExtraDiv = styled.div`
