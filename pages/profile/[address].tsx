@@ -72,11 +72,11 @@ const Profile: NextPage = () => {
     getPersonalDexicon()
     getProfile()
     getAllEvolutionPairs()
+    fetchUserPacks()
   }, [findNames])
 
   useEffect(() => {
     fetchHunterData()
-    fetchUserPacks()
   }, [])
 
   useEffect(() => {

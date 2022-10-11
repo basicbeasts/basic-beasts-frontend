@@ -16,6 +16,7 @@ import BeastModalView from "../BeastModalView"
 import ChangeNicknameModal from "../ChangeNicknameModal"
 import ChangeProfilePictureModal from "../ChangeProfilePictureModal"
 import PackRevealManyModal from "../PackRevealManyModal"
+import { useUser } from "@components/user/UserProvider"
 
 const SideNavbarContainer = styled.div<{
   isSideNavbarOpen: boolean
@@ -171,6 +172,7 @@ const RevealOverlay: FC<Props> = ({
   const { logIn, logOut, user, loggedIn } = useAuth()
   const [selectedPack, setSelectedPack] = useState<string | "0">("0")
   const [packsToUnpack, setPacksToUnpack] = useState<any>()
+  const { fetchHunterData } = useUser()
 
   //Modal
   const [RevealModalOpen, setRevealModalOpen] = useState(false)
@@ -237,7 +239,14 @@ const RevealOverlay: FC<Props> = ({
           getProfile={null}
         />
       )}
-      <Icon onClick={toggle}>{"<"}</Icon>
+      <Icon
+        onClick={() => {
+          toggle()
+          fetchHunterData()
+        }}
+      >
+        {"<"}
+      </Icon>
       <Title>{packType} Packs</Title>
       <SideNavbarWrapper isSideNavbarOpen={isSideNavbarOpen}>
         <ul

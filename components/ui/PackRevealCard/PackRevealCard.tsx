@@ -408,7 +408,7 @@ const PackRevealCard: FC<Props> = ({
       fetchEmptyPotionBottle()
       fetchPoop()
       getPersonalDexicon()
-      fetchHunterData()
+      // fetchHunterData() Don't have this otherwise /profile/user.find won't show packs and packs will be reloaded
     } catch (err) {
       toast.update(id, {
         render: () => <div>Error, try again later...</div>,
