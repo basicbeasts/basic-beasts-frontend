@@ -226,11 +226,8 @@ const RightNav = styled.div`
   gap: 10px;
   margin-left: 10px;
   @media (min-width: 1025px) {
-    display: flex;
-    align-items: center;
     list-style: none;
     text-align: center;
-    margin-top: 0px;
   }
   @media (max-width: 330px) {
     transform: scale(0.7);
@@ -337,7 +334,7 @@ const MobileMenuButton = styled.button`
   /* @media (min-width: 1025px) {
     display: none;
   } */
-  margin-top: 3px;
+  // margin-top: 3px;
   margin-right: 15px;
 
   // Stuff
@@ -483,19 +480,19 @@ const MobileConnect = styled.button`
   /* @media (min-width: 1025px) {
     display: none;
   } */
-  margin-top: 13px;
+  // margin-top: 13px;
   margin-right: 0px;
   color: #222427;
   font-size: 20px;
 
-  display: flex;
-  -webkit-box-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  justify-content: center;
-  flex-flow: row nowrap;
-  position: relative;
-  white-space: nowrap;
+  // display: flex;
+  // -webkit-box-align: center;
+  // align-items: center;
+  // -webkit-box-pack: center;
+  // justify-content: center;
+  // flex-flow: row nowrap;
+  // position: relative;
+  // white-space: nowrap;
   background: rgba(22, 22, 26, 0.04);
   line-height: 40px;
   /* padding-right: 11px; */
@@ -679,7 +676,9 @@ const Navbar: FC<FuncProps> = ({
 
           <RightNav>
             {!loggedIn ? (
-              <MobileConnect onClick={() => logIn()}>Connect</MobileConnect>
+              <div>
+                <MobileConnect onClick={() => logIn()}>Connect</MobileConnect>
+              </div>
             ) : (
               <></>
             )}
