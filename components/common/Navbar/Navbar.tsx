@@ -20,6 +20,7 @@ import InboxIcon from "public/basic_inbox_icon.png"
 import { Menu, Transition } from "@headlessui/react"
 import { toast } from "react-toastify"
 import SearchBar from "@components/ui/SearchBar"
+import SearchBarMobileModal from "@components/ui/SearchBarMobileModal"
 
 const Nav = styled.header<{ font: string; fontSize: string }>`
   background: #111823;
@@ -71,6 +72,7 @@ const NavLogoContainer = styled.div`
 const MobileNavLogoContainer = styled.div`
   margin-left: 20px;
   margin-top: 28px;
+  margin-right: 20px;
   @media (min-width: 1025px) {
     display: none;
   }
@@ -557,6 +559,8 @@ const Navbar: FC<FuncProps> = ({
 
   const { balance, centralizedInbox } = useUser()
 
+  const [openMobileSearch, setOpenMobileSearch] = useState(false)
+
   const currentPath = router.asPath
 
   let { t, lang } = useTranslation()
@@ -638,12 +642,17 @@ const Navbar: FC<FuncProps> = ({
               <NavLogo>BB</NavLogo>
             </NextLink>
           </MobileNavLogoContainer>
-
+          <SearchBarMobileModal
+            open={openMobileSearch}
+            setOpen={setOpenMobileSearch}
+            data={hunterData}
+            beastData={beastData}
+          />
           <SearchBar
             placeholder="Search .find name or address..."
             data={hunterData}
             beastData={beastData}
-            setOpenMobileModal={setOpen}
+            setOpenMobileModal={setOpenMobileSearch}
           />
           <NavMenu>
             <NavItem>

@@ -1,70 +1,6 @@
 import { FC, Fragment, useEffect, useRef, useState } from "react"
 import { Dialog, Transition } from "@headlessui/react"
-import { CheckIcon } from "@heroicons/react/outline"
-
-import star from "public/basic_starLevel.png"
 import styled from "styled-components"
-import {
-  send,
-  transaction,
-  args,
-  arg,
-  payer,
-  proposer,
-  authorizations,
-  limit,
-  authz,
-  decode,
-  tx,
-} from "@onflow/fcl"
-import * as t from "@onflow/types"
-import { toast } from "react-toastify"
-import { faSearch } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { motion } from "framer-motion"
-
-const ActionItem = styled.div`
-  padding: 10px 0;
-  width: 100%;
-`
-
-const FuncArgInput = styled.input`
-  background: transparent;
-  border: 1px solid #222;
-  color: #222;
-  font-size: 1.5em;
-  padding: 10px 0px 10px 20px;
-  /* border-radius: 8px 0 0 8px; */
-  width: 50%;
-  cursor: pointer;
-  margin-right: -1px;
-
-  outline: none;
-`
-
-const FuncArgButton = styled.button`
-  background: transparent;
-  border: 1px solid #222;
-  color: #222;
-  font-size: 1.5em;
-  padding: 10px 20px;
-  /* border-radius: 0 8px 8px 0; */
-  cursor: pointer;
-  &:hover {
-    background: #000000;
-    color: #fff;
-  }
-  &:disabled {
-    background: gray;
-    color: #fff;
-    opacity: 0.35;
-  }
-`
-
-const Title = styled.div`
-  font-size: 2.5em;
-  margin-bottom: 20px;
-`
 
 const Wrapper = styled.div`
   // margin: 0 20px;
@@ -73,10 +9,6 @@ const Wrapper = styled.div`
 
 const Container = styled.div`
   align-items: center;
-`
-
-const NicknameLengthWarning = styled.div`
-  color: red;
 `
 
 const SearchDiv = styled.div`
@@ -99,11 +31,6 @@ const ExtraDiv = styled.div`
   height: auto;
   outline: none;
 `
-const DisplayDiv = styled.div`
-  @media (max-width: 621px) {
-    display: none;
-  }
-`
 
 const RecentDiv = styled.div`
   display: grid;
@@ -113,6 +40,7 @@ const RecentDiv = styled.div`
   grid-template-columns: 90% 1fr;
   &:hover {
     box-shadow: rgb(0 0 0 / 16%) 0px 4px 16px;
+    transform: scale(1.005);
   }
 `
 
@@ -122,10 +50,13 @@ const InputDiv = styled.div`
   justify-content: center;
   width: 100%;
   padding: 8px;
-  background: white;
-  border-bottom: 1px solid rgb(229, 232, 235);
+  background: #212127;
+
+  box-shadow: 0px 0px 3px 2px #8f7a39 !important;
+  /* border-bottom: 1px solid rgb(229, 232, 235); */
   // border-radius: 12px;
-  color: rgb(4, 17, 29);
+  /* color: rgb(4, 17, 29); */
+  color: #fff;
   cursor: text;
   align-items: center;
   height: var(--height);
@@ -141,13 +72,18 @@ const InputBar = styled.input`
   outline: none;
   width: 100%;
   padding: 1px 2px;
+  &::placeholder {
+    color: #f3cb23;
+  }
 `
 const IconDiv = styled.div`
   display: flex;
   margin-right: 8px;
   //margin-bottom: 5px;
   max-width: 24px;
-  color: rgb(138, 147, 155);
+  /* color: rgb(138, 147, 155); */
+
+  color: #f3cb23;
   object-fit: contain;
   justify-content: center;
 
@@ -162,18 +98,27 @@ const IconDiv = styled.div`
     props.id === "backButton" &&
     `
     width: 32px;
+    cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
+      14 0,
+    pointer !important;
   `};
 `
 const RemoveBtn = styled.button`
   min-width: 20px;
   min-height: 20px;
-  color: rgb(138, 147, 155);
+  /* color: rgb(138, 147, 155); */
+  color: #f3c923ce;
   font-size: 36px;
   border-bottom-width: 1px;
+
+  border-color: #464854;
 `
 const SuggestionList = styled.div<any>`
+  background: #212127;
+
+  color: #f3cb23;
   width: var(--width);
-  background: white;
+  /* background: white; */
   /* border-radius: 10px; */
   position: absolute;
   font-size: 24px;
@@ -190,13 +135,14 @@ const SuggestionList = styled.div<any>`
     display: flex;
     padding: 4px;
 
-    border-bottom: 1px solid rgb(229, 232, 235);
+    border-bottom: 1px solid #464854;
     margin: 0;
 
     align-items: center;
   }
   #hoverShadow:hover {
     box-shadow: rgb(0 0 0 / 16%) 0px 4px 16px;
+    transform: scale(1.005);
   }
 
   /* transition: 10s ease-in-out;
@@ -223,7 +169,11 @@ const Img = styled.img`
 const CategoryName = styled.div`
   padding: 16px;
   border-bottom-width: 1px;
-  color: rgb(112, 122, 131);
+  /* color: rgb(112, 122, 131); */
+
+  color: #f3c923ce;
+
+  border-color: #464854;
 `
 
 const SearchBar: FC<{
@@ -373,7 +323,7 @@ const SearchBar: FC<{
         <InputDiv>
           <IconDiv id="backButton" onClick={() => setOpenMobileModal(false)}>
             {" "}
-            <b>&lt;</b>{" "}
+            &lt;{" "}
           </IconDiv>
           <InputBar
             type="text"
@@ -387,7 +337,7 @@ const SearchBar: FC<{
               <IconDiv id="xButton">
                 <div id="clearBtn" onClick={clearInput}>
                   {" "}
-                  <b>x</b>{" "}
+                  x{" "}
                 </div>
               </IconDiv>
             </a>
@@ -601,12 +551,12 @@ const SearchBarMobileModal: FC<Props> = ({
             >
               <Dialog.Panel
                 style={{ width: "100%" }}
-                className="relative bg-none pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-sm sm:w-full md:max-w-xl"
+                className="relative bg-none pb-4 text-left overflow-hidden shadow-xl transform transition-all w-full"
               >
                 <Wrapper>
                   {/* <div className="text-white">Search Bar Mobile</div> */}
                   <SearchBar
-                    placeholder="Search.."
+                    placeholder="Search .find name or address..."
                     data={data}
                     beastData={beastData}
                     setOpenMobileModal={setOpen}

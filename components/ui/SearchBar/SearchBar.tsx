@@ -10,7 +10,7 @@ const SearchDiv = styled.div`
   /* justify-content: center; */
   width: 100%;
   align-items: center;
-  @media (max-width: 621px) {
+  @media (max-width: 700px) {
     justify-content: right;
   }
 `
@@ -28,12 +28,12 @@ const ExtraDiv = styled.div`
   width: 100%;
   height: auto;
   outline: none;
-  @media (max-width: 621px) {
+  @media (max-width: 700px) {
     display: none;
   }
 `
 const DisplayDiv = styled.div`
-  @media (max-width: 621px) {
+  @media (max-width: 700px) {
     display: none;
   }
 `
@@ -107,7 +107,7 @@ const IconDiv = styled.div`
     `
     
 
-    @media (min-width: 622px) {
+    @media (min-width: 701px) {
       display: none;
     }
   `};
