@@ -45,6 +45,9 @@ const Nav = styled.header<{ font: string; fontSize: string }>`
   height: 100%; */
 
   padding: 0px 16px;
+  @media (max-width: 300px) {
+    padding: 0;
+  }
 `
 
 const NavbarContainer = styled.nav`

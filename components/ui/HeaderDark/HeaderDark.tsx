@@ -2,8 +2,9 @@ import React, { FC } from "react"
 import styled from "styled-components"
 
 const Container = styled.div`
-  min-height: 20vh;
-  height: 40vh;
+  // min-height: 20vh;
+  // height: 40vh;
+  margin-bottom: 50px;
   display: flex;
   flex-direction: column;
   justify-content: center;
