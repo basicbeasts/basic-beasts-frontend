@@ -476,7 +476,7 @@ export interface Mutation {
    */
   preOrder: (args: {
     count: Scalars["Int"]
-    packType: PackType
+    packType: string
     refundable: Scalars["Boolean"]
     transactionHash: Scalars["String"]
   }) => Maybe<PreOrder>

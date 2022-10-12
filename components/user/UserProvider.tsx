@@ -16,9 +16,9 @@ const Context = createContext<State | any>(initialState)
 
 const UserProvider: FC = ({ children }) => {
   const [user, address]: any = useCurrentUser()
-  const [compositeSignature, setCompositeSignature] = useCookie(
-    "user-composite-signature",
-  )
+  // const [compositeSignature, setCompositeSignature] = useCookie(
+  //   "user-composite-signature",
+  // )
 
   const { data: balance, getFUSDBalance, purchase, loading } = useFUSD(user)
   const {
@@ -44,21 +44,21 @@ const UserProvider: FC = ({ children }) => {
     getNumberOfPacks,
   } = useInbox(user)
 
-  useEffect(() => {
-    if (compositeSignature) return
-    if (address) {
-      const signMessage = async () => {
-        const MSG = Buffer.from(process.env.NEXT_PUBLIC_SIGN_MESSAGE!).toString(
-          "hex",
-        )
-        const signedMessage = await fcl.currentUser().signUserMessage(MSG)
-        if (signedMessage && signedMessage.length > 0) {
-          setCompositeSignature(signedMessage[0])
-        }
-      }
-      signMessage()
-    }
-  }, [address, compositeSignature])
+  // useEffect(() => {
+  //   if (compositeSignature) return
+  //   if (address) {
+  //     const signMessage = async () => {
+  //       const MSG = Buffer.from(process.env.NEXT_PUBLIC_SIGN_MESSAGE!).toString(
+  //         "hex",
+  //       )
+  //       const signedMessage = await fcl.currentUser().signUserMessage(MSG)
+  //       if (signedMessage && signedMessage.length > 0) {
+  //         setCompositeSignature(signedMessage[0])
+  //       }
+  //     }
+  //     signMessage()
+  //   }
+  // }, [address, compositeSignature])
 
   return (
     <Context.Provider

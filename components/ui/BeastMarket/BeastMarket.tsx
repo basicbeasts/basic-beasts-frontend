@@ -35,10 +35,14 @@ const Wrapper = styled.div`
 const ThumbnailDetails = styled.div<Omit<Color, "background">>`
   color: #000000;
   background: ${(props) => props.bgColor || "#FFD966"};
-  display: table;
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  justify-content: space-between;
   clear: both;
   width: 100%;
-  padding: 0px 10px;
+
+  padding: 10px;
   cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
       14 0,
     pointer !important;
@@ -61,11 +65,18 @@ const StarImg = styled.img`
 const ThumbnailLabel = styled.div`
   margin: 8px 0;
   float: right;
-  text-align: right;
+  color: #808080;
   line-height: 1.2em;
   @media (max-width: 360px) {
     font-size: 0.7em;
   }
+`
+
+const DetailButton = styled.button`
+  border: solid #808080 0.5px;
+  border-radius: 5px;
+  height: 15px;
+  font-size: 10px;
 `
 
 const Button = styled.button`
@@ -90,16 +101,16 @@ const Button = styled.button`
 `
 const SortByButton = styled.div`
   border-radius: 10px;
-  border: solid #bc9d24 2px;
+  border: solid #808080 0.5px;
   background: transparent;
   outline: none;
   &::placeholder {
-    color: #e4be23;
+    color: #d0d8e1;
   }
   text-transform: uppercase;
-  width: 160px;
+  width: 200px;
   font-size: 1em;
-  color: #e4be23;
+  color: #d0d8e1;
   &:hover {
     background: transparent;
   }
@@ -107,12 +118,12 @@ const SortByButton = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 8px;
-  padding-left: 15px;
-  margin-left: 20px;
+  // padding-left: 15px;
+  // margin-left: 20px;
   // margin-right: 18px;
-  @media (max-width: 440px) {
-    width: 100%;
-    margin: 0 15px;
+  @media (max-width: 490px) {
+    width: 150px;
+    // margin: 0 15px;
   }
   // @media (max-width: 391px) {
   //   width: 185px;
@@ -126,24 +137,20 @@ const SortByButton = styled.div`
 const DropDownList = styled.div`
   width: 200px;
   margin-left: 24px;
-  background-color: #212127;
-  color: #e4be23;
+  background-color: #111823;
+  color: #d0d8e1;
+  border: solid #808080 0.5px;
   border-radius: 10px;
-  @media (max-width: 413px) {
-    width: 185px;
-    margin: 0 10px;
-  }
-  @media (max-width: 391px) {
-    width: 185px;
-    margin: 0 33px;
-  }
-
-  @media (max-width: 361px) {
-    margin-left: 44px;
+  @media (max-width: 490px) {
+    width: 150px;
+    // margin: 0 15px;
   }
 `
 
 const InputContainer = styled.div`
+  width: 100%;
+  border: 0.5px solid #808080;
+  border-radius: 10px;
   @media (max-width: 570px) {
     width: 100%;
   }
@@ -155,27 +162,19 @@ const InputContainer = styled.div`
 
 const FuncArgInput = styled.input`
   background: transparent;
-  border-radius: 10px;
-  border: solid #bc9d24 2px;
+
+  border: none;
   color: #fff;
   font-size: 1em;
   padding: 8px;
   padding-left: 15px;
-  width: 175px;
-  height: 44px;
+  width: 100%;
   cursor: pointer;
   margin-bottom: 0;
   outline: none;
   &::placeholder {
-    color: #e4be23;
+    color: #d0d8e1;
     text-transform: uppercase;
-  }
-  @media (max-width: 570px) {
-    width: 100%;
-  }
-  @media (max-width: 440px) {
-    width: 100%;
-    margin-bottom: 8px;
   }
 `
 
@@ -190,11 +189,11 @@ const A = styled.a`
 const HeaderBeastCollection = styled.div`
   display: flex;
   width: 100%;
-  justify-content: right;
+  justify-content: center;
   align-items: center;
-  padding-right: 20px;
-  padding-top: 8px;
-  margin-top: 20px;
+  gap: 16px;
+  padding: 12px 16px 0;
+  // margin: 20px 10px 0;
   position: relative;
   z-index: 5;
   @media (max-width: 570px) {
@@ -203,7 +202,7 @@ const HeaderBeastCollection = styled.div`
   }
   @media (max-width: 440px) {
     flex-direction: column;
-    padding-right: 0;
+    align-items: end;
   }
 `
 
@@ -337,7 +336,7 @@ const DropDown: FC<{
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="origin-top-right absolute right-0 mt-2 w-56 rounded-md focus:outline-none">
+        <Menu.Items className="origin-top-right absolute right-0 mt-2  rounded-md focus:outline-none">
           <DropDownList>
             <div className="py-1">
               <Menu.Item>
@@ -613,7 +612,7 @@ const BeastMarket: FC<Props> = ({ beasts }) => {
       <HeaderBeastCollection>
         <InputContainer>
           <FuncArgInput
-            placeholder="Search"
+            placeholder="Search beasts serial number"
             type="text"
             onChange={(e: any) => setSearch(e.target.value.toLowerCase())}
           />
@@ -680,57 +679,47 @@ const BeastMarket: FC<Props> = ({ beasts }) => {
                     beastTemplateID={beast.beastTemplateID}
                   />
                 </div>
-                <div>
-                  <ThumbnailDetails
-                    style={{ borderRadius: "0 0 20px 20px" }}
-                    bgColor={
-                      beast.elements[0] == "Electric"
-                        ? "#FFD966"
-                        : beast.elements[0] == "Water"
-                        ? "#A4C2F4"
-                        : beast.elements[0] == "Grass"
-                        ? "#B7D7A8"
-                        : beast.elements[0] == "Fire"
-                        ? "#EA9999"
-                        : "#D5A6BD"
-                    }
-                  >
-                    <ThumbnailLabel>
-                      {beast.nickname.length < 13 ? (
-                        <div style={{ fontSize: "1.3em" }}>
-                          {beast.nickname}
-                        </div>
-                      ) : (
-                        <div style={{ fontSize: "1em" }}>{beast.nickname}</div>
-                      )}
 
-                      <div style={{ fontSize: "1.3em" }}>
-                        #{beast.serialNumber} |{" "}
-                        {beast.maxAdminMintAllowed <= 1000 &&
-                        beast.maxAdminMintAllowed != 0
-                          ? beast.maxAdminMintAllowed
-                          : "?"}
+                <ThumbnailDetails
+                  style={{ borderRadius: "0 0 20px 20px" }}
+                  bgColor={
+                    beast.elements[0] == "Electric"
+                      ? "#fff"
+                      : beast.elements[0] == "Water"
+                      ? "#fff"
+                      : beast.elements[0] == "Grass"
+                      ? "#fff"
+                      : beast.elements[0] == "Fire"
+                      ? "#fff"
+                      : "#fff"
+                  }
+                >
+                  <ThumbnailLabel>
+                    <div style={{ fontSize: "1.3em" }}>
+                      #{beast.serialNumber}
+                    </div>
+                    {beast.nickname.length < 13 ? (
+                      <div style={{ fontSize: "1.3em", color: "black" }}>
+                        {beast.nickname}
                       </div>
-                    </ThumbnailLabel>
-                    <ThumbnailLabel
-                      style={{
-                        float: "left",
-                        marginTop: "18px",
-                        marginLeft: "3px",
-                        opacity: "0.2",
-                      }}
-                    >
-                      <>{beast?.sex === "Male" ? "♂" : "♀"}</>
-                    </ThumbnailLabel>
-                    <StarLevel>
-                      {Array(beast.starLevel)
-                        .fill(0)
-                        .map((_, i) => (
-                          <StarImg key={i} src={star.src} />
-                        ))}
-                    </StarLevel>
-                  </ThumbnailDetails>
-                </div>
+                    ) : (
+                      <div style={{ fontSize: "1em" }}>{beast.nickname}</div>
+                    )}
+                  </ThumbnailLabel>
+
+                  <DetailButton>Details</DetailButton>
+
+                  <div>:heart: 76</div>
+                  <div>760050</div>
+
+                  <StarLevel>
+                    {Array(beast.starLevel)
+                      .fill(0)
+                      .map((_, i) => (
+                        <StarImg key={i} src={star.src} />
+                      ))}
+                  </StarLevel>
+                </ThumbnailDetails>
               </li>
             ))}
 

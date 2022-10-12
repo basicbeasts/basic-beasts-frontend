@@ -4,8 +4,6 @@ import { toast, ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import { useUser } from "@components/user/UserProvider"
 import { useAuth } from "@components/auth/AuthProvider"
-import Spinner from "../Spinner"
-import { useMutation, PackType } from "../../../gqty"
 import StarterImg from "public/packs/pack_pf/starter.png"
 import CursedImg from "public/packs/pack_pf/cursed.png"
 import ShinyImg from "public/packs/pack_pf/shiny.png"
@@ -90,7 +88,7 @@ const CardContainer = styled.div`
 const Card = styled.div<{
   bgColor: string
   marginTop: string
-  type: PackType
+  type: string
   bgColor2: string
   fontColor: string
 }>`
@@ -118,9 +116,9 @@ const Card = styled.div<{
   }
   ::before {
     ${({ type }) =>
-      type === PackType.STARTER
+      type === "Starter"
         ? `content: "Starter Pack";`
-        : type === PackType.CURSED_BLACK
+        : type === "Cursed Black"
         ? `content: "Cursed Black";`
         : `content: "Shiny Gold";`}
 
@@ -600,7 +598,7 @@ type BuyProps = {
   price: number
   addressReservable: string
   addressRefundable: string
-  packType: PackType
+  packType: string
   t: any
   lang: any
 }
@@ -624,28 +622,6 @@ const Purchase: FC<BuyProps> = ({
   const { logIn, loggedIn } = useAuth()
 
   const { balance, purchase } = useUser()
-
-  const [preOrder] = useMutation(
-    (
-      mutation,
-      args: {
-        packType: PackType
-        count: number
-        transactionHash: string
-        refundable: boolean
-      },
-    ) => {
-      const preOrder = mutation.preOrder(args)
-      if (preOrder) {
-        return {
-          id: preOrder.id,
-        }
-      }
-    },
-    {
-      suspense: false,
-    },
-  )
 
   const incrementQuantity = () => {
     if (quantity < maxQuantity) {
@@ -679,16 +655,16 @@ const Purchase: FC<BuyProps> = ({
             <QuantityButton
               onClick={() => decrementQuantity()}
               bgColor={
-                packType === PackType.STARTER
+                packType === "Starter"
                   ? "#737374"
-                  : packType === PackType.CURSED_BLACK
+                  : packType === "Cursed Black"
                   ? "#751ad0"
                   : "#ffbe00"
               }
               activeBgColor={
-                packType === PackType.STARTER
+                packType === "Starter"
                   ? "#737374cb"
-                  : packType === PackType.CURSED_BLACK
+                  : packType === "Cursed Black"
                   ? "#751ad0cb"
                   : "#ffbe00cb"
               }
@@ -701,9 +677,9 @@ const Purchase: FC<BuyProps> = ({
               value={quantity}
               onChange={(event) => inputQuantity(event)}
               fontColor={
-                packType === PackType.STARTER
+                packType === "Starter"
                   ? "#737374"
-                  : packType === PackType.CURSED_BLACK
+                  : packType === "Cursed Black"
                   ? "#c746a5"
                   : "#a15813"
               }
@@ -711,16 +687,16 @@ const Purchase: FC<BuyProps> = ({
             <QuantityButton
               onClick={() => incrementQuantity()}
               bgColor={
-                packType === PackType.STARTER
+                packType === "Starter"
                   ? "#737374"
-                  : packType === PackType.CURSED_BLACK
+                  : packType === "Cursed Black"
                   ? "#751ad0"
                   : "#ffbe00"
               }
               activeBgColor={
-                packType === PackType.STARTER
+                packType === "Starter"
                   ? "#737374cb"
-                  : packType === PackType.CURSED_BLACK
+                  : packType === "Cursed Black"
                   ? "#751ad0cb"
                   : "#ffbe00cb"
               }
@@ -731,9 +707,9 @@ const Purchase: FC<BuyProps> = ({
           </QuantitySelector>
           <TotalPrice
             fontColor={
-              packType === PackType.STARTER
+              packType === "Starter"
                 ? "#111823"
-                : packType === PackType.CURSED_BLACK
+                : packType === "Cursed Black"
                 ? "#751ad0"
                 : "#a15813"
             }
@@ -743,9 +719,9 @@ const Purchase: FC<BuyProps> = ({
           <ReservationOption
             onClick={() => setCheckboxValue(!checkboxValue)}
             fontColor={
-              packType === PackType.STARTER
+              packType === "Starter"
                 ? "#737374"
-                : packType === PackType.CURSED_BLACK
+                : packType === "Cursed Black"
                 ? "#c746af"
                 : "#e19700"
             }
@@ -768,30 +744,30 @@ const Purchase: FC<BuyProps> = ({
               <>
                 <NotAvailableButton
                   borderColor={
-                    packType === PackType.STARTER
+                    packType === "Starter"
                       ? "#11182379"
-                      : packType === PackType.CURSED_BLACK
+                      : packType === "Cursed Black"
                       ? "#751ad079"
                       : "#a1581379"
                   }
                   insetBorderColor={
-                    packType === PackType.STARTER
+                    packType === "Starter"
                       ? "#73737479"
-                      : packType === PackType.CURSED_BLACK
+                      : packType === "Cursed Black"
                       ? "#c746af79"
                       : "#f3cb2379"
                   }
                   bgColor={
-                    packType === PackType.STARTER
+                    packType === "Starter"
                       ? "#ababac79"
-                      : packType === PackType.CURSED_BLACK
+                      : packType === "Cursed Black"
                       ? "#e3bfff79"
                       : "#feff9579"
                   }
                   fontColor={
-                    packType === PackType.STARTER
+                    packType === "Starter"
                       ? "#fff"
-                      : packType === PackType.CURSED_BLACK
+                      : packType === "Cursed Black"
                       ? "#751ad079"
                       : "#a1581379"
                   }
@@ -806,30 +782,30 @@ const Purchase: FC<BuyProps> = ({
                 {!loggedIn ? (
                   <ConnectWallet
                     borderColor={
-                      packType === PackType.STARTER
+                      packType === "Starter"
                         ? "#111823"
-                        : packType === PackType.CURSED_BLACK
+                        : packType === "Cursed Black"
                         ? "#751ad0"
                         : "#a15813"
                     }
                     insetBorderColor={
-                      packType === PackType.STARTER
+                      packType === "Starter"
                         ? "#737374"
-                        : packType === PackType.CURSED_BLACK
+                        : packType === "Cursed Black"
                         ? "#c746af"
                         : "#f3cb23"
                     }
                     bgColor={
-                      packType === PackType.STARTER
+                      packType === "Starter"
                         ? "#ababac"
-                        : packType === PackType.CURSED_BLACK
+                        : packType === "Cursed Black"
                         ? "#e3bfff"
                         : "#feff95"
                     }
                     fontColor={
-                      packType === PackType.STARTER
+                      packType === "Starter"
                         ? "#fff"
-                        : packType === PackType.CURSED_BLACK
+                        : packType === "Cursed Black"
                         ? "#751ad0"
                         : "#a15813"
                     }
@@ -844,30 +820,30 @@ const Purchase: FC<BuyProps> = ({
                     {balance >= calculateTotalPrice() ? (
                       <SubmitButton
                         borderColor={
-                          packType === PackType.STARTER
+                          packType === "Starter"
                             ? "#111823"
-                            : packType === PackType.CURSED_BLACK
+                            : packType === "Cursed Black"
                             ? "#751ad0"
                             : "#a15813"
                         }
                         insetBorderColor={
-                          packType === PackType.STARTER
+                          packType === "Starter"
                             ? "#737374"
-                            : packType === PackType.CURSED_BLACK
+                            : packType === "Cursed Black"
                             ? "#c746af"
                             : "#f3cb23"
                         }
                         bgColor={
-                          packType === PackType.STARTER
+                          packType === "Starter"
                             ? "#ababac"
-                            : packType === PackType.CURSED_BLACK
+                            : packType === "Cursed Black"
                             ? "#e3bfff"
                             : "#feff95"
                         }
                         fontColor={
-                          packType === PackType.STARTER
+                          packType === "Starter"
                             ? "#fff"
-                            : packType === PackType.CURSED_BLACK
+                            : packType === "Cursed Black"
                             ? "#751ad0"
                             : "#a15813"
                         }
@@ -881,16 +857,7 @@ const Purchase: FC<BuyProps> = ({
                           const tx = await purchase(totalPrice, address)
                           if (tx) {
                             const txId = tx.events[0].transactionId as string
-
-                            const preOrderId = await preOrder({
-                              args: {
-                                transactionHash: txId,
-                                packType: packType,
-                                count: quantity,
-                                refundable: !checkboxValue,
-                              },
-                            })
-                            if (preOrderId) {
+                            if (tx) {
                               toast.success(
                                 "Congratulations! Your journey to becoming a Beast Hunter has begun!",
                               )
@@ -906,30 +873,30 @@ const Purchase: FC<BuyProps> = ({
                       <>
                         <SubmitButtonDisabled
                           borderColor={
-                            packType === PackType.STARTER
+                            packType === "Starter"
                               ? "#11182379"
-                              : packType === PackType.CURSED_BLACK
+                              : packType === "Cursed Black"
                               ? "#751ad079"
                               : "#a1581379"
                           }
                           insetBorderColor={
-                            packType === PackType.STARTER
+                            packType === "Starter"
                               ? "#73737479"
-                              : packType === PackType.CURSED_BLACK
+                              : packType === "Cursed Black"
                               ? "#c746af79"
                               : "#f3cb2379"
                           }
                           bgColor={
-                            packType === PackType.STARTER
+                            packType === "Starter"
                               ? "#ababac79"
-                              : packType === PackType.CURSED_BLACK
+                              : packType === "Cursed Black"
                               ? "#e3bfff79"
                               : "#feff9579"
                           }
                           fontColor={
-                            packType === PackType.STARTER
+                            packType === "Starter"
                               ? "#fff"
-                              : packType === PackType.CURSED_BLACK
+                              : packType === "Cursed Black"
                               ? "#751ad079"
                               : "#a1581379"
                           }
@@ -1024,7 +991,7 @@ const PackStore: FC = () => {
           <Card
             bgColor={"#e5e8e7"}
             marginTop={"13vw"}
-            type={PackType.STARTER}
+            type={"Starter"}
             bgColor2={"#737374"}
             fontColor={"#fff"}
           >
@@ -1050,7 +1017,7 @@ const PackStore: FC = () => {
                 addressRefundable={
                   process.env.NEXT_PUBLIC_ADDRESS_REFUNDABLE_NORMAL_SKIN!
                 }
-                packType={PackType.STARTER}
+                packType={"Starter"}
                 t={t}
                 lang={lang}
               />
@@ -1063,7 +1030,7 @@ const PackStore: FC = () => {
           <Card
             bgColor={"#f9edf7"}
             marginTop={"20vw"}
-            type={PackType.CURSED_BLACK}
+            type={"Cursed Black"}
             bgColor2={"#751ad0"}
             fontColor={"#fff"}
           >
@@ -1091,7 +1058,7 @@ const PackStore: FC = () => {
                 addressRefundable={
                   process.env.NEXT_PUBLIC_ADDRESS_REFUNDABLE_CURSED_BLACK!
                 }
-                packType={PackType.CURSED_BLACK}
+                packType={"Cursed Black"}
                 t={t}
                 lang={lang}
               />
@@ -1104,7 +1071,7 @@ const PackStore: FC = () => {
           <Card
             bgColor={"#fff4d1"}
             marginTop={"20vw"}
-            type={PackType.SHINY_GOLD}
+            type={"Shiny Gold"}
             bgColor2={"#ffda66"}
             fontColor={"#a15813"}
           >
@@ -1130,7 +1097,7 @@ const PackStore: FC = () => {
                 addressRefundable={
                   process.env.NEXT_PUBLIC_ADDRESS_REFUNDABLE_GOLD_STAR!
                 }
-                packType={PackType.SHINY_GOLD}
+                packType={"Shiny Gold"}
                 t={t}
                 lang={lang}
               />

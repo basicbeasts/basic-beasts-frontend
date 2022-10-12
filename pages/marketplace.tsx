@@ -14,7 +14,8 @@ const Marketplace: NextPage = () => {
     {
       name: "Moon",
       nickname: "angewoman",
-      serial: 69,
+      serialNumber: 69,
+      dexNumber: 1,
       skin: "Normal",
       starLevel: 1,
       elements: ["Electric"],
@@ -26,6 +27,25 @@ const Marketplace: NextPage = () => {
       breedingCount: 1, //Fetched from another script
       numberOfMintedBeastTemplates: 300,
       beastTemplateID: 1,
+      price: 200,
+    },
+    {
+      name: "Moon",
+      nickname: "hobo man",
+      serialNumber: 68,
+      dexNumber: 1,
+      skin: "Normal",
+      starLevel: 1,
+      elements: ["Electric"],
+      basicSkills: ["Triple Kick", "Gravity Pull", "Moon Shock"],
+      ultimateSkill: "Mega Volt Crash",
+      currentOwner: "0xa38a2e5fedaed062",
+      firstOwner: "0xa38a2e5fedaed062",
+      sex: "Female",
+      breedingCount: 1, //Fetched from another script
+      numberOfMintedBeastTemplates: 300,
+      beastTemplateID: 1,
+      price: 200,
     },
   ]
 

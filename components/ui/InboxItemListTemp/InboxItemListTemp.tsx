@@ -45,6 +45,13 @@ const EmptyMessage = styled.div`
   font-size: 2em;
   color: #fff;
   text-align: center;
+  margin-bottom: 10px;
+`
+
+const NoInbox = styled.div`
+  font-size: 2em;
+  color: #fff;
+  text-align: center;
   margin-bottom: 300px;
 `
 
@@ -156,7 +163,7 @@ const InboxItemListTemp: FC = () => {
             )}
           </>
         ) : (
-          <EmptyMessage>No inbox found</EmptyMessage>
+          <NoInbox>No inbox found</NoInbox>
         )}
       </>
     </Container>
