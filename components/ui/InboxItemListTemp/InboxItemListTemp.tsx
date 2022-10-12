@@ -45,7 +45,7 @@ const EmptyMessage = styled.div`
   font-size: 2em;
   color: #fff;
   text-align: center;
-  margin-bottom: 10px;
+  margin-bottom: 300px;
 `
 
 const PackContainer = styled.div`

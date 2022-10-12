@@ -45,8 +45,8 @@ const Nav = styled.header<{ font: string; fontSize: string }>`
   height: 100%; */
 
   padding: 0px 16px;
-  @media (max-width: 300px) {
-    padding: 0;
+  @media (max-width: 700px) {
+    padding: 0 5px;
   }
 `
 
@@ -73,7 +73,7 @@ const NavLogoContainer = styled.div`
 `
 
 const MobileNavLogoContainer = styled.div`
-  margin-left: 20px;
+  /* margin-left: 20px; */
   margin-top: 28px;
   margin-right: 20px;
   @media (min-width: 1025px) {
@@ -230,10 +230,19 @@ const RightNav = styled.div`
   justify-content: center;
   gap: 10px;
   margin-left: 10px;
+  min-width: max-content;
   @media (min-width: 1025px) {
     list-style: none;
     text-align: center;
   }
+  /* @media (max-width: 330px) {
+    transform: scale(0.7);
+  } */
+`
+
+const Transform = styled.div`
+  display: flex;
+  justify-content: start;
   @media (max-width: 330px) {
     transform: scale(0.7);
   }
@@ -288,9 +297,9 @@ const ExternalLinkIcon = styled.img`
 
 const MobileLanguageSwitcher = styled.div`
   height: auto;
-  /* @media (min-width: 1025px) {
+  @media (max-width: 370px) {
     display: none;
-  } */
+  }
 `
 
 const MobileInboxButton = styled.button`
@@ -340,7 +349,7 @@ const MobileMenuButton = styled.button`
     display: none;
   } */
   // margin-top: 3px;
-  margin-right: 15px;
+  /* margin-right: 15px; */
 
   // Stuff
   display: flex;
@@ -475,7 +484,7 @@ const MobileLoggedInContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 10px;
+  /* margin-right: 10px; */
   // margin-top: 10px;
   /* @media (min-width: 1025px) {
     display: none;

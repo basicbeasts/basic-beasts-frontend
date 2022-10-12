@@ -4,7 +4,7 @@ import styled from "styled-components"
 const Container = styled.div`
   // min-height: 20vh;
   // height: 40vh;
-  margin-bottom: 50px;
+  margin: 50px 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
