@@ -59,7 +59,7 @@ const Marketplace: NextPage = () => {
         beasts={dummyData}
         // fetchAllBeasts={}
       />
-      <pre>{JSON.stringify(dummyData, null, 2)}</pre>
+      {/* <pre>{JSON.stringify(dummyData, null, 2)}</pre> */}
     </div>
   )
 }

@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import BeastTabCard from "../BeastTabCard"
+import BeastMarketThumbnail from "../BeastMarketThumbnail"
 import star from "public/basic_starLevel.png"
 import BeastModalView from "../BeastModalView"
 import { Menu, Transition } from "@headlessui/react"
@@ -71,14 +71,6 @@ const ThumbnailLabel = styled.div`
     font-size: 0.7em;
   }
 `
-
-const DetailButton = styled.button`
-  border: solid #808080 0.5px;
-  border-radius: 5px;
-  height: 15px;
-  font-size: 10px;
-`
-
 const Button = styled.button`
   padding: 8px 24px 12px 26px;
   margin-right: 2px;
@@ -210,6 +202,69 @@ const MenuButton = styled<any>(Menu.Button)`
   @media (max-width: 440px) {
     width: 100%;
   }
+`
+const DetailButton = styled.button<any>`
+  position: relative;
+  border: solid #808080 0.5px;
+  border-radius: 10px;
+  font-size: 16px;
+  background: ${(props) => props.buttonColor};
+
+  padding: 0 15px;
+  &:hover {
+    box-shadow: 2px 2px 5px 1px black;
+  }
+`
+const Dialog = styled.dialog`
+  position: absolute;
+  left: 50%;
+  right: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  align-items: start;
+  color: #fff;
+  background: #111823;
+  border: solid #808080 0.5px;
+  border-radius: 10px;
+  min-width: max-content;
+  z-index: 99999;
+`
+const Attributes = styled.div`
+  display: grid;
+  width: 100%;
+  gap: 10px;
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: 50px;
+`
+const AttributeBlock = styled.div`
+  display: flex;
+  padding: 15px;
+  flex-direction: column;
+  align-items: start;
+  gap: 5px;
+  font-size: 1.5rem;
+  background: #212127;
+  border-radius: 10px;
+  color: grey;
+  &:last-child {
+    grid-column: 1 / 3;
+    align-items: center;
+    color: #f3cb23;
+  }
+  div {
+    color: white;
+  }
+`
+const P = styled.p`
+  line-height: 0.5;
+  text-transform: uppercase;
+`
+const TraitCount = styled.div`
+  color: #f3cb23 !important;
+  line-height: 0.75;
+  font-size: 1.2rem;
 `
 
 const DropDown: FC<{
@@ -524,6 +579,133 @@ type Beast = {
   id: any
 }
 
+const DialogInfo: FC<{ dialogOpen: any; beast: any }> = ({
+  dialogOpen,
+  beast,
+}) => {
+  return dialogOpen == true ? (
+    <Dialog open>
+      <div className="flex gap-2 leading-none">
+        {beast.nickname.length < 13 ? (
+          <div style={{ fontSize: "1.3em" }}>{beast.nickname}</div>
+        ) : (
+          <div style={{ fontSize: "1em" }}>{beast.nickname}</div>
+        )}
+        <div style={{ fontSize: "1.3em" }}>#{beast.serialNumber}</div>
+      </div>
+      <div style={{ marginLeft: "5px" }}>
+        Dex {"#" + ("00" + beast.dexNumber).slice(-3)}
+      </div>
+      <p style={{ color: "grey" }}>Attributes</p>
+      <Attributes>
+        <AttributeBlock>
+          <P>Skin</P>
+          <div>{beast.skin}</div>
+          <TraitCount>% have this trait</TraitCount>
+        </AttributeBlock>
+        <AttributeBlock>
+          <P>Element</P>
+          <div>{beast.elements}</div>
+          <TraitCount>% have this trait</TraitCount>
+        </AttributeBlock>
+        <AttributeBlock>
+          <P>Star Level</P>
+          <div>{beast.starLevel}</div>
+          <TraitCount>% have this trait</TraitCount>
+        </AttributeBlock>
+        <AttributeBlock>
+          <P>Gender</P>
+          <div>{beast.sex}</div>
+          <TraitCount>
+            % of {beast.name} <br /> have this trait
+          </TraitCount>
+        </AttributeBlock>
+        <AttributeBlock>
+          <P>Breeding Count</P>
+          <div>{beast.breedingCount}</div>
+          <TraitCount>% have this trait</TraitCount>
+        </AttributeBlock>
+        <AttributeBlock>
+          <P>Serial</P>
+          <div>{beast.serialNumber}</div>
+          <TraitCount>% have this trait</TraitCount>
+        </AttributeBlock>
+        <AttributeBlock>
+          <P>Number of Existing {beast.name}s</P>
+          <div>{beast.numberOfMintedBeastTemplates}</div>
+        </AttributeBlock>
+      </Attributes>
+      <p style={{ color: "grey" }}>Details</p>
+      <div className="flex w-full justify-between">
+        <p>Mint address</p>
+        <p style={{ color: "grey" }}>0x23948</p>
+      </div>
+    </Dialog>
+  ) : (
+    <></>
+  )
+}
+const ThumbnailDetailsFC: FC<{
+  beast: any
+}> = ({ beast }) => {
+  const [dialogOpen, setDialogOpen] = useState(false)
+
+  const buttonColor = () => {
+    var color = "none"
+    {
+      dialogOpen == true ? (color = "#FEDD64") : (color = "none")
+    }
+    return color
+  }
+  var btnColor = buttonColor()
+
+  return (
+    <div>
+      <ThumbnailDetails
+        style={{ borderRadius: "0 0 20px 20px" }}
+        bgColor={
+          beast.elements[0] == "Electric"
+            ? "#fff"
+            : beast.elements[0] == "Water"
+            ? "#fff"
+            : beast.elements[0] == "Grass"
+            ? "#fff"
+            : beast.elements[0] == "Fire"
+            ? "#fff"
+            : "#fff"
+        }
+      >
+        <ThumbnailLabel>
+          <div style={{ fontSize: "1.3em" }}>#{beast.serialNumber}</div>
+          {beast.nickname.length < 13 ? (
+            <div style={{ fontSize: "1.3em", color: "black" }}>
+              {beast.nickname}
+            </div>
+          ) : (
+            <div style={{ fontSize: "1em" }}>{beast.nickname}</div>
+          )}
+        </ThumbnailLabel>
+        <DetailButton
+          style={{ background: btnColor }}
+          onClick={() => setDialogOpen(!dialogOpen)}
+        >
+          Details
+          <DialogInfo dialogOpen={dialogOpen} beast={beast} />
+        </DetailButton>
+        <div>:heart: 76</div>
+        <div>760050</div>
+        <StarLevel>
+          {Array(beast.starLevel)
+            .fill(0)
+            .map((_, i) => (
+              <StarImg key={i} src={star.src} />
+            ))}
+        </StarLevel>
+      </ThumbnailDetails>
+    </div>
+  )
+}
+
 const BeastMarket: FC<Props> = ({ beasts }) => {
   //   const query = useQuery()
   //   const beasts =
@@ -556,6 +738,7 @@ const BeastMarket: FC<Props> = ({ beasts }) => {
   const [evolutionModalOpen, setEvolutionModalOpen] = useState(false)
   const [search, setSearch] = useState<string | null>("")
   const [evolvedBeastId, setEvolvedBeastId] = useState(null)
+  const [dialogOpen, setDialogOpen] = useState(false)
 
   useEffect(() => {
     if (beasts != null) {
@@ -673,53 +856,15 @@ const BeastMarket: FC<Props> = ({ beasts }) => {
                   }}
                   className="group block w-full aspect-w-9 aspect-h-7 bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden"
                 >
-                  <BeastTabCard
+                  <BeastMarketThumbnail
                     id={beast.id}
                     className="object-cover group-hover:opacity-90"
                     beastTemplateID={beast.beastTemplateID}
                   />
                 </div>
 
-                <ThumbnailDetails
-                  style={{ borderRadius: "0 0 20px 20px" }}
-                  bgColor={
-                    beast.elements[0] == "Electric"
-                      ? "#fff"
-                      : beast.elements[0] == "Water"
-                      ? "#fff"
-                      : beast.elements[0] == "Grass"
-                      ? "#fff"
-                      : beast.elements[0] == "Fire"
-                      ? "#fff"
-                      : "#fff"
-                  }
-                >
-                  <ThumbnailLabel>
-                    <div style={{ fontSize: "1.3em" }}>
-                      #{beast.serialNumber}
-                    </div>
-                    {beast.nickname.length < 13 ? (
-                      <div style={{ fontSize: "1.3em", color: "black" }}>
-                        {beast.nickname}
-                      </div>
-                    ) : (
-                      <div style={{ fontSize: "1em" }}>{beast.nickname}</div>
-                    )}
-                  </ThumbnailLabel>
-
-                  <DetailButton>Details</DetailButton>
-
-                  <div>:heart: 76</div>
-                  <div>760050</div>
-
-                  <StarLevel>
-                    {Array(beast.starLevel)
-                      .fill(0)
-                      .map((_, i) => (
-                        <StarImg key={i} src={star.src} />
-                      ))}
-                  </StarLevel>
-                </ThumbnailDetails>
+                {/* Make thumbnail details into a component and useState inside that component and add DialogInfo to it */}
+                <ThumbnailDetailsFC beast={beast} />
               </li>
             ))}
 
