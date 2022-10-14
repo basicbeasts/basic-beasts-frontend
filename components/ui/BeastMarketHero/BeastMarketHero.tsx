@@ -186,18 +186,19 @@ const Item = styled.div`
   }
 `
 const Showcase = styled.div`
-  background: gold;
+  background: goldenrod;
   background-image: linear-gradient(
     -45deg,
     transparent,
     rgba(255, 255, 255, 0.5) 25%,
     transparent 90%
   );
-  width: 600px;
+  width: 50%;
   border-radius: 0 0 0 50px;
   padding: 100px;
   display: flex;
   flex-direction: column;
+  margin-top: -100px;
 `
 type Props = {
   beast: any

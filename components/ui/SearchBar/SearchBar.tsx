@@ -59,7 +59,8 @@ const InputDiv = styled.div`
   /* outline-width: 1.5px;
   outline-style: solid; */
   padding: 8px;
-  background: transparent;
+  background: #11182370;
+  backdrop-filter: blur(5px);
   border: 1.5px solid #f3cb23;
   border-radius: 12px;
   /* color: #fff; */
