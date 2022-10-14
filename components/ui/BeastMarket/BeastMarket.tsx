@@ -4,8 +4,11 @@ import star from "public/basic_starLevel.png"
 import BeastModalView from "../BeastModalView"
 import { Menu, Transition } from "@headlessui/react"
 import { ChevronDownIcon } from "@heroicons/react/solid"
+import { faHeart as heartFull } from "@fortawesome/free-solid-svg-icons"
+import { faHeart as heartEmpty } from "@fortawesome/free-regular-svg-icons"
 import { FC, useState, Fragment, useEffect } from "react"
 import EvolutionModal from "../EvolutionModal"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 const Wrapper = styled.div`
   padding: 20px 20px 100px;
@@ -141,15 +144,13 @@ const DropDownList = styled.div`
 
 const InputContainer = styled.div`
   width: 100%;
+  display: grid;
+  align-items: center;
+  justify-content: space-between;
+  grid-template-columns: 1fr auto;
   border: 0.5px solid #808080;
   border-radius: 10px;
-  @media (max-width: 570px) {
-    width: 100%;
-  }
-  @media (max-width: 440px) {
-    padding: 0 10px;
-    width: 100%;
-  }
+  padding: 0 10px;
 `
 
 const FuncArgInput = styled.input`
@@ -226,17 +227,28 @@ const Dialog = styled.dialog`
   align-items: start;
   color: #fff;
   background: #111823;
-  border: solid #808080 0.5px;
+  /* border: solid #808080 0.5px; */
   border-radius: 10px;
   min-width: max-content;
   z-index: 99999;
+  @media (max-width: 420px) {
+    position: fixed;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    border-radius: 0;
+  }
 `
 const Attributes = styled.div`
   display: grid;
   width: 100%;
   gap: 10px;
   grid-template-columns: 1fr 1fr;
-  margin-bottom: 50px;
+  margin-bottom: 75px;
+  @media (max-width: 420px) {
+    margin-bottom: 0;
+  }
 `
 const AttributeBlock = styled.div`
   display: flex;
@@ -266,7 +278,36 @@ const TraitCount = styled.div`
   line-height: 0.75;
   font-size: 1.2rem;
 `
+const ClearButton = styled.button`
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  border: 1px solid grey;
+  border-radius: 10px;
+  color: lightgrey;
+  width: 30px;
+  height: 30px;
+  font-size: 20px;
+`
+const MarketUl = styled.ul`
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
 
+  @media (min-width: 420px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (min-width: 640px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @media (min-width: 890px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  @media (min-width: 1080px) {
+    grid-template-columns: repeat(5, 1fr);
+  }
+`
 const DropDown: FC<{
   beasts: any
   sortBy: any
@@ -649,7 +690,7 @@ const ThumbnailDetailsFC: FC<{
   beast: any
 }> = ({ beast }) => {
   const [dialogOpen, setDialogOpen] = useState(false)
-
+  const [heart, setHeart] = useState<any>(heartEmpty)
   const buttonColor = () => {
     var color = "none"
     {
@@ -658,7 +699,11 @@ const ThumbnailDetailsFC: FC<{
     return color
   }
   var btnColor = buttonColor()
-
+  const heartChange = () => {
+    {
+      heart == heartEmpty ? setHeart(heartFull) : setHeart(heartEmpty)
+    }
+  }
   return (
     <div>
       <ThumbnailDetails
@@ -692,8 +737,15 @@ const ThumbnailDetailsFC: FC<{
           Details
           <DialogInfo dialogOpen={dialogOpen} beast={beast} />
         </DetailButton>
-        <div>:heart: 76</div>
-        <div>760050</div>
+        <div className="flex gap-1 items-center">
+          <FontAwesomeIcon
+            onClick={() => heartChange()}
+            style={{ color: "grey" }}
+            icon={heart}
+          />{" "}
+          76
+        </div>
+        <div className="flex gap-1 justify-end">760050</div>
         <StarLevel>
           {Array(beast.starLevel)
             .fill(0)
@@ -797,8 +849,10 @@ const BeastMarket: FC<Props> = ({ beasts }) => {
           <FuncArgInput
             placeholder="Search beasts serial number"
             type="text"
+            value={search?.toString()}
             onChange={(e: any) => setSearch(e.target.value.toLowerCase())}
           />
+          <ClearButton onClick={() => setSearch("")}>X</ClearButton>
         </InputContainer>
         <DropDown
           beasts={displayBeasts}
@@ -836,9 +890,9 @@ const BeastMarket: FC<Props> = ({ beasts }) => {
           evolvedBeastId={evolvedBeastId}
         />
         {displayBeasts != null ? (
-          <ul
+          <MarketUl
             role="list"
-            className="grid grid-cols-2 gap-x-5 gap-y-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-5"
+            // className="grid grid-cols-1 gap-x-5 gap-y-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-5"
           >
             {displayBeasts.map((beast: any) => (
               <li
@@ -869,6 +923,7 @@ const BeastMarket: FC<Props> = ({ beasts }) => {
             ))}
 
             {/* To prevent big gap due to fixed height, which is needed for the scroll */}
+            {/* <li></li>
             <li></li>
             <li></li>
             <li></li>
@@ -907,9 +962,8 @@ const BeastMarket: FC<Props> = ({ beasts }) => {
             <li></li>
             <li></li>
             <li></li>
-            <li></li>
-            <li></li>
-          </ul>
+            <li></li> */}
+          </MarketUl>
         ) : (
           "No beasts found"
         )}

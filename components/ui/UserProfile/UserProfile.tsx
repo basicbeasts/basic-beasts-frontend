@@ -8,7 +8,7 @@ import { query } from "@onflow/fcl"
 import { AnyNode } from "postcss"
 
 const Container = styled.div`
-  margin-top: 150px;
+  margin-top: 180px;
   background: #212127;
 `
 

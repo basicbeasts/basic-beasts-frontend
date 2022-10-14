@@ -1018,9 +1018,9 @@ const BeastModalView: FC<Props> = ({
                                         <EvolveButton
                                           disabled={selectedBeasts.length != 3}
                                           onClick={() => {
-                                            // evolve()
+                                            evolve()
 
-                                            setEvolutionModalOpen(true)
+                                            // setEvolutionModalOpen(true)
                                           }}
                                         >
                                           evolve

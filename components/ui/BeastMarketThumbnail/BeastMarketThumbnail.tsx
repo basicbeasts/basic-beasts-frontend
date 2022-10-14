@@ -17,7 +17,7 @@ const Container = styled.div<{
       14 0,
     pointer !important;
 
-  margin-bottom: 30px;
+  // margin-bottom: 30px;
 `
 
 const Img = styled.img`
