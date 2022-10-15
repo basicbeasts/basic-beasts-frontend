@@ -73,7 +73,7 @@ const IconContainer = styled.div`
 const Icon = styled.img`
   width: auto;
   height: 30px;
-  margin: 0 50px 0 50px;
+  margin: 0 20px;
   opacity: 0.5;
   @media (max-width: 1010px) {
     margin: 0 15px 0 15px;
