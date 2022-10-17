@@ -231,6 +231,7 @@ const Dialog = styled.dialog`
   border-radius: 10px;
   min-width: max-content;
   z-index: 99999;
+
   @media (max-width: 420px) {
     position: fixed;
     top: 0;
@@ -280,33 +281,34 @@ const TraitCount = styled.div`
 `
 const ClearButton = styled.button`
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: center;
   border: 1px solid grey;
   border-radius: 10px;
   color: lightgrey;
   width: 30px;
   height: 30px;
-  font-size: 20px;
+  font-size: 30px;
+  padding: 0 0 6.5px 2px;
 `
 const MarketUl = styled.ul`
   display: grid;
   width: 100%;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 1.25rem;
 
-  @media (min-width: 420px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  @media (min-width: 640px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  @media (min-width: 890px) {
-    grid-template-columns: repeat(4, 1fr);
-  }
-  @media (min-width: 1080px) {
-    grid-template-columns: repeat(5, 1fr);
-  }
+  // @media (min-width: 420px) {
+  //   grid-template-columns: repeat(2, 1fr);
+  // }
+  // @media (min-width: 640px) {
+  //   grid-template-columns: repeat(3, 1fr);
+  // }
+  // @media (min-width: 890px) {
+  //   grid-template-columns: repeat(4, 1fr);
+  // }
+  // @media (min-width: 1080px) {
+  //   grid-template-columns: repeat(5, 1fr);
+  // }
 `
 const DropDown: FC<{
   beasts: any
@@ -624,8 +626,14 @@ const DialogInfo: FC<{ dialogOpen: any; beast: any }> = ({
   dialogOpen,
   beast,
 }) => {
+  let centerX = document.documentElement.clientWidth / 2
+  let centerY = document.documentElement.clientHeight / 2
+  var right = 50
+  var left = 50
+  console.log(centerX, centerY)
+
   return dialogOpen == true ? (
-    <Dialog open>
+    <Dialog id="some-element" open>
       <div className="flex gap-2 leading-none">
         {beast.nickname.length < 13 ? (
           <div style={{ fontSize: "1.3em" }}>{beast.nickname}</div>
@@ -852,7 +860,7 @@ const BeastMarket: FC<Props> = ({ beasts }) => {
             value={search?.toString()}
             onChange={(e: any) => setSearch(e.target.value.toLowerCase())}
           />
-          <ClearButton onClick={() => setSearch("")}>X</ClearButton>
+          <ClearButton onClick={() => setSearch("")}>x</ClearButton>
         </InputContainer>
         <DropDown
           beasts={displayBeasts}
@@ -923,7 +931,6 @@ const BeastMarket: FC<Props> = ({ beasts }) => {
             ))}
 
             {/* To prevent big gap due to fixed height, which is needed for the scroll */}
-            {/* <li></li>
             <li></li>
             <li></li>
             <li></li>
@@ -962,7 +969,8 @@ const BeastMarket: FC<Props> = ({ beasts }) => {
             <li></li>
             <li></li>
             <li></li>
-            <li></li> */}
+            <li></li>
+            <li></li>
           </MarketUl>
         ) : (
           "No beasts found"

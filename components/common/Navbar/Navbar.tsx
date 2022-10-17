@@ -76,6 +76,7 @@ const MobileNavLogoContainer = styled.div`
   /* margin-left: 20px; */
   margin-top: 28px;
   margin-right: 20px;
+  z-index: 1;
   @media (min-width: 1025px) {
     display: none;
   }
@@ -108,6 +109,7 @@ width: 40px;
 
 const NavMenu = styled.ul`
   display: none;
+  z-index: 10;
   @media (min-width: 1025px) {
     display: flex;
     align-items: center;
@@ -231,6 +233,7 @@ const RightNav = styled.div`
   gap: 10px;
   margin-left: 10px;
   min-width: max-content;
+  z-index: 10;
   @media (min-width: 1025px) {
     list-style: none;
     text-align: center;

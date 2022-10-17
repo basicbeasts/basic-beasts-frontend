@@ -9,6 +9,11 @@ const Main = styled.main`
   padding: 0 0 0 20px;
   margin-bottom: 50px;
   gap: 5rem;
+  width: 100%;
+  @media (max-width: 720px) {
+    flex-direction: column;
+    padding: 0;
+  }
 `
 
 const Header = styled.h1`
@@ -17,10 +22,13 @@ const Header = styled.h1`
   max-width: 14ch;
   text-transform: uppercase;
   line-height: 1;
+  @media (max-width: 380px) {
+    font-size: 3.25rem;
+  }
 `
 const P = styled.p`
   color: white;
-  width: 56ch;
+  max-width: 56ch;
 `
 const H2 = styled.h2`
   font-size: 1.5rem;
@@ -61,6 +69,11 @@ const DetailButton = styled.button<any>`
   padding: 5px;
   &:hover {
     box-shadow: 2px 2px 5px 1px black;
+  }
+  @media (max-width: 1010px) {
+    grid-column: 1 / 3;
+    width: 60%;
+    margin: 10px auto 0;
   }
 `
 const Attributes = styled.div`
@@ -107,6 +120,7 @@ const Dialog = styled.dialog`
   border-radius: 10px;
   min-width: max-content;
   z-index: 99999;
+
   @media (max-width: 420px) {
     position: fixed;
     top: 0;
@@ -141,6 +155,11 @@ const BidButton = styled.button`
   border-radius: 6px;
   padding: 5px 2px;
   width: 125px;
+  @media (max-width: 1010px) {
+    grid-column: 1 / 3;
+    width: 60%;
+    margin: 0 auto;
+  }
 `
 const ItemInfo = styled.div`
   display: flex;
@@ -148,7 +167,7 @@ const ItemInfo = styled.div`
   margin-top: 50px;
   align-items: center;
   background-image: linear-gradient(to top, transparent, #ffdf7e);
-  width: 60%;
+  width: 75%;
   height: 80px;
   justify-content: space-evenly;
   border-radius: 10px;
@@ -193,12 +212,36 @@ const Showcase = styled.div`
     rgba(255, 255, 255, 0.5) 25%,
     transparent 90%
   );
-  width: 50%;
+  width: max-content;
+  max-width: 50%;
   border-radius: 0 0 0 50px;
-  padding: 100px;
+  padding: 6rem 4rem;
   display: flex;
+  justify-content: center;
   flex-direction: column;
   margin-top: -100px;
+  @media (max-width: 720px) {
+    width: 100%;
+    max-width: 100%;
+    border-radius: 0;
+    margin-top: 0;
+  }
+  @media (max-width: 310px) {
+    padding: 6rem 2rem;
+  }
+`
+const Discover = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: max-content;
+  justify-content: center;
+  @media (max-width: 720px) {
+    width: 100%;
+    align-items: center;
+    text-align: center;
+    padding: 0 10px;
+  }
 `
 type Props = {
   beast: any
@@ -296,7 +339,7 @@ const ThumbnailDetailsFC: FC<{
           )}
         </ThumbnailLabel>
         <div
-          style={{ fontSize: "2rem", color: "grey" }}
+          style={{ fontSize: "1.5em", color: "grey" }}
           className="flex justify-center"
         >
           50 FUSD
@@ -319,7 +362,7 @@ const BeastMarketHero: FC<Props> = ({ beast }) => {
     <>
       <Main>
         {" "}
-        <div className="flex flex-col gap-5 w-max justify-center ">
+        <Discover>
           <Header>Discover rare collections of art & nfts</Header>
           <P>
             Discover Rare Collections Of Art & Nfts. Discover Rare Collections
@@ -337,11 +380,11 @@ const BeastMarketHero: FC<Props> = ({ beast }) => {
               <H2>78K</H2> Items
             </Item>
           </ItemInfo>
-        </div>{" "}
+        </Discover>{" "}
         <Showcase>
           <BeastMarketThumbnail
             id={beast.id}
-            className="object-cover group-hover:opacity-90 rounded-t-3xl overflow-hidden h-full"
+            className="object-cover group-hover:opacity-90 rounded-t-3xl overflow-hidden "
             beastTemplateID={beast.beastTemplateID}
           />
           <ThumbnailDetailsFC beast={beast} />

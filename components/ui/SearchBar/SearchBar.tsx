@@ -10,6 +10,7 @@ const SearchDiv = styled.div`
   /* justify-content: center; */
   width: 100%;
   align-items: center;
+  z-index: 1;
   @media (max-width: 700px) {
     justify-content: right;
   }
