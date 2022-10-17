@@ -3,12 +3,14 @@ import BeastMarketThumbnail from "../BeastMarketThumbnail"
 import star from "public/basic_starLevel.png"
 import BeastModalView from "../BeastModalView"
 import { Menu, Transition } from "@headlessui/react"
-import { ChevronDownIcon } from "@heroicons/react/solid"
+import { ChevronDownIcon, FilterIcon } from "@heroicons/react/solid"
 import { faHeart as heartFull } from "@fortawesome/free-solid-svg-icons"
 import { faHeart as heartEmpty } from "@fortawesome/free-regular-svg-icons"
 import { FC, useState, Fragment, useEffect } from "react"
 import EvolutionModal from "../EvolutionModal"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import BeastMarketFilters from "../BeastMarketFilters"
+import beastTemplates from "data/beastTemplates"
 
 const Wrapper = styled.div`
   padding: 20px 20px 100px;
@@ -96,8 +98,8 @@ const Button = styled.button`
 `
 const SortByButton = styled.div`
   border-radius: 10px;
-  border: solid #808080 0.5px;
-  background: transparent;
+  // border: solid #808080 0.5px;
+  background: #282e3a;
   outline: none;
   &::placeholder {
     color: #d0d8e1;
@@ -146,9 +148,10 @@ const InputContainer = styled.div`
   width: 100%;
   display: grid;
   align-items: center;
+  background: #282e3a;
   justify-content: space-between;
   grid-template-columns: 1fr auto;
-  border: 0.5px solid #808080;
+  // border: 0.5px solid #808080;
   border-radius: 10px;
   padding: 0 10px;
 `
@@ -599,29 +602,6 @@ type Props = {
   beasts: any
 }
 
-type Beast = {
-  beastTemplateID: number
-  generation: number
-  dexNumber: number
-  name: String
-  description: String
-  image: String
-  imageTransparentBg: String
-  animationUrl: String
-  externalUrl: String
-  rarity: String
-  skin: String
-  starLevel: number
-  asexual: boolean
-  breedableBeastTemplateID: number
-  maxAdminMintAllowed: number
-  ultimateSkill: String
-  basicSkills: String[]
-  elements: String[]
-  data: any
-  id: any
-}
-
 const DialogInfo: FC<{ dialogOpen: any; beast: any }> = ({
   dialogOpen,
   beast,
@@ -766,51 +746,38 @@ const ThumbnailDetailsFC: FC<{
   )
 }
 
+const filterOptions = [
+  {
+    value: "",
+    label: "All Genre",
+  },
+  {
+    value: "skin",
+    label: "Skin",
+  },
+  {
+    value: "sex",
+    label: "Gender",
+  },
+]
+
 const BeastMarket: FC<Props> = ({ beasts }) => {
-  //   const query = useQuery()
-  //   const beasts =
-  //     query.me
-  //       ?.openedPacks()
-  //       ?.edges?.map((edge) => edge?.node?.beast?.id!)
-  //       .filter(Boolean) ?? []
-
-  //   useEffect(() => {
-  //     count(beasts?.length ?? 0)
-  //     // This will re-run when the query updates with data
-  //     // eslint-disable-next-line react-hooks/exhaustive-deps
-  //   }, [beasts])
-
-  //   // When Beasts are in the collection. Showcase first BeastThumbnail by default
-  //   useEffect(() => {
-  //     if (beasts && beasts.length > 0) {
-  //       selectBeast(beasts[0])
-  //     }
-  //     // This will re-run when the query updates with data
-  //     // eslint-disable-next-line react-hooks/exhaustive-deps
-  //   }, [query.$state.isLoading])
-
   const [displayBeasts, setDisplayBeasts] = useState<any>(null)
   const [selectedBeast, setSelectedBeast] = useState<any>(null)
   const [open, setOpen] = useState(false)
   const [displayNickname, setDisplayNickname] = useState<string | null>(null)
   const [sortBy, setSortBy] = useState("SORT BY")
 
-  const [evolutionModalOpen, setEvolutionModalOpen] = useState(false)
   const [search, setSearch] = useState<string | null>("")
   const [evolvedBeastId, setEvolvedBeastId] = useState(null)
   const [dialogOpen, setDialogOpen] = useState(false)
+  const [filterOpen, setFilterOpen] = useState(true)
 
   useEffect(() => {
     if (beasts != null) {
       setDisplayBeasts(beasts)
     }
   }, [beasts])
-
-  // useEffect(() => {
-  //   if (allEvolutionPairs != null && selectedBeast != null) {
-  //     setEvolvedBeastId(allEvolutionPairs[selectedBeast.beastTemplateID])
-  //   }
-  // }, [selectedBeast])
 
   useEffect(() => {
     if (search != "") {
@@ -829,30 +796,164 @@ const BeastMarket: FC<Props> = ({ beasts }) => {
       setDisplayBeasts(newBeasts)
     }
   }
-  // const filterElementElectric = beasts.filter((Beast: any) => {
-  //   if (beasts != null) {
-  //     return Beast.element === "Electric"
-  //   }
-  // })
 
-  // const filterElementFire = () => {
-  //   if (beasts != null) {
-  //   }
+  // const [filters, setFilters] = useState()
+
+  // const createFiltersFromNfts = (nfts: any[]) => {
+  //   const filters = nfts.reduce((acc, curr) => {
+  //     const { metadata } = curr
+  //     console.log("Metadata" + metadata)
+  //     // const { cid, mimetype, path, uri, ...usefulMetadata } = metadata
+
+  //     Object.entries(metadata).forEach(([category, trait]) => {
+  //       let item = acc.get(category as any)
+
+  //       // If the category doesn't exist, create it for future collections
+  //       if (!item) {
+  //         acc.set(category as any, new Map())
+  //         item = acc.get(category as any)
+  //       }
+
+  //       const traitCount = (item?.get(trait) || 0) + 1
+  //       item?.set(trait, traitCount)
+  //     })
+
+  //     return acc
+  //   }, new Map())
+
+  //   setFilters(filters)
+  //   console.log(filters)
   // }
 
-  // const filterElementNormal = () => {
-  //   if (beasts != null) {
-  //   }
-  // }
+  const [filter, setFilter] = useState<any>()
 
-  // const filterElementAll = () => {
-  //   if (beasts != null) {
-  //   }
-  // }
+  // var filters = [
+  //   {
+  //     id: "sex",
+  //     name: "Gender",
+  //     options: [
+  //       { value: "Male", label: "Male", checked: false },
+  //       { value: "Female", label: "Female", checked: false },
+  //       { value: "Asexual", label: "Asexual", checked: false },
+  //     ],
+  //   },
+  // ]
+
+  const [filters, setFilters] = useState<any>([
+    {
+      id: "sex",
+      name: "Gender",
+      options: [
+        { value: "Male", label: "Male", checked: false },
+        { value: "Female", label: "Female", checked: false },
+        { value: "Asexual", label: "Asexual", checked: false },
+      ],
+    },
+  ])
+
+  const [bilters, setBilters] = useState<any>([
+    {
+      id: "sex",
+      name: "Gender",
+      options: [
+        { value: "Male", label: "Male", checked: false },
+        { value: "Female", label: "Female", checked: false },
+        { value: "Asexual", label: "Asexual", checked: false },
+      ],
+    },
+  ])
+
+  useEffect(() => {
+    // beasts.map((beast: any) => console.log("Nickname: " + beast.nickname))
+    // Get skins
+    const skins = beasts
+      .map((beast: any) => beast.skin)
+      .filter(
+        (value: any, index: any, self: any) => self.indexOf(value) === index,
+      )
+    var skinOptions: any = []
+    for (let key in skins) {
+      let skin = skins[key]
+      skinOptions.push({ value: skin, label: skin, checked: false })
+    }
+
+    // Get element
+    var elements: any = []
+    beasts.map((beast: any) => {
+      let beastElements = beast.elements
+      for (let key in beastElements) {
+        let element = beastElements[key]
+        elements.push(element)
+      }
+    })
+    elements = elements.filter(
+      (value: any, index: any, self: any) => self.indexOf(value) === index,
+    )
+
+    console.log(elements)
+
+    // Get star level
+    const starLevels = beasts
+      .map((beast: any) => beast.starLevel)
+      .filter(
+        (value: any, index: any, self: any) => self.indexOf(value) === index,
+      )
+    var starLevelOptions: any = []
+    for (let key in starLevels) {
+      let starLevel = starLevels[key]
+      starLevelOptions.push({
+        value: starLevel,
+        label: starLevel,
+        checked: false,
+      })
+    }
+    // console.log(starLevels)
+
+    // Get Dex Number e.g. value 1, label #001 Moon
+    const dexNumbers = beasts
+      .map((beast: any) => beast.dexNumber)
+      .filter(
+        (value: any, index: any, self: any) => self.indexOf(value) === index,
+      )
+    const beastNames: any = []
+    beasts.map((beast: any) => (beastNames[beast.dexNumber] = beast.name))
+    var dexNumberOptions: any = []
+    for (let key in dexNumbers) {
+      let dexNumber = dexNumbers[key]
+      dexNumberOptions.push({
+        value: dexNumber,
+        label: "#" + ("00" + dexNumber).slice(-3) + " " + beastNames[dexNumber],
+        checked: false,
+      })
+    }
+
+    // Get serial number
+    const serialNumbers = beasts
+      .map((beast: any) => beast.serialNumber)
+      .filter(
+        (value: any, index: any, self: any) => self.indexOf(value) === index,
+      )
+    var serialNumberOptions: any = []
+    for (let key in serialNumbers) {
+      let serialNumber = serialNumbers[key]
+      serialNumberOptions.push({
+        value: serialNumber,
+        label: "#" + serialNumber,
+        checked: false,
+      })
+    }
+    setFilters([
+      { id: "skin", name: "Skin", options: skinOptions },
+      { id: "starLevel", name: "Star Level", options: starLevelOptions },
+      { id: "dexNumber", name: "Dex Numbers", options: dexNumberOptions },
+    ])
+  }, [])
 
   return (
     <>
       <HeaderBeastCollection>
+        <Button onClick={() => setFilterOpen(!filterOpen)}>Filter</Button>
+
         <InputContainer>
           <FuncArgInput
             placeholder="Search beasts serial number"
@@ -868,113 +969,124 @@ const BeastMarket: FC<Props> = ({ beasts }) => {
           setSortBy={setSortBy}
         />
       </HeaderBeastCollection>
+
       <Wrapper>
-        {/* example buttons start */}
-        {/* <span>
-          <Button onClick={console.log(filterElementElectric)}>electric</Button>
-          <Button onClick={filterElementFire}>fire</Button>
-          <Button onClick={filterElementNormal}>normal</Button>
-          <Button onClick={filterElementAll}>all</Button>
-        </span> */}
-
-        {/* example buttons end */}
-
-        {/* <BeastModalView
-          beast={selectedBeast}
-          open={open}
-          setOpen={setOpen}
-          displayNickname={displayNickname}
-          setDisplayNickname={setDisplayNickname}
-          userAddr={userAddr}
-          evolvableBeasts={evolvableBeasts}
-          setEvolutionModalOpen={setEvolutionModalOpen}
-          allEvolutionPairs={allEvolutionPairs}
-          walletAddress={walletAddress}
-        /> */}
-        <EvolutionModal
-          handleClose={() => setEvolutionModalOpen(false)}
-          RevealModalOpen={evolutionModalOpen}
-          packId={selectedBeast?.beastTemplateID || "1"}
-          evolvedBeastId={evolvedBeastId}
-        />
-        {displayBeasts != null ? (
-          <MarketUl
-            role="list"
-            // className="grid grid-cols-1 gap-x-5 gap-y-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-5"
-          >
-            {displayBeasts.map((beast: any) => (
-              <li
-                key={beast.id}
-                className="relative"
-                onClick={() => {
-                  setOpen(true)
-                  setSelectedBeast(beast)
-                  setDisplayNickname(null)
-                }}
+        <div className="flex">
+          {filterOpen && (
+            <div style={{ color: "white" }}>
+              {/* <select
+                value={filter}
+                onChange={(e) => setFilter(e.target.value)}
               >
-                <div
-                  style={{
-                    borderRadius: "20px 20px 0 0",
+                {filterOptions.map((option, i) => {
+                  return (
+                    <option value={option.value} key={i}>
+                      {option.label}
+                    </option>
+                  )
+                })}
+              </select> */}
+              <BeastMarketFilters filters={filters} />
+              {/* <pre>{JSON.stringify(bilters, null, 2)}</pre> */}
+            </div>
+          )}
+          {/* example buttons start */}
+          {/* <span>
+            <Button onClick={console.log(filterElementElectric)}>electric</Button>
+            <Button onClick={filterElementFire}>fire</Button>
+            <Button onClick={filterElementNormal}>normal</Button>
+            <Button onClick={filterElementAll}>all</Button>
+          </span> */}
+          {/* example buttons end */}
+          {/* <BeastModalView
+            beast={selectedBeast}
+            open={open}
+            setOpen={setOpen}
+            displayNickname={displayNickname}
+            setDisplayNickname={setDisplayNickname}
+            userAddr={userAddr}
+            evolvableBeasts={evolvableBeasts}
+            setEvolutionModalOpen={setEvolutionModalOpen}
+            allEvolutionPairs={allEvolutionPairs}
+            walletAddress={walletAddress}
+          /> */}
+          {displayBeasts != null ? (
+            <MarketUl
+              role="list"
+              // className="grid grid-cols-1 gap-x-5 gap-y-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-5"
+            >
+              {displayBeasts.map((beast: any) => (
+                <li
+                  key={beast.id}
+                  className="relative"
+                  onClick={() => {
+                    setOpen(true)
+                    setSelectedBeast(beast)
+                    setDisplayNickname(null)
                   }}
-                  className="group block w-full aspect-w-9 aspect-h-7 bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden"
                 >
-                  <BeastMarketThumbnail
-                    id={beast.id}
-                    className="object-cover group-hover:opacity-90"
-                    beastTemplateID={beast.beastTemplateID}
-                  />
-                </div>
-
-                {/* Make thumbnail details into a component and useState inside that component and add DialogInfo to it */}
-                <ThumbnailDetailsFC beast={beast} />
-              </li>
-            ))}
-
-            {/* To prevent big gap due to fixed height, which is needed for the scroll */}
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-          </MarketUl>
-        ) : (
-          "No beasts found"
-        )}
+                  <div
+                    style={{
+                      borderRadius: "20px 20px 0 0",
+                    }}
+                    className="group block w-full aspect-w-9 aspect-h-7 bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden"
+                  >
+                    <BeastMarketThumbnail
+                      id={beast.id}
+                      className="object-cover group-hover:opacity-90"
+                      beastTemplateID={beast.beastTemplateID}
+                    />
+                  </div>
+                  {/* Make thumbnail details into a component and useState inside that component and add DialogInfo to it */}
+                  <ThumbnailDetailsFC beast={beast} />
+                </li>
+              ))}
+              {/* To prevent big gap due to fixed height, which is needed for the scroll */}
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+            </MarketUl>
+          ) : (
+            "No beasts found"
+          )}
+        </div>
       </Wrapper>
     </>
   )
