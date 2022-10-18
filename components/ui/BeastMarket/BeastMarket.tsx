@@ -11,6 +11,21 @@ import EvolutionModal from "../EvolutionModal"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import BeastMarketFilters from "../BeastMarketFilters"
 import beastTemplates from "data/beastTemplates"
+import {
+  query,
+  send,
+  transaction,
+  args,
+  arg,
+  payer,
+  proposer,
+  authorizations,
+  limit,
+  authz,
+  decode,
+  tx,
+} from "@onflow/fcl"
+import BeastMarketSweep from "../BeastMarketSweep"
 
 const Wrapper = styled.div`
   padding: 20px 20px 100px;
@@ -76,6 +91,22 @@ const ThumbnailLabel = styled.div`
     font-size: 0.7em;
   }
 `
+const FilterButton = styled.button`
+  background: #282e3a;
+  border-radius: 10px;
+  height: 40px;
+  aspect-ratio: 1;
+  color: white;
+`
+const SweepButton = styled.button`
+  background: #f9df51;
+  border-radius: 10px;
+  height: 40px;
+  color: black;
+  font-size: 1.125rem;
+  padding: 0 20px;
+`
+
 const Button = styled.button`
   padding: 8px 24px 12px 26px;
   margin-right: 2px;
@@ -106,7 +137,7 @@ const SortByButton = styled.div`
   }
   text-transform: uppercase;
   width: 200px;
-  font-size: 1em;
+  font-size: 1rem;
   color: #d0d8e1;
   &:hover {
     background: transparent;
@@ -161,7 +192,7 @@ const FuncArgInput = styled.input`
 
   border: none;
   color: #fff;
-  font-size: 1em;
+  font-size: 1rem;
   padding: 8px;
   padding-left: 15px;
   width: 100%;
@@ -219,10 +250,10 @@ const DetailButton = styled.button<any>`
     box-shadow: 2px 2px 5px 1px black;
   }
 `
-const Dialog = styled.dialog`
+const Dialog = styled.dialog<any>`
   position: absolute;
-  left: 50%;
-  right: 50%;
+  left: ${(props) => props.left}%;
+  right: ${(props) => props.right}%;
   transform: translateX(-50%);
   display: flex;
   flex-direction: column;
@@ -599,21 +630,46 @@ type Color = {
 type Props = {
   // count: any
   // selectedBeast: any
-  beasts: any
+  // beasts: any
 }
 
-const DialogInfo: FC<{ dialogOpen: any; beast: any }> = ({
+const DialogInfo: FC<{
+  id: any
+  dialogOpen: any
+  beast: any
+  // left: any
+  // right: any
+}> = ({
+  id,
   dialogOpen,
   beast,
+  //  left, right
 }) => {
   let centerX = document.documentElement.clientWidth / 2
   let centerY = document.documentElement.clientHeight / 2
-  var right = 50
-  var left = 50
-  console.log(centerX, centerY)
+
+  console.log("X: " + centerX, "Y: " + centerY)
+  // const elem = document.getElementById(id)
+  // const box = elem?.getBoundingClientRect()
+  // console.log("Box: " + box?.x)
+  // var right = 50
+  // var left = 50
+  // if (box != null && box?.x > centerX) {
+  //   right = 0
+  // } else if (box != null && box?.x < centerX) {
+  //   left = 0
+  // } else {
+  //   left = 50
+  //   right = 50
+  // }
+
+  // console.log("left: " + left, "right: " + right)
 
   return dialogOpen == true ? (
-    <Dialog id="some-element" open>
+    <Dialog
+      id={id}
+      //  left={left} right={right}
+    >
       <div className="flex gap-2 leading-none">
         {beast.nickname.length < 13 ? (
           <div style={{ fontSize: "1.3em" }}>{beast.nickname}</div>
@@ -692,6 +748,23 @@ const ThumbnailDetailsFC: FC<{
       heart == heartEmpty ? setHeart(heartFull) : setHeart(heartEmpty)
     }
   }
+
+  // let centerX = document.documentElement.clientWidth / 2
+  // let centerY = document.documentElement.clientHeight / 2
+  // const elem = document.getElementById("element")
+  // const box = elem?.getBoundingClientRect()
+  // console.log("Box: " + box?.x)
+  // var right = 50
+  // var left = 50
+  // if (box != null && box?.x > centerX) {
+  //   right = 0
+  // } else if (box != null && box?.x < centerX) {
+  //   left = 0
+  // } else {
+  //   left = 50
+  //   right = 50
+  // }
+
   return (
     <div>
       <ThumbnailDetails
@@ -723,7 +796,12 @@ const ThumbnailDetailsFC: FC<{
           onClick={() => setDialogOpen(!dialogOpen)}
         >
           Details
-          <DialogInfo dialogOpen={dialogOpen} beast={beast} />
+          <DialogInfo
+            id="element"
+            dialogOpen={dialogOpen}
+            beast={beast}
+            // left={left} right={right}
+          />
         </DetailButton>
         <div className="flex gap-1 items-center">
           <FontAwesomeIcon
@@ -761,7 +839,7 @@ const filterOptions = [
   },
 ]
 
-const BeastMarket: FC<Props> = ({ beasts }) => {
+const BeastMarket: FC<Props> = () => {
   const [displayBeasts, setDisplayBeasts] = useState<any>(null)
   const [selectedBeast, setSelectedBeast] = useState<any>(null)
   const [open, setOpen] = useState(false)
@@ -772,6 +850,14 @@ const BeastMarket: FC<Props> = ({ beasts }) => {
   const [evolvedBeastId, setEvolvedBeastId] = useState(null)
   const [dialogOpen, setDialogOpen] = useState(false)
   const [filterOpen, setFilterOpen] = useState(true)
+  const [sweepOpen, setSweepOpen] = useState(true)
+
+  const [selectedFilters, setSelectedFilters] = useState<any>([])
+  const [beasts, setBeasts] = useState<any>([])
+
+  useEffect(() => {
+    getAllBeasts()
+  }, [])
 
   useEffect(() => {
     if (beasts != null) {
@@ -790,68 +876,16 @@ const BeastMarket: FC<Props> = ({ beasts }) => {
   const filterNickname = (filters: any) => {
     if (beasts != null) {
       const newBeasts = beasts.filter((beast: any) =>
-        beast.nickname.toLowerCase().includes(filters.toString()),
+        beast.serialNumber.toString().includes(filters.toString()),
       )
       // setElementFilter((elementFilter: any) => [...elementFilter, "Electric"])
       setDisplayBeasts(newBeasts)
     }
   }
 
-  // const [filters, setFilters] = useState()
-
-  // const createFiltersFromNfts = (nfts: any[]) => {
-  //   const filters = nfts.reduce((acc, curr) => {
-  //     const { metadata } = curr
-  //     console.log("Metadata" + metadata)
-  //     // const { cid, mimetype, path, uri, ...usefulMetadata } = metadata
-
-  //     Object.entries(metadata).forEach(([category, trait]) => {
-  //       let item = acc.get(category as any)
-
-  //       // If the category doesn't exist, create it for future collections
-  //       if (!item) {
-  //         acc.set(category as any, new Map())
-  //         item = acc.get(category as any)
-  //       }
-
-  //       const traitCount = (item?.get(trait) || 0) + 1
-  //       item?.set(trait, traitCount)
-  //     })
-
-  //     return acc
-  //   }, new Map())
-
-  //   setFilters(filters)
-  //   console.log(filters)
-  // }
-
   const [filter, setFilter] = useState<any>()
 
-  // var filters = [
-  //   {
-  //     id: "sex",
-  //     name: "Gender",
-  //     options: [
-  //       { value: "Male", label: "Male", checked: false },
-  //       { value: "Female", label: "Female", checked: false },
-  //       { value: "Asexual", label: "Asexual", checked: false },
-  //     ],
-  //   },
-  // ]
-
   const [filters, setFilters] = useState<any>([
-    {
-      id: "sex",
-      name: "Gender",
-      options: [
-        { value: "Male", label: "Male", checked: false },
-        { value: "Female", label: "Female", checked: false },
-        { value: "Asexual", label: "Asexual", checked: false },
-      ],
-    },
-  ])
-
-  const [bilters, setBilters] = useState<any>([
     {
       id: "sex",
       name: "Gender",
@@ -876,6 +910,24 @@ const BeastMarket: FC<Props> = ({ beasts }) => {
       let skin = skins[key]
       skinOptions.push({ value: skin, label: skin, checked: false })
     }
+    const dic = {
+      Normal: 1,
+      "Metallic Silver": 2,
+      "Cursed Black": 3,
+      "Shiny Gold": 4,
+      "Mythic Diamond": 5,
+    }
+    if (skinOptions.length > 0) {
+      skinOptions.sort((a: any, b: any) => {
+        var aValue = 0
+        var bValue = 0
+        aValue = dic[a.value as keyof typeof dic]
+        bValue = dic[b.value as keyof typeof dic]
+        if (aValue < bValue) return -1
+        if (aValue > bValue) return 1
+        return 0
+      })
+    }
 
     // Get element
     var elements: any = []
@@ -889,8 +941,33 @@ const BeastMarket: FC<Props> = ({ beasts }) => {
     elements = elements.filter(
       (value: any, index: any, self: any) => self.indexOf(value) === index,
     )
-
-    console.log(elements)
+    var elementOptions: any = []
+    for (let key in elements) {
+      let element = elements[key]
+      elementOptions.push({
+        value: element,
+        label: element,
+        checked: false,
+      })
+    }
+    const elementsDic = {
+      Electric: 1,
+      Water: 2,
+      Grass: 3,
+      Fire: 4,
+      Normal: 5,
+    }
+    if (elementOptions.length > 0) {
+      elementOptions.sort((a: any, b: any) => {
+        var aValue = 0
+        var bValue = 0
+        aValue = elementsDic[elementOptions.value as keyof typeof elementsDic]
+        bValue = elementsDic[elementOptions.value as keyof typeof elementsDic]
+        if (aValue < bValue) return -1
+        if (aValue > bValue) return 1
+        return 0
+      })
+    }
 
     // Get star level
     const starLevels = beasts
@@ -926,6 +1003,7 @@ const BeastMarket: FC<Props> = ({ beasts }) => {
         checked: false,
       })
     }
+    dexNumberOptions.sort((a: any, b: any) => a.value - b.value)
 
     // Get serial number
     const serialNumbers = beasts
@@ -942,17 +1020,90 @@ const BeastMarket: FC<Props> = ({ beasts }) => {
         checked: false,
       })
     }
+
+    serialNumberOptions.sort((a: any, b: any) => a.value - b.value)
+
     setFilters([
+      { id: "dexNumber", name: "Dex Number", options: dexNumberOptions },
       { id: "skin", name: "Skin", options: skinOptions },
       { id: "starLevel", name: "Star Level", options: starLevelOptions },
-      { id: "dexNumber", name: "Dex Numbers", options: dexNumberOptions },
+      { id: "element", name: "Element", options: elementOptions },
+      {
+        id: "serialNumber",
+        name: "Serial Number",
+        options: serialNumberOptions,
+      },
     ])
-  }, [])
+  }, [beasts])
+
+  const getAllBeasts = async () => {
+    try {
+      let res = await query({
+        cadence: `
+        import HunterScore from 0xHunterScore
+        import BasicBeasts from 0xBasicBeasts
+
+        pub fun main(): [{String:AnyStruct}] {
+
+          let addresses = HunterScore.getHunterScores().keys
+          var beasts: [{String: AnyStruct}] = []
+
+          for address in addresses {
+            let collectionRef = getAccount(address).getCapability(BasicBeasts.CollectionPublicPath)
+            .borrow<&{BasicBeasts.BeastCollectionPublic}>()
+            if (collectionRef != nil) {
+              let IDs = collectionRef!.getIDs()
+              var i = 0
+              while i < IDs.length {
+                let token = collectionRef!.borrowBeast(id: IDs[i])
+                ?? panic("Couldn't borrow a reference to the specified beast")
+
+                let beastTemplate = token.getBeastTemplate()
+                
+                let beast = {
+                  "name" : beastTemplate.name,
+                  "nickname" : token.getNickname(),
+                  "serialNumber" : token.serialNumber,
+                  "dexNumber" : beastTemplate.dexNumber,
+                  "skin" : beastTemplate.skin,
+                  "starLevel" : beastTemplate.starLevel,
+                  "elements" : beastTemplate.elements,
+                  "basicSkills" : beastTemplate.basicSkills,
+                  "ultimateSkill" : beastTemplate.ultimateSkill,
+                  "currentOwner" : address,
+                  "firstOwner" : token.getFirstOwner(),
+                  "sex" : token.sex,
+                  "breedingCount" : 0,
+                  "numberOfMintedBeastTemplates" : 100,
+                  "beastTemplateID" : beastTemplate.beastTemplateID,
+                  "price" : 69.00
+                }
+
+                beasts.insert(at:i, beast)
+            
+                i = i + 1
+              }
+            }
+          }
+
+          return beasts
+        }
+        `,
+      })
+      setBeasts(res)
+      // console.log(res)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <>
       <HeaderBeastCollection>
-        <Button onClick={() => setFilterOpen(!filterOpen)}>Filter</Button>
+        <FilterButton onClick={() => setFilterOpen(!filterOpen)}>
+          {" "}
+          <FilterIcon className="mx-auto h-5 w-5" />
+        </FilterButton>
 
         <InputContainer>
           <FuncArgInput
@@ -968,48 +1119,23 @@ const BeastMarket: FC<Props> = ({ beasts }) => {
           sortBy={sortBy}
           setSortBy={setSortBy}
         />
+
+        <SweepButton onClick={() => setSweepOpen(!sweepOpen)}>
+          Sweep
+        </SweepButton>
       </HeaderBeastCollection>
 
       <Wrapper>
         <div className="flex">
           {filterOpen && (
-            <div style={{ color: "white" }}>
-              {/* <select
-                value={filter}
-                onChange={(e) => setFilter(e.target.value)}
-              >
-                {filterOptions.map((option, i) => {
-                  return (
-                    <option value={option.value} key={i}>
-                      {option.label}
-                    </option>
-                  )
-                })}
-              </select> */}
-              <BeastMarketFilters filters={filters} />
-              {/* <pre>{JSON.stringify(bilters, null, 2)}</pre> */}
+            <div style={{ color: "white" }} className="h-max sticky top-0">
+              <BeastMarketFilters
+                filters={filters}
+                selectedFilters={selectedFilters}
+                setSelectedFilters={setSelectedFilters}
+              />
             </div>
           )}
-          {/* example buttons start */}
-          {/* <span>
-            <Button onClick={console.log(filterElementElectric)}>electric</Button>
-            <Button onClick={filterElementFire}>fire</Button>
-            <Button onClick={filterElementNormal}>normal</Button>
-            <Button onClick={filterElementAll}>all</Button>
-          </span> */}
-          {/* example buttons end */}
-          {/* <BeastModalView
-            beast={selectedBeast}
-            open={open}
-            setOpen={setOpen}
-            displayNickname={displayNickname}
-            setDisplayNickname={setDisplayNickname}
-            userAddr={userAddr}
-            evolvableBeasts={evolvableBeasts}
-            setEvolutionModalOpen={setEvolutionModalOpen}
-            allEvolutionPairs={allEvolutionPairs}
-            walletAddress={walletAddress}
-          /> */}
           {displayBeasts != null ? (
             <MarketUl
               role="list"
@@ -1085,6 +1211,11 @@ const BeastMarket: FC<Props> = ({ beasts }) => {
             </MarketUl>
           ) : (
             "No beasts found"
+          )}
+          {sweepOpen && (
+            <div style={{ color: "white" }} className="h-max sticky top-0">
+              <BeastMarketSweep />
+            </div>
           )}
         </div>
       </Wrapper>

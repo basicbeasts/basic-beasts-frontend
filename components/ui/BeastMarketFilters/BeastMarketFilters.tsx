@@ -8,10 +8,6 @@ const Wrapper = styled.div`
   background: transparent;
   margin-right: 1.125rem;
   width: 200px;
-
-  &:last-child {
-    border-bottom: 1px solid rgb(229 231 235);
-  }
 `
 
 const FuncArgInput = styled.input`
@@ -43,8 +39,42 @@ const InputContainer = styled.div`
   padding: 0 10px;
 `
 
+const CheckboxWrapper = styled.div`
+  // input[type="checkbox"] {
+  //   /* removing default appearance */
+  //   -webkit-appearance: none;
+  //   appearance: none;
+  //   /* creating a custom design */
+  //   width: 1.6em;
+  //   height: 1.6em;
+  //   border-radius: 0.15em;
+  //   margin-right: 0.5em;
+  //   border: 0.15em solid #007a7e;
+  //   outline: none;
+  //   cursor: pointer;
+  // }
+  // input[type="checkbox"]:disabled {
+  //   border-color: #c0c0c0;
+  //   background-color: #c0c0c0;
+  // }
+  // input[type="checkbox"]:disabled + span {
+  //   color: #c0c0c0;
+  // }
+  input[type="checkbox"] {
+    /* removing default appearance */
+    // -webkit-appearance: none;
+    // appearance: none;
+    .checked {
+      background-color: red !important;
+      position: relative;
+    }
+  }
+`
+
 type Props = {
   filters: any
+  selectedFilters: any
+  setSelectedFilters: any
 }
 
 const sortOptions = [
@@ -63,10 +93,18 @@ function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ")
 }
 
-const BeastMarketFilters: FC<Props> = ({ filters }) => {
+const BeastMarketFilters: FC<Props> = ({
+  filters,
+  selectedFilters,
+  setSelectedFilters,
+}) => {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
 
   useEffect(() => {}, [filters])
+
+  const handleChange = (optionValue: any) => {
+    console.log(optionValue)
+  }
 
   return (
     <>
@@ -131,7 +169,7 @@ const BeastMarketFilters: FC<Props> = ({ filters }) => {
                             <Disclosure
                               as="div"
                               key={section.id}
-                              className="border-t border-gray-200 px-4 py-6"
+                              className="border-b border-gray-200 px-4 py-6"
                             >
                               {({ open }) => (
                                 <>
@@ -159,26 +197,28 @@ const BeastMarketFilters: FC<Props> = ({ filters }) => {
                                     <div className="space-y-6">
                                       {section.options?.map(
                                         (option: any, optionIdx: any) => (
-                                          <div
-                                            key={option.value}
-                                            className="flex items-center"
-                                          >
-                                            <input
-                                              id={`filter-mobile-${section.id}-${optionIdx}`}
-                                              name={`${section.id}[]`}
-                                              defaultValue={option.value}
-                                              type="checkbox"
-                                              defaultChecked={option.checked}
-                                              className="h-4 w-4 rounded border-gray-300 
-                                           focus:ring-indigo-500"
-                                            />
-                                            <label
-                                              htmlFor={`filter-mobile-${section.id}-${optionIdx}`}
-                                              className="ml-3 min-w-0 flex-1 "
+                                          <>
+                                            <div
+                                              key={option.value}
+                                              className="flex items-center"
                                             >
-                                              {option.label}
-                                            </label>
-                                          </div>
+                                              <input
+                                                id={`filter-mobile-${section.id}-${optionIdx}`}
+                                                name={`${section.id}[]`}
+                                                defaultValue={option.value}
+                                                type="checkbox"
+                                                defaultChecked={option.checked}
+                                                className="h-4 w-4 rounded border-gray-300 
+                                           focus:ring-indigo-500"
+                                              />
+                                              <label
+                                                htmlFor={`filter-mobile-${section.id}-${optionIdx}`}
+                                                className="ml-3 min-w-0 flex-1 "
+                                              >
+                                                {option.label}
+                                              </label>
+                                            </div>
+                                          </>
                                         ),
                                       )}
                                     </div>
@@ -277,7 +317,7 @@ const BeastMarketFilters: FC<Props> = ({ filters }) => {
                   >
                     {subCategories.map((category) => (
                       <li
-                        className=" border-t border-gray-200"
+                        className=" border-b border-gray-200"
                         key={category.name}
                       >
                         <a href={category.href}>{category.name}</a>
@@ -289,7 +329,7 @@ const BeastMarketFilters: FC<Props> = ({ filters }) => {
                     <Disclosure
                       as="div"
                       key={section.id}
-                      className="border-t border-gray-200 py-6"
+                      className="border-b border-gray-200 py-6"
                     >
                       {({ open }) => (
                         <>
@@ -317,7 +357,7 @@ const BeastMarketFilters: FC<Props> = ({ filters }) => {
                             <div className="space-y-4">
                               {section.options?.map(
                                 (option: any, optionIdx: any) => (
-                                  <div
+                                  <CheckboxWrapper
                                     key={option.value}
                                     className="flex items-center"
                                   >
@@ -327,6 +367,9 @@ const BeastMarketFilters: FC<Props> = ({ filters }) => {
                                       defaultValue={option.value}
                                       type="checkbox"
                                       defaultChecked={option.checked}
+                                      onChange={() =>
+                                        handleChange(option.value)
+                                      }
                                       className="h-4 w-4 rounded border-gray-300  focus:ring-indigo-500"
                                     />
                                     <label
@@ -335,7 +378,7 @@ const BeastMarketFilters: FC<Props> = ({ filters }) => {
                                     >
                                       {option.label}
                                     </label>
-                                  </div>
+                                  </CheckboxWrapper>
                                 ),
                               )}
                             </div>

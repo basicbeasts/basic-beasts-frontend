@@ -43,7 +43,12 @@ const BeastMarketThumbnail: FC<BeastThumbnailProps> = ({
     <div className={className}>
       <Container {...props} tagColor={"#FFD966"}>
         <>
-          <Img src={thumbnail.src} />
+          <Img
+            src={
+              beastTemplates[beastTemplateID as keyof typeof beastTemplates]
+                .marketThumbnail || thumbnail.src
+            }
+          />
         </>
       </Container>
     </div>

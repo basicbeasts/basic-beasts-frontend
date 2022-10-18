@@ -144,8 +144,8 @@ const Marketplace: NextPage = () => {
     <div>
       <BeastMarketHero beast={dummyData[0]} />
       <BeastMarket
-        beasts={dummyData}
-        // fetchAllBeasts={}
+      // beasts={dummyData}
+      // fetchAllBeasts={}
       />
       {/* <pre>{JSON.stringify(dummyData, null, 2)}</pre> */}
     </div>

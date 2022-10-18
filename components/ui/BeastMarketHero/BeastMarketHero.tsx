@@ -5,7 +5,7 @@ import { FC, useState, Fragment, useEffect } from "react"
 
 const Main = styled.main`
   display: flex;
-  justify-content: end;
+  justify-content: space-between;
   padding: 0 0 0 20px;
   margin-bottom: 50px;
   gap: 5rem;
@@ -235,6 +235,7 @@ const Discover = styled.div`
   flex-direction: column;
   gap: 1.25rem;
   width: max-content;
+  margin: 0 auto;
   justify-content: center;
   @media (max-width: 720px) {
     width: 100%;
@@ -363,21 +364,21 @@ const BeastMarketHero: FC<Props> = ({ beast }) => {
       <Main>
         {" "}
         <Discover>
-          <Header>Discover rare collections of art & nfts</Header>
+          <Header>Discover The Beasts</Header>
           <P>
-            Discover Rare Collections Of Art & Nfts. Discover Rare Collections
-            Of Art & Nfts. Discover Rare Collections Of Art & Nfts.
+            Basic Beasts is a collection of unique digital collectibles
+            representing interactive beasts that can evolve, breed, and loved.
           </P>
           <Button>Place A Bid →</Button>
           <ItemInfo>
             <Item>
-              <H2>78K</H2> Owners
+              <H2>780</H2> Owners
             </Item>
             <Item>
-              <H2>78K</H2> Total Vol.
+              <H2>2030</H2> Beasts
             </Item>
             <Item>
-              <H2>78K</H2> Items
+              <H2>$10000</H2> Highest Sale
             </Item>
           </ItemInfo>
         </Discover>{" "}
