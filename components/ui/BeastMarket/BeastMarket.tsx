@@ -141,9 +141,6 @@ const SortByButton = styled.div`
   width: 200px;
   font-size: 1rem;
   color: #d0d8e1;
-  &:hover {
-    background: transparent;
-  }
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1129,12 +1126,9 @@ const BeastMarket: FC<Props> = () => {
       </HeaderBeastCollection>
 
       <Wrapper>
-        <div className="flex">
+        <div className="flex ">
           {filterOpen && (
-            <div
-              style={{ color: "white" }}
-              // className="h-max sticky top-0"
-            >
+            <div style={{ color: "white" }} className="h-max sticky top-0">
               <BeastMarketFilters
                 filters={filters}
                 selectedFilters={selectedFilters}
@@ -1220,7 +1214,7 @@ const BeastMarket: FC<Props> = () => {
           )}
           {sweepOpen && (
             <div style={{ color: "white" }} className="h-max sticky top-0">
-              <BeastMarketSweep />
+              <BeastMarketSweep beasts={beasts} />
             </div>
           )}
         </div>

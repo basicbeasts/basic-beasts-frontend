@@ -1,11 +1,11 @@
 import styled from "styled-components"
-
 import { FC, useState, Fragment, useEffect } from "react"
-import { Props } from "framer-motion/types/types"
+import star from "public/basic_starLevel.png"
+
 import Slider from "rc-slider"
 import "rc-slider/assets/index.css"
 import { useAuth } from "@components/auth/AuthProvider"
-
+import BeastMarketThumbnail from "../BeastMarketThumbnail"
 const Wrapper = styled.div`
   background: transparent;
   border: solid #808080 0.5px;
@@ -13,6 +13,7 @@ const Wrapper = styled.div`
   margin-left: 1.125rem;
   width: 280px;
   padding: 5px 15px;
+  max-height: 750px;
 `
 
 const Header = styled.header`
@@ -224,8 +225,60 @@ const ConnectP = styled.p`
   line-height: 1;
   margin: 0.5rem 0;
 `
+const BeastMarketThumbnailSmall = styled<any>(BeastMarketThumbnail)`
+  width: 5rem;
+  margin: 1rem 0;
+  border-radius: 10px;
+  overflow: hidden;
+`
 
-const BeastMarketSweep: FC<Props> = ({}) => {
+const StarLevel = styled.div`
+  vertical-align: middle;
+  position: absolute;
+  top: 0;
+`
+
+const StarImg = styled.img`
+  margin-top: 1.2rem;
+  margin-left: 0.25rem;
+  width: 0.8rem;
+  user-drag: none;
+  -webkit-user-drag: none;
+  float: left;
+`
+const RemoveButton = styled.button`
+  position: absolute;
+  top: 0;
+  right: -1rem;
+  z-index: 1;
+  margin-top: 0.35rem;
+  margin-right: 0.35rem;
+  padding: 0.4rem;
+  padding-top: calc((1 - 0.5) * 0.5em);
+  width: min-content;
+  color: lightgrey;
+  font-size: 1.2rem;
+  font-weight: 500;
+
+  line-height: 0.5;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.75);
+`
+const BeastList = styled.div`
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`
+
+type Props = {
+  // count: any
+  // selectedBeast: any
+  beasts: any
+}
+
+const BeastMarketSweep: FC<Props> = ({ beasts }) => {
   // const [value, setValue] = useState(50)
 
   const [disabled, setDisabled] = useState(false)
@@ -235,6 +288,34 @@ const BeastMarketSweep: FC<Props> = ({}) => {
   const [value, setValue] = useState(30)
   const { logIn, logOut, user, loggedIn } = useAuth()
   const [overviewOpen, setOverviewOpen] = useState(false)
+  const [displayBeasts, setDisplayBeasts] = useState<any>(null)
+  // const [beasts, setBeasts] = useState<any>([])
+  const [selectedBeast, setSelectedBeast] = useState<any>(null)
+  const [open, setOpen] = useState(false)
+  const [displayNickname, setDisplayNickname] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (beasts != null) {
+      setDisplayBeasts(beasts)
+    }
+  }, [beasts])
+
+  useEffect(() => {
+    if (displayBeasts != null) {
+      setDisplayBeasts(displayBeasts)
+    }
+  }, [displayBeasts])
+
+  const areWeLoggedIn = () => {
+    let logInInfo = "h-96 overflow-scroll"
+    {
+      !loggedIn
+        ? (logInInfo = "max-h-72 overflow-scroll")
+        : (logInInfo = "max-h-96 overflow-scroll")
+    }
+
+    return logInInfo
+  }
 
   return (
     <>
@@ -299,13 +380,55 @@ const BeastMarketSweep: FC<Props> = ({}) => {
             i
             <InfoCircleText>
               Automatically swap items that are sold or delisted while sweeping.
-              Each transaction attempt will need wall approval
+              Each transaction attempt will need wall approval.
             </InfoCircleText>
           </InfoCircle>
         </div>
 
         {/* Insert Cart Here */}
-        <Cart>(Cart is empty)</Cart>
+
+        {displayBeasts != null ? (
+          <BeastList className={areWeLoggedIn()}>
+            {displayBeasts.slice(0, value).map((beast: any) => (
+              <li
+                key={beast.id}
+                className="flex items-center justify-between relative list-none"
+                onClick={() => {
+                  setOpen(true)
+                  setSelectedBeast(beast)
+                  setDisplayNickname(null)
+                }}
+              >
+                <div className="flex items-center gap-3 ">
+                  <div className="relative">
+                    <BeastMarketThumbnailSmall
+                      id={beast.id}
+                      className="object-cover group-hover:opacity-90"
+                      beastTemplateID={beast.beastTemplateID}
+                    />
+                    <RemoveButton
+                      onClick={() => displayBeasts.splice(beast, 1)}
+                    >
+                      x
+                    </RemoveButton>
+                    <StarLevel>
+                      {Array(beast.starLevel)
+                        .fill(0)
+                        .map((_, i) => (
+                          <StarImg key={i} src={star.src} />
+                        ))}
+                    </StarLevel>
+                  </div>
+
+                  <div>price</div>
+                </div>
+                <div>{parseFloat(beast.price).toFixed(2)}</div>
+              </li>
+            ))}
+          </BeastList>
+        ) : (
+          <Cart>(Cart is empty)</Cart>
+        )}
 
         <TotalPrice>
           <p>Total price</p>
@@ -317,8 +440,8 @@ const BeastMarketSweep: FC<Props> = ({}) => {
               Connect wallet
             </MobileConnect>
             <ConnectP>
-              By clicking "Connect wallet", you agree to the Basic Beasts Terms
-              of Service Bla Lalallaa A
+              By clicking &quot;Connect wallet&quot;, you agree to the Basic
+              Beasts Terms of Service Bla Lalallaa A
             </ConnectP>
           </>
         ) : (

@@ -671,7 +671,7 @@ const Navbar: FC<FuncProps> = ({
           />
           <NavMenu>
             <NavItem>
-              <NextLink href={"/dexicon/"}>
+              <NextLink href={"/marketplace/"}>
                 <A
                   font={
                     lang === "ru"
