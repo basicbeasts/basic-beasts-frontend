@@ -11,6 +11,8 @@ import EvolutionModal from "../EvolutionModal"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import BeastMarketFilters from "../BeastMarketFilters"
 import beastTemplates from "data/beastTemplates"
+import BeastMarketSkinOverview from "../BeastMarketSkinOverviewModal"
+
 import {
   query,
   send,
