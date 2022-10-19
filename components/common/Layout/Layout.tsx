@@ -67,6 +67,18 @@ fcl
     process.env.NEXT_PUBLIC_FIND_LEASE_MARKET_DIRECT_OFFER_SOFT_ADDRESS,
   )
   .put("0xFindLeaseMarket", process.env.NEXT_PUBLIC_FIND_LEASE_MARKET_ADDRESS)
+  .put(
+    "0xNFTDayTreasureChest",
+    process.env.NEXT_PUBLIC_NFT_DAY_TREASURE_CHEST_ADDRESS,
+  )
+  .put(
+    "0xTreasureChestFUSDReward",
+    process.env.NEXT_PUBLIC_NFT_DAY_TREASURE_CHEST_ADDRESS,
+  )
+  .put(
+    "0xBlackMarketplace",
+    process.env.NEXT_PUBLIC_NFT_DAY_TREASURE_CHEST_ADDRESS,
+  )
 
 const Layout: FC = ({ children }) => {
   const [isSideNavbarOpen, setIsSideNavbarOpen] = useState(false)

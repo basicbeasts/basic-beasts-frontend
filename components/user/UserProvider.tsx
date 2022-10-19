@@ -7,6 +7,9 @@ import useCookie from "framework/hooks/use-cookie.hook"
 import useUserPacks from "@framework/hooks/use-user-packs.hook"
 import useHunterData from "@framework/hooks/use-hunter-data.hook"
 import useInbox from "@framework/hooks/use-user-inbox.hook"
+import useUserChests from "@framework/hooks/use-user-chest.hook"
+import useChestSales from "@framework/hooks/use-chest-sales.hook"
+import useFUSDChestRewards from "@framework/hooks/use-fusd-chest-rewards.hook"
 
 export interface State {}
 
@@ -60,6 +63,24 @@ const UserProvider: FC = ({ children }) => {
   //   }
   // }, [address, compositeSignature])
 
+  const {
+    data: stuff,
+    getUserChestCollection,
+    chestIDs,
+    saleIDs,
+    getUserSaleCollection,
+    totalUserChests,
+    fetchUserChests,
+  } = useUserChests(user)
+
+  const {
+    data: saleOffers,
+    getAllChestSaleOffers,
+    floorPrice,
+  } = useChestSales()
+
+  const { getClaimedFUSDRewards, claimedFUSDRewards } = useFUSDChestRewards()
+
   return (
     <Context.Provider
       value={{
@@ -85,6 +106,17 @@ const UserProvider: FC = ({ children }) => {
         fetchInbox,
         getNumberOfPacks,
         findNames,
+        chestIDs,
+        getUserChestCollection,
+        saleIDs,
+        getUserSaleCollection,
+        getAllChestSaleOffers,
+        totalUserChests,
+        fetchUserChests,
+        saleOffers,
+        floorPrice,
+        claimedFUSDRewards,
+        getClaimedFUSDRewards,
       }}
     >
       {children}
