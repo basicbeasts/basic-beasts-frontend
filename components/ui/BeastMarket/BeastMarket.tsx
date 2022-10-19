@@ -648,7 +648,8 @@ const DialogInfo: FC<{
   let centerX = document.documentElement.clientWidth / 2
   let centerY = document.documentElement.clientHeight / 2
 
-  console.log("X: " + centerX, "Y: " + centerY)
+  // console.log("X: " + centerX, "Y: " + centerY)
+
   // const elem = document.getElementById(id)
   // const box = elem?.getBoundingClientRect()
   // console.log("Box: " + box?.x)
@@ -1128,7 +1129,10 @@ const BeastMarket: FC<Props> = () => {
       <Wrapper>
         <div className="flex">
           {filterOpen && (
-            <div style={{ color: "white" }} className="h-max sticky top-0">
+            <div
+              style={{ color: "white" }}
+              // className="h-max sticky top-0"
+            >
               <BeastMarketFilters
                 filters={filters}
                 selectedFilters={selectedFilters}

@@ -102,8 +102,19 @@ const BeastMarketFilters: FC<Props> = ({
 
   useEffect(() => {}, [filters])
 
-  const handleChange = (optionValue: any) => {
-    console.log(optionValue)
+  const handleChange = (categoryId: any, optionValue: any) => {
+    const selFilters = [
+      {
+        dexNumber: [1, 2, 3, 4],
+        serialNumber: [1, 2, 3],
+      },
+    ]
+    console.log(categoryId + optionValue)
+    for (let key in selFilters) {
+      var filter = selFilters[key]
+      console.log(filter.dexNumber)
+      console.log(Object.keys(filter))
+    }
   }
 
   return (
@@ -368,7 +379,7 @@ const BeastMarketFilters: FC<Props> = ({
                                       type="checkbox"
                                       defaultChecked={option.checked}
                                       onChange={() =>
-                                        handleChange(option.value)
+                                        handleChange(section.id, option.value)
                                       }
                                       className="h-4 w-4 rounded border-gray-300  focus:ring-indigo-500"
                                     />

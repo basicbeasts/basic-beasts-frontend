@@ -2,6 +2,8 @@ import styled from "styled-components"
 
 import { FC, useState, Fragment, useEffect } from "react"
 import { Props } from "framer-motion/types/types"
+import Slider from "rc-slider"
+import "rc-slider/assets/index.css"
 
 const Wrapper = styled.div`
   background: transparent;
@@ -45,9 +47,17 @@ const FuncArgInput = styled.input`
   cursor: pointer;
   margin-bottom: 0;
   outline: none;
+  -webkit-appearance: none;
   &::placeholder {
     color: #d0d8e1;
     text-transform: uppercase;
+  }
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button,
+  &[type="number"] {
+    -webkit-appearance: none;
+    margin: 0;
+    -moz-appearance: textfield;
   }
 `
 
@@ -59,7 +69,13 @@ const InputDefaultText = styled.div`
 `
 
 const BeastMarketSweep: FC<Props> = ({}) => {
-  const [value, setValue] = useState(50)
+  // const [value, setValue] = useState(50)
+
+  const [disabled, setDisabled] = useState(false)
+  const [range, setRange] = useState(false)
+  const [reverse, setReverse] = useState(false)
+  const [vertical, setVertical] = useState(false)
+  const [value, setValue] = useState(30)
 
   return (
     <>
@@ -71,11 +87,41 @@ const BeastMarketSweep: FC<Props> = ({}) => {
           <InputDefaultText>FUSD</InputDefaultText>
         </InputContainer>
         <H2>Number of items</H2>
-        <div>
+        <Slider
+          // count={2}
+          // disabled={disabled}
+          // reverse={reverse}
+          // vertical={vertical}
+          // range={range}
+          // defaultValue={value}
+          // dots
+          // step={5}
+          // draggableTrack
+          // pushable={5}
+          // allowCross={false}
+          onChange={(nextValues) => {
+            // console.log("Change:", nextValues)
+            setValue(nextValues as any)
+          }}
+          value={value}
+          min={1}
+          max={100}
+          // defaultValue={0.81}
+          step={1}
+        />
+        <div>{value}</div>
+
+        {/* <div>
           <FuncArgInput type="range" min="1" max="100" step={1} id="myRange" />
-        </div>
+        </div> */}
         <InputContainer>
-          <FuncArgInput placeholder={"50"} />
+          <FuncArgInput
+            value={value}
+            type="number"
+            onChange={(e) => setValue(Number(e.target.value))}
+            min={1}
+            max={100}
+          />
           <InputDefaultText>Items</InputDefaultText>
         </InputContainer>
       </Wrapper>
