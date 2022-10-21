@@ -345,7 +345,7 @@ const BeastMarketSweep: FC<Props> = ({ beasts }) => {
         </div>
         <H2>Max price per item (optional)</H2>
         <InputContainer>
-          <FuncArgInput></FuncArgInput>
+          <FuncArgInput />
           <InputDefaultText>FUSD</InputDefaultText>
         </InputContainer>
         <H2>Number of items</H2>
@@ -465,7 +465,7 @@ const BeastMarketSweep: FC<Props> = ({ beasts }) => {
             </ConnectP>
           </>
         ) : (
-          <></>
+          <MobileConnect>Sweep</MobileConnect>
         )}
       </Wrapper>
     </>

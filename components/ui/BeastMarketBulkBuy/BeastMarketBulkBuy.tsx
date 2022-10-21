@@ -159,7 +159,7 @@ const RemoveButton = styled.button`
   border-radius: 50%;
   background: rgba(0, 0, 0, 0.75);
 `
-const BeastList = styled.div`
+const BeastList = styled.ul`
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
   &::-webkit-scrollbar {
@@ -170,10 +170,11 @@ const BeastList = styled.div`
 type Props = {
   // count: any
   // selectedBeast: any
+  beastArray: any
   beasts: any
 }
 
-const BeastMarketBulkBuy: FC<Props> = ({ beasts }) => {
+const BeastMarketBulkBuy: FC<Props> = ({ beasts, beastArray }) => {
   // const [value, setValue] = useState(50)
 
   const [disabled, setDisabled] = useState(false)
@@ -183,7 +184,7 @@ const BeastMarketBulkBuy: FC<Props> = ({ beasts }) => {
   const [value, setValue] = useState(0)
   const { logIn, logOut, user, loggedIn } = useAuth()
   const [overviewOpen, setOverviewOpen] = useState(false)
-  const [displayBeasts, setDisplayBeasts] = useState<any>(null)
+  const [displayBeasts, setDisplayBeasts] = useState<any>()
   // const [beasts, setBeasts] = useState<any>([])
   const [selectedBeast, setSelectedBeast] = useState<any>(null)
   const [open, setOpen] = useState(false)
@@ -193,17 +194,17 @@ const BeastMarketBulkBuy: FC<Props> = ({ beasts }) => {
   const [beastsToSweep, setBeastsToSweep] = useState()
 
   useEffect(() => {
-    if (beasts != null) {
-      setDisplayBeasts(beasts)
+    if (beastArray != null) {
+      setDisplayBeasts(beastArray)
     }
-  }, [beasts])
+  }, [beastArray])
 
   useEffect(() => {
     if (displayBeasts != null) {
       setDisplayBeasts(displayBeasts)
     }
   }, [displayBeasts])
-
+  // console.log(displayBeasts)
   const areWeLoggedIn = () => {
     let logInInfo = "h-96 overflow-scroll"
     {
@@ -214,18 +215,23 @@ const BeastMarketBulkBuy: FC<Props> = ({ beasts }) => {
 
     return logInInfo
   }
+  const clear = () => {
+    displayBeasts?.splice(0, displayBeasts?.length)
+    setDisplayBeasts(null)
+    // console.log(displayBeasts)
+  }
 
-  useEffect(() => {
-    let beastsForSale = displayBeasts?.filter(
-      (beast: any) => beast.price != null,
-    )
-    let sortedBeastsByPrice = beastsForSale?.sort(
-      (a: any, b: any) => a.price - b.price,
-    )
-    setMax(sortedBeastsByPrice?.length)
-    setPossibleBeastToCart(sortedBeastsByPrice)
-    // console.log(sortedBeastsByPrice)
-  }, [value])
+  // useEffect(() => {
+  //   let beastsForSale = displayBeasts?.filter(
+  //     (beast: any) => beast.price != null,
+  //   )
+  //   let sortedBeastsByPrice = beastsForSale?.sort(
+  //     (a: any, b: any) => a.price - b.price,
+  //   )
+  //   setMax(sortedBeastsByPrice?.length)
+  //   setPossibleBeastToCart(sortedBeastsByPrice)
+  //   // console.log(sortedBeastsByPrice)
+  // }, [value])
 
   return (
     <>
@@ -235,14 +241,14 @@ const BeastMarketBulkBuy: FC<Props> = ({ beasts }) => {
             Bulk buy
             {value != 0 ? " (" + value + ")" : <></>}
           </Header>
-          <button>clear</button>
+          <button onClick={() => clear()}>clear</button>
         </div>
 
         {/* Insert Cart Here */}
 
-        {possibleBeastsToCart != null ? (
+        {displayBeasts != null && displayBeasts.length != 0 ? (
           <BeastList className={areWeLoggedIn()}>
-            {possibleBeastsToCart?.slice(0, 3).map((beast: any) => (
+            {displayBeasts?.map((beast: any) => (
               <li
                 key={beast.id}
                 className="flex items-center justify-between relative list-none"
@@ -260,7 +266,7 @@ const BeastMarketBulkBuy: FC<Props> = ({ beasts }) => {
                       beastTemplateID={beast.beastTemplateID}
                     />
                     <RemoveButton
-                      onClick={() => displayBeasts.splice(beast, 1)}
+                      onClick={() => displayBeasts?.splice(beast, 1)}
                     >
                       x
                     </RemoveButton>
@@ -302,7 +308,7 @@ const BeastMarketBulkBuy: FC<Props> = ({ beasts }) => {
             </ConnectP>
           </>
         ) : (
-          <></>
+          <MobileConnect>Buy</MobileConnect>
         )}
       </Wrapper>
     </>

@@ -107,6 +107,7 @@ type Props = {
   open: boolean
   setOpen: any
   beasts: any
+  beastArray: any
   // fetchUserBeasts: any
   // beastModalSetOpen: any
   // setDisplayNickname: any
@@ -118,6 +119,7 @@ const BeastMarketMobileCartModal: FC<Props> = ({
   open,
   setOpen,
   beasts,
+  beastArray,
   // fetchUserBeasts,
   // beastModalSetOpen,
   // setDisplayNickname,
@@ -227,7 +229,10 @@ const BeastMarketMobileCartModal: FC<Props> = ({
                         style={{ color: "white", width: "100%" }}
                         className="h-max flex sticky justify-center top-0"
                       >
-                        <BeastMarketBulkBuy beasts={beasts} />
+                        <BeastMarketBulkBuy
+                          beastArray={beastArray}
+                          beasts={beasts}
+                        />
                       </div>
                     )}
                     {bulkBidOpen && (

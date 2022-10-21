@@ -304,7 +304,7 @@ const BeastMarketBulkBid: FC<Props> = ({ beasts }) => {
             </ConnectP>
           </>
         ) : (
-          <></>
+          <MobileConnect>Bid</MobileConnect>
         )}
       </Wrapper>
     </>

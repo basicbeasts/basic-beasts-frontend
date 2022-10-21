@@ -895,6 +895,9 @@ const BeastMarket: FC<Props> = () => {
   const [selectedFilters, setSelectedFilters] = useState<any>([])
   const [beasts, setBeasts] = useState<any>([])
 
+  const [beastArray, setBeastArray] = useState<any>([])
+  // console.log(beastArray)
+
   const buttonColor = (clrOpen: any) => {
     var btnColor = "none"
     var fontColor = "white"
@@ -1255,6 +1258,7 @@ const BeastMarket: FC<Props> = () => {
                     className="group block w-full aspect-w-9 aspect-h-7 bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden"
                   >
                     <BeastMarketThumbnail
+                      onClick={() => setBeastArray([...beastArray, beast])}
                       id={beast.id}
                       className="object-cover group-hover:opacity-90"
                       beastTemplateID={beast.beastTemplateID}
@@ -1328,7 +1332,7 @@ const BeastMarket: FC<Props> = () => {
               }}
               className="hidden md:block h-max ml-5 sticky top-0 "
             >
-              <BeastMarketBulkBuy beasts={beasts} />
+              <BeastMarketBulkBuy beastArray={beastArray} beasts={beasts} />
             </div>
           )}
           {bulkBidOpen && (
@@ -1365,6 +1369,7 @@ const BeastMarket: FC<Props> = () => {
             View Cart
           </CartButton>
           <BeastMarketMobileCartModal
+            beastArray={beastArray}
             beasts={beasts}
             open={mobileCartOpen}
             setOpen={setMobileCartOpen}
