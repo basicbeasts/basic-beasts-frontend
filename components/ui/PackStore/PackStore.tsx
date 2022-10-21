@@ -984,12 +984,7 @@ const PackStore: FC = () => {
 
   return (
     <Container>
-      <ToastContainer
-        autoClose={4000}
-        hideProgressBar
-        position="bottom-right"
-        theme="dark"
-      />
+      <ToastContainer autoClose={4000} position="bottom-right" theme="dark" />
       {/* {loading ? <Spinner /> : <></>} */}
       <Content>
         <TextContainer>
