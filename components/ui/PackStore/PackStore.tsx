@@ -590,7 +590,7 @@ type BuyProps = {
 }
 
 //Open up for sale
-const available = false
+const available = true
 
 const Purchase: FC<BuyProps> = ({
   maxQuantity,

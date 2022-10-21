@@ -1,5 +1,4 @@
 import styled from "styled-components"
-import { TypeAnimation } from "react-type-animation"
 import { motion } from "framer-motion"
 import { useAuth } from "@components/auth/AuthProvider"
 import { useEffect, useState, FC, useRef } from "react"

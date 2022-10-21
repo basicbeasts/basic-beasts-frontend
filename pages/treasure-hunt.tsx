@@ -1,11 +1,9 @@
 import type { NextPage } from "next"
 import styled from "styled-components"
-import { TypeAnimation } from "react-type-animation"
 import chest from "public/nft-day-treasure-chest.png"
 import { motion } from "framer-motion"
 import { useAuth } from "@components/auth/AuthProvider"
 import { useEffect, useState } from "react"
-import Countdown from "react-countdown"
 import { ToastContainer, toast } from "react-toastify"
 import * as fcl from "@onflow/fcl"
 import {
