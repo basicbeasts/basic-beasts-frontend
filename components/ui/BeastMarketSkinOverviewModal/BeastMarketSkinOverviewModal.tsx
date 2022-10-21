@@ -1,200 +1,123 @@
 import { FC, Fragment, useRef, useState } from "react"
 import { Dialog, Transition } from "@headlessui/react"
-import { CheckIcon } from "@heroicons/react/outline"
 
-import star from "public/basic_starLevel.png"
 import styled from "styled-components"
-import {
-  send,
-  transaction,
-  args,
-  arg,
-  payer,
-  proposer,
-  authorizations,
-  limit,
-  authz,
-  decode,
-  tx,
-} from "@onflow/fcl"
-import * as t from "@onflow/types"
+
 import { toast } from "react-toastify"
-
-const ActionItem = styled.div`
-  padding: 10px 0;
-  width: 100%;
-`
-
-const FuncArgInput = styled.input`
-  background: transparent;
-  border: 1px solid #222;
-  color: #222;
-  font-size: 1.5em;
-  padding: 10px 0px 10px 20px;
-  border-radius: 8px 0 0 8px;
-  width: 50%;
-  cursor: pointer;
-  margin-right: -1px;
-
-  outline: none;
-  @media (max-width: 398px) {
-    width: 100%;
-    border-radius: 8px 8px 0 0;
-  }
-`
-
-const FuncArgButton = styled.button`
-  background: transparent;
-  border: 1px solid #222;
-  color: #222;
-  font-size: 1.5em;
-  padding: 10px 20px;
-  border-radius: 0 8px 8px 0;
-  cursor: pointer;
-  &:hover {
-    background: #000000;
-    color: #fff;
-  }
-  &:disabled {
-    background: gray;
-    color: #fff;
-    opacity: 0.35;
-  }
-  @media (max-width: 398px) {
-    width: 100%;
-    border-radius: 0 0 8px 8px;
-    margin-top: -1px;
-  }
-`
-
-const Title = styled.div`
-  font-size: 2.5em;
-  margin-bottom: 20px;
-`
-
-const Wrapper = styled.div`
-  margin: 0 20px;
-`
 
 const Container = styled.div`
   align-items: center;
 `
+const ItemInfo = styled.div`
+  display: flex;
+  padding: 1rem 2rem;
+  align-items: center;
+  // background-image: linear-gradient(to top, transparent, #ffdf7e);
+  // height: 80px;
+  justify-content: space-evenly;
+  border-radius: 0.5rem;
+  gap: 1px;
+  @media (max-width: 460px) {
+    flex-direction: column;
+  }
+`
+const Title = styled.h1`
+  font-size: 3rem;
+  line-height: 0;
+  position: absolute;
+  top: 12rem;
+  left: -12rem;
+  rotate: 270deg;
+  color: aliceblue;
+  @media (max-width: 340px) {
+    left: -10rem;
+  }
+`
 
-const NicknameLengthWarning = styled.div`
-  color: red;
+const H2 = styled.h2`
+  font-size: 2rem;
+`
+const Item = styled.div`
+  display: flex;
+  position: relative;
+  width: 80px;
+
+  min-width: 33.33%;
+  color: black;
+  font-size: 0.8rem;
+  line-height: 1;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 10px;
+  @media (max-width: 460px) {
+    align-items: center !important;
+  }
+`
+const DialogPanel = styled(Dialog.Panel)<any>`
+  padding: 20px;
+  background: #1d1d21;
+  color: white;
+`
+const Panel = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-items: center;
+  gap: 2.5rem;
+  @media (min-width: 840px) {
+    grid-template-columns: 1fr 1fr;
+  }
+`
+
+const Card = styled.div`
+  padding: 1rem;
+  border-radius: 10px;
+  text-align: center;
+  @media (min-width: 840px) {
+    &:first-child {
+      grid-column: 1/3;
+    }
+  }
+`
+const P = styled.p`
+  margin: 0 1.2rem;
+  font-size: 1.75rem;
+  line-height: 1;
 `
 
 type Props = {
-  beastID: any
+  // beastID: any
   open: boolean
   setOpen: any
-  fetchUserBeasts: any
-  beastModalSetOpen: any
-  setDisplayNickname: any
-  beastName: any
+  // fetchUserBeasts: any
+  // beastModalSetOpen: any
+  // setDisplayNickname: any
+  // beastName: any
 }
 
+const BeastMarketSkinItem: FC<{ background: any }> = ({ background }) => {
+  return (
+    <ItemInfo style={{ background: background }}>
+      <Item style={{ alignItems: "start" }}>
+        <H2>78K</H2>Beasts
+      </Item>
+      <Item>
+        <H2>78K</H2>Floor
+      </Item>
+      <Item style={{ alignItems: "end" }}>
+        <H2>78K</H2>Highest Sale
+      </Item>
+    </ItemInfo>
+  )
+}
 const BeastMarketSkinOverviewModal: FC<Props> = ({
-  beastID,
+  // beastID,
   open,
   setOpen,
-  fetchUserBeasts,
-  beastModalSetOpen,
-  setDisplayNickname,
-  beastName,
+  // fetchUserBeasts,
+  // beastModalSetOpen,
+  // setDisplayNickname,
+  // beastName,
 }) => {
-  const [nickname, setNickname] = useState<string | null>("")
-  const [nicknameWarning, setNicknameWarning] = useState<string>("")
-  const [nicknameValidity, setNicknameValidity] = useState(true)
-
-  const changeNickname = async () => {
-    const id = toast.loading("Initializing...")
-
-    try {
-      const res = await send([
-        transaction(`
-        import BasicBeasts from 0xBasicBeasts
-        
-        transaction(nickname: String, id: UInt64) {
-        
-            let beastRef: &BasicBeasts.NFT
-        
-            prepare(acct: AuthAccount) {
-        
-                let collectionRef = acct.borrow<&BasicBeasts.Collection>(from: BasicBeasts.CollectionStoragePath)
-                    ?? panic("Could not borrow a reference to the stored Beast collection")
-        
-                self.beastRef = collectionRef.borrowEntireBeast(id: id)!
-        
-            }
-            execute {
-                self.beastRef.setNickname(nickname: nickname)
-            }
-        }
-        `),
-        args([arg(nickname, t.String), arg(parseInt(beastID), t.UInt64)]),
-        payer(authz),
-        proposer(authz),
-        authorizations([authz]),
-        limit(9999),
-      ]).then(decode)
-      setOpen(false)
-      if (nickname != "") {
-        setDisplayNickname(nickname)
-      } else {
-        setDisplayNickname(beastName)
-      }
-      tx(res).subscribe((res: any) => {
-        if (res.status === 1) {
-          toast.update(id, {
-            render: "Pending...",
-            type: "default",
-            isLoading: true,
-            autoClose: 5000,
-          })
-        }
-        if (res.status === 2) {
-          toast.update(id, {
-            render: "Finalizing...",
-            type: "default",
-            isLoading: true,
-            autoClose: 5000,
-          })
-        }
-        if (res.status === 3) {
-          toast.update(id, {
-            render: "Executing...",
-            type: "default",
-            isLoading: true,
-            autoClose: 5000,
-          })
-        }
-      })
-      await tx(res)
-        .onceSealed()
-        .then((result: any) => {
-          toast.update(id, {
-            render: "Transaction Sealed",
-            type: "success",
-            isLoading: false,
-            autoClose: 5000,
-          })
-        })
-      setNickname("")
-      await fetchUserBeasts()
-    } catch (err) {
-      toast.update(id, {
-        render: () => <div>Error, try again later...</div>,
-        type: "error",
-        isLoading: false,
-        autoClose: 5000,
-      })
-      console.log(err)
-
-      setNickname("")
-    }
-  }
-
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setOpen}>
@@ -207,7 +130,7 @@ const BeastMarketSkinOverviewModal: FC<Props> = ({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-black bg-opacity-75 transition-opacity" />
+          <div className="fixed inset-0 bg-black bg-opacity-90 transition-opacity" />
         </Transition.Child>
 
         <div className="fixed z-10 inset-0 overflow-y-auto">
@@ -221,52 +144,45 @@ const BeastMarketSkinOverviewModal: FC<Props> = ({
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel
-                style={{ borderRadius: "20px", width: "100%" }}
-                className="relative bg-white rounded-lg pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-sm sm:w-full md:max-w-xl"
+              <DialogPanel
+                style={{ borderRadius: "20px" }}
+                className="relative rounded-lg text-left  shadow-xl transform transition-all "
               >
-                <Wrapper>
-                  <ActionItem>
-                    <Title>Change Nickname</Title>
-                    <FuncArgInput
-                      placeholder="Nickname"
-                      type="text"
-                      onChange={(e: any) => {
-                        if (e.target.value.length < 16) {
-                          if (!e.target.value.startsWith(" ")) {
-                            setNicknameValidity(true)
-                            setNickname(e.target.value)
-                            setNicknameWarning("")
-                          } else {
-                            setNicknameValidity(false)
-                            setNicknameWarning(
-                              "Nickname can't start with space",
-                            )
-                          }
-                        } else {
-                          setNicknameValidity(false)
-                          setNicknameWarning(
-                            "Nickname must be less than 16 characters",
-                          )
-                        }
-                      }}
-                    />
-                    <FuncArgButton
-                      disabled={!nicknameValidity}
-                      onClick={() => {
-                        if (nicknameValidity) {
-                          changeNickname()
-                        }
-                      }}
-                    >
-                      Save on-chain
-                    </FuncArgButton>
-                    <NicknameLengthWarning>
-                      {nicknameWarning}
-                    </NicknameLengthWarning>
-                  </ActionItem>
-                </Wrapper>
-              </Dialog.Panel>
+                <div
+                  className="text-right absolute top-0 left-0 right-3 sm:hidden"
+                  onClick={() => setOpen(false)}
+                >
+                  {/* <FontAwesomeIcon
+                          
+                            onClick={() => setOpen(false)}
+                            icon={faChevronUp}
+                          /> */}
+                  <div style={{ fontSize: "2em" }}>x</div>
+                </div>
+                <Title>BASIC BEASTS SKINS</Title>{" "}
+                <Panel>
+                  <Card style={{ textAlign: "end" }}>
+                    <P>Normal</P> <BeastMarketSkinItem background={"#E4E8E7"} />
+                  </Card>
+                  <Card style={{ textAlign: "end" }}>
+                    <P>Metallic Silver</P>
+                    <BeastMarketSkinItem background={" #C1D3E1"} />
+                  </Card>
+                  <Card style={{ textAlign: "start" }}>
+                    <P>Cursed Black</P>
+                    <BeastMarketSkinItem background={"#FCECF8"} />
+                  </Card>
+                  <Card style={{ textAlign: "end" }}>
+                    {" "}
+                    <P>Shiny Gold</P>
+                    <BeastMarketSkinItem background={" #FFF4CD"} />
+                  </Card>
+                  <Card style={{ textAlign: "start" }}>
+                    <P>Mythic Diamond</P>
+                    <BeastMarketSkinItem background={"#BDEBFB"} />
+                  </Card>{" "}
+                </Panel>
+              </DialogPanel>
             </Transition.Child>
           </Container>
         </div>

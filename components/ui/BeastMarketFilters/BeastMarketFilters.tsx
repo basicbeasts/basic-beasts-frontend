@@ -40,35 +40,42 @@ const InputContainer = styled.div`
 `
 
 const CheckboxWrapper = styled.div`
-  // input[type="checkbox"] {
-  //   /* removing default appearance */
-  //   -webkit-appearance: none;
-  //   appearance: none;
-  //   /* creating a custom design */
-  //   width: 1.6em;
-  //   height: 1.6em;
-  //   border-radius: 0.15em;
-  //   margin-right: 0.5em;
-  //   border: 0.15em solid #007a7e;
-  //   outline: none;
-  //   cursor: pointer;
-  // }
-  // input[type="checkbox"]:disabled {
-  //   border-color: #c0c0c0;
-  //   background-color: #c0c0c0;
-  // }
-  // input[type="checkbox"]:disabled + span {
-  //   color: #c0c0c0;
-  // }
   input[type="checkbox"] {
     /* removing default appearance */
-    // -webkit-appearance: none;
-    // appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    /* creating a custom design */
+    width: 1em;
+    height: 1em;
+    border-radius: 0.15em;
+    margin-right: 0.5em;
+    border: 0.2px solid #fff;
+    outline: none;
+    cursor: pointer;
+  }
+  input[type="checkbox"]:disabled {
+    border-color: #c0c0c0;
+    background-color: #c0c0c0;
+  }
+  input[type="checkbox"]:disabled + span {
+    color: #c0c0c0;
+  }
+  input[type="checkbox"] {
+    /* removing default appearance */
+    -webkit-appearance: none;
+    appearance: none;
     .checked {
       background-color: red !important;
       position: relative;
     }
   }
+  input[type="checkbox"]:checked {
+    background-color: #f3cb23;
+  }
+`
+const DialogPanel = styled<any>(Dialog.Panel)`
+  background: #222427;
+  color: white;
 `
 
 type Props = {
@@ -150,12 +157,12 @@ const BeastMarketFilters: FC<Props> = ({
                   leaveFrom="translate-x-0"
                   leaveTo="translate-x-full"
                 >
-                  <Dialog.Panel className="relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto bg-white py-4 pb-12 shadow-xl">
+                  <DialogPanel className="relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto py-4 pb-12 shadow-xl">
                     <div className="flex items-center justify-between px-4">
                       <h2 className="text-lg font-medium ">Filters</h2>
                       <button
                         type="button"
-                        className="-mr-2 flex h-10 w-10 items-center justify-center rounded-md bg-white p-2 "
+                        className="-mr-2 flex h-10 w-10 items-center justify-center rounded-md bg-none p-2 "
                         onClick={() => setMobileFiltersOpen(false)}
                       >
                         <span className="sr-only">Close menu</span>x
@@ -185,7 +192,7 @@ const BeastMarketFilters: FC<Props> = ({
                               {({ open }) => (
                                 <>
                                   <h3 className="-mx-2 -my-3 flow-root">
-                                    <Disclosure.Button className="flex w-full items-center justify-between bg-white px-2 py-3  hover:text-gray-500">
+                                    <Disclosure.Button className="flex w-full items-center justify-between bg-none px-2 py-3  hover:text-gray-500">
                                       <span className="font-medium ">
                                         {section.name}
                                       </span>
@@ -209,7 +216,7 @@ const BeastMarketFilters: FC<Props> = ({
                                       {section.options?.map(
                                         (option: any, optionIdx: any) => (
                                           <>
-                                            <div
+                                            <CheckboxWrapper
                                               key={option.value}
                                               className="flex items-center"
                                             >
@@ -228,7 +235,7 @@ const BeastMarketFilters: FC<Props> = ({
                                               >
                                                 {option.label}
                                               </label>
-                                            </div>
+                                            </CheckboxWrapper>
                                           </>
                                         ),
                                       )}
@@ -241,7 +248,7 @@ const BeastMarketFilters: FC<Props> = ({
                         </>
                       )}
                     </form>
-                  </Dialog.Panel>
+                  </DialogPanel>
                 </Transition.Child>
               </div>
             </Dialog>
@@ -399,13 +406,6 @@ const BeastMarketFilters: FC<Props> = ({
                     </Disclosure>
                   ))}
                 </form>
-
-                {/* Product grid */}
-                {/* <div className="lg:col-span-3">
-                  // Replace with your content 
-                  <div className="h-96 rounded-lg border-4 border-dashed border-gray-200 lg:h-full" />
-                  // End replace 
-                </div> */}
               </div>
             </section>
           </main>

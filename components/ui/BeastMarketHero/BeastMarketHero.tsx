@@ -1,5 +1,6 @@
 import styled from "styled-components"
 import BeastMarketThumbnail from "../BeastMarketThumbnail"
+import BeastMarketSkinOverviewModal from "../BeastMarketSkinOverviewModal"
 
 import { FC, useState, Fragment, useEffect } from "react"
 
@@ -106,9 +107,9 @@ const AttributeBlock = styled.div`
   }
 `
 const Dialog = styled.dialog`
-  position: absolute;
-  left: 50%;
-  right: 50%;
+  // position: absolute;
+  // left: 50%;
+  // right: 50%;
   transform: translateX(-50%);
   display: flex;
   flex-direction: column;
@@ -172,6 +173,9 @@ const ItemInfo = styled.div`
   justify-content: space-evenly;
   border-radius: 10px;
   gap: 1px;
+  cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
+      14 0,
+    pointer !important;
 `
 const Item = styled.div`
   display: flex;
@@ -359,6 +363,8 @@ const ThumbnailDetailsFC: FC<{
 }
 
 const BeastMarketHero: FC<Props> = ({ beast }) => {
+  const [skinOverviewOpen, setSkinOverviewOpen] = useState(false)
+
   return (
     <>
       <Main>
@@ -370,7 +376,7 @@ const BeastMarketHero: FC<Props> = ({ beast }) => {
             representing interactive beasts that can evolve, breed, and loved.
           </P>
           <Button>Place A Bid →</Button>
-          <ItemInfo>
+          <ItemInfo onClick={() => setSkinOverviewOpen(true)}>
             <Item>
               <H2>780</H2> Owners
             </Item>
@@ -381,6 +387,10 @@ const BeastMarketHero: FC<Props> = ({ beast }) => {
               <H2>$10000</H2> Highest Sale
             </Item>
           </ItemInfo>
+          <BeastMarketSkinOverviewModal
+            open={skinOverviewOpen}
+            setOpen={setSkinOverviewOpen}
+          />
         </Discover>{" "}
         <Showcase>
           <BeastMarketThumbnail

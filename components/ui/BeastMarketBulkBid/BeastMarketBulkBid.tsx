@@ -2,8 +2,6 @@ import styled from "styled-components"
 import { FC, useState, Fragment, useEffect } from "react"
 import star from "public/basic_starLevel.png"
 
-import Slider from "rc-slider"
-import "rc-slider/assets/index.css"
 import { useAuth } from "@components/auth/AuthProvider"
 import BeastMarketThumbnail from "../BeastMarketThumbnail"
 const Wrapper = styled.div`
@@ -70,113 +68,7 @@ const InputDefaultText = styled.div`
   align-items: center;
   justify-content: center;
 `
-const SliderDesign = styled<any>(Slider)`
-  margin-bottom: 1rem;
-  & *:not(.rc-slider-handle) {
-    height: 10px;
-  }
-  .rc-slider-handle {
-    margin-top: -7px;
-    background: #1d1f2a;
-    opacity: 1;
-    border: 1px solid #d0d8e1;
-    width: 1.5rem;
-    height: 1.5rem;
-  }
-  .rc-slider-handle-dragging.rc-slider-handle-dragging.rc-slider-handle-dragging {
-    border: 2px solid #f9df51;
 
-    box-shadow: none;
-  }
-
-  .rc-slider-rail {
-    background: #292d3b;
-  }
-  .rc-slider-track {
-    background: #f9df51;
-  }
-`
-
-const Switch = styled.label`
-  position: relative;
-  display: inline-block;
-  width: 36px;
-  height: 20px;
-  margin: 1rem 0;
-`
-const SwitchSlider = styled.span`
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
-  border-radius: 34px;
-
-  &:before {
-    position: absolute;
-    content: "";
-    height: 16px;
-    width: 16px;
-    left: 2px;
-    bottom: 2.5px;
-    background-color: white;
-    -webkit-transition: 0.4s;
-    transition: 0.4s;
-    border-radius: 50%;
-  }
-`
-const SwitchInput = styled.input`
-  opacity: 0;
-  width: 0;
-  height: 0;
-
-  &:checked + ${SwitchSlider} {
-    background-color: #f9df51;
-  }
-  &:checked + ${SwitchSlider}:before {
-    -webkit-transform: translateX(16px);
-    -ms-transform: translateX(16px);
-    transform: translateX(16px);
-  }
-`
-const InfoCircle = styled.div`
-  --size: 0.45rem;
-  position: relative;
-  border: 1px solid grey;
-  border-radius: 50%;
-  width: var(--size);
-  height: var(--size);
-  padding: var(--size);
-  line-height: 0;
-  font-size: 12px;
-`
-const InfoCircleText = styled.span`
-  visibility: hidden;
-  width: max-content;
-  max-width: 26rem;
-  background-color: rgb(41, 45, 59);
-  color: #fff;
-  border-radius: 6px;
-  padding: 10px;
-  position: absolute;
-  z-index: 99999;
-  top: 225%;
-  left: 50%;
-  right: 50%;
-  transform: translateX(-85%);
-
-  line-height: 1;
-  font-size: 1rem;
-  text-transform: capitalize;
-
-  ${InfoCircle}:hover & {
-    visibility: visible;
-  }
-`
 const Cart = styled.div`
   border-bottom: 1px solid grey;
   padding-bottom: 1rem;
@@ -279,7 +171,7 @@ type Props = {
   beasts: any
 }
 
-const BeastMarketSweep: FC<Props> = ({ beasts }) => {
+const BeastMarketBulkBid: FC<Props> = ({ beasts }) => {
   // const [value, setValue] = useState(50)
 
   const [disabled, setDisabled] = useState(false)
@@ -338,114 +230,61 @@ const BeastMarketSweep: FC<Props> = ({ beasts }) => {
       <Wrapper>
         <div className="flex justify-between">
           <Header>
-            Sweep
+            Bulk bid
             {value != 0 ? " (" + value + ")" : <></>}
           </Header>
           <button>clear</button>
         </div>
-        <H2>Max price per item (optional)</H2>
-        <InputContainer>
-          <FuncArgInput></FuncArgInput>
-          <InputDefaultText>FUSD</InputDefaultText>
-        </InputContainer>
-        <H2>Number of items</H2>
-        <SliderDesign
-          // count={2}
-          // disabled={disabled}
-          // reverse={reverse}
-          // vertical={vertical}
-          // range={range}
-          // defaultValue={value}
-          // dots
-          // step={5}
-          // draggableTrack
-          // pushable={5}
-          // allowCross={false}
-          onChange={(nextValues: any) => {
-            // console.log("Change:", nextValues)
-            setValue(nextValues as any)
-          }}
-          value={value}
-          min={0}
-          max={max}
-          // defaultValue={0.81}
-          step={1}
-        />
-
-        {/* <div>
-          <FuncArgInput type="range" min="1" max="100" step={1} id="myRange" />
-        </div> */}
-        <InputContainer>
-          <FuncArgInput
-            value={value}
-            type="number"
-            onChange={(e) => setValue(Number(e.target.value))}
-            min={0}
-            max={max}
-          />
-          <InputDefaultText>Items</InputDefaultText>
-        </InputContainer>
-        <div className="flex items-center gap-2">
-          <Switch>
-            <SwitchInput type="checkbox" />
-            <SwitchSlider></SwitchSlider>
-          </Switch>
-
-          <p>Auto swap items</p>
-          <InfoCircle>
-            i
-            <InfoCircleText>
-              Automatically swap items that are sold or delisted while sweeping.
-              Each transaction attempt will need wall approval.
-            </InfoCircleText>
-          </InfoCircle>
-        </div>
-
-        {/* Insert Cart Here */}
 
         {possibleBeastsToCart != null ? (
-          <BeastList className={areWeLoggedIn()}>
-            {possibleBeastsToCart?.slice(0, value).map((beast: any) => (
-              <li
-                key={beast.id}
-                className="flex items-center justify-between relative list-none"
-                onClick={() => {
-                  setOpen(true)
-                  setSelectedBeast(beast)
-                  setDisplayNickname(null)
-                }}
-              >
-                <div className="flex items-center gap-3 ">
-                  <div className="relative">
-                    <BeastMarketThumbnailSmall
-                      id={beast.id}
-                      className="object-cover group-hover:opacity-90"
-                      beastTemplateID={beast.beastTemplateID}
-                    />
-                    <RemoveButton
-                      onClick={() => displayBeasts.splice(beast, 1)}
-                    >
-                      x
-                    </RemoveButton>
-                    <StarLevel>
-                      {Array(beast.starLevel)
-                        .fill(0)
-                        .map((_, i) => (
-                          <StarImg key={i} src={star.src} />
-                        ))}
-                    </StarLevel>
+          <div>
+            <H2>Bulk bid price</H2>
+            <InputContainer>
+              <FuncArgInput type="number" min={0} />
+              <InputDefaultText>FUSD</InputDefaultText>
+            </InputContainer>
+            <BeastList className={areWeLoggedIn()}>
+              {possibleBeastsToCart?.slice(0, 3).map((beast: any) => (
+                <li
+                  key={beast.id}
+                  className="flex items-center justify-between relative list-none"
+                  onClick={() => {
+                    setOpen(true)
+                    setSelectedBeast(beast)
+                    setDisplayNickname(null)
+                  }}
+                >
+                  <div className="flex items-center gap-3 ">
+                    <div className="relative">
+                      <BeastMarketThumbnailSmall
+                        id={beast.id}
+                        className="object-cover group-hover:opacity-90"
+                        beastTemplateID={beast.beastTemplateID}
+                      />
+                      <RemoveButton
+                        onClick={() => displayBeasts.splice(beast, 1)}
+                      >
+                        x
+                      </RemoveButton>
+                      <StarLevel>
+                        {Array(beast.starLevel)
+                          .fill(0)
+                          .map((_, i) => (
+                            <StarImg key={i} src={star.src} />
+                          ))}
+                      </StarLevel>
+                    </div>
+                    <div>price</div>
                   </div>
-
-                  <div>price</div>
-                </div>
-                <div>
-                  {beast.price != null
-                    ? parseFloat(beast.price).toFixed(2)
-                    : "not for sale"}
-                </div>
-              </li>
-            ))}
-          </BeastList>
+                  <div>
+                    {beast.price != null
+                      ? parseFloat(beast.price).toFixed(2)
+                      : "not for sale"}
+                  </div>
+                </li>
+              ))}
+            </BeastList>
+          </div>
         ) : (
           <Cart>(Cart is empty)</Cart>
         )}
@@ -472,4 +311,4 @@ const BeastMarketSweep: FC<Props> = ({ beasts }) => {
   )
 }
 
-export default BeastMarketSweep
+export default BeastMarketBulkBid

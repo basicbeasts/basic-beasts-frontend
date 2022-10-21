@@ -10,8 +10,10 @@ import { FC, useState, Fragment, useEffect } from "react"
 import EvolutionModal from "../EvolutionModal"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import BeastMarketFilters from "../BeastMarketFilters"
+import BeastMarketBulkBuy from "../BeastMarketBulkBuy"
+import BeastMarketBulkBid from "../BeastMarketBulkBid"
 import beastTemplates from "data/beastTemplates"
-import BeastMarketSkinOverview from "../BeastMarketSkinOverviewModal"
+import BeastMarketMobileCartModal from "../BeastMarketMobileCartModal"
 
 import {
   query,
@@ -30,7 +32,7 @@ import {
 import BeastMarketSweep from "../BeastMarketSweep"
 
 const Wrapper = styled.div`
-  padding: 20px 20px 100px;
+  padding: 20px 20px 100px 20px;
   z-index: 1;
   display: grid;
 
@@ -100,7 +102,8 @@ const FilterButton = styled.button`
   aspect-ratio: 1;
   color: white;
 `
-const SweepButton = styled.button`
+const BuyButton = styled.button`
+  min-width: max-content;
   background: #f9df51;
   border-radius: 10px;
   height: 40px;
@@ -250,9 +253,9 @@ const DetailButton = styled.button<any>`
   }
 `
 const Dialog = styled.dialog<any>`
-  position: absolute;
-  left: ${(props) => props.left}%;
-  right: ${(props) => props.right}%;
+  // position: absolute;
+  // left: ${(props) => props.left}%;
+  // right: ${(props) => props.right}%;
   transform: translateX(-50%);
   display: flex;
   flex-direction: column;
@@ -342,6 +345,36 @@ const MarketUl = styled.ul`
   // @media (min-width: 1080px) {
   //   grid-template-columns: repeat(5, 1fr);
   // }
+`
+const MobileMarket = styled.div`
+  position: fixed;
+  // display: flex;
+  columns: 2;
+  width: 100vw;
+  justify-content: space-evenly;
+  align-items: center;
+  bottom: 0;
+  left: 0;
+  color: white;
+  background: #111823;
+  border-top: 1px solid grey;
+  border-radius: 10px 10px 0 0;
+  height: 5rem;
+  z-index: 10;
+`
+const CartButton = styled.button`
+  background: goldenrod;
+  background-image: linear-gradient(
+    -45deg,
+    transparent,
+    rgba(255, 255, 255, 0.5) 25%,
+    transparent 90%
+  );
+  color: black;
+  font-size: 1.2rem;
+  padding: 1rem;
+  height: max-content;
+  border-radius: 8px;
 `
 const DropDown: FC<{
   beasts: any
@@ -811,7 +844,11 @@ const ThumbnailDetailsFC: FC<{
           />{" "}
           76
         </div>
-        <div className="flex gap-1 justify-end">760050</div>
+        <div className="flex gap-1 justify-end">
+          {beast.price != null
+            ? parseFloat(beast.price).toFixed(2)
+            : "not for sale"}
+        </div>
         <StarLevel>
           {Array(beast.starLevel)
             .fill(0)
@@ -850,10 +887,24 @@ const BeastMarket: FC<Props> = () => {
   const [evolvedBeastId, setEvolvedBeastId] = useState(null)
   const [dialogOpen, setDialogOpen] = useState(false)
   const [filterOpen, setFilterOpen] = useState(true)
-  const [sweepOpen, setSweepOpen] = useState(true)
+  const [sweepOpen, setSweepOpen] = useState(false)
+  const [bulkBuyOpen, setBulkBuyOpen] = useState(false)
+  const [bulkBidOpen, setBulkBidOpen] = useState(false)
+  const [mobileCartOpen, setMobileCartOpen] = useState(false)
 
   const [selectedFilters, setSelectedFilters] = useState<any>([])
   const [beasts, setBeasts] = useState<any>([])
+
+  const buttonColor = (clrOpen: any) => {
+    var btnColor = "none"
+    var fontColor = "white"
+    {
+      clrOpen == true
+        ? ((btnColor = "#FEDD64"), (fontColor = "black"))
+        : ((btnColor = "#262935"), (fontColor = "white"))
+    }
+    return { btnColor, fontColor }
+  }
 
   useEffect(() => {
     getAllBeasts()
@@ -1059,6 +1110,12 @@ const BeastMarket: FC<Props> = () => {
                 ?? panic("Couldn't borrow a reference to the specified beast")
 
                 let beastTemplate = token.getBeastTemplate()
+
+                var price: UFix64? = nil
+
+                if (i%2==0) {
+                  price = 69.0 - UFix64(i)
+                }
                 
                 let beast = {
                   "name" : beastTemplate.name,
@@ -1076,7 +1133,7 @@ const BeastMarket: FC<Props> = () => {
                   "breedingCount" : 0,
                   "numberOfMintedBeastTemplates" : 100,
                   "beastTemplateID" : beastTemplate.beastTemplateID,
-                  "price" : 69.00
+                  "price" : price
                 }
 
                 beasts.insert(at:i, beast)
@@ -1119,10 +1176,50 @@ const BeastMarket: FC<Props> = () => {
           sortBy={sortBy}
           setSortBy={setSortBy}
         />
-
-        <SweepButton onClick={() => setSweepOpen(!sweepOpen)}>
-          Sweep
-        </SweepButton>
+        <div className=" hidden md:flex gap-2">
+          <BuyButton
+            style={{
+              background: buttonColor(bulkBuyOpen).btnColor,
+              color: buttonColor(bulkBuyOpen).fontColor,
+            }}
+            id="bulk"
+            onClick={() => (
+              setBulkBuyOpen(!bulkBuyOpen),
+              setSweepOpen(false),
+              setBulkBidOpen(false)
+            )}
+          >
+            Bulk Buy
+          </BuyButton>
+          <BuyButton
+            style={{
+              background: buttonColor(bulkBidOpen).btnColor,
+              color: buttonColor(bulkBidOpen).fontColor,
+            }}
+            id="bid"
+            onClick={() => (
+              setBulkBidOpen(!bulkBidOpen),
+              setSweepOpen(false),
+              setBulkBuyOpen(false)
+            )}
+          >
+            Bulk Bid
+          </BuyButton>
+          <BuyButton
+            style={{
+              background: buttonColor(sweepOpen).btnColor,
+              color: buttonColor(sweepOpen).fontColor,
+            }}
+            id="sweep"
+            onClick={() => (
+              setSweepOpen(!sweepOpen),
+              setBulkBuyOpen(false),
+              setBulkBidOpen(false)
+            )}
+          >
+            Sweep
+          </BuyButton>
+        </div>
       </HeaderBeastCollection>
 
       <Wrapper>
@@ -1212,12 +1309,67 @@ const BeastMarket: FC<Props> = () => {
           ) : (
             "No beasts found"
           )}
+
+          {/* <div
+            style={{
+              border: ".5px solid #808080",
+              borderRadius: "10px",
+              maxWidth: "280px",
+            }}
+            className="h-max ml-5"
+          > */}
+          {bulkBuyOpen && (
+            <div
+              style={{
+                color: "white",
+                border: ".5px solid #808080",
+                borderRadius: "10px",
+                width: "280px",
+              }}
+              className="hidden md:block h-max ml-5 sticky top-0 "
+            >
+              <BeastMarketBulkBuy beasts={beasts} />
+            </div>
+          )}
+          {bulkBidOpen && (
+            <div
+              style={{
+                color: "white",
+                border: ".5px solid #808080",
+                borderRadius: "10px",
+                width: "280px",
+              }}
+              className="hidden md:block h-max ml-5 sticky top-0"
+            >
+              <BeastMarketBulkBid beasts={beasts} />
+            </div>
+          )}
           {sweepOpen && (
-            <div style={{ color: "white" }} className="h-max sticky top-0">
+            <div
+              style={{
+                color: "white",
+                border: ".5px solid #808080",
+                borderRadius: "10px",
+                width: "280px",
+              }}
+              className="hidden md:block h-max ml-5 sticky top-0"
+            >
               <BeastMarketSweep beasts={beasts} />
             </div>
           )}
+          {/* </div> */}
         </div>
+        <MobileMarket className="flex md:hidden">
+          <div>Information is coming here</div>
+          <CartButton onClick={() => setMobileCartOpen(true)}>
+            View Cart
+          </CartButton>
+          <BeastMarketMobileCartModal
+            beasts={beasts}
+            open={mobileCartOpen}
+            setOpen={setMobileCartOpen}
+          />
+        </MobileMarket>
       </Wrapper>
     </>
   )
