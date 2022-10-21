@@ -607,7 +607,7 @@ const Purchase: FC<BuyProps> = ({
 
   const { logIn, loggedIn } = useAuth()
 
-  const { balance, purchase } = useUser()
+  const { balance, purchasePackType } = useUser()
 
   const [preOrder] = useMutation(
     (
@@ -860,25 +860,23 @@ const Purchase: FC<BuyProps> = ({
                           const address = checkboxValue
                             ? addressReservable
                             : addressRefundable
-                          const tx = await purchase(totalPrice, address)
+                          const packTypeString =
+                            packType === PackType.STARTER
+                              ? "Starter"
+                              : packType === PackType.CURSED_BLACK
+                              ? "Cursed Black"
+                              : "Shiny Gold"
+                          const tx = await purchasePackType(
+                            totalPrice,
+                            address,
+                            packTypeString,
+                          )
+
                           if (tx) {
                             const txId = tx.events[0].transactionId as string
-
-                            const preOrderId = await preOrder({
-                              args: {
-                                transactionHash: txId,
-                                packType: packType,
-                                count: quantity,
-                                refundable: !checkboxValue,
-                              },
-                            })
-                            if (preOrderId) {
-                              toast.success(
-                                "Congratulations! Your journey to becoming a Beast Hunter has begun!",
-                              )
-                            } else {
-                              toast.error("Something went wrong")
-                            }
+                            toast.success(
+                              "Congratulations! Your journey to becoming a Beast Hunter has begun!",
+                            )
                           }
                         }}
                       >
@@ -989,7 +987,7 @@ const PackStore: FC = () => {
       <ToastContainer
         autoClose={4000}
         hideProgressBar
-        position="top-center"
+        position="bottom-right"
         theme="dark"
       />
       {/* {loading ? <Spinner /> : <></>} */}

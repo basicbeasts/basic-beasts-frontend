@@ -20,7 +20,13 @@ const UserProvider: FC = ({ children }) => {
     "user-composite-signature",
   )
 
-  const { data: balance, getFUSDBalance, purchase, loading } = useFUSD(user)
+  const {
+    data: balance,
+    getFUSDBalance,
+    purchase,
+    loading,
+    purchasePackType,
+  } = useFUSD(user)
   // const {
   //   data: userBeasts,
   //   fetchUserBeasts,
@@ -79,6 +85,7 @@ const UserProvider: FC = ({ children }) => {
         floorPrice,
         claimedFUSDRewards,
         getClaimedFUSDRewards,
+        purchasePackType,
       }}
     >
       {children}
