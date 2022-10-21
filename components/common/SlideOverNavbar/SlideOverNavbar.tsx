@@ -254,21 +254,23 @@ const SlideOverNavbar: FC<Props> = ({
                                 </LargeNavItem>
                               </a>
                               <Link href="/inbox">
-                                <SmallNavItem onClick={() => close()}>
-                                  Inbox
-                                  {centralizedInbox != null ? (
-                                    <>
-                                      {currentPath != "/inbox" &&
-                                      centralizedInbox.length > 0 ? (
-                                        <RedDot>•</RedDot>
-                                      ) : (
-                                        <></>
-                                      )}{" "}
-                                    </>
-                                  ) : (
-                                    <></>
-                                  )}
-                                </SmallNavItem>
+                                <a>
+                                  <SmallNavItem onClick={() => close()}>
+                                    Inbox
+                                    {centralizedInbox != null ? (
+                                      <>
+                                        {currentPath != "/inbox" &&
+                                        centralizedInbox.length > 0 ? (
+                                          <RedDot>•</RedDot>
+                                        ) : (
+                                          <></>
+                                        )}{" "}
+                                      </>
+                                    ) : (
+                                      <></>
+                                    )}
+                                  </SmallNavItem>
+                                </a>
                               </Link>
                               <SmallNavItem
                                 onClick={() => {
@@ -283,24 +285,58 @@ const SlideOverNavbar: FC<Props> = ({
                           )}
                         </div>
                         <Link href="/store">
-                          <LargeNavItem onClick={() => close()}>
-                            Store
-                          </LargeNavItem>
+                          <a>
+                            <LargeNavItem onClick={() => close()}>
+                              Store
+                            </LargeNavItem>
+                          </a>
+                        </Link>
+                        <Link href="/marketplace">
+                          <a>
+                            <LargeNavItem onClick={() => close()}>
+                              Marketplace
+                            </LargeNavItem>
+                          </a>
                         </Link>
                         <Link href="/rankings">
-                          <LargeNavItem onClick={() => close()}>
-                            Rankings
-                          </LargeNavItem>
+                          <a>
+                            <LargeNavItem onClick={() => close()}>
+                              Rankings
+                            </LargeNavItem>
+                          </a>
                         </Link>
                         <Link href="/dexicon">
-                          <LargeNavItem onClick={() => close()}>
-                            Dexicon
-                          </LargeNavItem>
+                          <a>
+                            <LargeNavItem onClick={() => close()}>
+                              Dexicon
+                            </LargeNavItem>
+                          </a>
                         </Link>
-
+                        <Link href="/treasure-hunt">
+                          <a>
+                            <SmallNavItem onClick={() => close()}>
+                              Treasure Hunt
+                            </SmallNavItem>
+                          </a>
+                        </Link>
+                        <Link href="/black-market">
+                          <a>
+                            <SmallNavItem onClick={() => close()}>
+                              Black Market
+                            </SmallNavItem>
+                          </a>
+                        </Link>
+                        <Link href="/chest-rankings">
+                          <a>
+                            <SmallNavItem onClick={() => close()}>
+                              Chest Rankings
+                            </SmallNavItem>
+                          </a>
+                        </Link>
                         <a
                           target="_blank"
                           href="https://whitepaper.basicbeasts.io/"
+                          rel="noreferrer"
                         >
                           <SmallNavItem
                             style={{ display: "flex", marginTop: "5px" }}
@@ -311,7 +347,11 @@ const SlideOverNavbar: FC<Props> = ({
                             </div>
                           </SmallNavItem>
                         </a>
-                        <a target="_blank" href="https://discord.gg/xgFtWhwSaR">
+                        <a
+                          target="_blank"
+                          href="https://discord.gg/xgFtWhwSaR"
+                          rel="noreferrer"
+                        >
                           <SmallNavItem style={{ display: "flex" }}>
                             <div>Discord</div>
                             <div>
