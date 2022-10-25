@@ -14,6 +14,7 @@ import BeastMarketBulkBuy from "../BeastMarketBulkBuy"
 import BeastMarketBulkBid from "../BeastMarketBulkBid"
 import beastTemplates from "data/beastTemplates"
 import BeastMarketMobileCartModal from "../BeastMarketMobileCartModal"
+import BeastMarketBeastList from "../BeastMarketBeastList"
 
 import {
   query,
@@ -665,201 +666,201 @@ type Props = {
   // beasts: any
 }
 
-const DialogInfo: FC<{
-  id: any
-  dialogOpen: any
-  beast: any
-  // left: any
-  // right: any
-}> = ({
-  id,
-  dialogOpen,
-  beast,
-  //  left, right
-}) => {
-  let centerX = document.documentElement.clientWidth / 2
-  let centerY = document.documentElement.clientHeight / 2
+// const DialogInfo: FC<{
+//   id: any
+//   dialogOpen: any
+//   beast: any
+//   // left: any
+//   // right: any
+// }> = ({
+//   id,
+//   dialogOpen,
+//   beast,
+//   //  left, right
+// }) => {
+//   let centerX = document.documentElement.clientWidth / 2
+//   let centerY = document.documentElement.clientHeight / 2
 
-  // console.log("X: " + centerX, "Y: " + centerY)
+//   // console.log("X: " + centerX, "Y: " + centerY)
 
-  // const elem = document.getElementById(id)
-  // const box = elem?.getBoundingClientRect()
-  // console.log("Box: " + box?.x)
-  // var right = 50
-  // var left = 50
-  // if (box != null && box?.x > centerX) {
-  //   right = 0
-  // } else if (box != null && box?.x < centerX) {
-  //   left = 0
-  // } else {
-  //   left = 50
-  //   right = 50
-  // }
+//   // const elem = document.getElementById(id)
+//   // const box = elem?.getBoundingClientRect()
+//   // console.log("Box: " + box?.x)
+//   // var right = 50
+//   // var left = 50
+//   // if (box != null && box?.x > centerX) {
+//   //   right = 0
+//   // } else if (box != null && box?.x < centerX) {
+//   //   left = 0
+//   // } else {
+//   //   left = 50
+//   //   right = 50
+//   // }
 
-  // console.log("left: " + left, "right: " + right)
+//   // console.log("left: " + left, "right: " + right)
 
-  return dialogOpen == true ? (
-    <Dialog
-      id={id}
-      //  left={left} right={right}
-    >
-      <div className="flex gap-2 leading-none">
-        {beast.nickname.length < 13 ? (
-          <div style={{ fontSize: "1.3em" }}>{beast.nickname}</div>
-        ) : (
-          <div style={{ fontSize: "1em" }}>{beast.nickname}</div>
-        )}
-        <div style={{ fontSize: "1.3em" }}>#{beast.serialNumber}</div>
-      </div>
-      <div style={{ marginLeft: "5px" }}>
-        Dex {"#" + ("00" + beast.dexNumber).slice(-3)}
-      </div>
-      <p style={{ color: "grey" }}>Attributes</p>
-      <Attributes>
-        <AttributeBlock>
-          <P>Skin</P>
-          <div>{beast.skin}</div>
-          <TraitCount>% have this trait</TraitCount>
-        </AttributeBlock>
-        <AttributeBlock>
-          <P>Element</P>
-          <div>{beast.elements}</div>
-          <TraitCount>% have this trait</TraitCount>
-        </AttributeBlock>
-        <AttributeBlock>
-          <P>Star Level</P>
-          <div>{beast.starLevel}</div>
-          <TraitCount>% have this trait</TraitCount>
-        </AttributeBlock>
-        <AttributeBlock>
-          <P>Gender</P>
-          <div>{beast.sex}</div>
-          <TraitCount>
-            % of {beast.name} <br /> have this trait
-          </TraitCount>
-        </AttributeBlock>
-        <AttributeBlock>
-          <P>Breeding Count</P>
-          <div>{beast.breedingCount}</div>
-          <TraitCount>% have this trait</TraitCount>
-        </AttributeBlock>
-        <AttributeBlock>
-          <P>Serial</P>
-          <div>{beast.serialNumber}</div>
-          <TraitCount>% have this trait</TraitCount>
-        </AttributeBlock>
-        <AttributeBlock>
-          <P>Number of Existing {beast.name}s</P>
-          <div>{beast.numberOfMintedBeastTemplates}</div>
-        </AttributeBlock>
-      </Attributes>
-      <p style={{ color: "grey" }}>Details</p>
-      <div className="flex w-full justify-between">
-        <p>Mint address</p>
-        <p style={{ color: "grey" }}>0x23948</p>
-      </div>
-    </Dialog>
-  ) : (
-    <></>
-  )
-}
-const ThumbnailDetailsFC: FC<{
-  beast: any
-}> = ({ beast }) => {
-  const [dialogOpen, setDialogOpen] = useState(false)
-  const [heart, setHeart] = useState<any>(heartEmpty)
-  const buttonColor = () => {
-    var color = "none"
-    {
-      dialogOpen == true ? (color = "#FEDD64") : (color = "none")
-    }
-    return color
-  }
-  var btnColor = buttonColor()
-  const heartChange = () => {
-    {
-      heart == heartEmpty ? setHeart(heartFull) : setHeart(heartEmpty)
-    }
-  }
+//   return dialogOpen == true ? (
+//     <Dialog
+//       id={id}
+//       //  left={left} right={right}
+//     >
+//       <div className="flex gap-2 leading-none">
+//         {beast.nickname.length < 13 ? (
+//           <div style={{ fontSize: "1.3em" }}>{beast.nickname}</div>
+//         ) : (
+//           <div style={{ fontSize: "1em" }}>{beast.nickname}</div>
+//         )}
+//         <div style={{ fontSize: "1.3em" }}>#{beast.serialNumber}</div>
+//       </div>
+//       <div style={{ marginLeft: "5px" }}>
+//         Dex {"#" + ("00" + beast.dexNumber).slice(-3)}
+//       </div>
+//       <p style={{ color: "grey" }}>Attributes</p>
+//       <Attributes>
+//         <AttributeBlock>
+//           <P>Skin</P>
+//           <div>{beast.skin}</div>
+//           <TraitCount>% have this trait</TraitCount>
+//         </AttributeBlock>
+//         <AttributeBlock>
+//           <P>Element</P>
+//           <div>{beast.elements}</div>
+//           <TraitCount>% have this trait</TraitCount>
+//         </AttributeBlock>
+//         <AttributeBlock>
+//           <P>Star Level</P>
+//           <div>{beast.starLevel}</div>
+//           <TraitCount>% have this trait</TraitCount>
+//         </AttributeBlock>
+//         <AttributeBlock>
+//           <P>Gender</P>
+//           <div>{beast.sex}</div>
+//           <TraitCount>
+//             % of {beast.name} <br /> have this trait
+//           </TraitCount>
+//         </AttributeBlock>
+//         <AttributeBlock>
+//           <P>Breeding Count</P>
+//           <div>{beast.breedingCount}</div>
+//           <TraitCount>% have this trait</TraitCount>
+//         </AttributeBlock>
+//         <AttributeBlock>
+//           <P>Serial</P>
+//           <div>{beast.serialNumber}</div>
+//           <TraitCount>% have this trait</TraitCount>
+//         </AttributeBlock>
+//         <AttributeBlock>
+//           <P>Number of Existing {beast.name}s</P>
+//           <div>{beast.numberOfMintedBeastTemplates}</div>
+//         </AttributeBlock>
+//       </Attributes>
+//       <p style={{ color: "grey" }}>Details</p>
+//       <div className="flex w-full justify-between">
+//         <p>Mint address</p>
+//         <p style={{ color: "grey" }}>0x23948</p>
+//       </div>
+//     </Dialog>
+//   ) : (
+//     <></>
+//   )
+// }
+// const ThumbnailDetailsFC: FC<{
+//   beast: any
+// }> = ({ beast }) => {
+//   const [dialogOpen, setDialogOpen] = useState(false)
+//   const [heart, setHeart] = useState<any>(heartEmpty)
+//   const buttonColor = () => {
+//     var color = "none"
+//     {
+//       dialogOpen == true ? (color = "#FEDD64") : (color = "none")
+//     }
+//     return color
+//   }
+//   var btnColor = buttonColor()
+//   const heartChange = () => {
+//     {
+//       heart == heartEmpty ? setHeart(heartFull) : setHeart(heartEmpty)
+//     }
+//   }
 
-  // let centerX = document.documentElement.clientWidth / 2
-  // let centerY = document.documentElement.clientHeight / 2
-  // const elem = document.getElementById("element")
-  // const box = elem?.getBoundingClientRect()
-  // console.log("Box: " + box?.x)
-  // var right = 50
-  // var left = 50
-  // if (box != null && box?.x > centerX) {
-  //   right = 0
-  // } else if (box != null && box?.x < centerX) {
-  //   left = 0
-  // } else {
-  //   left = 50
-  //   right = 50
-  // }
+//   // let centerX = document.documentElement.clientWidth / 2
+//   // let centerY = document.documentElement.clientHeight / 2
+//   // const elem = document.getElementById("element")
+//   // const box = elem?.getBoundingClientRect()
+//   // console.log("Box: " + box?.x)
+//   // var right = 50
+//   // var left = 50
+//   // if (box != null && box?.x > centerX) {
+//   //   right = 0
+//   // } else if (box != null && box?.x < centerX) {
+//   //   left = 0
+//   // } else {
+//   //   left = 50
+//   //   right = 50
+//   // }
 
-  return (
-    <div>
-      <ThumbnailDetails
-        style={{ borderRadius: "0 0 20px 20px" }}
-        bgColor={
-          beast.elements[0] == "Electric"
-            ? "#fff"
-            : beast.elements[0] == "Water"
-            ? "#fff"
-            : beast.elements[0] == "Grass"
-            ? "#fff"
-            : beast.elements[0] == "Fire"
-            ? "#fff"
-            : "#fff"
-        }
-      >
-        <ThumbnailLabel>
-          <div style={{ fontSize: "1.3em" }}>#{beast.serialNumber}</div>
-          {beast.nickname.length < 13 ? (
-            <div style={{ fontSize: "1.3em", color: "black" }}>
-              {beast.nickname}
-            </div>
-          ) : (
-            <div style={{ fontSize: "1em" }}>{beast.nickname}</div>
-          )}
-        </ThumbnailLabel>
-        <DetailButton
-          style={{ background: btnColor }}
-          onClick={() => setDialogOpen(!dialogOpen)}
-        >
-          Details
-          <DialogInfo
-            id="element"
-            dialogOpen={dialogOpen}
-            beast={beast}
-            // left={left} right={right}
-          />
-        </DetailButton>
-        <div className="flex gap-1 items-center">
-          <FontAwesomeIcon
-            onClick={() => heartChange()}
-            style={{ color: "grey" }}
-            icon={heart}
-          />{" "}
-          76
-        </div>
-        <div className="flex gap-1 justify-end">
-          {beast.price != null
-            ? parseFloat(beast.price).toFixed(2)
-            : "not for sale"}
-        </div>
-        <StarLevel>
-          {Array(beast.starLevel)
-            .fill(0)
-            .map((_, i) => (
-              <StarImg key={i} src={star.src} />
-            ))}
-        </StarLevel>
-      </ThumbnailDetails>
-    </div>
-  )
-}
+//   return (
+//     <div>
+//       <ThumbnailDetails
+//         style={{ borderRadius: "0 0 20px 20px" }}
+//         bgColor={
+//           beast.elements[0] == "Electric"
+//             ? "#fff"
+//             : beast.elements[0] == "Water"
+//             ? "#fff"
+//             : beast.elements[0] == "Grass"
+//             ? "#fff"
+//             : beast.elements[0] == "Fire"
+//             ? "#fff"
+//             : "#fff"
+//         }
+//       >
+//         <ThumbnailLabel>
+//           <div style={{ fontSize: "1.3em" }}>#{beast.serialNumber}</div>
+//           {beast.nickname.length < 13 ? (
+//             <div style={{ fontSize: "1.3em", color: "black" }}>
+//               {beast.nickname}
+//             </div>
+//           ) : (
+//             <div style={{ fontSize: "1em" }}>{beast.nickname}</div>
+//           )}
+//         </ThumbnailLabel>
+//         <DetailButton
+//           style={{ background: btnColor }}
+//           onClick={() => setDialogOpen(!dialogOpen)}
+//         >
+//           Details
+//           <DialogInfo
+//             id="element"
+//             dialogOpen={dialogOpen}
+//             beast={beast}
+//             // left={left} right={right}
+//           />
+//         </DetailButton>
+//         <div className="flex gap-1 items-center">
+//           <FontAwesomeIcon
+//             onClick={() => heartChange()}
+//             style={{ color: "grey" }}
+//             icon={heart}
+//           />{" "}
+//           76
+//         </div>
+//         <div className="flex gap-1 justify-end">
+//           {beast.price != null
+//             ? parseFloat(beast.price).toFixed(2)
+//             : "not for sale"}
+//         </div>
+//         <StarLevel>
+//           {Array(beast.starLevel)
+//             .fill(0)
+//             .map((_, i) => (
+//               <StarImg key={i} src={star.src} />
+//             ))}
+//         </StarLevel>
+//       </ThumbnailDetails>
+//     </div>
+//   )
+// }
 
 const filterOptions = [
   {
@@ -1237,80 +1238,85 @@ const BeastMarket: FC<Props> = () => {
             </div>
           )}
           {displayBeasts != null ? (
-            <MarketUl
-              role="list"
-              // className="grid grid-cols-1 gap-x-5 gap-y-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-5"
-            >
-              {displayBeasts.map((beast: any) => (
-                <li
-                  key={beast.id}
-                  className="relative"
-                  onClick={() => {
-                    setOpen(true)
-                    setSelectedBeast(beast)
-                    setDisplayNickname(null)
-                  }}
-                >
-                  <div
-                    style={{
-                      borderRadius: "20px 20px 0 0",
-                    }}
-                    className="group block w-full aspect-w-9 aspect-h-7 bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden"
-                  >
-                    <BeastMarketThumbnail
-                      onClick={() => setBeastArray([...beastArray, beast])}
-                      id={beast.id}
-                      className="object-cover group-hover:opacity-90"
-                      beastTemplateID={beast.beastTemplateID}
-                    />
-                  </div>
-                  {/* Make thumbnail details into a component and useState inside that component and add DialogInfo to it */}
-                  <ThumbnailDetailsFC beast={beast} />
-                </li>
-              ))}
-              {/* To prevent big gap due to fixed height, which is needed for the scroll */}
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-            </MarketUl>
+            <BeastMarketBeastList
+              displayBeasts={displayBeasts}
+              setOpen={setOpen}
+              setDisplayNickname={setDisplayNickname}
+            />
           ) : (
+            // <MarketUl
+            //   role="list"
+            //   // className="grid grid-cols-1 gap-x-5 gap-y-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-5"
+            // >
+            //   {displayBeasts.map((beast: any) => (
+            //     <li
+            //       key={beast.id}
+            //       className="relative"
+            //       onClick={() => {
+            //         setOpen(true)
+            //         setSelectedBeast(beast)
+            //         setDisplayNickname(null)
+            //       }}
+            //     >
+            //       <div
+            //         style={{
+            //           borderRadius: "20px 20px 0 0",
+            //         }}
+            //         className="group block w-full aspect-w-9 aspect-h-7 bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden"
+            //       >
+            //         <BeastMarketThumbnail
+            //           onClick={() => setBeastArray([...beastArray, beast])}
+            //           id={beast.id}
+            //           className="object-cover group-hover:opacity-90"
+            //           beastTemplateID={beast.beastTemplateID}
+            //         />
+            //       </div>
+            //       {/* Make thumbnail details into a component and useState inside that component and add DialogInfo to it */}
+            //       <ThumbnailDetailsFC beast={beast} />
+            //     </li>
+            //   ))}
+            //   {/* To prevent big gap due to fixed height, which is needed for the scroll */}
+            //   <li></li>
+            //   <li></li>
+            //   <li></li>
+            //   <li></li>
+            //   <li></li>
+            //   <li></li>
+            //   <li></li>
+            //   <li></li>
+            //   <li></li>
+            //   <li></li>
+            //   <li></li>
+            //   <li></li>
+            //   <li></li>
+            //   <li></li>
+            //   <li></li>
+            //   <li></li>
+            //   <li></li>
+            //   <li></li>
+            //   <li></li>
+            //   <li></li>
+            //   <li></li>
+            //   <li></li>
+            //   <li></li>
+            //   <li></li>
+            //   <li></li>
+            //   <li></li>
+            //   <li></li>
+            //   <li></li>
+            //   <li></li>
+            //   <li></li>
+            //   <li></li>
+            //   <li></li>
+            //   <li></li>
+            //   <li></li>
+            //   <li></li>
+            //   <li></li>
+            //   <li></li>
+            //   <li></li>
+            //   <li></li>
+            //   <li></li>
+            // </MarketUl>
             "No beasts found"
           )}
 
