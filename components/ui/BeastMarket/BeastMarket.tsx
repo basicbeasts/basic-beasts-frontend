@@ -886,7 +886,7 @@ const BeastMarket: FC<Props> = () => {
 
   const [search, setSearch] = useState<string | null>("")
   const [evolvedBeastId, setEvolvedBeastId] = useState(null)
-  const [dialogOpen, setDialogOpen] = useState(false)
+  // const [dialogOpen, setDialogOpen] = useState(false)
   const [filterOpen, setFilterOpen] = useState(true)
   const [sweepOpen, setSweepOpen] = useState(false)
   const [bulkBuyOpen, setBulkBuyOpen] = useState(false)
@@ -1240,8 +1240,8 @@ const BeastMarket: FC<Props> = () => {
           {displayBeasts != null ? (
             <BeastMarketBeastList
               displayBeasts={displayBeasts}
-              setOpen={setOpen}
-              setDisplayNickname={setDisplayNickname}
+              // setOpen={setOpen}
+              // setDisplayNickname={setDisplayNickname}
             />
           ) : (
             // <MarketUl

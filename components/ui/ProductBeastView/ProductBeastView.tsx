@@ -8,6 +8,7 @@ import {
   faEllipsisH,
   faShareSquare,
   faHeart as heartFull,
+  faCaretUp,
 } from "@fortawesome/free-solid-svg-icons"
 import { faHeart as heartEmpty } from "@fortawesome/free-regular-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -55,14 +56,14 @@ const AccordionTitle = styled.div`
   line-height: 1;
 `
 const AccordionContent = styled.div`
-  padding: 1rem;
+  padding: 1.5rem;
   font-size: 1.2em;
   border: 1px solid grey;
-  border-radius: 10px;
-  width: max-content;
+  border-radius: 1rem;
+  width: 100%;
 `
 const AccordionDiv = styled.div`
-  width: max-content;
+  width: 100%;
 `
 const BuyButton = styled.button`
   width: 100%;
@@ -83,22 +84,11 @@ const BidButton = styled.button`
   border: 1px solid grey;
 `
 
-const Property = styled.div`
-  display: grid;
-  width: 100%;
-  gap: 10px;
-  grid-template-columns: 1fr 1fr;
-  margin-bottom: 75px;
-  @media (max-width: 420px) {
-    margin-bottom: 0;
-  }
-`
-
 const ImgDiv = styled.div`
   position: relative;
   max-width: 40rem;
 
-  border-radius: 10px;
+  border-radius: 1rem;
   overflow: hidden;
   margin: 0 auto;
 `
@@ -106,9 +96,11 @@ const Owners = styled.div`
   display: flex;
   gap: 1rem;
   padding: 2rem 0;
-  border-bottom: 1px solid grey;
-  width: 100%;
+  border-bottom: 2px solid #2e3340;
   justify-content: left;
+  @media (max-width: 1470px) {
+    flex-direction: column;
+  }
 `
 const OwnerImg = styled.img`
   max-width: 3.5rem;
@@ -126,6 +118,11 @@ const Owner = styled.div`
 const P = styled.p`
   color: white;
 `
+const Trait = styled.p`
+  line-height: 0;
+  text-transform: uppercase;
+  margin: 1rem 0;
+`
 const H1 = styled.h1`
   width: 100%;
   font-size: 4.25rem;
@@ -133,10 +130,14 @@ const H1 = styled.h1`
 `
 const H2 = styled.h2`
   font-size: 1.215rem;
-  line-height: 0.5;
+  line-height: 0.75;
   color: grey;
 `
-const H3 = styled.h1`
+const H2Traits = styled.h2`
+  font-size: 1.215rem;
+  color: white;
+`
+const H3 = styled.h3`
   width: 100%;
   font-size: 2rem;
   color: white;
@@ -150,17 +151,62 @@ const Ul = styled.ul`
   gap: 2rem;
 `
 const Li = styled.li`
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  line-height: 1;
+  width: 33.33%;
   color: grey;
   &:hover {
     cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
         14 0,
       pointer !important;
   }
+  @media (max-width: 1500px) {
+    p {
+      display: none;
+    }
+  }
+`
+const Attributes = styled.div`
+  display: grid;
+  width: 100%;
+  gap: 10px;
+  grid-template-columns: repeat(4, 1fr);
+
+  @media (max-width: 1430px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (max-width: 820px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
+`
+const AttributeBlock = styled.div`
+  display: flex;
+  padding: 15px;
+  flex-direction: column;
+  align-items: start;
+  gap: 5px;
+  font-size: 1.5rem;
+  background: #212127;
+  border-radius: 10px;
+  color: grey;
+  &:last-child {
+    grid-column: 1 / -1;
+    align-items: center;
+    text-align: center;
+    color: #f3cb23;
+  }
+  div {
+    color: white;
+  }
 `
 const Info = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 32%;
+  // padding: 0 10rem;
 `
 const SaleDiv = styled.div`
   display: flex;
@@ -168,16 +214,19 @@ const SaleDiv = styled.div`
   flex-direction: column;
   align-items: center;
   margin-top: 2rem;
-  border: 1px solid grey;
-  border-radius: 10px;
-  padding: 1.5rem;
-  width: 110%;
+  border: 1px solid #5c5e6c;
+  border-radius: 1.2rem;
+  padding: 2.5rem;
+  width: 100%;
 `
 const PriceBox = styled.div`
   background: #1e1e23;
-  border-radius: 10px;
+  border-radius: 1rem;
   padding: 1rem;
   width: 50%;
+  @media (max-width: 1280px) {
+    width: 100%;
+  }
 `
 const MoreBeasts = styled.ul`
   display: grid;
@@ -221,10 +270,81 @@ const ProductBeastView: FC<Props> = ({ beast, beasts }) => {
     )
   }
 
+  const accordionProperties = () => {
+    return (
+      <div>
+        <div className="flex text-3xl mb-5 justify-between">
+          <div className="flex gap-2">
+            <FontAwesomeIcon style={{ color: "black" }} icon={faCaretUp} />
+            <span>Dex number</span>
+          </div>
+          <span>#{("00" + beast.dexNumber).slice(-3)}</span>
+        </div>
+        <Attributes>
+          <AttributeBlock>
+            <Trait>Skin</Trait>
+            <H3>{beast.skin}</H3>
+          </AttributeBlock>
+          <AttributeBlock>
+            <Trait>Element</Trait>
+            <H3>{beast.elements} </H3>
+          </AttributeBlock>
+          <AttributeBlock>
+            <Trait>Star Level</Trait>
+            <H3>{beast.starLevel}</H3>
+          </AttributeBlock>
+          <AttributeBlock>
+            <Trait>Basic Skills</Trait>
+            <ul>
+              {beast.basicSkills.map((skill: any) => (
+                <li className="leading-none">
+                  <H2Traits>{skill}</H2Traits>
+                </li>
+              ))}
+            </ul>
+          </AttributeBlock>
+          <AttributeBlock>
+            <Trait>Ultimate Skill</Trait>
+            <H3>{beast.ultimateSkill} </H3>
+          </AttributeBlock>
+        </Attributes>
+      </div>
+    )
+  }
+  const accordionOffers = () => {
+    let offerday = 5
+    let offerweek = 3
+
+    return (
+      <div>
+        <ul>
+          {/* {something.map((offer: any) => ( */}
+          <li>
+            <div className="flex text-3xl mb-5 justify-between">
+              <div className="flex flex-col md:flex-row gap-5">
+                <OwnerImg src={pic.src} alt="" />
+                <div>
+                  <span>{/* {offer.name} */}Name</span>
+                  <H2>
+                    {offerday} day{offerday > 1 && "s "} ago | Expires in{" "}
+                    {offerweek} week
+                    {offerweek > 1 && "s "} | Floor bid
+                  </H2>
+                </div>
+              </div>
+              <span>{/* {offer.price} */}FUSD</span>
+            </div>
+          </li>
+          {/* ))} */}
+        </ul>
+      </div>
+    )
+  }
+
   return (
     <>
       <section className="flex justify-between mx-5 text-white px-5">
-        <div className="mx-auto w-max">
+        <div className="mx-auto w-1/2">
           <ImgDiv>
             <BeastMarketThumbnail
               id={beast.id}
@@ -249,56 +369,61 @@ const ProductBeastView: FC<Props> = ({ beast, beasts }) => {
           <AccordionDiv>
             <Accordion
               title="Properties"
-              content={beast.description}
+              content={accordionProperties()}
               defaultActive={true}
             />
           </AccordionDiv>
           <AccordionDiv>
             <Accordion
               title="Offers"
-              content={beast.description}
+              content={accordionOffers()}
               defaultActive={true}
             />
           </AccordionDiv>
         </div>
         <Info>
-          <H1>{beast.name + " " + "#" + beast.serialNumber}</H1>
-          <Owners>
-            <Owner>
-              <OwnerImg src={pic.src} alt="" />
-              <div>
-                <H2>first owner</H2>
-                <P>{beast.firstOwner}</P>
-              </div>
-            </Owner>
-            <Owner>
-              <OwnerImg src={pic.src} alt="" />
-              <div>
-                <H2>current owner</H2>
-                <P>{beast.currentOwner}</P>
-              </div>
-            </Owner>
-          </Owners>
-          <div className="flex w-full p-5 justify-between items-center">
-            <Ul>
-              <Li onClick={() => heartChange()}>
-                <FontAwesomeIcon style={{ color: "grey" }} icon={heart} /> 76
-              </Li>
-              <Li>
-                {" "}
-                <FontAwesomeIcon icon={faShareSquare} /> Share
-              </Li>
-              <Li className="flex gap-2 items-center leading-none">
-                <RefreshIcon className="-mr-1 ml-2 h-5 w-5" />
-                Refresh
-              </Li>
-            </Ul>
-            <button style={{ color: "grey" }} className=" ">
-              <FontAwesomeIcon icon={faEllipsisH} />
-            </button>
+          <div className="w-11/12">
+            <H1>{beast.name + " " + "#" + beast.serialNumber}</H1>
+            <Owners>
+              <Owner>
+                <OwnerImg src={pic.src} alt="" />
+                <div>
+                  <H2>first owner</H2>
+                  <P>{beast.firstOwner}</P>
+                </div>
+              </Owner>
+              <Owner>
+                <OwnerImg src={pic.src} alt="" />
+                <div>
+                  <H2>current owner</H2>
+                  <P>{beast.currentOwner}</P>
+                </div>
+              </Owner>
+            </Owners>
+            <div className="flex w-full p-5 justify-between items-center">
+              <Ul>
+                <Li onClick={() => heartChange()}>
+                  <FontAwesomeIcon style={{ color: "grey" }} icon={heart} />{" "}
+                  <p>76</p>
+                </Li>
+                <Li>
+                  {" "}
+                  <FontAwesomeIcon icon={faShareSquare} /> <p>Share</p>
+                </Li>
+                <Li>
+                  <RefreshIcon className="-mr-1 ml-2 h-5 w-5" />
+                  <p>Refresh</p>
+                </Li>
+              </Ul>
+              <button
+                style={{ color: "grey", textAlign: "end", width: "100%" }}
+              >
+                <FontAwesomeIcon icon={faEllipsisH} />
+              </button>
+            </div>
           </div>
           <SaleDiv>
-            <div className="flex gap-5 w-full">
+            <div className="flex flex-col xl:flex-row gap-5 w-full">
               <PriceBox>
                 <H2>Price</H2>
                 <H3>{beast.price} FUSD</H3>
@@ -319,14 +444,16 @@ const ProductBeastView: FC<Props> = ({ beast, beasts }) => {
           </SaleDiv>
         </Info>{" "}
       </section>
-      <section className="mb-24">
+      <section className="mb-24 mx-auto">
         <H1 className="mx-auto text-center">More Basic Beasts</H1>
 
-        {/* <BeastMarketBeastList
-          displayBeasts={beasts}
-          setOpen={setOpen}
-          setDisplayNickname={setDisplayNickname}
-        /> */}
+        <div className="hidden xl:flex justify-center w-10/12 mx-auto ">
+          <BeastMarketBeastList
+            displayBeasts={beasts}
+            // setOpen={setOpen}
+            // setDisplayNickname={setDisplayNickname}
+          />
+        </div>
       </section>
     </>
   )

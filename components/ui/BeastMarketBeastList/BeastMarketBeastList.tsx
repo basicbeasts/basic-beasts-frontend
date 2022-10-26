@@ -142,15 +142,16 @@ type Color = {
 }
 type Props = {
   displayBeasts: any
-  setOpen: any
-  setDisplayNickname: any
+  // setOpen: any
+  // setDisplayNickname: any
 }
 const BeastMarketBeastList: FC<Props> = ({
   displayBeasts,
-  setOpen,
-  setDisplayNickname,
+  // setOpen,
+  // setDisplayNickname,
 }) => {
   const [selectedBeast, setSelectedBeast] = useState<any>(null)
+  const [open, setOpen] = useState(false)
 
   const [beastArray, setBeastArray] = useState<any>([])
   const DialogInfo: FC<{
@@ -359,8 +360,8 @@ const BeastMarketBeastList: FC<Props> = ({
           className="relative"
           onClick={() => {
             setOpen(true)
-            setSelectedBeast(beast)
-            setDisplayNickname(null)
+            // setSelectedBeast(beast)
+            // setDisplayNickname(null)
           }}
         >
           <div
