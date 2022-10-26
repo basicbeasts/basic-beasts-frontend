@@ -30,6 +30,7 @@ import {
 import * as t from "@onflow/types"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faChevronUp } from "@fortawesome/free-solid-svg-icons"
+import Breeding from "../Breeding"
 
 const DialogPanel = styled(Dialog.Panel)<TailwindProps>`
   border-radius: 20px;
@@ -960,6 +961,7 @@ const BeastModalView: FC<Props> = ({
                                         <a
                                           target="_blank"
                                           href="https://discord.gg/xgFtWhwSaR"
+                                          rel="noreferrer"
                                         >
                                           <Button>Beg Frens</Button>
                                         </a>
@@ -1109,7 +1111,7 @@ const BeastModalView: FC<Props> = ({
                         ) : (
                           <></>
                         )}
-                        {filter === "Breeding" ? <div>Coming soon</div> : <></>}
+                        {filter === "Breeding" ? <Breeding /> : <></>}
                         {filter === "Supply" ? <div>Coming soon</div> : <></>}
                       </Content>
                     </Container>
