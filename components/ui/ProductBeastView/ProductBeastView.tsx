@@ -4,6 +4,7 @@ import BeastMarketThumbnail from "../BeastMarketThumbnail"
 import styled from "styled-components"
 import star from "public/basic_starLevel.png"
 import pic from "public/profile_pictures/bb_face_028.png"
+import dexNumIcon from "public/Dex_number_icon.png"
 import {
   faEllipsisH,
   faShareSquare,
@@ -274,9 +275,10 @@ const ProductBeastView: FC<Props> = ({ beast, beasts }) => {
     return (
       <div>
         <div className="flex text-3xl mb-5 justify-between">
-          <div className="flex gap-2">
-            <FontAwesomeIcon style={{ color: "black" }} icon={faCaretUp} />
-            <span>Dex number</span>
+          <div className="flex w-full gap-2">
+            {/* <FontAwesomeIcon style={{ color: "black" }} icon={faCaretUp} /> */}
+            <img src={dexNumIcon.src} alt="" />
+            <p>Dex number</p>
           </div>
           <span>#{("00" + beast.dexNumber).slice(-3)}</span>
         </div>
@@ -296,8 +298,8 @@ const ProductBeastView: FC<Props> = ({ beast, beasts }) => {
           <AttributeBlock>
             <Trait>Basic Skills</Trait>
             <ul>
-              {beast.basicSkills.map((skill: any) => (
-                <li className="leading-none">
+              {beast.basicSkills.map((skill: any, id: any) => (
+                <li key={id} className="leading-none">
                   <H2Traits>{skill}</H2Traits>
                 </li>
               ))}
