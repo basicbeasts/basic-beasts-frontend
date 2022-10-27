@@ -10,6 +10,8 @@ import { faHeart } from "@fortawesome/free-solid-svg-icons"
 import picture from "public/beasts/001_normal.png"
 import scroll from "public/scroll_icon.png"
 import { toast } from "react-toastify"
+import MakeLovePotionModal from "../MakeLovePotionModal"
+import EggObtainedModal from "../EggObtainedModal"
 
 const Wrapper = styled.section`
   display: flex;
@@ -18,6 +20,7 @@ const Wrapper = styled.section`
   align-items: center;
   height: 100%;
   padding-bottom: 2rem;
+  margin-top: 1rem;
 `
 const H2 = styled.h2`
   color: grey;
@@ -29,7 +32,7 @@ const BreedingSpot = styled.div`
   justify-items: center;
   align-items: start;
   gap: 2rem;
-  // margin-top: 5rem;
+  margin-top: 1rem;
 `
 const Img = styled.img`
   max-width: 10rem;
@@ -39,6 +42,9 @@ const ImgDiv = styled.div`
 `
 const PotionDiv = styled.div`
   width: max-content;
+  cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
+      14 0,
+    pointer !important;
 `
 const Potion = styled.div`
   position: relative;
@@ -109,14 +115,34 @@ const BreedButton = styled.button<any>`
   }
 `
 
+const ListWrapper = styled.div`
+  width: 100%;
+  overflow: hidden;
+  overflow-y: scroll;
+  height: 270px;
+  margin-top: 15px;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  padding: 5px;
+`
+
 type Props = {
-  //   beast: any
+  evolvableBeasts: any
+  beast: any
 }
 
-const Breeding: FC<Props> = ({}) => {
+const Breeding: FC<Props> = ({ evolvableBeasts, beast }) => {
   const [beastSelected, setBeastSelected] = useState(true)
+  const [makeLovePotionModalOpen, setMakeLovePotionModalOpen] = useState(false)
+  const [eggObtainedModalOpen, setEggObtainedModalOpen] = useState(false)
 
-  const potions = 100
+  const [selectedBeasts, setSelectedBeasts] = useState<any>([beast?.id])
+  const [serialOneSelected, setSerialOneSelected] = useState<any>(false)
+
+  const potions = 200
 
   const buttonColors = () => {
     let buttonBorder
@@ -143,10 +169,38 @@ const Breeding: FC<Props> = ({}) => {
     return beastImage
   }
 
+  const handleChange = (id: any, serial: any) => {
+    if (selectedBeasts.includes(id)) {
+      //remove
+      setSelectedBeasts(selectedBeasts.filter((beast: any) => beast != id))
+      // Check serial one
+      if (serial == 1) {
+        setSerialOneSelected(false)
+        toast.success("Serial #1 deselected")
+      }
+    } else if (selectedBeasts.length < 3) {
+      //add
+      setSelectedBeasts((selectedBeasts: any) => [...selectedBeasts, id])
+      // Check serial one
+      if (serial == 1) {
+        setSerialOneSelected(true)
+        toast.warning("Serial #1 selected for evolution")
+      }
+    }
+  }
+
   return (
     <>
       <Wrapper>
-        <div className="flex flex-col items-center gap-20">
+        <MakeLovePotionModal
+          open={makeLovePotionModalOpen}
+          setOpen={setMakeLovePotionModalOpen}
+        />
+        <EggObtainedModal
+          open={eggObtainedModalOpen}
+          setOpen={setEggObtainedModalOpen}
+        />
+        <div className="flex flex-col items-center gap-5">
           <BreedingSpot>
             <ImgDiv>
               <Img src={picture.src} style={{ transform: "scaleX(-1)" }} />{" "}
@@ -155,7 +209,7 @@ const Breeding: FC<Props> = ({}) => {
                 <p>1/7</p>
               </ImgInfo>
             </ImgDiv>
-            <PotionDiv>
+            <PotionDiv onClick={() => setMakeLovePotionModalOpen(true)}>
               <PotionP>Required Love Potions</PotionP>
               <Potion>
                 <PotionImg src={scroll.src} />
@@ -180,10 +234,41 @@ const Breeding: FC<Props> = ({}) => {
           <BreedButton
             disabled={potions < 200 || !beastSelected}
             buttonColors={buttonColors()}
+            onClick={() => setEggObtainedModalOpen(true)}
           >
             <FontAwesomeIcon icon={faHeart} /> Start Breeding
           </BreedButton>
         </div>
+        {evolvableBeasts != null && (
+          <ListWrapper>
+            <ul
+              role="list"
+              className="grid gap-x-2 gap-y-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-4"
+              // className="grid gap-x-2 gap-y-4 grid-cols-3 sm:grid-cols-4"
+            >
+              {evolvableBeasts[beast.beastTemplateID].map(
+                (beast: any, i: any) => (
+                  <>
+                    <li
+                      key={i}
+                      onClick={() =>
+                        handleChange(beast?.id, beast?.serialNumber)
+                      }
+                    >
+                      <div>
+                        <EvolvableBeastThumbnail
+                          beast={beast}
+                          selected={selectedBeasts.includes(beast?.id)}
+                        />
+                      </div>
+                    </li>
+                  </>
+                ),
+              )}
+            </ul>
+          </ListWrapper>
+        )}
+
         {/* <ul
           role="list"
           className="grid gap-x-2 gap-y-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-4"

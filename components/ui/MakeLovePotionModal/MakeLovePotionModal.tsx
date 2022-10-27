@@ -1,7 +1,7 @@
 import { FC, Fragment, useEffect, useState } from "react"
 import { Dialog, Transition } from "@headlessui/react"
 import { CheckIcon, IdentificationIcon } from "@heroicons/react/outline"
-
+import scroll from "public/scroll_icon.png"
 import star from "public/basic_starLevel.png"
 import styled from "styled-components"
 import {
@@ -66,9 +66,11 @@ const FuncArgButton = styled.button`
 `
 
 const DialogPanel = styled(Dialog.Panel)<any>`
-  padding: 20px 20px 40px;
+  // className="relative pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:w-full md:w-full"
+  position: relative;
+  bottom: 0;
+  padding: 20px 0 0;
   background: #212127;
-  background: radial-gradient(#ffe8a3a6, #ffe8a32f);
   color: #e4be23;
 `
 
@@ -119,9 +121,7 @@ const BeastContainer = styled.div`
   flex-direction: column;
 `
 
-const Container = styled.div`
-  align-items: center;
-`
+const Container = styled.div``
 
 const Box = styled.div<any>`
   height: 50px;
@@ -144,32 +144,29 @@ const Img = styled.img<any>`
   -moz-transition: all 0.3s ease 0s;
   -webkit-transition: all 0.3s ease 0s;
 `
+const TextDiv = styled.div`
+  margin-top: 1rem;
+  text-align: start;
+  font-size: 1.2rem;
+  border: 0.45rem solid white;
+  padding: 2rem;
+  width: 100%;
+  background: #111823;
+`
+const H1 = styled.h1`
+  line-height: 1;
+  color: yellow;
+`
+const P = styled.p`
+  color: white;
+`
 
 type Props = {
   open: boolean
   setOpen: any
-  packs: any
-  profile: any
-  profilePicture: any
-  setProfilePicture: any
-  getProfile: any
 }
 
-const PackRevealManyModal: FC<Props> = ({
-  open,
-  setOpen,
-  packs,
-  profile,
-  profilePicture,
-  setProfilePicture,
-  getProfile,
-}) => {
-  const [select, setSelect] = useState<any>(profilePictures[1].image)
-
-  useEffect(() => {
-    setSelect(profilePicture)
-  }, [profilePicture])
-
+const MakeLovePotionModal: FC<Props> = ({ open, setOpen }) => {
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setOpen}>
@@ -186,7 +183,7 @@ const PackRevealManyModal: FC<Props> = ({
         </Transition.Child>
 
         <div className="fixed z-10 inset-0 overflow-y-auto">
-          <Container className="flex items-end sm:items-center justify-center min-h-full text-center sm:p-0">
+          <Container className="flex items-end sm:items-end justify-center min-h-full text-center sm:p-0">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -202,43 +199,39 @@ const PackRevealManyModal: FC<Props> = ({
                 animate={{ opacity: 1, top: 0 }}
                 transition={{ duration: 0.5 }}
               >
-                <DialogPanel
-                  style={{ width: "100%" }}
-                  className="relative pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:w-full md:w-full"
-                >
-                  <div>
-                    <Title>Obtained Beasts</Title>
+                <DialogPanel style={{ width: "100%" }}>
+                  <div className="h-full">
+                    <Title>Love Potion</Title>
+                    <div>
+                      <p>Required Materials</p>
+                      <div className="grid mx-auto gap-12 border-t border-gray-500 grid-cols-3 w-max">
+                        <div>
+                          <Img src={scroll.src} />
+                          <P>dav</P>
+                        </div>
+                        <div>
+                          <Img src={scroll.src} />
+
+                          <P>hej</P>
+                        </div>
+                        <div>
+                          <Img src={scroll.src} />
+
+                          <P>hello</P>
+                        </div>
+                      </div>
+                      <Button>Make Love Potion</Button>
+                    </div>
+                    <TextDiv>
+                      <H1>Mysterious old lady</H1>
+                      <p>
+                        Hey there, little adventurer. To be able to breed your
+                        beasts you will nreed love potion. And to make love
+                        potion.. you need potion empty bottle, sushi, and poop!
+                      </p>
+                    </TextDiv>
                   </div>
-                  <Wrapper className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
-                    {packs.map(({ id }: any) => (
-                      <motion.div
-                        key={id}
-                        style={{ width: "100%" }}
-                        initial={{ opacity: 0, top: -20 }}
-                        animate={{ opacity: 1, top: 0 }}
-                        transition={{ duration: 0.8, delay: 0.5 }}
-                      >
-                        <BeastContainer className="relative">
-                          <Img
-                            src={
-                              beastTemplates[
-                                packs[id]
-                                  .beastTemplateID as keyof typeof beastTemplates
-                              ].packReveal
-                            }
-                          />
-                          <div style={{ marginBottom: "-5px" }}>
-                            {packs[id].beastName}
-                            {/*{" "}
-                      <span style={{ fontSize: "0.8em" }}>
-                          {packs[id].beastGender == "Male" ? "♂" : "♀"}
-                        </span> */}
-                          </div>
-                          <div>Serial #{packs[id].beastSerialNumber} </div>
-                        </BeastContainer>
-                      </motion.div>
-                    ))}
-                  </Wrapper>
+                  {/* <Wrapper className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5"></Wrapper> */}
                 </DialogPanel>
               </motion.div>
             </Transition.Child>
@@ -248,4 +241,4 @@ const PackRevealManyModal: FC<Props> = ({
     </Transition.Root>
   )
 }
-export default PackRevealManyModal
+export default MakeLovePotionModal

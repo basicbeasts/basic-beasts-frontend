@@ -1111,7 +1111,14 @@ const BeastModalView: FC<Props> = ({
                         ) : (
                           <></>
                         )}
-                        {filter === "Breeding" ? <Breeding /> : <></>}
+                        {filter === "Breeding" ? (
+                          <Breeding
+                            evolvableBeasts={evolvableBeasts}
+                            beast={beast}
+                          />
+                        ) : (
+                          <></>
+                        )}
                         {filter === "Supply" ? <div>Coming soon</div> : <></>}
                       </Content>
                     </Container>

@@ -66,9 +66,10 @@ const FuncArgButton = styled.button`
 `
 
 const DialogPanel = styled(Dialog.Panel)<any>`
+  // className="relative pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:w-full md:w-full"
+
   padding: 20px 20px 40px;
   background: #212127;
-  background: radial-gradient(#ffe8a3a6, #ffe8a32f);
   color: #e4be23;
 `
 
@@ -148,28 +149,9 @@ const Img = styled.img<any>`
 type Props = {
   open: boolean
   setOpen: any
-  packs: any
-  profile: any
-  profilePicture: any
-  setProfilePicture: any
-  getProfile: any
 }
 
-const PackRevealManyModal: FC<Props> = ({
-  open,
-  setOpen,
-  packs,
-  profile,
-  profilePicture,
-  setProfilePicture,
-  getProfile,
-}) => {
-  const [select, setSelect] = useState<any>(profilePictures[1].image)
-
-  useEffect(() => {
-    setSelect(profilePicture)
-  }, [profilePicture])
-
+const EggObtainedModal: FC<Props> = ({ open, setOpen }) => {
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setOpen}>
@@ -202,43 +184,11 @@ const PackRevealManyModal: FC<Props> = ({
                 animate={{ opacity: 1, top: 0 }}
                 transition={{ duration: 0.5 }}
               >
-                <DialogPanel
-                  style={{ width: "100%" }}
-                  className="relative pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:w-full md:w-full"
-                >
+                <DialogPanel style={{ width: "100%" }}>
                   <div>
                     <Title>Obtained Beasts</Title>
                   </div>
-                  <Wrapper className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
-                    {packs.map(({ id }: any) => (
-                      <motion.div
-                        key={id}
-                        style={{ width: "100%" }}
-                        initial={{ opacity: 0, top: -20 }}
-                        animate={{ opacity: 1, top: 0 }}
-                        transition={{ duration: 0.8, delay: 0.5 }}
-                      >
-                        <BeastContainer className="relative">
-                          <Img
-                            src={
-                              beastTemplates[
-                                packs[id]
-                                  .beastTemplateID as keyof typeof beastTemplates
-                              ].packReveal
-                            }
-                          />
-                          <div style={{ marginBottom: "-5px" }}>
-                            {packs[id].beastName}
-                            {/*{" "}
-                      <span style={{ fontSize: "0.8em" }}>
-                          {packs[id].beastGender == "Male" ? "♂" : "♀"}
-                        </span> */}
-                          </div>
-                          <div>Serial #{packs[id].beastSerialNumber} </div>
-                        </BeastContainer>
-                      </motion.div>
-                    ))}
-                  </Wrapper>
+                  {/* <Wrapper className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5"></Wrapper> */}
                 </DialogPanel>
               </motion.div>
             </Transition.Child>
@@ -248,4 +198,4 @@ const PackRevealManyModal: FC<Props> = ({
     </Transition.Root>
   )
 }
-export default PackRevealManyModal
+export default EggObtainedModal
