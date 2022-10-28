@@ -31,6 +31,8 @@ import * as t from "@onflow/types"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faChevronUp } from "@fortawesome/free-solid-svg-icons"
 import Breeding from "../Breeding"
+import MakeLovePotionModal from "../MakeLovePotionModal"
+import EggObtainedModal from "../EggObtainedModal"
 
 const DialogPanel = styled(Dialog.Panel)<TailwindProps>`
   border-radius: 20px;
@@ -508,6 +510,9 @@ const BeastModalView: FC<Props> = ({
   const [serialOneSelected, setSerialOneSelected] = useState<any>(false)
   const [hasEvolutionPair, setHasEvolutionPair] = useState(false)
 
+  const [makeLovePotionModalOpen, setMakeLovePotionModalOpen] = useState(false)
+  const [eggObtainedModalOpen, setEggObtainedModalOpen] = useState(false)
+
   const router = useRouter()
   const { address }: any = router.query
 
@@ -704,6 +709,16 @@ const BeastModalView: FC<Props> = ({
                   beastModalSetOpen={setOpen}
                   setDisplayNickname={setDisplayNickname}
                   beastName={beast?.name}
+                />
+
+                <MakeLovePotionModal
+                  open={makeLovePotionModalOpen}
+                  setOpen={setMakeLovePotionModalOpen}
+                />
+
+                <EggObtainedModal
+                  open={eggObtainedModalOpen}
+                  setOpen={setEggObtainedModalOpen}
                 />
                 <div style={{ borderRadius: "20px" }}>
                   {beast != null ? (
@@ -1117,6 +1132,12 @@ const BeastModalView: FC<Props> = ({
                           <Breeding
                             evolvableBeasts={evolvableBeasts}
                             beast={beast}
+                            makeLovePotionModalOpen={makeLovePotionModalOpen}
+                            setMakeLovePotionModalOpen={
+                              setMakeLovePotionModalOpen
+                            }
+                            eggObtainedModalOpen={eggObtainedModalOpen}
+                            setEggObtainedModalOpen={setEggObtainedModalOpen}
                           />
                         ) : (
                           <></>

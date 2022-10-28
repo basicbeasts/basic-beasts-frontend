@@ -6,6 +6,8 @@ import { Menu, Transition } from "@headlessui/react"
 import { ChevronDownIcon } from "@heroicons/react/solid"
 import { FC, useState, Fragment, useEffect } from "react"
 import EvolutionModal from "../EvolutionModal"
+import EggObtainedModal from "../EggObtainedModal"
+import MakeLovePotionModal from "../MakeLovePotionModal"
 
 const Wrapper = styled.div`
   padding: 20px 20px 100px;

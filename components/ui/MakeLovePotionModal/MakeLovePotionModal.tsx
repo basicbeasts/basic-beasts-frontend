@@ -234,7 +234,7 @@ const MakeLovePotionModal: FC<Props> = ({ open, setOpen }) => {
         </Transition.Child>
 
         <div className="fixed z-10 inset-0 overflow-y-auto">
-          <Container className="flex items-end sm:items-end justify-center min-h-full text-center sm:p-0">
+          <Container className="flex items-center sm:items-center justify-center min-h-full text-center sm:p-0">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -244,85 +244,73 @@ const MakeLovePotionModal: FC<Props> = ({ open, setOpen }) => {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <motion.div
-                style={{ width: "100%" }}
-                initial={{ opacity: 0, top: -20 }}
-                animate={{ opacity: 1, top: 0 }}
-                transition={{ duration: 0.5 }}
-              >
-                <DialogPanel style={{ width: "100%" }}>
-                  <div className="h-full">
-                    <Title>Love Potion</Title>
-                    <div>
-                      <p>Required Materials</p>
-                      <div className="grid mx-auto mt-2 gap-12 border-t border-gray-500 grid-cols-3 w-max">
-                        <div>
-                          <ImgDiv style={{ backgroundColor: "#fff1ef" }}>
-                            <Img src={sushiPic.src} />
-                          </ImgDiv>
-                          <P>
-                            <MaterialNumber
-                              numColor={numberColors().sushiColor}
-                            >
-                              {sushiNumber}
-                            </MaterialNumber>
-                            /2
-                          </P>
-                        </div>
-                        <div>
-                          <ImgDiv style={{ backgroundColor: "#dfece2" }}>
-                            <Img
-                              style={{ padding: ".5rem" }}
-                              src={bottlePic.src}
-                            />
-                          </ImgDiv>
-
-                          <P>
-                            <MaterialNumber
-                              numColor={numberColors().bottleColor}
-                            >
-                              {bottleNumber}
-                            </MaterialNumber>
-                            /2
-                          </P>
-                        </div>
-                        <div>
-                          <ImgDiv style={{ backgroundColor: "#ece6df" }}>
-                            <Img src={poopPic.src} />
-                          </ImgDiv>
-
-                          <P>
-                            <MaterialNumber numColor={numberColors().poopColor}>
-                              {poopNumber}
-                            </MaterialNumber>
-                            /2
-                          </P>
-                        </div>
+              <DialogPanel style={{ width: "100%" }}>
+                <div className="h-full">
+                  <Title>Love Potion</Title>
+                  <div>
+                    <p>Required Materials</p>
+                    <div className="grid mx-auto mt-2 gap-12 border-t border-gray-500 grid-cols-3 w-max">
+                      <div>
+                        <ImgDiv style={{ backgroundColor: "#fff1ef" }}>
+                          <Img src={sushiPic.src} />
+                        </ImgDiv>
+                        <P>
+                          <MaterialNumber numColor={numberColors().sushiColor}>
+                            {sushiNumber}
+                          </MaterialNumber>
+                          /2
+                        </P>
                       </div>
-                      <Button
-                        disabled={
-                          sushiNumber < 2 || bottleNumber < 2 || poopNumber < 2
-                        }
-                      >
-                        Make Love Potion
-                      </Button>
+                      <div>
+                        <ImgDiv style={{ backgroundColor: "#dfece2" }}>
+                          <Img
+                            style={{ padding: ".5rem" }}
+                            src={bottlePic.src}
+                          />
+                        </ImgDiv>
+
+                        <P>
+                          <MaterialNumber numColor={numberColors().bottleColor}>
+                            {bottleNumber}
+                          </MaterialNumber>
+                          /2
+                        </P>
+                      </div>
+                      <div>
+                        <ImgDiv style={{ backgroundColor: "#ece6df" }}>
+                          <Img src={poopPic.src} />
+                        </ImgDiv>
+
+                        <P>
+                          <MaterialNumber numColor={numberColors().poopColor}>
+                            {poopNumber}
+                          </MaterialNumber>
+                          /2
+                        </P>
+                      </div>
                     </div>
-                    <div className="relative">
-                      <LadyImg src={picture.src} />
-                      <TextDiv>
-                        <H1>Mysterious old lady</H1>
-                        <p>
-                          Hey there, little adventurer. To be able to breed your
-                          beasts you will nreed love potion. And to make love
-                          potion.. you need potion empty bottle, sushi, and
-                          poop!
-                        </p>
-                      </TextDiv>
-                    </div>
+                    <Button
+                      disabled={
+                        sushiNumber < 2 || bottleNumber < 2 || poopNumber < 2
+                      }
+                    >
+                      Make Love Potion
+                    </Button>
                   </div>
-                  {/* <Wrapper className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5"></Wrapper> */}
-                </DialogPanel>
-              </motion.div>
+                  <div className="relative">
+                    <LadyImg src={picture.src} />
+                    <TextDiv>
+                      <H1>Mysterious old lady</H1>
+                      <p>
+                        Hey there, little adventurer. To be able to breed your
+                        beasts you will nreed love potion. And to make love
+                        potion.. you need potion empty bottle, sushi, and poop!
+                      </p>
+                    </TextDiv>
+                  </div>
+                </div>
+                {/* <Wrapper className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5"></Wrapper> */}
+              </DialogPanel>
             </Transition.Child>
           </Container>
         </div>

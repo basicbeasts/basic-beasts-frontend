@@ -134,12 +134,22 @@ const ListWrapper = styled.div`
 type Props = {
   evolvableBeasts: any
   beast: any
+
+  makeLovePotionModalOpen: any
+  setMakeLovePotionModalOpen: any
+  eggObtainedModalOpen: any
+  setEggObtainedModalOpen: any
 }
 
-const Breeding: FC<Props> = ({ evolvableBeasts, beast }) => {
+const Breeding: FC<Props> = ({
+  evolvableBeasts,
+  beast,
+  makeLovePotionModalOpen,
+  setMakeLovePotionModalOpen,
+  eggObtainedModalOpen,
+  setEggObtainedModalOpen,
+}) => {
   const [beastSelected, setBeastSelected] = useState(false)
-  const [makeLovePotionModalOpen, setMakeLovePotionModalOpen] = useState(false)
-  const [eggObtainedModalOpen, setEggObtainedModalOpen] = useState(false)
 
   const [selectedBeasts, setSelectedBeasts] = useState<any>([])
   const [serialOneSelected, setSerialOneSelected] = useState<any>(false)
@@ -201,14 +211,6 @@ const Breeding: FC<Props> = ({ evolvableBeasts, beast }) => {
   return (
     <>
       <Wrapper>
-        <MakeLovePotionModal
-          open={makeLovePotionModalOpen}
-          setOpen={setMakeLovePotionModalOpen}
-        />
-        <EggObtainedModal
-          open={eggObtainedModalOpen}
-          setOpen={setEggObtainedModalOpen}
-        />
         <div className="flex flex-col items-center gap-5">
           <BreedingSpot>
             <ImgDiv>

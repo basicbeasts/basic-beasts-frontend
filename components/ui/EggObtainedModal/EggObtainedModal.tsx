@@ -189,8 +189,9 @@ const Backshine = styled.div`
     transparent
   );
   width: 15rem;
-  height: 2px;
+  height: 1px;
   z-index: -1;
+  box-shadow: 0 0 5px gold;
 `
 
 type Props = {
@@ -215,7 +216,7 @@ const EggObtainedModal: FC<Props> = ({ open, setOpen }) => {
         </Transition.Child>
 
         <div className="fixed z-10 inset-0 overflow-y-auto">
-          <Container className="flex items-end sm:items-end justify-center min-h-full text-center sm:p-0">
+          <Container className="flex items-center sm:items-center justify-center min-h-full text-center sm:p-0">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -225,25 +226,18 @@ const EggObtainedModal: FC<Props> = ({ open, setOpen }) => {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <motion.div
-                style={{ width: "100%" }}
-                initial={{ opacity: 0, top: -20 }}
-                animate={{ opacity: 1, top: 0 }}
-                transition={{ duration: 0.5 }}
-              >
-                <DialogPanel style={{ width: "100%" }}>
-                  <div className="flex flex-col items-center h-full">
-                    <Title>Congratulations!</Title>
-                    <Title>You have recieved an egg!</Title>
-                    <div className="relative z-10">
-                      <Img src={poopPic.src} />
-                      <Backshine />
-                    </div>
-                    <Button>Go To Your Egg Collection</Button>
+              <DialogPanel style={{ width: "100%" }}>
+                <div className="flex flex-col items-center h-full">
+                  <Title>Congratulations!</Title>
+                  <Title>You have recieved an egg!</Title>
+                  <div className="relative z-10">
+                    <Img src={poopPic.src} />
+                    <Backshine />
                   </div>
-                  {/* <Wrapper className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5"></Wrapper> */}
-                </DialogPanel>
-              </motion.div>
+                  <Button>Go To Your Egg Collection</Button>
+                </div>
+                {/* <Wrapper className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5"></Wrapper> */}
+              </DialogPanel>
             </Transition.Child>
           </Container>
         </div>
