@@ -196,7 +196,7 @@ const HeaderBeastCollection = styled.div`
   padding-top: 8px;
   margin-top: 20px;
   position: relative;
-  z-index: 5;
+  // z-index: 5;
   @media (max-width: 570px) {
     justify-content: space-between;
     padding: 0 20px;

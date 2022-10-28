@@ -1,7 +1,8 @@
 import { FC, Fragment, useEffect, useState } from "react"
 import { Dialog, Transition } from "@headlessui/react"
 import { CheckIcon, IdentificationIcon } from "@heroicons/react/outline"
-
+import poopPic from "public/fungible_tokens/fungible_tokens_images/basic_beasts_poop.png"
+import picture from "public/001_normal.png"
 import star from "public/basic_starLevel.png"
 import styled from "styled-components"
 import {
@@ -67,40 +68,45 @@ const FuncArgButton = styled.button`
 
 const DialogPanel = styled(Dialog.Panel)<any>`
   // className="relative pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:w-full md:w-full"
-
-  padding: 20px 20px 40px;
+  position: relative;
+  bottom: 0;
+  padding: 2rem 0;
   background: #212127;
   color: #e4be23;
 `
 
 const Button = styled.button`
   margin-top: 20px;
-  background: transparent;
-  border: 1px solid #e4be23;
-  color: #e4be23;
+  background: #ffd966;
+  // border: 1px solid #e4be23;
+  color: black;
   font-size: 1.5em;
   padding: 10px 20px;
   border-radius: 8px;
   outline: none;
   cursor: pointer;
 
-  transition: all 0.1s ease 0s;
-  -moz-transition: all 0.1s ease 0s;
-  -webkit-transition: all 0.1s ease 0s;
-  &:hover {
-    background: #e4be23;
-    color: #212127;
-
-    transition: all 0.1s ease 0s;
-    -moz-transition: all 0.1s ease 0s;
-    -webkit-transition: all 0.1s ease 0s;
+  &:disabled {
+    background: #b69c50;
   }
+
+  // transition: all 0.1s ease 0s;
+  // -moz-transition: all 0.1s ease 0s;
+  // -webkit-transition: all 0.1s ease 0s;
+  // &:hover {
+  //   background: #e4be23;
+  //   color: #212127;
+
+  //   transition: all 0.1s ease 0s;
+  //   -moz-transition: all 0.1s ease 0s;
+  //   -webkit-transition: all 0.1s ease 0s;
+  // }
 `
 
 const Title = styled.div`
   font-size: 2.5em;
-  margin-bottom: 20px;
   text-align: center;
+  line-height: 1;
 `
 
 const Wrapper = styled.div`
@@ -120,9 +126,7 @@ const BeastContainer = styled.div`
   flex-direction: column;
 `
 
-const Container = styled.div`
-  align-items: center;
-`
+const Container = styled.div``
 
 const Box = styled.div<any>`
   height: 50px;
@@ -135,15 +139,58 @@ const Notice = styled.div`
 `
 
 const Img = styled.img<any>`
-  height: 100px;
-  width: 100px;
+  z-index: 50;
+  max-width: 5rem;
+  aspect-ratio: 1;
   border-radius: 10px;
   box-shadow: ${(props) => (props.selected ? `0px 0px 5px 4px #8F7A39` : `0`)};
-  margin: 20px 20px 0;
+  margin: auto;
 
   transition: all 0.3s ease 0s;
   -moz-transition: all 0.3s ease 0s;
   -webkit-transition: all 0.3s ease 0s;
+`
+const ImgDiv = styled.div`
+  border-radius: 1rem;
+  padding: 0 1rem;
+`
+
+const TextDiv = styled.div`
+  margin-top: 1rem;
+  text-align: start;
+  font-size: 1.2rem;
+  border: 0.45rem solid white;
+  padding: 2rem;
+  width: 100%;
+  background: #111823;
+`
+const H1 = styled.h1`
+  line-height: 1;
+  color: yellow;
+`
+const P = styled.p`
+  color: white;
+  font-size: 1.2rem;
+`
+const MaterialNumber = styled.span<any>`
+  color: ${(props) => props.numColor};
+`
+
+const Backshine = styled.div`
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 1rem;
+  background-color: transparent;
+  background-image: linear-gradient(
+    to right,
+    transparent,
+    #edb72c,
+    transparent
+  );
+  width: 15rem;
+  height: 2px;
+  z-index: -1;
 `
 
 type Props = {
@@ -168,7 +215,7 @@ const EggObtainedModal: FC<Props> = ({ open, setOpen }) => {
         </Transition.Child>
 
         <div className="fixed z-10 inset-0 overflow-y-auto">
-          <Container className="flex items-end sm:items-center justify-center min-h-full text-center sm:p-0">
+          <Container className="flex items-end sm:items-end justify-center min-h-full text-center sm:p-0">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -185,8 +232,14 @@ const EggObtainedModal: FC<Props> = ({ open, setOpen }) => {
                 transition={{ duration: 0.5 }}
               >
                 <DialogPanel style={{ width: "100%" }}>
-                  <div>
-                    <Title>Obtained Beasts</Title>
+                  <div className="flex flex-col items-center h-full">
+                    <Title>Congratulations!</Title>
+                    <Title>You have recieved an egg!</Title>
+                    <div className="relative z-10">
+                      <Img src={poopPic.src} />
+                      <Backshine />
+                    </div>
+                    <Button>Go To Your Egg Collection</Button>
                   </div>
                   {/* <Wrapper className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5"></Wrapper> */}
                 </DialogPanel>

@@ -150,6 +150,8 @@ const Content = styled.div<any>`
 
   width: 576px;
 
+  overflow-y: auto;
+
   background: #fff;
   padding: 3vw;
   font-size: 1.2em;

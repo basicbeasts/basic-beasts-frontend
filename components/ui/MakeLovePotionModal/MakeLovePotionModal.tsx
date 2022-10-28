@@ -2,6 +2,10 @@ import { FC, Fragment, useEffect, useState } from "react"
 import { Dialog, Transition } from "@headlessui/react"
 import { CheckIcon, IdentificationIcon } from "@heroicons/react/outline"
 import scroll from "public/scroll_icon.png"
+import sushiPic from "public/fungible_tokens/fungible_tokens_images/basic_beasts_sushi.png"
+import bottlePic from "public/fungible_tokens/fungible_tokens_images/basic_beasts_empy_potion_bottle.png"
+import poopPic from "public/fungible_tokens/fungible_tokens_images/basic_beasts_poop.png"
+import picture from "public/001_normal.png"
 import star from "public/basic_starLevel.png"
 import styled from "styled-components"
 import {
@@ -76,26 +80,30 @@ const DialogPanel = styled(Dialog.Panel)<any>`
 
 const Button = styled.button`
   margin-top: 20px;
-  background: transparent;
-  border: 1px solid #e4be23;
-  color: #e4be23;
+  background: #ffd966;
+  // border: 1px solid #e4be23;
+  color: black;
   font-size: 1.5em;
   padding: 10px 20px;
   border-radius: 8px;
   outline: none;
   cursor: pointer;
 
-  transition: all 0.1s ease 0s;
-  -moz-transition: all 0.1s ease 0s;
-  -webkit-transition: all 0.1s ease 0s;
-  &:hover {
-    background: #e4be23;
-    color: #212127;
-
-    transition: all 0.1s ease 0s;
-    -moz-transition: all 0.1s ease 0s;
-    -webkit-transition: all 0.1s ease 0s;
+  &:disabled {
+    background: #b69c50;
   }
+
+  // transition: all 0.1s ease 0s;
+  // -moz-transition: all 0.1s ease 0s;
+  // -webkit-transition: all 0.1s ease 0s;
+  // &:hover {
+  //   background: #e4be23;
+  //   color: #212127;
+
+  //   transition: all 0.1s ease 0s;
+  //   -moz-transition: all 0.1s ease 0s;
+  //   -webkit-transition: all 0.1s ease 0s;
+  // }
 `
 
 const Title = styled.div`
@@ -134,11 +142,30 @@ const Notice = styled.div`
 `
 
 const Img = styled.img<any>`
-  height: 100px;
-  width: 100px;
+  max-width: 5rem;
+  aspect-ratio: 1;
   border-radius: 10px;
   box-shadow: ${(props) => (props.selected ? `0px 0px 5px 4px #8F7A39` : `0`)};
   margin: 20px 20px 0;
+
+  transition: all 0.3s ease 0s;
+  -moz-transition: all 0.3s ease 0s;
+  -webkit-transition: all 0.3s ease 0s;
+`
+const ImgDiv = styled.div`
+  border-radius: 1rem;
+  padding: 0 1rem;
+`
+const LadyImg = styled.img`
+  --size: 10rem;
+  position: absolute;
+  top: calc(var(--size) * -1);
+  right: 0;
+  max-height: var(--size);
+  max-width: var(--size);
+  border-radius: 10px;
+
+  // margin: 20px 20px 0;
 
   transition: all 0.3s ease 0s;
   -moz-transition: all 0.3s ease 0s;
@@ -159,6 +186,10 @@ const H1 = styled.h1`
 `
 const P = styled.p`
   color: white;
+  font-size: 1.2rem;
+`
+const MaterialNumber = styled.span<any>`
+  color: ${(props) => props.numColor};
 `
 
 type Props = {
@@ -167,6 +198,26 @@ type Props = {
 }
 
 const MakeLovePotionModal: FC<Props> = ({ open, setOpen }) => {
+  const [sushiNumber, setSushiNumber] = useState(0)
+  const [bottleNumber, setBottleNumber] = useState(1)
+  const [poopNumber, setPoopNumber] = useState(2)
+
+  const numberColors = () => {
+    let sushiColor
+    let bottleColor
+    let poopColor
+    {
+      sushiNumber >= 2 ? (sushiColor = "white") : (sushiColor = "red")
+    }
+    {
+      bottleNumber >= 2 ? (bottleColor = "white") : (bottleColor = "red")
+    }
+    {
+      poopNumber >= 2 ? (poopColor = "white") : (poopColor = "red")
+    }
+    return { sushiColor, bottleColor, poopColor }
+  }
+
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setOpen}>
@@ -204,32 +255,70 @@ const MakeLovePotionModal: FC<Props> = ({ open, setOpen }) => {
                     <Title>Love Potion</Title>
                     <div>
                       <p>Required Materials</p>
-                      <div className="grid mx-auto gap-12 border-t border-gray-500 grid-cols-3 w-max">
+                      <div className="grid mx-auto mt-2 gap-12 border-t border-gray-500 grid-cols-3 w-max">
                         <div>
-                          <Img src={scroll.src} />
-                          <P>dav</P>
+                          <ImgDiv style={{ backgroundColor: "#fff1ef" }}>
+                            <Img src={sushiPic.src} />
+                          </ImgDiv>
+                          <P>
+                            <MaterialNumber
+                              numColor={numberColors().sushiColor}
+                            >
+                              {sushiNumber}
+                            </MaterialNumber>
+                            /2
+                          </P>
                         </div>
                         <div>
-                          <Img src={scroll.src} />
+                          <ImgDiv style={{ backgroundColor: "#dfece2" }}>
+                            <Img
+                              style={{ padding: ".5rem" }}
+                              src={bottlePic.src}
+                            />
+                          </ImgDiv>
 
-                          <P>hej</P>
+                          <P>
+                            <MaterialNumber
+                              numColor={numberColors().bottleColor}
+                            >
+                              {bottleNumber}
+                            </MaterialNumber>
+                            /2
+                          </P>
                         </div>
                         <div>
-                          <Img src={scroll.src} />
+                          <ImgDiv style={{ backgroundColor: "#ece6df" }}>
+                            <Img src={poopPic.src} />
+                          </ImgDiv>
 
-                          <P>hello</P>
+                          <P>
+                            <MaterialNumber numColor={numberColors().poopColor}>
+                              {poopNumber}
+                            </MaterialNumber>
+                            /2
+                          </P>
                         </div>
                       </div>
-                      <Button>Make Love Potion</Button>
+                      <Button
+                        disabled={
+                          sushiNumber < 2 || bottleNumber < 2 || poopNumber < 2
+                        }
+                      >
+                        Make Love Potion
+                      </Button>
                     </div>
-                    <TextDiv>
-                      <H1>Mysterious old lady</H1>
-                      <p>
-                        Hey there, little adventurer. To be able to breed your
-                        beasts you will nreed love potion. And to make love
-                        potion.. you need potion empty bottle, sushi, and poop!
-                      </p>
-                    </TextDiv>
+                    <div className="relative">
+                      <LadyImg src={picture.src} />
+                      <TextDiv>
+                        <H1>Mysterious old lady</H1>
+                        <p>
+                          Hey there, little adventurer. To be able to breed your
+                          beasts you will nreed love potion. And to make love
+                          potion.. you need potion empty bottle, sushi, and
+                          poop!
+                        </p>
+                      </TextDiv>
+                    </div>
                   </div>
                   {/* <Wrapper className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5"></Wrapper> */}
                 </DialogPanel>

@@ -9,16 +9,18 @@ import { faHeart } from "@fortawesome/free-solid-svg-icons"
 
 import picture from "public/beasts/001_normal.png"
 import scroll from "public/scroll_icon.png"
+import potion from "/public/fungible_tokens/fungible_tokens_images/basic_beasts_empy_potion_bottle.png"
 import { toast } from "react-toastify"
 import MakeLovePotionModal from "../MakeLovePotionModal"
 import EggObtainedModal from "../EggObtainedModal"
+import beastTemplates from "data/beastTemplates"
 
 const Wrapper = styled.section`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  height: 100%;
+  // height: 100%;
   padding-bottom: 2rem;
   margin-top: 1rem;
 `
@@ -119,7 +121,7 @@ const ListWrapper = styled.div`
   width: 100%;
   overflow: hidden;
   overflow-y: scroll;
-  height: 270px;
+  // height: 270px;
   margin-top: 15px;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
@@ -135,11 +137,11 @@ type Props = {
 }
 
 const Breeding: FC<Props> = ({ evolvableBeasts, beast }) => {
-  const [beastSelected, setBeastSelected] = useState(true)
+  const [beastSelected, setBeastSelected] = useState(false)
   const [makeLovePotionModalOpen, setMakeLovePotionModalOpen] = useState(false)
   const [eggObtainedModalOpen, setEggObtainedModalOpen] = useState(false)
 
-  const [selectedBeasts, setSelectedBeasts] = useState<any>([beast?.id])
+  const [selectedBeasts, setSelectedBeasts] = useState<any>([])
   const [serialOneSelected, setSerialOneSelected] = useState<any>(false)
 
   const potions = 200
@@ -164,7 +166,12 @@ const Breeding: FC<Props> = ({ evolvableBeasts, beast }) => {
     let beastImage
 
     {
-      beastSelected ? (beastImage = picture.src) : (beastImage = scroll.src)
+      beastSelected
+        ? (beastImage =
+            beastTemplates[
+              beast?.beastTemplateID as keyof typeof beastTemplates
+            ].imageTransparentBg)
+        : (beastImage = scroll.src)
     }
     return beastImage
   }
@@ -173,18 +180,20 @@ const Breeding: FC<Props> = ({ evolvableBeasts, beast }) => {
     if (selectedBeasts.includes(id)) {
       //remove
       setSelectedBeasts(selectedBeasts.filter((beast: any) => beast != id))
+      setBeastSelected(false)
       // Check serial one
       if (serial == 1) {
         setSerialOneSelected(false)
         toast.success("Serial #1 deselected")
       }
-    } else if (selectedBeasts.length < 3) {
+    } else if (selectedBeasts.length < 1) {
       //add
       setSelectedBeasts((selectedBeasts: any) => [...selectedBeasts, id])
+      setBeastSelected(true)
       // Check serial one
       if (serial == 1) {
         setSerialOneSelected(true)
-        toast.warning("Serial #1 selected for evolution")
+        toast.warning("Serial #1 selected for breeding")
       }
     }
   }
@@ -203,7 +212,15 @@ const Breeding: FC<Props> = ({ evolvableBeasts, beast }) => {
         <div className="flex flex-col items-center gap-5">
           <BreedingSpot>
             <ImgDiv>
-              <Img src={picture.src} style={{ transform: "scaleX(-1)" }} />{" "}
+              <Img
+                // src={picture.src}
+                src={
+                  beastTemplates[
+                    beast?.beastTemplateID as keyof typeof beastTemplates
+                  ].imageTransparentBg
+                }
+                style={{ transform: "scaleX(-1)" }}
+              />{" "}
               <ImgInfo>
                 <H2>BREED COUNT</H2>
                 <p>1/7</p>
@@ -212,7 +229,7 @@ const Breeding: FC<Props> = ({ evolvableBeasts, beast }) => {
             <PotionDiv onClick={() => setMakeLovePotionModalOpen(true)}>
               <PotionP>Required Love Potions</PotionP>
               <Potion>
-                <PotionImg src={scroll.src} />
+                <PotionImg src={potion.src} />
                 <p>
                   <RequiredNumber>{potions}</RequiredNumber>/200
                 </p>
