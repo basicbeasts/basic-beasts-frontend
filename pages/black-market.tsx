@@ -114,7 +114,7 @@ const BlackMarket: NextPage = () => {
             <Completionist />
           </Countdown> */}
           {/* <Chests /> */}
-          Black Market is temporarily closed.{" "}
+          Black Market is temporarily on pause.{" "}
           <a
             aria-label="Discord Server"
             href="https://discord.gg/mhdKhHDzpK"
