@@ -74,7 +74,7 @@ const CheckboxWrapper = styled.div`
   }
 `
 const DialogPanel = styled<any>(Dialog.Panel)`
-  background: #222427;
+  background: #111823;
   color: white;
 `
 
@@ -82,6 +82,8 @@ type Props = {
   filters: any
   selectedFilters: any
   setSelectedFilters: any
+  mobileFiltersOpen: any
+  setMobileFiltersOpen: any
 }
 
 const sortOptions = [
@@ -104,8 +106,10 @@ const BeastMarketFilters: FC<Props> = ({
   filters,
   selectedFilters,
   setSelectedFilters,
+  mobileFiltersOpen,
+  setMobileFiltersOpen,
 }) => {
-  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
+  // const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
 
   useEffect(() => {}, [filters])
 
@@ -126,7 +130,7 @@ const BeastMarketFilters: FC<Props> = ({
 
   return (
     <>
-      <Wrapper>
+      <Wrapper className="hidden lg:block">
         <div>
           {/* Mobile filter dialog */}
           <Transition.Root show={mobileFiltersOpen} as={Fragment}>
@@ -157,7 +161,7 @@ const BeastMarketFilters: FC<Props> = ({
                   leaveFrom="translate-x-0"
                   leaveTo="translate-x-full"
                 >
-                  <DialogPanel className="relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto py-4 pb-12 shadow-xl">
+                  <DialogPanel className="relative  flex h-full w-full  flex-col overflow-y-auto py-4 pb-12 shadow-xl">
                     <div className="flex items-center justify-between px-4">
                       <h2 className="text-lg font-medium ">Filters</h2>
                       <button
@@ -170,7 +174,7 @@ const BeastMarketFilters: FC<Props> = ({
                     </div>
 
                     {/* Filters */}
-                    <form className="mt-4 border-t border-gray-200">
+                    <form className="mt-4 border-t border-gray-500">
                       <h3 className="sr-only">Categories</h3>
                       <ul role="list" className="px-2 py-3 font-medium ">
                         {subCategories.map((category) => (
@@ -187,7 +191,7 @@ const BeastMarketFilters: FC<Props> = ({
                             <Disclosure
                               as="div"
                               key={section.id}
-                              className="border-b border-gray-200 px-4 py-6"
+                              className="border-x border-t border-gray-500 px-4 py-6"
                             >
                               {({ open }) => (
                                 <>
@@ -309,14 +313,14 @@ const BeastMarketFilters: FC<Props> = ({
                   <span className="sr-only">View grid</span>
                   view grid icon
                 </button> */}
-                <button
+                {/* <button
                   type="button"
                   className="-m-2 ml-4 p-2  hover:text-gray-500 sm:ml-6 lg:hidden"
                   onClick={() => setMobileFiltersOpen(true)}
                 >
                   <span className="sr-only">Filters</span>
                   funnelicon
-                </button>
+                </button> */}
               </div>
             </div>
 
@@ -335,7 +339,7 @@ const BeastMarketFilters: FC<Props> = ({
                   >
                     {subCategories.map((category) => (
                       <li
-                        className=" border-b border-gray-200"
+                        className=" border-b  border-gray-500"
                         key={category.name}
                       >
                         <a href={category.href}>{category.name}</a>
@@ -347,7 +351,8 @@ const BeastMarketFilters: FC<Props> = ({
                     <Disclosure
                       as="div"
                       key={section.id}
-                      className="border-b border-gray-200 py-6"
+                      style={{ backgroundColor: "#111823" }}
+                      className=" border-t border-r border-gray-500 py-6"
                     >
                       {({ open }) => (
                         <>

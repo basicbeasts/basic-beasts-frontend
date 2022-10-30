@@ -181,17 +181,17 @@ const Backshine = styled.div`
   left: 50%;
   transform: translateX(-50%);
   bottom: 1rem;
-  background-color: transparent;
-  background-image: linear-gradient(
-    to right,
-    transparent,
-    #edb72c,
-    transparent
-  );
+  background-color: #edb72c;
+  // background-image: linear-gradient(
+  //   to right,
+  //   transparent,
+  //   #edb72c,
+  //   transparent
+  // );
   width: 15rem;
   height: 1px;
   z-index: -1;
-  box-shadow: 0 0 5px gold;
+  box-shadow: 0 0 15px 1px gold;
 `
 
 type Props = {

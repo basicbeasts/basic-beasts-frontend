@@ -59,7 +59,7 @@ const AccordionTitle = styled.div`
 const AccordionContent = styled.div`
   padding: 1.5rem;
   font-size: 1.2em;
-  border: 1px solid grey;
+  border: 1px solid #5c5e6c;
   border-radius: 1rem;
   width: 100%;
 `
@@ -73,7 +73,7 @@ const BuyButton = styled.button`
   color: black;
   font-size: 1.5rem;
   padding: 0.75rem 2rem;
-  border: 1px solid grey;
+  border: 1px solid #5c5e6c;
 `
 const BidButton = styled.button`
   width: 100%;

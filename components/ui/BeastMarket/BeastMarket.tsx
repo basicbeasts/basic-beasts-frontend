@@ -892,6 +892,7 @@ const BeastMarket: FC<Props> = () => {
   const [bulkBuyOpen, setBulkBuyOpen] = useState(false)
   const [bulkBidOpen, setBulkBidOpen] = useState(false)
   const [mobileCartOpen, setMobileCartOpen] = useState(false)
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
 
   const [selectedFilters, setSelectedFilters] = useState<any>([])
   const [beasts, setBeasts] = useState<any>([])
@@ -1161,8 +1162,18 @@ const BeastMarket: FC<Props> = () => {
   return (
     <>
       <HeaderBeastCollection>
-        <FilterButton onClick={() => setFilterOpen(!filterOpen)}>
+        <FilterButton
+          className="hidden lg:block"
+          onClick={() => setFilterOpen(!filterOpen)}
+        >
           {" "}
+          <FilterIcon className="mx-auto h-5 w-5" />
+        </FilterButton>
+        <FilterButton
+          className="lg:hidden"
+          onClick={() => setMobileFiltersOpen(true)}
+        >
+          <span className="sr-only">Filters</span>
           <FilterIcon className="mx-auto h-5 w-5" />
         </FilterButton>
 
@@ -1228,12 +1239,14 @@ const BeastMarket: FC<Props> = () => {
 
       <Wrapper>
         <div className="flex ">
-          {filterOpen && (
+          {(filterOpen || mobileFiltersOpen) && (
             <div style={{ color: "white" }} className="h-max sticky top-0">
               <BeastMarketFilters
                 filters={filters}
                 selectedFilters={selectedFilters}
                 setSelectedFilters={setSelectedFilters}
+                mobileFiltersOpen={mobileFiltersOpen}
+                setMobileFiltersOpen={setMobileFiltersOpen}
               />
             </div>
           )}
