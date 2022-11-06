@@ -113,8 +113,8 @@ const BlackMarket: NextPage = () => {
           {/* <Countdown date={1664726400000}>
             <Completionist />
           </Countdown> */}
-          {/* <Chests /> */}
-          Black Market is temporarily on pause.{" "}
+          <Chests />
+          {/* Black Market is temporarily on pause.{" "}
           <a
             aria-label="Discord Server"
             href="https://discord.gg/mhdKhHDzpK"
@@ -122,7 +122,7 @@ const BlackMarket: NextPage = () => {
             rel="noopener noreferrer"
           >
             More info on Discord
-          </a>
+          </a> */}
         </div>
       ) : (
         <>
