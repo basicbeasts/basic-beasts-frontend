@@ -13,6 +13,7 @@ const Wrapper = styled.div`
   min-width: max-content;
   padding: 5px 15px;
   max-height: 750px;
+  margin-bottom: 20px;
 `
 
 const Header = styled.header`
@@ -169,9 +170,17 @@ type Props = {
   // count: any
   // selectedBeast: any
   beasts: any
+  selectedBeasts: any
+  deselectBeast: any
+  setSelectedBeasts: any
 }
 
-const BeastMarketBulkBid: FC<Props> = ({ beasts }) => {
+const BeastMarketBulkBid: FC<Props> = ({
+  selectedBeasts,
+  deselectBeast,
+  setSelectedBeasts,
+  beasts,
+}) => {
   // const [value, setValue] = useState(50)
 
   const [disabled, setDisabled] = useState(false)
@@ -186,15 +195,15 @@ const BeastMarketBulkBid: FC<Props> = ({ beasts }) => {
   const [selectedBeast, setSelectedBeast] = useState<any>(null)
   const [open, setOpen] = useState(false)
   const [displayNickname, setDisplayNickname] = useState<string | null>(null)
-  const [possibleBeastsToCart, setPossibleBeastToCart] = useState<any>()
+  const [possibleBeastsToCart, setPossibleBeastToCart] = useState<any>([])
   const [max, setMax] = useState(0)
   const [beastsToSweep, setBeastsToSweep] = useState()
 
   useEffect(() => {
-    if (beasts != null) {
-      setDisplayBeasts(beasts)
+    if (selectedBeasts != null) {
+      setDisplayBeasts(selectedBeasts)
     }
-  }, [beasts])
+  }, [selectedBeasts])
 
   useEffect(() => {
     if (displayBeasts != null) {
@@ -214,16 +223,13 @@ const BeastMarketBulkBid: FC<Props> = ({ beasts }) => {
   }
 
   useEffect(() => {
-    let beastsForSale = displayBeasts?.filter(
-      (beast: any) => beast.price != null,
-    )
-    let sortedBeastsByPrice = beastsForSale?.sort(
+    let sortedBeastsByPrice = displayBeasts?.sort(
       (a: any, b: any) => a.price - b.price,
     )
     setMax(sortedBeastsByPrice?.length)
     setPossibleBeastToCart(sortedBeastsByPrice)
     // console.log(sortedBeastsByPrice)
-  }, [value])
+  }, [displayBeasts])
 
   return (
     <>
@@ -233,10 +239,10 @@ const BeastMarketBulkBid: FC<Props> = ({ beasts }) => {
             Bulk bid
             {value != 0 ? " (" + value + ")" : <></>}
           </Header>
-          <button>clear</button>
+          <button onClick={() => setSelectedBeasts([])}>clear</button>
         </div>
 
-        {possibleBeastsToCart != null ? (
+        {possibleBeastsToCart?.length > 0 ? (
           <div>
             <H2>Bulk bid price</H2>
             <InputContainer>
@@ -244,7 +250,7 @@ const BeastMarketBulkBid: FC<Props> = ({ beasts }) => {
               <InputDefaultText>FUSD</InputDefaultText>
             </InputContainer>
             <BeastList className={areWeLoggedIn()}>
-              {possibleBeastsToCart?.slice(0, 3).map((beast: any) => (
+              {possibleBeastsToCart?.map((beast: any) => (
                 <li
                   key={beast.id}
                   className="flex items-center justify-between relative list-none"
@@ -261,9 +267,7 @@ const BeastMarketBulkBid: FC<Props> = ({ beasts }) => {
                         className="object-cover group-hover:opacity-90"
                         beastTemplateID={beast.beastTemplateID}
                       />
-                      <RemoveButton
-                        onClick={() => displayBeasts.splice(beast, 1)}
-                      >
+                      <RemoveButton onClick={() => deselectBeast(beast)}>
                         x
                       </RemoveButton>
                       <StarLevel>
@@ -274,13 +278,9 @@ const BeastMarketBulkBid: FC<Props> = ({ beasts }) => {
                           ))}
                       </StarLevel>
                     </div>
-                    <div>price</div>
                   </div>
-                  <div>
-                    {beast.price != null
-                      ? parseFloat(beast.price).toFixed(2)
-                      : "not for sale"}
-                  </div>
+                  <div>{beast.name}</div>
+                  <div>Serial #{beast.serialNumber}</div>
                 </li>
               ))}
             </BeastList>

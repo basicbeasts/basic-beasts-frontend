@@ -46,8 +46,8 @@ const Wrapper = styled.div`
   }
   //Scroll in div
   width: 100%;
-  overflow: hidden;
-  overflow-y: scroll;
+  // overflow: hidden;
+  // overflow-y: scroll;
   height: 800px;
   margin-top: 20px;
   -ms-overflow-style: none; /* IE and Edge */
@@ -900,6 +900,39 @@ const BeastMarket: FC<Props> = () => {
   const [beastArray, setBeastArray] = useState<any>([])
   // console.log(beastArray)
 
+  const [selectedBeasts, setSelectedBeasts] = useState<any>([])
+
+  const selectBeast = (beast: any) => {
+    if (!selectedBeasts.includes(beast)) {
+      setSelectedBeasts((selectedBeasts: any) => [...selectedBeasts, beast])
+    }
+  }
+
+  const deselectBeast = (beast: any) => {
+    if (selectedBeasts.includes(beast)) {
+      //remove
+      setSelectedBeasts(selectedBeasts.filter((id: any) => beast != id))
+    }
+  }
+
+  const openBulkBuy = () => {
+    setBulkBuyOpen(true)
+    setBulkBidOpen(false)
+    setSweepOpen(false)
+  }
+
+  const openBulkBid = () => {
+    setBulkBuyOpen(false)
+    setBulkBidOpen(true)
+    setSweepOpen(false)
+  }
+
+  const openSweep = () => {
+    setBulkBuyOpen(false)
+    setBulkBidOpen(false)
+    setSweepOpen(true)
+  }
+
   const buttonColor = (clrOpen: any) => {
     var btnColor = "none"
     var fontColor = "white"
@@ -1138,7 +1171,8 @@ const BeastMarket: FC<Props> = () => {
                   "breedingCount" : 0,
                   "numberOfMintedBeastTemplates" : 100,
                   "beastTemplateID" : beastTemplate.beastTemplateID,
-                  "price" : price
+                  "price" : price,
+                  "id": token.id
                 }
 
                 beasts.insert(at:i, beast)
@@ -1184,7 +1218,9 @@ const BeastMarket: FC<Props> = () => {
             value={search?.toString()}
             onChange={(e: any) => setSearch(e.target.value.toLowerCase())}
           />
-          <ClearButton onClick={() => setSearch("")}>x</ClearButton>
+          {search != "" && (
+            <ClearButton onClick={() => setSearch("")}>x</ClearButton>
+          )}
         </InputContainer>
         <DropDown
           beasts={displayBeasts}
@@ -1192,7 +1228,7 @@ const BeastMarket: FC<Props> = () => {
           setSortBy={setSortBy}
         />
         <div className=" hidden md:flex gap-2">
-          <BuyButton
+          {/* <BuyButton
             style={{
               background: buttonColor(bulkBuyOpen).btnColor,
               color: buttonColor(bulkBuyOpen).fontColor,
@@ -1205,7 +1241,7 @@ const BeastMarket: FC<Props> = () => {
             )}
           >
             Bulk Buy
-          </BuyButton>
+          </BuyButton> */}
           <BuyButton
             style={{
               background: buttonColor(bulkBidOpen).btnColor,
@@ -1220,7 +1256,7 @@ const BeastMarket: FC<Props> = () => {
           >
             Bulk Bid
           </BuyButton>
-          <BuyButton
+          {/* <BuyButton
             style={{
               background: buttonColor(sweepOpen).btnColor,
               color: buttonColor(sweepOpen).fontColor,
@@ -1233,7 +1269,7 @@ const BeastMarket: FC<Props> = () => {
             )}
           >
             Sweep
-          </BuyButton>
+          </BuyButton> */}
         </div>
       </HeaderBeastCollection>
 
@@ -1253,6 +1289,9 @@ const BeastMarket: FC<Props> = () => {
           {displayBeasts != null ? (
             <BeastMarketBeastList
               displayBeasts={displayBeasts}
+              openBulkBid={openBulkBid}
+              selectedBeasts={selectedBeasts}
+              setSelectedBeasts={setSelectedBeasts}
               // setOpen={setOpen}
               // setDisplayNickname={setDisplayNickname}
             />
@@ -1364,7 +1403,12 @@ const BeastMarket: FC<Props> = () => {
               }}
               className="hidden md:block h-max ml-5 sticky top-0"
             >
-              <BeastMarketBulkBid beasts={beasts} />
+              <BeastMarketBulkBid
+                selectedBeasts={selectedBeasts}
+                deselectBeast={deselectBeast}
+                setSelectedBeasts={setSelectedBeasts}
+                beasts={beasts}
+              />
             </div>
           )}
           {sweepOpen && (

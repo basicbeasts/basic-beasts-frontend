@@ -7,10 +7,21 @@ import { faHeart as heartFull } from "@fortawesome/free-solid-svg-icons"
 import { faHeart as heartEmpty } from "@fortawesome/free-regular-svg-icons"
 
 const MarketUl = styled.ul`
+  padding-top: 5px;
   display: grid;
   width: 100%;
+  height: 800px;
+
+  overflow: hidden;
+  overflow-y: scroll;
+
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 1.25rem;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   // @media (min-width: 420px) {
   //   grid-template-columns: repeat(2, 1fr);
@@ -25,34 +36,25 @@ const MarketUl = styled.ul`
   //   grid-template-columns: repeat(5, 1fr);
   // }
 `
-const ThumbnailLabel = styled.div`
-  margin: 8px 0;
-  float: right;
-  color: #808080;
-  line-height: 1.2em;
-  @media (max-width: 360px) {
-    font-size: 0.7em;
-  }
-`
+
 const ThumbnailDetails = styled.div<Omit<Color, "background">>`
   color: #000000;
   background: ${(props) => props.bgColor || "#FFD966"};
-  display: grid;
-  grid-template-columns: auto auto;
-  align-items: center;
-  justify-content: space-between;
+  display: flex;
+  /* align-items: stretch; */
+  /* justify-content: space-between; */
   clear: both;
   width: 100%;
 
-  padding: 10px;
+  padding: 10px 15px;
   cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
       14 0,
     pointer !important;
 `
 const DetailButton = styled.button<any>`
   position: relative;
-  border: solid #808080 0.5px;
-  border-radius: 10px;
+  border: solid #c8c8c8 0.5px;
+  border-radius: 4px;
   font-size: 16px;
   background: ${(props) => props.buttonColor};
 
@@ -61,10 +63,65 @@ const DetailButton = styled.button<any>`
     box-shadow: 2px 2px 5px 1px black;
   }
 `
+
+const BeastLi = styled.li<any>`
+  outline: ${(props) => (props.selected ? "solid 2px #d3c20d" : "none")};
+  border-radius: 20px;
+`
+
+const QuickBuyButton = styled.button`
+  display: none;
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  border-radius: 50px;
+  line-height: 0;
+  // font-size: 16px;
+  transform: translateX(-50%);
+  background: #f3cb23;
+  padding: 1rem;
+  ${BeastLi}:hover & {
+    display: block;
+  }
+  /* &:hover {
+    box-shadow: 2px 2px 5px 1px black;
+  } not needed dense*/
+`
+
 const StarLevel = styled.div`
   vertical-align: middle;
   position: absolute;
   top: 0;
+`
+const PlusDiv = styled.div`
+  display: none;
+  text-align: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 1rem;
+  font-size: 2rem;
+  line-height: 0;
+  ${BeastLi}:hover & {
+    display: block;
+  }
+`
+
+const CheckMarkWrapper = styled.div`
+  text-align: center;
+  position: absolute;
+  top: 0;
+  right: -3px;
+  margin: 1rem;
+  font-size: 2rem;
+  line-height: 0;
+`
+const CheckMark = styled.span`
+  background: #d8c600;
+  color: white;
+  font-size: 1rem;
+  border-radius: 50px;
+  padding: 4px 5px;
 `
 
 const StarImg = styled.img`
@@ -137,23 +194,107 @@ const TraitCount = styled.div`
   line-height: 0.75;
   font-size: 1.2rem;
 `
+
+const ThumbnailLabel = styled.div`
+  margin: 8px 0;
+  color: #808080;
+  line-height: 1.2em;
+  @media (max-width: 360px) {
+    font-size: 0.7em;
+  }
+
+  display: table;
+  clear: both;
+`
+
+const NameWrapper = styled.div`
+  float: left;
+`
+
+const SerialWrapper = styled.div`
+  float: right;
+`
+
+const ThumbnailFooter = styled.div`
+  display: table;
+  clear: both;
+`
+
+const Favorite = styled.div`
+  float: left;
+`
+
+const DetailsWrapper = styled.div`
+  float: right;
+`
+
+const ThumbnailWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+`
+
 type Color = {
   bgColor: any
 }
 type Props = {
   displayBeasts: any
-  // setOpen: any
+  openBulkBid: any
+  selectedBeasts: any
+  setSelectedBeasts: any
   // setDisplayNickname: any
 }
 const BeastMarketBeastList: FC<Props> = ({
   displayBeasts,
-  // setOpen,
+  openBulkBid,
+  selectedBeasts,
+  setSelectedBeasts,
   // setDisplayNickname,
 }) => {
-  const [selectedBeast, setSelectedBeast] = useState<any>(null)
-  const [open, setOpen] = useState(false)
+  const selectBeast = (beast: any) => {
+    if (!selectedBeasts.includes(beast)) {
+      setSelectedBeasts((selectedBeasts: any) => [...selectedBeasts, beast])
+    }
+  }
 
-  const [beastArray, setBeastArray] = useState<any>([])
+  const deselectBeast = (beast: any) => {
+    if (selectedBeasts.includes(beast)) {
+      //remove
+      setSelectedBeasts(selectedBeasts.filter((id: any) => beast != id))
+    }
+  }
+
+  const [favoriteBeasts, setFavoriteBeasts] = useState<any>([])
+
+  useEffect(() => {
+    const favBeasts = window.localStorage.getItem("FAVORITE_BEASTS")
+    if (favBeasts != null) {
+      setFavoriteBeasts(JSON.parse(favBeasts))
+    }
+  }, [])
+
+  useEffect(() => {
+    window.localStorage.setItem(
+      "FAVORITE_BEASTS",
+      JSON.stringify(favoriteBeasts),
+    )
+  }, [favoriteBeasts])
+
+  const favoriteBeast = (beast: any) => {
+    if (!favoriteBeasts.includes(beast.id)) {
+      setFavoriteBeasts((favoriteBeasts: any) => [...favoriteBeasts, beast.id])
+    }
+  }
+
+  const unfavoriteBeast = (beast: any) => {
+    if (favoriteBeasts.includes(beast.id)) {
+      setFavoriteBeasts(
+        favoriteBeasts.filter((beast: any) => beast.id != beast.id),
+      )
+    }
+  }
+
   const DialogInfo: FC<{
     id: any
     dialogOpen: any
@@ -257,6 +398,7 @@ const BeastMarketBeastList: FC<Props> = ({
   }> = ({ beast }) => {
     const [dialogOpen, setDialogOpen] = useState(false)
     const [heart, setHeart] = useState<any>(heartEmpty)
+
     const buttonColor = () => {
       var color = "none"
       {
@@ -267,7 +409,9 @@ const BeastMarketBeastList: FC<Props> = ({
     var btnColor = buttonColor()
     const heartChange = () => {
       {
-        heart == heartEmpty ? setHeart(heartFull) : setHeart(heartEmpty)
+        heart == heartEmpty
+          ? (setHeart(heartFull), favoriteBeast(beast))
+          : (setHeart(heartEmpty), unfavoriteBeast(beast))
       }
     }
 
@@ -303,41 +447,59 @@ const BeastMarketBeastList: FC<Props> = ({
               : "#fff"
           }
         >
-          <ThumbnailLabel>
-            <div style={{ fontSize: "1.3em" }}>#{beast.serialNumber}</div>
-            {beast.nickname.length < 13 ? (
-              <div style={{ fontSize: "1.3em", color: "black" }}>
-                {beast.nickname}
-              </div>
-            ) : (
-              <div style={{ fontSize: "1em" }}>{beast.nickname}</div>
-            )}
-          </ThumbnailLabel>
-          <DetailButton
-            style={{ background: btnColor }}
-            onClick={() => setDialogOpen(!dialogOpen)}
-          >
-            Details
-            <DialogInfo
-              id="element"
-              dialogOpen={dialogOpen}
-              beast={beast}
-              // left={left} right={right}
-            />
-          </DetailButton>
-          <div className="flex gap-1 items-center">
-            <FontAwesomeIcon
-              onClick={() => heartChange()}
-              style={{ color: "grey" }}
-              icon={heart}
-            />{" "}
-            76
-          </div>
-          <div className="flex gap-1 justify-end">
-            {beast.price != null
+          <ThumbnailWrapper>
+            <ThumbnailLabel>
+              {beast.nickname.length < 13 ? (
+                <NameWrapper style={{ fontSize: "1.3em", color: "black" }}>
+                  {beast.nickname}
+                </NameWrapper>
+              ) : (
+                <NameWrapper style={{ fontSize: "1em" }}>
+                  {beast.nickname}
+                </NameWrapper>
+              )}
+              <SerialWrapper style={{ fontSize: "1.3em" }}>
+                #{beast.serialNumber}
+              </SerialWrapper>
+            </ThumbnailLabel>
+            <ThumbnailFooter>
+              {favoriteBeasts?.includes(beast?.id) ? (
+                <Favorite>
+                  <FontAwesomeIcon
+                    onClick={() => unfavoriteBeast(beast)}
+                    style={{ color: "grey" }}
+                    icon={heartFull}
+                  />
+                </Favorite>
+              ) : (
+                <Favorite>
+                  <FontAwesomeIcon
+                    onClick={() => favoriteBeast(beast)}
+                    style={{ color: "grey" }}
+                    icon={heart}
+                  />
+                </Favorite>
+              )}
+              <DetailsWrapper>
+                {/* {beast.price != null
               ? parseFloat(beast.price).toFixed(2)
-              : "not for sale"}
-          </div>
+              : "not for sale"} */}
+                <DetailButton
+                  style={{ background: btnColor }}
+                  onClick={() => setDialogOpen(!dialogOpen)}
+                >
+                  Details
+                  <DialogInfo
+                    id="element"
+                    dialogOpen={dialogOpen}
+                    beast={beast}
+                    // left={left} right={right}
+                  />
+                </DetailButton>
+              </DetailsWrapper>
+            </ThumbnailFooter>
+          </ThumbnailWrapper>
+
           <StarLevel>
             {Array(beast.starLevel)
               .fill(0)
@@ -345,6 +507,20 @@ const BeastMarketBeastList: FC<Props> = ({
                 <StarImg key={i} src={star.src} />
               ))}
           </StarLevel>
+          {selectedBeasts.includes(beast) ? (
+            <CheckMarkWrapper onClick={() => deselectBeast(beast)}>
+              <CheckMark>✓</CheckMark>
+            </CheckMarkWrapper>
+          ) : (
+            <PlusDiv
+              onClick={() => {
+                selectBeast(beast)
+                openBulkBid()
+              }}
+            >
+              +
+            </PlusDiv>
+          )}
         </ThumbnailDetails>
       </div>
     )
@@ -355,14 +531,10 @@ const BeastMarketBeastList: FC<Props> = ({
       // className="grid grid-cols-1 gap-x-5 gap-y-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-5"
     >
       {displayBeasts.map((beast: any) => (
-        <li
+        <BeastLi
+          selected={selectedBeasts.includes(beast)}
           key={beast.id}
           className="relative"
-          onClick={() => {
-            setOpen(true)
-            // setSelectedBeast(beast)
-            // setDisplayNickname(null)
-          }}
         >
           <div
             style={{
@@ -371,15 +543,16 @@ const BeastMarketBeastList: FC<Props> = ({
             className="group block w-full aspect-w-9 aspect-h-7 bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden"
           >
             <BeastMarketThumbnail
-              onClick={() => setBeastArray([...beastArray, beast])}
+              // onClick={() => setBeastArray([...beastArray, beast])}
               id={beast.id}
-              className="object-cover group-hover:opacity-90"
+              className="object-cover"
               beastTemplateID={beast.beastTemplateID}
             />
           </div>
+          <QuickBuyButton>Quick Bid</QuickBuyButton>
           {/* Make thumbnail details into a component and useState inside that component and add DialogInfo to it */}
           <ThumbnailDetailsFC beast={beast} />
-        </li>
+        </BeastLi>
       ))}
       {/* To prevent big gap due to fixed height, which is needed for the scroll */}
       <li></li>

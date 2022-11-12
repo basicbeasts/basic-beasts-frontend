@@ -38,6 +38,16 @@ const InputContainer = styled.div`
   border-radius: 10px;
   padding: 0 10px;
 `
+const Main = styled.main`
+  overflow: hidden;
+  overflow-y: scroll;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  max-height: 800px;
+`
 
 const CheckboxWrapper = styled.div`
   input[type="checkbox"] {
@@ -93,10 +103,7 @@ const sortOptions = [
   { name: "Price: Low to High", href: "#", current: false },
   { name: "Price: High to Low", href: "#", current: false },
 ]
-const subCategories = [
-  { name: "Favorites", href: "#" },
-  { name: "Backpacks", href: "#" },
-]
+const subCategories = [{ name: "Favorites", href: "#" }]
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ")
@@ -258,7 +265,7 @@ const BeastMarketFilters: FC<Props> = ({
             </Dialog>
           </Transition.Root>
 
-          <main className="mx-auto max-w-7xl">
+          <Main className="mx-auto max-w-7xl">
             <div className="flex items-baseline justify-between gap-5   pb-6">
               {/* <h1 className="text-4xl font-bold tracking-tight text-gray-900">
                 New Arrivals
@@ -352,12 +359,12 @@ const BeastMarketFilters: FC<Props> = ({
                       as="div"
                       key={section.id}
                       style={{ backgroundColor: "#111823" }}
-                      className=" border-t border-r border-gray-500 py-6"
+                      className=" border-t border-gray-500 py-6"
                     >
                       {({ open }) => (
                         <>
                           <h3 className="-my-3 flow-root">
-                            <Disclosure.Button className="flex w-full items-center justify-between py-3 text-sm text-gray-400 hover:text-gray-500">
+                            <Disclosure.Button className="flex w-full items-center justify-between py-3 text-sm text-white hover:text-gray-500">
                               <span className="font-medium ">
                                 {section.name}
                               </span>
@@ -413,7 +420,7 @@ const BeastMarketFilters: FC<Props> = ({
                 </form>
               </div>
             </section>
-          </main>
+          </Main>
         </div>
       </Wrapper>
     </>
