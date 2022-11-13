@@ -450,11 +450,11 @@ const ProductBeastView: FC<Props> = ({ beast, beasts }) => {
         <H1 className="mx-auto text-center">More Basic Beasts</H1>
 
         <div className="hidden xl:flex justify-center w-10/12 mx-auto ">
-          <BeastMarketBeastList
+          {/* <BeastMarketBeastList
             displayBeasts={beasts}
             // setOpen={setOpen}
             // setDisplayNickname={setDisplayNickname}
-          />
+          /> */}
         </div>
       </section>
     </>

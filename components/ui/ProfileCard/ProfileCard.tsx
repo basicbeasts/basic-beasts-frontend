@@ -251,6 +251,7 @@ const ProfileCard: FC<Props> = ({
               {profile.findName != "" ? (
                 <a
                   target="_blank"
+                  rel="noreferrer"
                   href={process.env.NEXT_PUBLIC_FIND_WEBSITE + profile.findName}
                 >
                   {profile.findName + ".find"}
