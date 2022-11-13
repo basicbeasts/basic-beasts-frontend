@@ -6,10 +6,10 @@ import NextLink from "next/link"
 import { useAuth } from "@components/auth/AuthProvider"
 import externalLinkIcon from "public/basic_external_link.png"
 import PackRevealCard from "../PackRevealCard"
-import StarterImg from "public/packs/pack_pf/starter.png"
-import MetallicImg from "public/packs/pack_pf/metallic.png"
-import CursedImg from "public/packs/pack_pf/cursed.png"
-import ShinyImg from "public/packs/pack_pf/shiny.png"
+import StarterImg from "public/packs/pack_pf_v2/starter_pack_reveal.png"
+import MetallicImg from "public/packs/pack_pf_v2/metallic_silver_pack_reveal.png"
+import CursedImg from "public/packs/pack_pf_v2/cursed_black_pack_reveal.png"
+import ShinyImg from "public/packs/pack_pf_v2/shiny_gold_pack_reveal.png"
 import PackRevealModal from "../PackRevealModal"
 import PersonalDexiconModal from "../PersonalDexiconModal"
 import BeastModalView from "../BeastModalView"
@@ -73,8 +73,10 @@ const SideNavbarWrapper = styled.div<{
   @media (max-width: 1140px) {
     width: 100%;
   }
-  //Scroll in div
-  width: 100%;
+  @media (max-width: 400px) {
+    padding: 35px 5vw 0px;
+  }
+  //Scroll in div width: 100%;
   overflow: hidden;
   overflow-y: scroll;
   height: 550px;

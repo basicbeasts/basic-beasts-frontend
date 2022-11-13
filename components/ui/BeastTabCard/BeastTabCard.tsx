@@ -45,6 +45,7 @@ const BeastTabCard: FC<BeastThumbnailProps> = ({
         <>
           <Img
             src={
+              "https://basicbeasts.mypinata.cloud/ipfs/" +
               beastTemplates[beastTemplateID as keyof typeof beastTemplates]
                 .thumbnail
             }

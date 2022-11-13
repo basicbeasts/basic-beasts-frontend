@@ -684,10 +684,8 @@ const beastTemplates = {
     ultimateSkill: "Mega Shill",
     basicSkills: ["Ransack", "Detect Cap", "Candy Toss"],
     elements: ["Grass"],
-    packReveal:
-      "https://raw.githubusercontent.com/basicbeasts/basic-beasts-frontend/main/public/beasts/beast_pack_reveal/004_normal_pack_reveal.png",
-    thumbnail:
-      "https://raw.githubusercontent.com/basicbeasts/basic-beasts-frontend/main/public/beasts/beast_thumbnail/004_normal_thumbnail.png",
+    packReveal: "QmaBU9D4XwAanPCAHtbw5NSEc8RTSPEGzWnQQAP6FzxyDj",
+    thumbnail: "QmWrVc8Z7JYmyr7u7rZCh88rCvqJfNuYD9zqBhantLn8sR",
     marketThumbnail:
       "https://raw.githubusercontent.com/basicbeasts/basic-beasts-frontend/main/public/beasts/beast_market_thumbnail/004_normal_thumbnail_marketplace.png",
   },
@@ -707,10 +705,8 @@ const beastTemplates = {
     ultimateSkill: "Hellfire",
     basicSkills: ["Spook", "Trick-or-Treat", "Exploding Grenade"],
     elements: ["Fire"],
-    packReveal:
-      "https://raw.githubusercontent.com/basicbeasts/basic-beasts-frontend/main/public/beasts/beast_pack_reveal/004_normal_pack_reveal.png",
-    thumbnail:
-      "https://raw.githubusercontent.com/basicbeasts/basic-beasts-frontend/main/public/beasts/beast_thumbnail/004_normal_thumbnail.png",
+    packReveal: "QmVndGsZiWpUuHLQXM3hP9xS744KP3QWsTSBsUyQ98ywYY",
+    thumbnail: "QmcRxQgZ1KJQaAQtpfNAGGb8MhXYKc9mMemLTsLotvx22h",
     marketThumbnail:
       "https://raw.githubusercontent.com/basicbeasts/basic-beasts-frontend/main/public/beasts/beast_market_thumbnail/004_normal_thumbnail_marketplace.png",
   },
@@ -730,10 +726,8 @@ const beastTemplates = {
     ultimateSkill: "Infinite Illusion",
     basicSkills: ["Arcane Circle", "Ominous Breeze", "Kamikaze Kick"],
     elements: ["Normal"],
-    packReveal:
-      "https://raw.githubusercontent.com/basicbeasts/basic-beasts-frontend/main/public/beasts/beast_pack_reveal/004_normal_pack_reveal.png",
-    thumbnail:
-      "https://raw.githubusercontent.com/basicbeasts/basic-beasts-frontend/main/public/beasts/beast_thumbnail/004_normal_thumbnail.png",
+    packReveal: "QmSnfq8qKaHuWCvsZimh334BgDbtR62sjExUbWxRZSGaTs",
+    thumbnail: "QmeC3LDjTBmZX9dDfwoXpgZhSQEbckvHmcouSQhxUDpNm7",
     marketThumbnail:
       "https://raw.githubusercontent.com/basicbeasts/basic-beasts-frontend/main/public/beasts/beast_market_thumbnail/004_normal_thumbnail_marketplace.png",
   },
@@ -754,10 +748,8 @@ const beastTemplates = {
     ultimateSkill: "A Trillion Swaps",
     basicSkills: ["Market Maker", "High Gas", "Congestion"],
     elements: ["Electric"],
-    packReveal:
-      "https://raw.githubusercontent.com/basicbeasts/basic-beasts-frontend/main/public/beasts/beast_pack_reveal/004_normal_pack_reveal.png",
-    thumbnail:
-      "https://raw.githubusercontent.com/basicbeasts/basic-beasts-frontend/main/public/beasts/beast_thumbnail/004_normal_thumbnail.png",
+    packReveal: "QmbCKmHPjFevMuh9AVBsj463FqDMvNdLQ6cuGok3XTCUZ5",
+    thumbnail: "QmP1kWFT4GHjyydaajRFCZvATnUzEwPEsbx6LqEnVhoXat",
     marketThumbnail:
       "https://raw.githubusercontent.com/basicbeasts/basic-beasts-frontend/main/public/beasts/beast_market_thumbnail/004_normal_thumbnail_marketplace.png",
   },
@@ -778,10 +770,8 @@ const beastTemplates = {
     ultimateSkill: "Unlimited Flowverse",
     basicSkills: ["Mewtation", "Fandom", "Digital Identity"],
     elements: ["Water"],
-    packReveal:
-      "https://raw.githubusercontent.com/basicbeasts/basic-beasts-frontend/main/public/beasts/beast_pack_reveal/004_normal_pack_reveal.png",
-    thumbnail:
-      "https://raw.githubusercontent.com/basicbeasts/basic-beasts-frontend/main/public/beasts/beast_thumbnail/004_normal_thumbnail.png",
+    packReveal: "QmXCML61jfjc4rsYMwyrE4barXKMLnQtAVQdRryjReL3Uq",
+    thumbnail: "QmNwhbL2fC14jVLQiqWEJDswRNBkcEibGu7tWT7nE7fWyg",
     marketThumbnail:
       "https://raw.githubusercontent.com/basicbeasts/basic-beasts-frontend/main/public/beasts/beast_market_thumbnail/004_normal_thumbnail_marketplace.png",
   },
@@ -802,10 +792,8 @@ const beastTemplates = {
     ultimateSkill: "Unlimited Flowverse",
     basicSkills: ["Mewtation", "Fandom", "Digital Identity"],
     elements: ["Water"],
-    packReveal:
-      "https://raw.githubusercontent.com/basicbeasts/basic-beasts-frontend/main/public/beasts/beast_pack_reveal/004_normal_pack_reveal.png",
-    thumbnail:
-      "https://raw.githubusercontent.com/basicbeasts/basic-beasts-frontend/main/public/beasts/beast_thumbnail/004_normal_thumbnail.png",
+    packReveal: "QmYCFZ3Z7WEM7dduMmU6LAxxGyHQibdw56aS1Jm6x1QLq7",
+    thumbnail: "QmSQz5EVpdM3nLeUnCsSp6HZP5niQsQcLkKAeS416rryko",
     marketThumbnail:
       "https://raw.githubusercontent.com/basicbeasts/basic-beasts-frontend/main/public/beasts/beast_market_thumbnail/004_normal_thumbnail_marketplace.png",
   },
@@ -826,10 +814,8 @@ const beastTemplates = {
     ultimateSkill: "Unlimited Flowverse",
     basicSkills: ["Mewtation", "Fandom", "Digital Identity"],
     elements: ["Water"],
-    packReveal:
-      "https://raw.githubusercontent.com/basicbeasts/basic-beasts-frontend/main/public/beasts/beast_pack_reveal/004_normal_pack_reveal.png",
-    thumbnail:
-      "https://raw.githubusercontent.com/basicbeasts/basic-beasts-frontend/main/public/beasts/beast_thumbnail/004_normal_thumbnail.png",
+    packReveal: "QmaeG1n4sgpvUBLhzhM7R3DppLACNct3tr4TDUCPAgTfph",
+    thumbnail: "QmXNZxURAj2UgYFasxsaTdjCwE5MR5umXDNuqNzoKTQzYR",
     marketThumbnail:
       "https://raw.githubusercontent.com/basicbeasts/basic-beasts-frontend/main/public/beasts/beast_market_thumbnail/004_normal_thumbnail_marketplace.png",
   },
@@ -850,10 +836,8 @@ const beastTemplates = {
     ultimateSkill: "Unlimited Flowverse",
     basicSkills: ["Mewtation", "Fandom", "Digital Identity"],
     elements: ["Water"],
-    packReveal:
-      "https://raw.githubusercontent.com/basicbeasts/basic-beasts-frontend/main/public/beasts/beast_pack_reveal/004_normal_pack_reveal.png",
-    thumbnail:
-      "https://raw.githubusercontent.com/basicbeasts/basic-beasts-frontend/main/public/beasts/beast_thumbnail/004_normal_thumbnail.png",
+    packReveal: "QmZhsT62GgALtaExA9PgoC6JDiVCATdKzYL9vAV6QqtZ21",
+    thumbnail: "QmeydomtTDL7gBVEyXVGGqBvSaQfdEtYaifXdyUU3a739R",
     marketThumbnail:
       "https://raw.githubusercontent.com/basicbeasts/basic-beasts-frontend/main/public/beasts/beast_market_thumbnail/004_normal_thumbnail_marketplace.png",
   },

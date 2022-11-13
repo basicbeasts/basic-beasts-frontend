@@ -221,10 +221,11 @@ const PackRevealManyModal: FC<Props> = ({
                         <BeastContainer className="relative">
                           <Img
                             src={
+                              "https://basicbeasts.mypinata.cloud/ipfs/" +
                               beastTemplates[
                                 packs[id]
                                   .beastTemplateID as keyof typeof beastTemplates
-                              ].packReveal
+                              ].image
                             }
                           />
                           <div style={{ marginBottom: "-5px" }}>

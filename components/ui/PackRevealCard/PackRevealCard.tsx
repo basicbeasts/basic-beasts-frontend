@@ -40,14 +40,15 @@ const TransitionDiv = styled.div<{ packOpened: boolean }>`
 const Img = styled.img`
   margin-bottom: 15px;
   object-fit: contain;
-  width: 180px;
+  width: 250px;
   margin: 2vw auto 1vw;
+  padding-left: 45px;
   @media (max-width: 1010px) {
-    width: 130px;
+    width: 200px;
     margin: 5vw auto 1vw;
   }
   @media (max-width: 768px) {
-    width: 170px;
+    width: 240px;
     margin: 5vw auto 1vw;
   }
 `
@@ -109,6 +110,9 @@ const BeastName = styled.div`
 const FirstOwnerTag = styled.div`
   margin-left: 10px;
   margin-top: 15px;
+  @media (max-width: 500px) {
+    display: none;
+  }
 `
 
 const Tag = styled.div<Omit<Color, "background">>`
@@ -460,6 +464,7 @@ const PackRevealCard: FC<Props> = ({
       <TransitionDiv packOpened={packOpened}>
         <Img
           src={
+            "https://basicbeasts.mypinata.cloud/ipfs/" +
             beastTemplates[pack.beastTemplateID as keyof typeof beastTemplates]
               .packReveal
           }
