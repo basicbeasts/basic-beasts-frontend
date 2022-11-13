@@ -502,6 +502,7 @@ const SearchBar: FC<{
               {filterBeastData.slice(0, 15).map((value: any, key: any) => {
                 return (
                   <a
+                  key = {key}
                     className="dataItem"
                     href={"/profile/" + value.name.toLowerCase()}
                     target="_self"
@@ -512,7 +513,7 @@ const SearchBar: FC<{
                   >
                     <p id="hoverShadow">
                       {" "}
-                      <Img src={value.imageTransparentBg} /> {value.name}{" "}
+                      <Img src={'https://basicbeasts.mypinata.cloud/ipfs/' +value.imageTransparentBg} /> {value.name}{" "}
                     </p>
                   </a>
                 )

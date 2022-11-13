@@ -787,7 +787,7 @@ const BeastModalView: FC<Props> = ({
                           </RightHeaderDetails>
                         </HeaderDetails>
                         <Img
-                          src={
+                          src={'https://basicbeasts.mypinata.cloud/ipfs/' +
                             beastTemplates[
                               beast.beastTemplateID as keyof typeof beastTemplates
                             ].imageTransparentBg

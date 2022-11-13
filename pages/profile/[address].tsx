@@ -406,7 +406,7 @@ const Profile: NextPage = () => {
     try {
       let res = await query({
         cadence: `
-        import Pack from 0x22fc0fd68c3857cf
+        import Pack from 0xPack
         
         pub fun main(acct: Address): [&Pack.NFT{Pack.Public}] {
             var packCollection: [&Pack.NFT{Pack.Public}] = []
@@ -514,7 +514,9 @@ const Profile: NextPage = () => {
         let element = res[key]
         let dexNumber =
           beastTemplates[element as keyof typeof beastTemplates].dexNumber
-        let image = beastTemplates[element as keyof typeof beastTemplates].image
+        let image =
+          beastTemplates[element as keyof typeof beastTemplates]
+            .imageTransparentBg
         personalDex[dexNumber] = image
       }
       setDexicon(personalDex)

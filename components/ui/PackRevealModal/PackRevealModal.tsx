@@ -4,7 +4,6 @@ import { motion } from "framer-motion"
 import Backdrop from "../Backdrop"
 import star from "public/basic_starLevel.png"
 import starEmpty from "public/basic_starLevel_empty.png"
-import { useQuery } from "../../../gqty"
 import beastTemplates from "data/beastTemplates"
 
 const Container = styled(motion.div)`
@@ -266,7 +265,12 @@ const PackRevealModal: FC<FuncProps> = ({ handleClose, packId }) => {
                       delay: 2.4,
                     }}
                   >
-                    <BeastImg src={beast1.imageTransparentBg} />
+                    <BeastImg
+                      src={
+                        "https://basicbeasts.mypinata.cloud/ipfs/" +
+                        beast1.imageTransparentBg
+                      }
+                    />
                   </Beast>
                 </ContentRight>
               </Content>

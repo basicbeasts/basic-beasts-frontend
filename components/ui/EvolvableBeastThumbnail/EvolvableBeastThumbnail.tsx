@@ -111,6 +111,7 @@ const EvolvableBeastThumbnail: FC<Props> = ({ beast, selected }) => {
         </ThumbnailDetails>
         <Img
           src={
+            "https://basicbeasts.mypinata.cloud/ipfs/" +
             beastTemplates[
               beast?.beastTemplateID as keyof typeof beastTemplates
             ].imageTransparentBg

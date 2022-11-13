@@ -178,6 +178,7 @@ const Breeding: FC<Props> = ({
     {
       beastSelected
         ? (beastImage =
+            "https://basicbeasts.mypinata.cloud/ipfs/" +
             beastTemplates[
               beast?.beastTemplateID as keyof typeof beastTemplates
             ].imageTransparentBg)
@@ -217,6 +218,7 @@ const Breeding: FC<Props> = ({
               <Img
                 // src={picture.src}
                 src={
+                  "https://basicbeasts.mypinata.cloud/ipfs/" +
                   beastTemplates[
                     beast?.beastTemplateID as keyof typeof beastTemplates
                   ].imageTransparentBg

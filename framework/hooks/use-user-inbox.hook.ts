@@ -74,23 +74,29 @@ export default function useInbox(user: any) {
         import Pack from 0xPack
         import NonFungibleToken from 0xNonFungibleToken
         import MetadataViews from 0xMetadataViews
-        
+
         pub fun hasPackCollection(_ address: Address): Bool {
             return getAccount(address)
               .getCapability<&Pack.Collection{NonFungibleToken.CollectionPublic, Pack.PackCollectionPublic}>(Pack.CollectionPublicPath)
               .check()
           }
-        
-        transaction(adminAcct: Address) {
-        
+
+        transaction(adminAcct: Address, quantity: Int) {
             let centralizedInboxRef: &Inbox.CentralizedInbox{Inbox.Public}
             let packCollectionRef: &Pack.Collection{NonFungibleToken.Receiver}
-        
+            let length: Int
+            let IDs: [UInt64]
+
             prepare(acct: AuthAccount) {
+
                 self.centralizedInboxRef = getAccount(adminAcct).getCapability(Inbox.CentralizedInboxPublicPath)
                 .borrow<&Inbox.CentralizedInbox{Inbox.Public}>()
                 ?? panic("Could not get Centralized Inbox reference")
-        
+
+                self.IDs = self.centralizedInboxRef.getIDs(wallet: acct.address)!
+
+                self.length = self.IDs.length
+
                 if !hasPackCollection(acct.address) {
                     if acct.borrow<&Pack.Collection>(from: Pack.CollectionStoragePath) == nil {
                       acct.save(<-Pack.createEmptyCollection(), to: Pack.CollectionStoragePath)
@@ -98,20 +104,36 @@ export default function useInbox(user: any) {
                     acct.unlink(Pack.CollectionPublicPath)
                     acct.link<&Pack.Collection{NonFungibleToken.Receiver, NonFungibleToken.CollectionPublic, Pack.PackCollectionPublic, MetadataViews.ResolverCollection}>(Pack.CollectionPublicPath, target: Pack.CollectionStoragePath)
                 }
-        
+
                 self.packCollectionRef = acct.borrow<&Pack.Collection{NonFungibleToken.Receiver}>(from: Pack.CollectionStoragePath)
                 ?? panic("No Pack Collection resource in storage")
-        
+
             }
-        
+
             execute {
-                self.centralizedInboxRef.claimMails(recipient: self.packCollectionRef)
+                
+                var i = 0
+                if (self.length < quantity) {
+                    while i < self.length {
+                        self.centralizedInboxRef.claimMail(recipient: self.packCollectionRef, id: self.IDs[i])
+                        i = i + 1
+                    } 
+                } else {
+                    while i < quantity {
+                        self.centralizedInboxRef.claimMail(recipient: self.packCollectionRef, id: self.IDs[i])
+                        i = i + 1
+                    }
+                }
+                
                 
             }
-        
+
         }
         `),
-        args([arg("0x22fc0fd68c3857cf", t.Address)]), //Admin Account on testnet
+        args([
+          arg(process.env.NEXT_PUBLIC_INBOX_ADDRESS, t.Address),
+          arg(500, t.Int),
+        ]), //Admin Account on testnet
         payer(authz),
         proposer(authz),
         authorizations([authz]),
@@ -170,20 +192,35 @@ export default function useInbox(user: any) {
       let res = await query({
         cadence: `
         import Inbox from 0xInbox
-import NonFungibleToken from 0xNonFungibleToken
+        import NonFungibleToken from 0xNonFungibleToken
+        import Pack from 0xPack
 
-pub fun main(adminAcct: Address, wallet: Address): &[NonFungibleToken.NFT]? {
+        pub fun main(adminAcct: Address, wallet: Address): [&Pack.NFT{Pack.Public}]? {
 
-    let centralizedInboxRef = getAccount(adminAcct).getCapability(Inbox.CentralizedInboxPublicPath)
-        .borrow<&Inbox.CentralizedInbox{Inbox.Public}>()
-        ?? panic("Could not get Centralized Inbox reference")
+            let centralizedInboxRef = getAccount(adminAcct).getCapability(Inbox.CentralizedInboxPublicPath)
+                .borrow<&Inbox.CentralizedInbox{Inbox.Public}>()
+                ?? panic("Could not get Centralized Inbox reference")
 
-  return centralizedInboxRef.getWalletMails(wallet: wallet)
-}
+            let IDs = centralizedInboxRef.getIDs(wallet: wallet)
+
+            var packs: [&Pack.NFT{Pack.Public}] = []
+
+            var i = 0
+
+            if (IDs != nil) {
+              for id in IDs! {
+                let pack = centralizedInboxRef.borrowPack(wallet: wallet, id: id)!
+                packs.append(pack)
+              }
+            }
+
+            return packs
+
+        }
         `,
 
         args: (arg: any, t: any) => [
-          arg("0x22fc0fd68c3857cf", t.Address), // Admin Centralized Inbox
+          arg(process.env.NEXT_PUBLIC_INBOX_ADDRESS, t.Address), // Admin Centralized Inbox
           arg(user?.addr, t.Address),
         ],
       })

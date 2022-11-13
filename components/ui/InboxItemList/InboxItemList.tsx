@@ -128,7 +128,7 @@ const InboxItemList: FC = () => {
         
         }
         `),
-        args([arg("0x22fc0fd68c3857cf", t.Address)]), //Admin Account on testnet
+        args([arg(process.env.NEXT_PUBLIC_INBOX_ADDRESS, t.Address)]), //Admin Account on testnet
         payer(authz),
         proposer(authz),
         authorizations([authz]),

@@ -38,7 +38,7 @@ export default function useUserPacks(user: any) {
     try {
       let res = await query({
         cadence: `
-        import Pack from 0x22fc0fd68c3857cf
+        import Pack from 0xPack
         
         pub fun main(acct: Address): [&Pack.NFT{Pack.Public}] {
             var packCollection: [&Pack.NFT{Pack.Public}] = []

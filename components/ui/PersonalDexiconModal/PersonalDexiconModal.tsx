@@ -1,23 +1,6 @@
-import { FC, Fragment, useState } from "react"
+import { FC, Fragment } from "react"
 import { Dialog, Transition } from "@headlessui/react"
-import { CheckIcon } from "@heroicons/react/outline"
-
-import star from "public/basic_starLevel.png"
 import styled from "styled-components"
-import {
-  send,
-  transaction,
-  args,
-  arg,
-  payer,
-  proposer,
-  authorizations,
-  limit,
-  authz,
-  decode,
-  tx,
-} from "@onflow/fcl"
-import * as t from "@onflow/types"
 
 const ActionItem = styled.div`
   padding: 10px 0;
@@ -229,7 +212,12 @@ const PersonalDexiconModal: FC<Props> = ({
                           <li key={i}>
                             <BeastContainer>
                               {dexicon[dex] != null ? (
-                                <img src={dexicon[dex]} />
+                                <img
+                                  src={
+                                    "https://basicbeasts.mypinata.cloud/ipfs/" +
+                                    dexicon[dex]
+                                  }
+                                />
                               ) : (
                                 <NoBeastContainer key={i}>
                                   {("00" + dex).slice(-3)}

@@ -4,7 +4,6 @@ import { motion, transform } from "framer-motion"
 import Backdrop from "../Backdrop"
 import star from "public/basic_starLevel.png"
 import starEmpty from "public/basic_starLevel_empty.png"
-import { useQuery } from "../../../gqty"
 import beastTemplates from "data/beastTemplates"
 import temp from "public/temp/002_temp.png"
 import effect from "public/temp/80557-reward-light-effect.gif"
@@ -398,7 +397,12 @@ const EvolutionModal: FC<FuncProps> = ({
                             animate={{ filter: "brightness(0) invert(1)" }}
                             transition={{ delay: 3.3, duration: 1.2 }}
                           >
-                            <BeastImg src={beast1.imageTransparentBg} />
+                            <BeastImg
+                              src={
+                                "https://basicbeasts.mypinata.cloud/ipfs/" +
+                                beast1.imageTransparentBg
+                              }
+                            />
                           </motion.div>
                         </BeastContainer3>
                         <BeastContainer
@@ -410,7 +414,12 @@ const EvolutionModal: FC<FuncProps> = ({
                             animate={{ filter: "brightness(0) invert(1)" }}
                             transition={{ delay: 3.3, duration: 1.2 }}
                           >
-                            <BeastImg src={beast1.imageTransparentBg} />
+                            <BeastImg
+                              src={
+                                "https://basicbeasts.mypinata.cloud/ipfs/" +
+                                beast1.imageTransparentBg
+                              }
+                            />
                           </motion.div>
                         </BeastContainer>
 
@@ -423,7 +432,12 @@ const EvolutionModal: FC<FuncProps> = ({
                             animate={{ filter: "brightness(0) invert(1)" }}
                             transition={{ delay: 3.3, duration: 1.2 }}
                           >
-                            <BeastImg src={beast1.imageTransparentBg} />
+                            <BeastImg
+                              src={
+                                "https://basicbeasts.mypinata.cloud/ipfs/" +
+                                beast1.imageTransparentBg
+                              }
+                            />
                           </motion.div>
                         </BeastContainer2>
                       </Beast>
@@ -445,7 +459,7 @@ const EvolutionModal: FC<FuncProps> = ({
                       animate={{ opacity: [0, 1], scale: [1.1, 0.8, 1] }}
                       transition={{ duration: 0.8, delay: 4.6 }}
                     >
-                      <EvolvedBeastImg src={evolvedBeast?.imageTransparentBg} />
+                      <EvolvedBeastImg src={'https://basicbeasts.mypinata.cloud/ipfs/' +evolvedBeast?.imageTransparentBg} />
                     </EvolvedBeastContainer>
 
                     <EvolvedBeastContainer
@@ -453,7 +467,7 @@ const EvolutionModal: FC<FuncProps> = ({
                       animate={{ opacity: [0, 1, 0], scale: [0.3, 1.2] }}
                       transition={{ duration: 1, delay: 3.9 }}
                     >
-                      <EvolvedBeastImg src={evolvedBeast?.imageTransparentBg} />
+                      <EvolvedBeastImg src={'https://basicbeasts.mypinata.cloud/ipfs/' +evolvedBeast?.imageTransparentBg} />
                     </EvolvedBeastContainer>
                     <motion.div
                       animate={{ opacity: [0, 1] }}
