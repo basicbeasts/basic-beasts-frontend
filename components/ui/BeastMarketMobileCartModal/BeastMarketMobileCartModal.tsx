@@ -240,7 +240,7 @@ const BeastMarketMobileCartModal: FC<Props> = ({
                         style={{ color: "white" }}
                         className="h-max sticky top-0"
                       >
-                        <BeastMarketBulkBid beasts={beasts} />
+                        {/* <BeastMarketBulkBid beasts={beasts} /> */}
                       </div>
                     )}
                     {sweepOpen && (
