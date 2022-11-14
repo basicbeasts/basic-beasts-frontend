@@ -14,7 +14,8 @@ import profilePictures from "data/profilePictures"
 fcl
   .config()
   .put("accessNode.api", process.env.NEXT_PUBLIC_ACCESS_NODE_API)
-  .put("discovery.wallet", process.env.NEXT_PUBLIC_CHALLENGE_HANDSHAKE)
+  .put("challenge.handshake", process.env.NEXT_PUBLIC_CHALLENGE_HANDSHAKE)
+  // .put("discovery.wallet", process.env.NEXT_PUBLIC_CHALLENGE_HANDSHAKE)
   // .put("discovery.wallet.method", "HTTP/POST") // Needed for testnet to work as it does not allow iframe
   // .put("discovery.wallet.method", "IFRAME/RPC")
   .put("0xFungibleToken", process.env.NEXT_PUBLIC_FUNGIBLE_TOKEN_ADDRESS)
