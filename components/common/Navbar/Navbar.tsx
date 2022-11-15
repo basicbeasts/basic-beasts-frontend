@@ -623,13 +623,11 @@ const Navbar: FC<FuncProps> = ({
   const beastData = [
     {
       name: "Dappy",
-      imageTransparentBg:
-        "https://basicbeasts.mypinata.cloud/ipfs/QmUGU1LszrYGmpPp25VL6bAd5d39VW6PuDZDYSuwbj3VFS",
+      imageTransparentBg: "QmUGU1LszrYGmpPp25VL6bAd5d39VW6PuDZDYSuwbj3VFS",
     },
     {
       name: "Gecko",
-      imageTransparentBg:
-        "https://basicbeasts.mypinata.cloud/ipfs/QmVBqZGtah7sRV7YafvZuXm8nNgts8wR1ihgfvVHa7ykZQ",
+      imageTransparentBg: "QmVBqZGtah7sRV7YafvZuXm8nNgts8wR1ihgfvVHa7ykZQ",
     },
   ]
 
