@@ -622,14 +622,14 @@ const Navbar: FC<FuncProps> = ({
   const { hunterData } = useUser()
   const beastData = [
     {
-      name: "Saber",
+      name: "Dappy",
       imageTransparentBg:
-        "https://raw.githubusercontent.com/basicbeasts/basic-beasts-frontend/main/public/beasts/004_normal.png",
+        "https://basicbeasts.mypinata.cloud/ipfs/QmUGU1LszrYGmpPp25VL6bAd5d39VW6PuDZDYSuwbj3VFS",
     },
     {
-      name: "Moon",
+      name: "Gecko",
       imageTransparentBg:
-        "https://raw.githubusercontent.com/basicbeasts/basic-beasts-frontend/main/public/beasts/001_normal.png",
+        "https://basicbeasts.mypinata.cloud/ipfs/QmVBqZGtah7sRV7YafvZuXm8nNgts8wR1ihgfvVHa7ykZQ",
     },
   ]
 
