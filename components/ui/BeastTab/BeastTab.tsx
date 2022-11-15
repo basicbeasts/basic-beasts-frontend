@@ -126,22 +126,15 @@ const SortByButton = styled.div`
   // }
 `
 const DropDownList = styled.div`
+  /* z-index: 1; */
   width: 200px;
   margin-left: 24px;
   background-color: #212127;
   color: #e4be23;
   border-radius: 10px;
-  @media (max-width: 413px) {
-    width: 185px;
-    margin: 0 10px;
-  }
-  @media (max-width: 391px) {
-    width: 185px;
-    margin: 0 33px;
-  }
-
-  @media (max-width: 361px) {
-    margin-left: 44px;
+  @media (max-width: 440px) {
+    width: 100%;
+    margin: 0;
   }
 `
 
@@ -198,7 +191,7 @@ const HeaderBeastCollection = styled.div`
   padding-top: 8px;
   margin-top: 20px;
   position: relative;
-  // z-index: 5;
+  z-index: 5;
   @media (max-width: 570px) {
     justify-content: space-between;
     padding: 0 20px;
@@ -219,6 +212,12 @@ const MenuWrapper = styled<any>(Menu)`
   @media (max-width: 440px) {
     width: 100%;
     padding: 0 10px;
+  }
+`
+
+const MenuItems = styled<any>(Menu.Items)`
+  @media (max-width: 440px) {
+    width: 100%;
   }
 `
 
@@ -347,7 +346,7 @@ const DropDown: FC<{
           leaveFrom="transform opacity-100 scale-100"
           leaveTo="transform opacity-0 scale-95"
         >
-          <Menu.Items className="origin-top-right absolute right-0 mt-2 w-56 rounded-md focus:outline-none">
+          <MenuItems className="origin-top-right absolute right-0 mt-2 w-56 rounded-md focus:outline-none">
             <DropDownList>
               <div className="py-1">
                 <Menu.Item>
@@ -496,7 +495,7 @@ const DropDown: FC<{
                 </Menu.Item>
               </div>
             </DropDownList>
-          </Menu.Items>
+          </MenuItems>
         </Transition>
       </Menu>
     </MenuWrapper>
