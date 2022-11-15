@@ -135,7 +135,7 @@ const Beast = styled(motion.div)``
 const BeastImg = styled.img`
   position: absolute;
   width: 37vw;
-  margin-top: 200px;
+  margin-top: 150px;
   right: 2vw;
   //Responsive
   @media (max-width: 1240px) {
