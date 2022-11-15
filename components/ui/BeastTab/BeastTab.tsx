@@ -114,7 +114,7 @@ const SortByButton = styled.div`
   // margin-right: 18px;
   @media (max-width: 440px) {
     width: 100%;
-    margin: 0 15px;
+    margin: 0;
   }
   // @media (max-width: 391px) {
   //   width: 185px;
@@ -205,13 +205,20 @@ const HeaderBeastCollection = styled.div`
   }
   @media (max-width: 440px) {
     flex-direction: column;
-    padding-right: 0;
+    padding: 0;
   }
 `
 
 const MenuButton = styled<any>(Menu.Button)`
   @media (max-width: 440px) {
     width: 100%;
+  }
+`
+
+const MenuWrapper = styled<any>(Menu)`
+  @media (max-width: 440px) {
+    width: 100%;
+    padding: 0 10px;
   }
 `
 
@@ -317,180 +324,182 @@ const DropDown: FC<{
     }
   }
   return (
-    <Menu as="div" className="relative inline-block text-left">
-      <div>
-        <MenuButton>
-          <SortByButton>
-            {sortBy}
-            <ChevronDownIcon
-              className="-mr-1 ml-2 h-5 w-5"
-              aria-hidden="true"
-            />
-          </SortByButton>
-        </MenuButton>
-      </div>
+    <MenuWrapper>
+      <Menu as="div" className="relative inline-block text-left">
+        <div>
+          <MenuButton>
+            <SortByButton>
+              {sortBy}
+              <ChevronDownIcon
+                className="-mr-1 ml-2 h-5 w-5"
+                aria-hidden="true"
+              />
+            </SortByButton>
+          </MenuButton>
+        </div>
 
-      <Transition
-        as={Fragment}
-        enter="transition ease-out duration-100"
-        enterFrom="transform opacity-0 scale-95"
-        enterTo="transform opacity-100 scale-100"
-        leave="transition ease-in duration-75"
-        leaveFrom="transform opacity-100 scale-100"
-        leaveTo="transform opacity-0 scale-95"
-      >
-        <Menu.Items className="origin-top-right absolute right-0 mt-2 w-56 rounded-md focus:outline-none">
-          <DropDownList>
-            <div className="py-1">
-              <Menu.Item>
-                {({ active }) => (
-                  <A
-                    onClick={() => {
-                      sortByDexLowHigh()
-                      setSortBy("Dex No. (Low-High)")
-                    }}
-                    className={classNames(
-                      active ? "bg-gray-700" : "",
-                      "block px-4 py-2 text-sm",
-                    )}
-                  >
-                    Dex No. (Low-High)
-                  </A>
-                )}
-              </Menu.Item>
-              <Menu.Item>
-                {({ active }) => (
-                  <A
-                    onClick={() => {
-                      setSortBy("Dex No. (High-Low)")
-                      sortByDexHighLow()
-                    }}
-                    className={classNames(
-                      active ? "bg-gray-700" : "",
-                      "block px-4 py-2 text-sm",
-                    )}
-                  >
-                    Dex No. (High-Low)
-                  </A>
-                )}
-              </Menu.Item>
-              <Menu.Item>
-                {({ active }) => (
-                  <A
-                    onClick={() => {
-                      setSortBy("Nickname (A-Z)")
-                      sortByNicknameAZ()
-                    }}
-                    className={classNames(
-                      active ? "bg-gray-700" : "",
-                      "block px-4 py-2 text-sm",
-                    )}
-                  >
-                    Nickname A-Z
-                  </A>
-                )}
-              </Menu.Item>
-              <Menu.Item>
-                {({ active }) => (
-                  <A
-                    onClick={() => {
-                      setSortBy("Nickname (Z-A)")
-                      sortByNicknameZA()
-                    }}
-                    className={classNames(
-                      active ? "bg-gray-700" : "",
-                      "block px-4 py-2 text-sm",
-                    )}
-                  >
-                    Nickname Z-A
-                  </A>
-                )}
-              </Menu.Item>
-              <Menu.Item>
-                {({ active }) => (
-                  <A
-                    onClick={() => {
-                      setSortBy("Serial (Low-High)")
-                      sortBySerialLowHigh()
-                    }}
-                    className={classNames(
-                      active ? "bg-gray-700" : "",
-                      "block px-4 py-2 text-sm",
-                    )}
-                  >
-                    Serial (Low-High)
-                  </A>
-                )}
-              </Menu.Item>
-              <Menu.Item>
-                {({ active }) => (
-                  <A
-                    onClick={() => {
-                      setSortBy("Serial (High-Low)")
-                      sortBySerialHighLow()
-                    }}
-                    className={classNames(
-                      active ? "bg-gray-700" : "",
-                      "block px-4 py-2 text-sm",
-                    )}
-                  >
-                    Serial (High-Low)
-                  </A>
-                )}
-              </Menu.Item>
-              <Menu.Item>
-                {({ active }) => (
-                  <A
-                    onClick={() => {
-                      setSortBy("Skin (High-Low)")
-                      sortBySkinHighLow()
-                    }}
-                    className={classNames(
-                      active ? "bg-gray-700" : "",
-                      "block px-4 py-2 text-sm",
-                    )}
-                  >
-                    Skin (High-Low)
-                  </A>
-                )}
-              </Menu.Item>
-              <Menu.Item>
-                {({ active }) => (
-                  <A
-                    onClick={() => {
-                      setSortBy("Skin (Low-High)")
-                      sortBySkinLowHigh()
-                    }}
-                    className={classNames(
-                      active ? "bg-gray-700" : "",
-                      "block px-4 py-2 text-sm",
-                    )}
-                  >
-                    Skin (Low-High)
-                  </A>
-                )}
-              </Menu.Item>
-              <Menu.Item>
-                {({ active }) => (
-                  <A
-                    onClick={() => {
-                      setSortBy("Element Type")
-                      sortByElement()
-                    }}
-                    className={classNames(
-                      active ? "bg-gray-700" : "",
-                      "block px-4 py-2 text-sm",
-                    )}
-                  >
-                    Element Type
-                  </A>
-                )}
-              </Menu.Item>
-            </div>
-          </DropDownList>
-        </Menu.Items>
-      </Transition>
-    </Menu>
+        <Transition
+          as={Fragment}
+          enter="transition ease-out duration-100"
+          enterFrom="transform opacity-0 scale-95"
+          enterTo="transform opacity-100 scale-100"
+          leave="transition ease-in duration-75"
+          leaveFrom="transform opacity-100 scale-100"
+          leaveTo="transform opacity-0 scale-95"
+        >
+          <Menu.Items className="origin-top-right absolute right-0 mt-2 w-56 rounded-md focus:outline-none">
+            <DropDownList>
+              <div className="py-1">
+                <Menu.Item>
+                  {({ active }) => (
+                    <A
+                      onClick={() => {
+                        sortByDexLowHigh()
+                        setSortBy("Dex No. (Low-High)")
+                      }}
+                      className={classNames(
+                        active ? "bg-gray-700" : "",
+                        "block px-4 py-2 text-sm",
+                      )}
+                    >
+                      Dex No. (Low-High)
+                    </A>
+                  )}
+                </Menu.Item>
+                <Menu.Item>
+                  {({ active }) => (
+                    <A
+                      onClick={() => {
+                        setSortBy("Dex No. (High-Low)")
+                        sortByDexHighLow()
+                      }}
+                      className={classNames(
+                        active ? "bg-gray-700" : "",
+                        "block px-4 py-2 text-sm",
+                      )}
+                    >
+                      Dex No. (High-Low)
+                    </A>
+                  )}
+                </Menu.Item>
+                <Menu.Item>
+                  {({ active }) => (
+                    <A
+                      onClick={() => {
+                        setSortBy("Nickname (A-Z)")
+                        sortByNicknameAZ()
+                      }}
+                      className={classNames(
+                        active ? "bg-gray-700" : "",
+                        "block px-4 py-2 text-sm",
+                      )}
+                    >
+                      Nickname A-Z
+                    </A>
+                  )}
+                </Menu.Item>
+                <Menu.Item>
+                  {({ active }) => (
+                    <A
+                      onClick={() => {
+                        setSortBy("Nickname (Z-A)")
+                        sortByNicknameZA()
+                      }}
+                      className={classNames(
+                        active ? "bg-gray-700" : "",
+                        "block px-4 py-2 text-sm",
+                      )}
+                    >
+                      Nickname Z-A
+                    </A>
+                  )}
+                </Menu.Item>
+                <Menu.Item>
+                  {({ active }) => (
+                    <A
+                      onClick={() => {
+                        setSortBy("Serial (Low-High)")
+                        sortBySerialLowHigh()
+                      }}
+                      className={classNames(
+                        active ? "bg-gray-700" : "",
+                        "block px-4 py-2 text-sm",
+                      )}
+                    >
+                      Serial (Low-High)
+                    </A>
+                  )}
+                </Menu.Item>
+                <Menu.Item>
+                  {({ active }) => (
+                    <A
+                      onClick={() => {
+                        setSortBy("Serial (High-Low)")
+                        sortBySerialHighLow()
+                      }}
+                      className={classNames(
+                        active ? "bg-gray-700" : "",
+                        "block px-4 py-2 text-sm",
+                      )}
+                    >
+                      Serial (High-Low)
+                    </A>
+                  )}
+                </Menu.Item>
+                <Menu.Item>
+                  {({ active }) => (
+                    <A
+                      onClick={() => {
+                        setSortBy("Skin (High-Low)")
+                        sortBySkinHighLow()
+                      }}
+                      className={classNames(
+                        active ? "bg-gray-700" : "",
+                        "block px-4 py-2 text-sm",
+                      )}
+                    >
+                      Skin (High-Low)
+                    </A>
+                  )}
+                </Menu.Item>
+                <Menu.Item>
+                  {({ active }) => (
+                    <A
+                      onClick={() => {
+                        setSortBy("Skin (Low-High)")
+                        sortBySkinLowHigh()
+                      }}
+                      className={classNames(
+                        active ? "bg-gray-700" : "",
+                        "block px-4 py-2 text-sm",
+                      )}
+                    >
+                      Skin (Low-High)
+                    </A>
+                  )}
+                </Menu.Item>
+                <Menu.Item>
+                  {({ active }) => (
+                    <A
+                      onClick={() => {
+                        setSortBy("Element Type")
+                        sortByElement()
+                      }}
+                      className={classNames(
+                        active ? "bg-gray-700" : "",
+                        "block px-4 py-2 text-sm",
+                      )}
+                    >
+                      Element Type
+                    </A>
+                  )}
+                </Menu.Item>
+              </div>
+            </DropDownList>
+          </Menu.Items>
+        </Transition>
+      </Menu>
+    </MenuWrapper>
   )
 }
 
