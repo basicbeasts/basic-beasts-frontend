@@ -373,7 +373,8 @@ const BeastMarketHero: FC<Props> = ({ beast }) => {
           <Header>Discover The Beasts</Header>
           <P>
             Basic Beasts is a collection of unique digital collectibles
-            representing interactive beasts that can evolve, breed, and loved.
+            representing interactive beasts that can evolve, breed, and be
+            loved.
           </P>
           <Button>Place A Bid →</Button>
           <ItemInfo onClick={() => setSkinOverviewOpen(true)}>

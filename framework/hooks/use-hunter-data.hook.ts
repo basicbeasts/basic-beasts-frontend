@@ -117,7 +117,10 @@ export default function useHunterData() {
     })
 
     var hunterData: any = []
-    var addresses = Object.keys(beastsCollected)
+    var addresses: any = []
+    if (beastsCollected != null) {
+      addresses = Object.keys(beastsCollected)
+    }
 
     var findProfiles: any = null
     await getAllFindProfiles(addresses).then((response: any) => {

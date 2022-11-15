@@ -148,8 +148,8 @@ const InboxItemListTemp: FC = () => {
                   If you recently participated in a drop,
                 </EmptyMessage>{" "}
                 <EmptyMessage>
-                  you can expect to receive your packs latest 14 days after the
-                  drop.
+                  you can expect to receive your packs within 14 days of the
+                  drop window ending.
                 </EmptyMessage>
                 <div style={{ marginTop: "40px" }}>
                   <EmptyMessage>Check for packs in Profile.</EmptyMessage>
