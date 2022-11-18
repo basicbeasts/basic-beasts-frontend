@@ -94,9 +94,9 @@ const UserProfile: FC<FuncProps> = ({
   getPersonalDexicon,
   walletAddress,
 }) => {
-  const [filter, setFilter] = useState<"beast collection" | "items" | "packs">(
-    "beast collection",
-  )
+  const [filter, setFilter] = useState<
+    "beast collection" | "items" | "packs" | "eggs"
+  >("beast collection")
 
   return (
     <Container>
