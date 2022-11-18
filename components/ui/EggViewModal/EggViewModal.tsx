@@ -1,9 +1,13 @@
 import { FC, Fragment, useEffect, useState } from "react"
 import { Dialog, Transition } from "@headlessui/react"
 import { CheckIcon, IdentificationIcon } from "@heroicons/react/outline"
-
+import poopPic from "public/fungible_tokens/fungible_tokens_images/basic_beasts_poop.png"
+import picture from "public/001_normal.png"
 import star from "public/basic_starLevel.png"
 import styled from "styled-components"
+import Egg from "public/egg.png"
+import GoldLight from "public/gold_light.png"
+
 import {
   send,
   transaction,
@@ -66,40 +70,47 @@ const FuncArgButton = styled.button`
 `
 
 const DialogPanel = styled(Dialog.Panel)<any>`
-  padding: 20px 20px 40px;
-  background: #212127;
-  background: radial-gradient(#ffe8a3a6, #ffe8a32f);
-  color: #e4be23;
+  position: relative;
+  border-radius: 1.2rem;
+  background: white;
+  color: black;
+  overflow: hidden;
+  width: 500px;
+  height: 600px;
 `
 
 const Button = styled.button`
   margin-top: 20px;
-  background: transparent;
-  border: 1px solid #e4be23;
-  color: #e4be23;
+  background: #ffd966;
+  // border: 1px solid #e4be23;
+  color: black;
   font-size: 1.5em;
   padding: 10px 20px;
   border-radius: 8px;
   outline: none;
   cursor: pointer;
 
-  transition: all 0.1s ease 0s;
-  -moz-transition: all 0.1s ease 0s;
-  -webkit-transition: all 0.1s ease 0s;
-  &:hover {
-    background: #e4be23;
-    color: #212127;
-
-    transition: all 0.1s ease 0s;
-    -moz-transition: all 0.1s ease 0s;
-    -webkit-transition: all 0.1s ease 0s;
+  &:disabled {
+    background: #b69c50;
   }
+
+  // transition: all 0.1s ease 0s;
+  // -moz-transition: all 0.1s ease 0s;
+  // -webkit-transition: all 0.1s ease 0s;
+  // &:hover {
+  //   background: #e4be23;
+  //   color: #212127;
+
+  //   transition: all 0.1s ease 0s;
+  //   -moz-transition: all 0.1s ease 0s;
+  //   -webkit-transition: all 0.1s ease 0s;
+  // }
 `
 
 const Title = styled.div`
   font-size: 2.5em;
-  margin-bottom: 20px;
   text-align: center;
+  line-height: 1;
 `
 
 const Wrapper = styled.div`
@@ -119,9 +130,7 @@ const BeastContainer = styled.div`
   flex-direction: column;
 `
 
-const Container = styled.div`
-  align-items: center;
-`
+const Container = styled.div``
 
 const Box = styled.div<any>`
   height: 50px;
@@ -133,43 +142,90 @@ const Notice = styled.div`
   margin-top: 10px;
 `
 
-const Img = styled.img<any>`
-  height: 100px;
-  width: 100px;
-  border-radius: 10px;
-  box-shadow: ${(props) => (props.selected ? `0px 0px 5px 4px #8F7A39` : `0`)};
-  margin: 20px 20px 0;
+const Img = styled.img`
+  position: relative;
+  max-width: 5rem;
+  // z-index: 50;
+  // aspect-ratio: 1;
+  // border-radius: 10px;
 
-  transition: all 0.3s ease 0s;
-  -moz-transition: all 0.3s ease 0s;
-  -webkit-transition: all 0.3s ease 0s;
+  // transition: all 0.3s ease 0s;
+  // -moz-transition: all 0.3s ease 0s;
+  // -webkit-transition: all 0.3s ease 0s;
+`
+const ImgDiv = styled.div`
+  border-radius: 1rem;
+  padding: 0 1rem;
+`
+
+const TextDiv = styled.div`
+  margin-top: 1rem;
+  text-align: start;
+  font-size: 1.2rem;
+  border: 0.45rem solid white;
+  padding: 2rem;
+  width: 100%;
+  background: #111823;
+`
+const H1 = styled.h1`
+  line-height: 1;
+  color: yellow;
+`
+const P = styled.p`
+  font-size: 1.5rem;
+`
+const MaterialNumber = styled.span<any>`
+  color: ${(props) => props.numColor};
+`
+
+const Backshine = styled.div`
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 1rem;
+  background-color: #edb72c;
+  // background-image: linear-gradient(
+  //   to right,
+  //   transparent,
+  //   #edb72c,
+  //   transparent
+  // );
+  width: 15rem;
+  height: 1px;
+  z-index: -1;
+  box-shadow: 0 0 15px 1px gold;
+`
+const Header = styled.div`
+  position: relative;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 232, 163, 1) 0%,
+    rgba(255, 217, 102, 1) 100%
+  );
+  width: 100%;
+  height: 9rem;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5rem;
+`
+const Light = styled.img`
+  position: absolute;
+  max-width: 18rem;
+  bottom: -3.8rem;
+`
+const EggDiv = styled.div`
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
 `
 
 type Props = {
   open: boolean
   setOpen: any
-  packs: any
-  profile: any
-  profilePicture: any
-  setProfilePicture: any
-  getProfile: any
 }
 
-const PackRevealManyModal: FC<Props> = ({
-  open,
-  setOpen,
-  packs,
-  profile,
-  profilePicture,
-  setProfilePicture,
-  getProfile,
-}) => {
-  const [select, setSelect] = useState<any>(profilePictures[1].image)
-
-  useEffect(() => {
-    setSelect(profilePicture)
-  }, [profilePicture])
-
+const EggViewModal: FC<Props> = ({ open, setOpen }) => {
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setOpen}>
@@ -186,7 +242,7 @@ const PackRevealManyModal: FC<Props> = ({
         </Transition.Child>
 
         <div className="fixed z-10 inset-0 overflow-y-auto">
-          <Container className="flex items-end sm:items-center justify-center min-h-full text-center sm:p-0">
+          <Container className="flex items-center sm:items-center justify-center min-h-full text-center sm:p-0">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -196,51 +252,22 @@ const PackRevealManyModal: FC<Props> = ({
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <motion.div
-                style={{ width: "100%" }}
-                initial={{ opacity: 0, top: -20 }}
-                animate={{ opacity: 1, top: 0 }}
-                transition={{ duration: 0.5 }}
-              >
-                <DialogPanel
-                  style={{ width: "100%" }}
-                  className="relative pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:w-full md:w-full"
-                >
-                  <div>
-                    <Title>Obtained Beasts</Title>
+              <DialogPanel>
+                <Header>
+                  <div className="absolute -bottom-5">
+                    <EggDiv>
+                      <Light src={GoldLight.src} />
+                      <Img src={Egg.src} />
+                    </EggDiv>
                   </div>
-                  <Wrapper className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
-                    {packs.map((pack: any) => (
-                      <motion.div
-                        key={pack.id}
-                        style={{ width: "100%" }}
-                        initial={{ opacity: 0, top: -20 }}
-                        animate={{ opacity: 1, top: 0 }}
-                        transition={{ duration: 0.8, delay: 0.5 }}
-                      >
-                        <BeastContainer className="relative">
-                          <Img
-                            src={
-                              "https://basicbeasts.mypinata.cloud/ipfs/" +
-                              beastTemplates[
-                                pack.beastTemplateID as keyof typeof beastTemplates
-                              ].image
-                            }
-                          />
-                          <div style={{ marginBottom: "-5px" }}>
-                            {pack.beastName}
-                            {/*{" "}
-                      <span style={{ fontSize: "0.8em" }}>
-                          {pack.beastGender == "Male" ? "♂" : "♀"}
-                        </span> */}
-                          </div>
-                          <div>Serial #{pack.beastSerialNumber} </div>
-                        </BeastContainer>
-                      </motion.div>
-                    ))}
-                  </Wrapper>
-                </DialogPanel>
-              </motion.div>
+                </Header>
+                <div className="flex flex-col items-center h-full">
+                  <P>Your egg is ready to hatch!</P>
+
+                  <Button>Hatch!</Button>
+                </div>
+                {/* <Wrapper className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5"></Wrapper> */}
+              </DialogPanel>
             </Transition.Child>
           </Container>
         </div>
@@ -248,4 +275,5 @@ const PackRevealManyModal: FC<Props> = ({
     </Transition.Root>
   )
 }
-export default PackRevealManyModal
+
+export default EggViewModal

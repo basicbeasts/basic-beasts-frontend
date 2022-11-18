@@ -174,6 +174,10 @@ const RevealOverlay: FC<Props> = ({
   const { logIn, logOut, user, loggedIn } = useAuth()
   const [selectedPack, setSelectedPack] = useState<string | "0">("0")
   const [packsToUnpack, setPacksToUnpack] = useState<any>()
+  const [unpackUpToTen, setUnpackUpToTen] = useState<any>()
+  const [showUnpacked, setShowUnpacked] = useState<any>()
+  const [latestUnpacked, setLatestUnpacked] = useState<any>() //To check if reveal all/reveal 10 should be updated
+
   const { fetchHunterData } = useUser()
 
   //Modal
@@ -194,6 +198,23 @@ const RevealOverlay: FC<Props> = ({
       setPacksToUnpack(shinyPacks)
     }
   }, [selectedPackType])
+
+  useEffect(() => {
+    var packs: any = []
+    var i = 0
+    for (let key in packsToUnpack) {
+      console.log(packsToUnpack[key])
+      let pack = packsToUnpack[key]
+      if (i < 10) {
+        if (pack.opened == false) {
+          packs.push(pack)
+          i++
+        }
+      }
+    }
+    console.log(latestUnpacked)
+    setUnpackUpToTen(packs)
+  }, [latestUnpacked, packsToUnpack])
 
   const close = () => {
     setRevealModalOpen(false)
@@ -216,7 +237,17 @@ const RevealOverlay: FC<Props> = ({
       break
   }
 
-  const handleManyPacksReveal = (selectedPackType: any) => {}
+  const handleManyPacksReveal = (selectedPackType: any) => {
+    var id: any = 0
+    for (let key in unpackUpToTen) {
+      let pack = unpackUpToTen[key]
+      pack.opened = true
+      id = pack.id
+    }
+    console.log(selectedPackType)
+    setLatestUnpacked(id)
+    // console.log(unpackUpToTen)
+  }
 
   return (
     <SideNavbarContainer isSideNavbarOpen={isSideNavbarOpen}>
@@ -234,7 +265,7 @@ const RevealOverlay: FC<Props> = ({
         <PackRevealManyModal
           open={RevealManyModalOpen}
           setOpen={setRevealManyModalOpen}
-          packs={packsToUnpack}
+          packs={showUnpacked}
           profile={null}
           profilePicture={null}
           setProfilePicture={null}
@@ -257,13 +288,15 @@ const RevealOverlay: FC<Props> = ({
         >
           {selectedPackType == "1" ? (
             <>
-              {starterPacks.map(({ id }: any) => (
-                <li key={id} className="relative">
+              {starterPacks.map((pack: any) => (
+                <li key={pack.id} className="relative">
                   <PackRevealCard
                     packImage={StarterImg}
-                    pack={starterPacks[id]}
+                    pack={pack}
                     revealModalOpen={open}
                     selectPack={setSelectedPack}
+                    latestUnpacked={latestUnpacked}
+                    setLatestUnpacked={setLatestUnpacked}
                     fetchUserBeasts={fetchUserBeasts}
                     fetchSushi={fetchSushi}
                     fetchEmptyPotionBottle={fetchEmptyPotionBottle}
@@ -280,13 +313,15 @@ const RevealOverlay: FC<Props> = ({
           )}
           {selectedPackType == "2" ? (
             <>
-              {metallicPacks.map(({ id }: any) => (
-                <li key={id} className="relative">
+              {metallicPacks.map((pack: any) => (
+                <li key={pack.id} className="relative">
                   <PackRevealCard
                     packImage={MetallicImg}
-                    pack={metallicPacks[id]}
+                    pack={pack}
                     revealModalOpen={open}
                     selectPack={setSelectedPack}
+                    latestUnpacked={latestUnpacked}
+                    setLatestUnpacked={setLatestUnpacked}
                     fetchUserBeasts={fetchUserBeasts}
                     fetchSushi={fetchSushi}
                     fetchEmptyPotionBottle={fetchEmptyPotionBottle}
@@ -303,13 +338,15 @@ const RevealOverlay: FC<Props> = ({
           )}
           {selectedPackType == "3" ? (
             <>
-              {cursedPacks.map(({ id }: any) => (
-                <li key={id} className="relative">
+              {cursedPacks.map((pack: any) => (
+                <li key={pack.id} className="relative">
                   <PackRevealCard
                     packImage={CursedImg}
-                    pack={cursedPacks[id]}
+                    pack={pack}
                     revealModalOpen={open}
                     selectPack={setSelectedPack}
+                    latestUnpacked={latestUnpacked}
+                    setLatestUnpacked={setLatestUnpacked}
                     fetchUserBeasts={fetchUserBeasts}
                     fetchSushi={fetchSushi}
                     fetchEmptyPotionBottle={fetchEmptyPotionBottle}
@@ -326,13 +363,15 @@ const RevealOverlay: FC<Props> = ({
           )}
           {selectedPackType == "4" ? (
             <>
-              {shinyPacks.map(({ id }: any) => (
-                <li key={id} className="relative">
+              {shinyPacks.map((pack: any) => (
+                <li key={pack.id} className="relative">
                   <PackRevealCard
                     packImage={ShinyImg}
-                    pack={shinyPacks[id]}
+                    pack={pack}
                     revealModalOpen={open}
                     selectPack={setSelectedPack}
+                    latestUnpacked={latestUnpacked}
+                    setLatestUnpacked={setLatestUnpacked}
                     fetchUserBeasts={fetchUserBeasts}
                     fetchSushi={fetchSushi}
                     fetchEmptyPotionBottle={fetchEmptyPotionBottle}
@@ -392,6 +431,7 @@ const RevealOverlay: FC<Props> = ({
           }
           onClick={() => {
             setRevealManyModalOpen(true)
+            setShowUnpacked(unpackUpToTen)
             handleManyPacksReveal(selectedPackType)
           }}
         >

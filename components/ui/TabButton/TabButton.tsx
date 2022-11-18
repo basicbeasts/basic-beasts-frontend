@@ -23,6 +23,7 @@ const Button = styled.button<{ selected?: boolean }>`
   //Responsive
   @media (max-width: 640px) {
     margin-bottom: 20px;
+    min-width: 100px;
   }
 `
 

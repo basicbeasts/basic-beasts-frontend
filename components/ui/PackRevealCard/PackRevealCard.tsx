@@ -1,4 +1,4 @@
-import React, { Dispatch, FC, SetStateAction, useState } from "react"
+import React, { Dispatch, FC, SetStateAction, useEffect, useState } from "react"
 import styled from "styled-components"
 import StarterImg from "public/packs/pack_pf/starter.png"
 import CursedImg from "public/packs/pack_pf/cursed.png"
@@ -162,6 +162,8 @@ type Props = {
   pack: any
   revealModalOpen: () => void
   selectPack: Dispatch<SetStateAction<string | "0">>
+  latestUnpacked: any
+  setLatestUnpacked: Dispatch<SetStateAction<any>>
   fetchUserBeasts: any
   fetchSushi: any
   fetchEmptyPotionBottle: any
@@ -176,6 +178,8 @@ const PackRevealCard: FC<Props> = ({
   pack,
   revealModalOpen,
   selectPack,
+  latestUnpacked,
+  setLatestUnpacked,
   fetchUserBeasts,
   fetchSushi,
   fetchEmptyPotionBottle,
@@ -185,6 +189,14 @@ const PackRevealCard: FC<Props> = ({
   getPersonalDexicon,
 }) => {
   const [packOpened, setPackOpened] = useState(pack.opened)
+
+  useEffect(() => {
+    setPackOpened(pack.opened)
+  }, [latestUnpacked, pack])
+
+  useEffect(() => {
+    setPackOpened(pack.opened)
+  }, [])
 
   //const { unpack } = useUser()
   const { user } = useAuth()
@@ -368,6 +380,7 @@ const PackRevealCard: FC<Props> = ({
       selectPack(pack.beastTemplateID.toString())
       revealModalOpen()
       pack.opened = true
+      setLatestUnpacked(pack.id)
       setPackOpened(pack.opened)
       tx(res).subscribe((res: any) => {
         if (res.status === 1) {
@@ -446,13 +459,14 @@ const PackRevealCard: FC<Props> = ({
 
           <Button
             onClick={() => {
-              unpack(pack.stockNumber)
+              // unpack(pack.stockNumber)
               // For testing //
-              // pack.opened = true
-              // selectPack(pack.beastTemplateID.toString())
-              // setPackOpened(pack.opened)
-              // console.log(pack)
-              // revealModalOpen()
+              pack.opened = true
+              selectPack(pack.beastTemplateID.toString())
+              setPackOpened(pack.opened)
+              setLatestUnpacked(pack.id)
+              console.log(pack)
+              revealModalOpen()
             }}
           >
             Reveal

@@ -116,7 +116,7 @@ const Profile: NextPage = () => {
   }
 
   const getPacks = (userPacks: any) => {
-    var starterPacksDic = []
+    var starterPacksDic: any = []
     var metallicPacksDic = []
     var cursedPacksDic = []
     var shinyPacksDic = []
@@ -124,18 +124,27 @@ const Profile: NextPage = () => {
     for (let pack in userPacks) {
       let element: PackClass = userPacks[pack]
       if (element.packTemplateName == "Starter") {
-        starterPacksDic[element.id] = element
+        // starterPacksDic[element.id] = element
+        starterPacksDic.push(element)
       }
       if (element.packTemplateName == "Metallic Silver") {
-        metallicPacksDic[element.id] = element
+        // metallicPacksDic[element.id] = element
+        metallicPacksDic.push(element)
       }
       if (element.packTemplateName == "Cursed Black") {
-        cursedPacksDic[element.id] = element
+        // cursedPacksDic[element.id] = element
+        cursedPacksDic.push(element)
       }
       if (element.packTemplateName == "Shiny Gold") {
-        shinyPacksDic[element.id] = element
+        // shinyPacksDic[element.id] = element
+        shinyPacksDic.push(element)
       }
     }
+    starterPacksDic.sort((a: any, b: any) => a.id - b.id)
+    metallicPacksDic.sort((a: any, b: any) => a.id - b.id)
+    cursedPacksDic.sort((a: any, b: any) => a.id - b.id)
+    shinyPacksDic.sort((a: any, b: any) => a.id - b.id)
+
     setStarterPacks(starterPacksDic)
     setMetallicPacks(metallicPacksDic)
     setCursedPacks(cursedPacksDic)

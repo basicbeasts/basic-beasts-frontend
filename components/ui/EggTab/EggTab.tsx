@@ -8,6 +8,7 @@ import { FC, useState, Fragment, useEffect } from "react"
 import EvolutionModal from "../EvolutionModal"
 import Egg from "public/egg.png"
 import GoldLight from "public/gold_light.png"
+import EggViewModal from "../EggViewModal"
 
 const Wrapper = styled.div`
   padding: 20px 20px 100px;
@@ -147,6 +148,23 @@ const InputContainer = styled.div`
     width: 100%;
   }
 `
+const Img = styled.img`
+  position: relative;
+  max-width: 5rem;
+`
+const Light = styled.img`
+  position: absolute;
+  max-width: 18rem;
+  bottom: -1.5rem;
+`
+const GradientDiv = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  background-image: radial-gradient(#fcd240, #fcd240, transparent 60%);
+  z-index: -1;
+`
 
 const FuncArgInput = styled.input`
   background: transparent;
@@ -219,6 +237,29 @@ const MenuItems = styled<any>(Menu.Items)`
   @media (max-width: 440px) {
     width: 100%;
   }
+`
+const EggDiv = styled.div`
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  border-radius: 2rem;
+  background: #ffe8a3;
+  width: 10rem;
+  aspect-ratio: 1;
+  z-index: 1;
+  overflow: hidden;
+`
+const EggTimer = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  color: rgba(0, 0, 0, 65%);
+  font-size: 1.5rem;
+
+  margin-right: 1.2rem;
+  margin-top: 0.25rem;
 `
 
 const DropDown: FC<{
@@ -531,6 +572,10 @@ const eggs = [
     id: 3,
     incubationDateEnding: 2,
   },
+  {
+    id: 4,
+    incubationDateEnding: 0,
+  },
 ]
 
 const EggTab: FC<Props> = ({
@@ -629,85 +674,57 @@ const EggTab: FC<Props> = ({
 
         {/* example buttons end */}
 
-        <BeastModalView
-          beast={selectedBeast}
-          open={open}
-          setOpen={setOpen}
-          fetchUserBeasts={fetchUserBeasts}
-          displayNickname={displayNickname}
-          setDisplayNickname={setDisplayNickname}
-          userAddr={userAddr}
-          evolvableBeasts={evolvableBeasts}
-          setEvolutionModalOpen={setEvolutionModalOpen}
-          allEvolutionPairs={allEvolutionPairs}
-          getPersonalDexicon={getPersonalDexicon}
-          walletAddress={walletAddress}
-        />
+        <EggViewModal open={open} setOpen={setOpen} />
         <EvolutionModal
           handleClose={() => setEvolutionModalOpen(false)}
           RevealModalOpen={evolutionModalOpen}
           packId={selectedBeast?.beastTemplateID || "1"}
           evolvedBeastId={evolvedBeastId}
         />
-        {displayBeasts != null ? (
+        {eggs != null ? (
           <ul
             role="list"
-            className="grid grid-cols-2 gap-x-5 gap-y-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-5"
+            className="grid grid-cols-2 gap-x-5 gap-y-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
           >
-            {displayBeasts.map((beast: any) => (
+            {eggs.map((egg: any) => (
               <li
-                key={beast.id}
+                key={egg.id}
                 className="relative"
                 onClick={() => {
                   setOpen(true)
-                  setSelectedBeast(beast)
+                  setSelectedBeast(egg)
                   setDisplayNickname(null)
                 }}
               >
-                <div
+                {/* <div
                   style={{
                     borderRadius: "20px 20px 0 0",
                   }}
                   className="group block w-full aspect-w-9 aspect-h-7 bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden"
                 >
                   <BeastTabCard
-                    id={beast.id}
+                    id={egg.id}
                     className="object-cover group-hover:opacity-90"
-                    beastTemplateID={beast.beastTemplateID}
+                    beastTemplateID={egg.beastTemplateID}
                   />
                 </div>
                 <div>
                   <ThumbnailDetails
                     style={{ borderRadius: "0 0 20px 20px" }}
                     bgColor={
-                      beast.elements[0] == "Electric"
-                        ? "#FFD966"
-                        : beast.elements[0] == "Water"
-                        ? "#A4C2F4"
-                        : beast.elements[0] == "Grass"
-                        ? "#B7D7A8"
-                        : beast.elements[0] == "Fire"
-                        ? "#EA9999"
-                        : "#D5A6BD"
+                      // beast.elements[0] == "Electric"
+                      //   ? "#FFD966"
+                      //   : beast.elements[0] == "Water"
+                      //   ? "#A4C2F4"
+                      //   : beast.elements[0] == "Grass"
+                      //   ? "#B7D7A8"
+                      //   : beast.elements[0] == "Fire"
+                      //   ? "#EA9999"
+                      //   : "#D5A6BD"
+                      "green"
                     }
                   >
-                    <ThumbnailLabel>
-                      {beast.nickname.length < 13 ? (
-                        <div style={{ fontSize: "1.3em" }}>
-                          {beast.nickname}
-                        </div>
-                      ) : (
-                        <div style={{ fontSize: "1em" }}>{beast.nickname}</div>
-                      )}
-
-                      <div style={{ fontSize: "1.3em" }}>
-                        #{beast.serialNumber} |{" "}
-                        {beast.maxAdminMintAllowed <= 1000 &&
-                        beast.maxAdminMintAllowed != 0
-                          ? beast.maxAdminMintAllowed
-                          : "?"}
-                      </div>
-                    </ThumbnailLabel>
+                    <ThumbnailLabel>hej</ThumbnailLabel>
                     <ThumbnailLabel
                       style={{
                         float: "left",
@@ -716,17 +733,36 @@ const EggTab: FC<Props> = ({
                         opacity: "0.2",
                       }}
                     >
-                      <>{beast?.sex === "Male" ? "♂" : "♀"}</>
+                      <>{egg?.sex === "Male" ? "♂" : "♀"}</>
                     </ThumbnailLabel>
                     <StarLevel>
-                      {Array(beast.starLevel)
+                      {Array(egg.starLevel)
                         .fill(0)
                         .map((_, i) => (
                           <StarImg key={i} src={star.src} />
                         ))}
                     </StarLevel>
                   </ThumbnailDetails>
-                </div>
+                </div> */}
+                <EggDiv>
+                  <Light src={GoldLight.src} />
+                  <Img src={Egg.src} />
+                  {egg.incubationDateEnding != 0 ? (
+                    <EggTimer>
+                      {egg.incubationDateEnding}h{" "}
+                      {/* Insert Hourglass icon here */}
+                      {/* <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        xmlnsXlink="http://www.w3.org/1999/xlink"
+                        width="16.008"
+                        height="16.008"
+                        viewBox="0 0 16.008 16.008"
+                      /> */}
+                    </EggTimer>
+                  ) : (
+                    <GradientDiv />
+                  )}
+                </EggDiv>
               </li>
             ))}
 

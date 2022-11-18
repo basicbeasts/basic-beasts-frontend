@@ -694,6 +694,20 @@ const Navbar: FC<FuncProps> = ({
                 </A>
               </NextLink>
             </NavItem>
+            {loggedIn && (
+              <NavItem>
+                <A
+                  font={
+                    lang === "ru"
+                      ? "arial, sans-serif"
+                      : "Pixelar, sans-serif, arial"
+                  }
+                  href={"/profile/" + user?.addr}
+                >
+                  Collection
+                </A>
+              </NavItem>
+            )}
           </NavMenu>
 
           <RightNav>

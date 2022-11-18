@@ -19,7 +19,15 @@ const Container = styled.div`
 `
 
 const TabButtons = styled.div`
+  overflow-x: scroll;
+  /* overflow: hidden scroll; */
+  width: 50vw;
   display: flex;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  &::-webkit-scrollbar {
+    display: none;
+  }
   @media (max-width: 570px) {
     display: block;
   }
@@ -27,6 +35,7 @@ const TabButtons = styled.div`
 
 const TabButtonContainer = styled.div`
   margin: 0 15px;
+
   @media (max-width: 570px) {
     display: flex;
     justify-content: center;
