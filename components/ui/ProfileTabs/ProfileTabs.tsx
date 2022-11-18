@@ -9,6 +9,7 @@ import PackTab from "../PackTab"
 import { useAuth } from "@components/auth/AuthProvider"
 import { useRouter } from "next/router"
 import { IsAny } from "@tanstack/react-table"
+import EggTab from "../EggTab"
 
 const Container = styled.div`
   color: #fff;
@@ -33,8 +34,10 @@ const TabButtonContainer = styled.div`
 `
 
 type Props = {
-  selectFilter: Dispatch<SetStateAction<"beast collection" | "items" | "packs">>
-  filter: "beast collection" | "items" | "packs"
+  selectFilter: Dispatch<
+    SetStateAction<"beast collection" | "items" | "packs" | "eggs">
+  >
+  filter: "beast collection" | "items" | "packs" | "eggs"
   beasts: any
   toggle: () => void
   selectPackType: Dispatch<SetStateAction<string | null>>
@@ -128,6 +131,17 @@ const ProfileTabs: FC<Props> = ({
             <TabButtonContainer>
               <TabButton
                 onClick={() => {
+                  selectFilter("eggs")
+                  setNewTokens(false)
+                }}
+                selected={filter === "eggs"}
+                buttonText={"Eggs"}
+                notify={filter !== "eggs" && newTokens}
+              />
+            </TabButtonContainer>
+            <TabButtonContainer>
+              <TabButton
+                onClick={() => {
                   selectFilter("items")
                   setNewTokens(false)
                 }}
@@ -163,6 +177,17 @@ const ProfileTabs: FC<Props> = ({
       )}
       {user?.addr == walletAddress ? (
         <>
+          {filter === "eggs" && (
+            <EggTab
+              beasts={beasts}
+              fetchUserBeasts={fetchUserBeasts}
+              userAddr={userAddr}
+              evolvableBeasts={evolvableBeasts}
+              allEvolutionPairs={allEvolutionPairs}
+              getPersonalDexicon={getPersonalDexicon}
+              walletAddress={walletAddress}
+            />
+          )}
           {filter === "items" && (
             <ItemTab
               sushiBalance={sushiBalance}
