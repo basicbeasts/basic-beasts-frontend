@@ -19,9 +19,7 @@ const Container = styled.div`
 `
 
 const TabButtons = styled.div`
-  overflow-x: scroll;
   /* overflow: hidden scroll; */
-  width: 50vw;
   display: flex;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
@@ -29,7 +27,9 @@ const TabButtons = styled.div`
     display: none;
   }
   @media (max-width: 570px) {
-    display: block;
+    flex-direction: column;
+    /* overflow-x: scroll;
+    width: 50vw; */
   }
 `
 
@@ -137,7 +137,7 @@ const ProfileTabs: FC<Props> = ({
         </TabButtonContainer>
         {user?.addr == walletAddress ? (
           <>
-            <TabButtonContainer>
+            {/* <TabButtonContainer>
               <TabButton
                 onClick={() => {
                   selectFilter("eggs")
@@ -147,7 +147,7 @@ const ProfileTabs: FC<Props> = ({
                 buttonText={"Eggs"}
                 notify={filter !== "eggs" && newTokens}
               />
-            </TabButtonContainer>
+            </TabButtonContainer> */}
             <TabButtonContainer>
               <TabButton
                 onClick={() => {
