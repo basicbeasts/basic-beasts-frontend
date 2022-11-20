@@ -459,14 +459,14 @@ const PackRevealCard: FC<Props> = ({
 
           <Button
             onClick={() => {
-              // unpack(pack.stockNumber)
+              unpack(pack.stockNumber)
               // For testing //
-              pack.opened = true
-              selectPack(pack.beastTemplateID.toString())
-              setPackOpened(pack.opened)
-              setLatestUnpacked(pack.id)
-              console.log(pack)
-              revealModalOpen()
+              // pack.opened = true
+              // selectPack(pack.beastTemplateID.toString())
+              // setPackOpened(pack.opened)
+              // setLatestUnpacked(pack.id)
+              // console.log(pack)
+              // revealModalOpen()
             }}
           >
             Reveal

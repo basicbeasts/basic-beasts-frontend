@@ -391,64 +391,66 @@ const RevealOverlay: FC<Props> = ({
       {/* TODO: Hide reveal all button on mobile
         And remember to make sure the number in the button change when the packs.length decreasing after unpacking.
       */}
-      <ButtonWrapper>
-        <Button
-          borderColor={
-            selectedPackType === "1"
-              ? "#2C323B"
-              : selectedPackType === "2"
-              ? "#5C6988"
-              : selectedPackType === "3"
-              ? "#751ad0"
-              : "#a15813"
-          }
-          insetBorderColor={
-            selectedPackType === "1"
-              ? "#737374"
-              : selectedPackType === "2"
-              ? "#889AAF"
-              : selectedPackType === "3"
-              ? "#c746af"
-              : "#f3cb23"
-          }
-          bgColor={
-            selectedPackType === "1"
-              ? "#ababac"
-              : selectedPackType === "2"
-              ? "#E6E8E9"
-              : selectedPackType === "3"
-              ? "#e3bfff"
-              : "#feff95"
-          }
-          fontColor={
-            selectedPackType === "1"
-              ? "#fff"
-              : selectedPackType === "2"
-              ? "#5C6988"
-              : selectedPackType === "3"
-              ? "#751ad0"
-              : "#a15813"
-          }
-          onClick={() => {
-            setRevealManyModalOpen(true)
-            setShowUnpacked(unpackUpToTen)
-            handleManyPacksReveal(selectedPackType)
-          }}
-        >
-          {selectedPackType === "1" && (
-            <>{packCount[1] < 11 ? "Reveal All" : "Reveal 10"} </>
-          )}
-          {selectedPackType === "2" && (
-            <>{packCount[2] < 11 ? "Reveal All" : "Reveal 10"} </>
-          )}
-          {selectedPackType === "3" && (
-            <>{packCount[3] < 11 ? "Reveal All" : "Reveal 10"} </>
-          )}
-          {selectedPackType === "4" && (
-            <>{packCount[4] < 11 ? "Reveal All" : "Reveal 10"} </>
-          )}
-        </Button>
-      </ButtonWrapper>
+      {unpackUpToTen?.length > 0 && (
+        <ButtonWrapper>
+          <Button
+            borderColor={
+              selectedPackType === "1"
+                ? "#2C323B"
+                : selectedPackType === "2"
+                ? "#5C6988"
+                : selectedPackType === "3"
+                ? "#751ad0"
+                : "#a15813"
+            }
+            insetBorderColor={
+              selectedPackType === "1"
+                ? "#737374"
+                : selectedPackType === "2"
+                ? "#889AAF"
+                : selectedPackType === "3"
+                ? "#c746af"
+                : "#f3cb23"
+            }
+            bgColor={
+              selectedPackType === "1"
+                ? "#ababac"
+                : selectedPackType === "2"
+                ? "#E6E8E9"
+                : selectedPackType === "3"
+                ? "#e3bfff"
+                : "#feff95"
+            }
+            fontColor={
+              selectedPackType === "1"
+                ? "#fff"
+                : selectedPackType === "2"
+                ? "#5C6988"
+                : selectedPackType === "3"
+                ? "#751ad0"
+                : "#a15813"
+            }
+            onClick={() => {
+              setRevealManyModalOpen(true)
+              setShowUnpacked(unpackUpToTen)
+              handleManyPacksReveal(selectedPackType)
+            }}
+          >
+            {selectedPackType === "1" && (
+              <>{unpackUpToTen?.length < 10 ? "Reveal All" : "Reveal 10"} </>
+            )}
+            {selectedPackType === "2" && (
+              <>{unpackUpToTen?.length < 10 ? "Reveal All" : "Reveal 10"} </>
+            )}
+            {selectedPackType === "3" && (
+              <>{unpackUpToTen?.length < 10 ? "Reveal All" : "Reveal 10"} </>
+            )}
+            {selectedPackType === "4" && (
+              <>{unpackUpToTen?.length < 10 ? "Reveal All" : "Reveal 10"} </>
+            )}
+          </Button>
+        </ButtonWrapper>
+      )}
     </SideNavbarContainer>
   )
 }
