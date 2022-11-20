@@ -521,7 +521,7 @@ const RankingList: FC<Props> = ({ hunterData }) => {
       setData(hunterData)
     }
     // Set Page Size here
-    table.setPageSize(5)
+    table.setPageSize(100)
   }, [hunterData])
 
   const [data, setData] = useState(() => [...defaultData])
