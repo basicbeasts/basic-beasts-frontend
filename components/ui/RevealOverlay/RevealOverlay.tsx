@@ -116,6 +116,9 @@ const ButtonWrapper = styled.div`
   margin: 50px 0 10px;
   text-align: center;
   width: 100%;
+  @media (max-width: 600px) {
+    display: none;
+  }
 `
 
 const Button = styled.button<{
