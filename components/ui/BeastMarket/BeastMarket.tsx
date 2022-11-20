@@ -1152,7 +1152,7 @@ const BeastMarket: FC<Props> = () => {
                 var price: UFix64? = nil
 
                 if (i%2==0) {
-                  price = 69.0 - UFix64(i)
+                  price = 69.0 + UFix64(i)
                 }
                 
                 let beast = {
