@@ -233,6 +233,8 @@ const Chests: FC = () => {
                 let marketplace = seller.getCapability(BlackMarketplace.CollectionPublicPath).borrow<&{BlackMarketplace.SalePublic}>()
                                 ?? panic("Could not borrow seller's sale reference")
 
+                assert(marketplace.isInstance(Type<@BlackMarketplace.SaleCollection>()), message: "Incorrect type!")
+
                 let IDs = self.chestCollection.getIDs()
 
                 let nft <- self.chestCollection.withdraw(withdrawID: IDs[0]) as! @NFTDayTreasureChest.NFT
@@ -368,6 +370,8 @@ const Chests: FC = () => {
 
                 let marketplace = seller.getCapability(BlackMarketplace.CollectionPublicPath).borrow<&{BlackMarketplace.SalePublic}>()
                                 ?? panic("Could not borrow seller's sale reference")
+
+                assert(marketplace.isInstance(Type<@BlackMarketplace.SaleCollection>()), message: "Incorrect type!") 
 
                 marketplace.purchaseWithWhitelist(tokenID: tokenId, recipientCap: self.collectionCap, buyTokens: <- self.temporaryVault)
             }
