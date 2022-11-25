@@ -956,13 +956,13 @@ const BeastMarket: FC<Props> = () => {
 
   useEffect(() => {
     if (search != "") {
-      filterNickname(search)
+      filterSerial(search)
     } else {
       setDisplayBeasts(beasts)
     }
   }, [search])
 
-  const filterNickname = (filters: any) => {
+  const filterSerial = (filters: any) => {
     if (beasts != null) {
       const newBeasts = beasts.filter((beast: any) =>
         beast.serialNumber.toString().includes(filters.toString()),
