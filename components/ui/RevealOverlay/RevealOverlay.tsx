@@ -41,6 +41,7 @@ const SideNavbarContainer = styled.div<{
   z-index: 10;
   width: 100%;
   height: 100%;
+  overflow: scroll;
   background: #111823;
   align-items: center;
   left: 0;
@@ -56,14 +57,14 @@ const CloseIcon = styled(FontAwesomeIcon)`
 `
 
 const Icon = styled.div`
-  position: absolute;
+  position: fixed;
   /* top: 1.2rem; */
+  left: 50px;
   background: transparent;
   font-size: 2rem;
   outline: none;
   color: #fff;
   font-size: 100px;
-  left: 50px;
   cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
       14 0,
     pointer !important;
@@ -93,9 +94,9 @@ const SideNavbarWrapper = styled.div<{
     padding: 35px 5vw 0px;
   }
   //Scroll in div width: 100%;
-  overflow: hidden;
+  /* overflow: hidden;
   overflow-y: scroll;
-  height: 550px;
+  height: 550px; */
   margin-top: 20px;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
@@ -109,13 +110,13 @@ const Title = styled.div`
   color: #e4be23;
   text-align: center;
   font-size: 4em;
-  margin: 100px 0 50px;
+  margin: 50px 0 50px;
 `
 
 const ButtonWrapper = styled.div`
   position: fixed;
   bottom: 0;
-  background: grey;
+  background: #111823;
   /* margin: 50px 0 10px; */
   padding: 1.5rem 0;
   text-align: center;

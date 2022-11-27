@@ -988,9 +988,9 @@ const BeastMarket: FC<Props> = () => {
     },
   ])
 
-  useEffect(() => {
-    alert("filters changed")
-  }, [filters.dexNumberOptions])
+  // useEffect(() => {
+  //   alert("filters changed")
+  // }, [filters.dexNumberOptions])
 
   useEffect(() => {
     // beasts.map((beast: any) => console.log("Nickname: " + beast.nickname))
@@ -1130,6 +1130,10 @@ const BeastMarket: FC<Props> = () => {
       },
     ])
   }, [beasts])
+
+  useEffect(() => {
+    // setSelectedFilters(filters)
+  }, [filters])
 
   const getAllBeasts = async () => {
     try {

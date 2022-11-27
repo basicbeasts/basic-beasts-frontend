@@ -121,24 +121,24 @@ const BeastMarketFilters: FC<Props> = ({
   useEffect(() => {}, [filters])
 
   const handleChange = (categoryId: any, optionValue: any) => {
-    const selFilters = [
-      {
-        dexNumber: [1, 2, 3, 4],
-        serialNumber: [1, 2, 3],
-      },
-    ]
-    console.log(selectedFilters)
-    console.log(categoryId + " " + optionValue) // Works
-    for (let key in selFilters) {
-      var filter = selFilters[key]
-      console.log(filter.dexNumber) // Works shows all dex numbers
-      console.log(Object.keys(filter)) // Works shows types of filters ['dexNumber', 'serialNumber']
+    const selFilters = {
+      dexNumber: [1, 2, 3, 4],
+      serialNumber: [1, 2, 3],
     }
+    console.log(selFilters)
+    console.log(categoryId + " " + optionValue) // Works
+    console.log(selFilters.dexNumber) // Works shows all dex numbers
+    console.log(Object.keys(selFilters)) // Works shows types of filters ['dexNumber', 'serialNumber']
 
-    // setSelectedFilters({
-    //   ...filters,
-    //   categoryId: [...filters.categoryId, optionValue],
-    // })
+    var categoryName: any = categoryId
+    console.log(categoryName)
+
+    setSelectedFilters({
+      ...selectedFilters,
+      categoryName: ["hello"],
+    })
+
+    console.log(selectedFilters)
   }
 
   return (
