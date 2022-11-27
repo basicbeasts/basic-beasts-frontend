@@ -34,6 +34,7 @@ const LeftColumn = styled.div`
 const RightColumn = styled.div`
   //background: black;
   width: 100%;
+  overflow: hidden;
 `
 
 const MobileProfileCardWrapper = styled.div`

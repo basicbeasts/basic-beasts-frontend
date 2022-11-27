@@ -127,12 +127,18 @@ const BeastMarketFilters: FC<Props> = ({
         serialNumber: [1, 2, 3],
       },
     ]
-    console.log(categoryId + optionValue)
+    console.log(selectedFilters)
+    console.log(categoryId + " " + optionValue) // Works
     for (let key in selFilters) {
       var filter = selFilters[key]
-      console.log(filter.dexNumber)
-      console.log(Object.keys(filter))
+      console.log(filter.dexNumber) // Works shows all dex numbers
+      console.log(Object.keys(filter)) // Works shows types of filters ['dexNumber', 'serialNumber']
     }
+
+    // setSelectedFilters({
+    //   ...filters,
+    //   categoryId: [...filters.categoryId, optionValue],
+    // })
   }
 
   return (

@@ -14,18 +14,18 @@ import EggTab from "../EggTab"
 const Container = styled.div`
   color: #fff;
   margin-top: 30px;
-
   height: 800px;
+  overflow: hidden;
 `
 
 const TabButtons = styled.div`
-  /* overflow: hidden scroll; */
+  overflow-x: scroll;
   display: flex;
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-  &::-webkit-scrollbar {
+  // -ms-overflow-style: none; /* IE and Edge */
+  //scrollbar-width: none; /* Firefox */
+  /* &::-webkit-scrollbar {
     display: none;
-  }
+  } */
   @media (max-width: 570px) {
     flex-direction: column;
     /* overflow-x: scroll;
@@ -122,6 +122,7 @@ const ProfileTabs: FC<Props> = ({
               }}
               buttonText={"beast collection" + " (" + beasts.length + ")"}
               notify={filter !== "beast collection" && newBeast}
+              // notify={true}
             />
           ) : (
             <TabButton
@@ -132,12 +133,13 @@ const ProfileTabs: FC<Props> = ({
               }}
               buttonText={"beast collection"}
               notify={filter !== "beast collection" && newBeast}
+              // notify={true}
             />
           )}
         </TabButtonContainer>
         {user?.addr == walletAddress ? (
           <>
-            {/* <TabButtonContainer>
+            <TabButtonContainer>
               <TabButton
                 onClick={() => {
                   selectFilter("eggs")
@@ -145,9 +147,9 @@ const ProfileTabs: FC<Props> = ({
                 }}
                 selected={filter === "eggs"}
                 buttonText={"Eggs"}
-                notify={filter !== "eggs" && newTokens}
+                // notify={filter !== "eggs" && newTokens}
               />
-            </TabButtonContainer> */}
+            </TabButtonContainer>
             <TabButtonContainer>
               <TabButton
                 onClick={() => {
@@ -157,6 +159,7 @@ const ProfileTabs: FC<Props> = ({
                 selected={filter === "items"}
                 buttonText={"Items"}
                 notify={filter !== "items" && newTokens}
+                // notify={true}
               />
             </TabButtonContainer>
             <TabButtonContainer>

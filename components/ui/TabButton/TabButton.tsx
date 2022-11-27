@@ -2,6 +2,7 @@ import React, { FC } from "react"
 import styled from "styled-components"
 
 const Button = styled.button<{ selected?: boolean }>`
+  position: relative;
   padding: 5px 0px 6px 2px;
   width: 160px;
   margin-left: 0;

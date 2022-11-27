@@ -894,7 +894,7 @@ const BeastMarket: FC<Props> = () => {
   const [mobileCartOpen, setMobileCartOpen] = useState(false)
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
 
-  const [selectedFilters, setSelectedFilters] = useState<any>([])
+  const [selectedFilters, setSelectedFilters] = useState<any>()
   const [beasts, setBeasts] = useState<any>([])
 
   const [beastArray, setBeastArray] = useState<any>([])
@@ -948,12 +948,14 @@ const BeastMarket: FC<Props> = () => {
     getAllBeasts()
   }, [])
 
+  //When beasts changes
   useEffect(() => {
     if (beasts != null) {
       setDisplayBeasts(beasts)
     }
   }, [beasts])
 
+  //When search changes
   useEffect(() => {
     if (search != "") {
       filterSerial(search)
@@ -985,6 +987,10 @@ const BeastMarket: FC<Props> = () => {
       ],
     },
   ])
+
+  useEffect(() => {
+    alert("filters changed")
+  }, [filters.dexNumberOptions])
 
   useEffect(() => {
     // beasts.map((beast: any) => console.log("Nickname: " + beast.nickname))

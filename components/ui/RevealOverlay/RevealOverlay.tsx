@@ -79,7 +79,7 @@ const SideNavbarWrapper = styled.div<{
   isSideNavbarOpen: boolean
 }>`
   display: ${({ isSideNavbarOpen }) => (isSideNavbarOpen ? "grid" : "none")};
-  padding: 35px 20vw 0px;
+  padding: 35px 20vw 75px;
   z-index: 1;
 
   -webkit-user-select: none;
@@ -113,7 +113,11 @@ const Title = styled.div`
 `
 
 const ButtonWrapper = styled.div`
-  margin: 50px 0 10px;
+  position: fixed;
+  bottom: 0;
+  background: grey;
+  /* margin: 50px 0 10px; */
+  padding: 1.5rem 0;
   text-align: center;
   width: 100%;
   @media (max-width: 800px) {
