@@ -87,6 +87,52 @@ const DialogPanel = styled<any>(Dialog.Panel)`
   background: #111823;
   color: white;
 `
+const Switch = styled.label`
+  position: relative;
+  display: inline-block;
+  width: 36px;
+  height: 20px;
+  margin: 1rem 0;
+`
+const SwitchSlider = styled.span`
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  border-radius: 34px;
+
+  &:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 2px;
+    bottom: 2.5px;
+    background-color: white;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+    border-radius: 50%;
+  }
+`
+const SwitchInput = styled.input`
+  opacity: 0;
+  width: 0;
+  height: 0;
+
+  &:checked + ${SwitchSlider} {
+    background-color: #f9df51;
+  }
+  &:checked + ${SwitchSlider}:before {
+    -webkit-transform: translateX(16px);
+    -ms-transform: translateX(16px);
+    transform: translateX(16px);
+  }
+`
 
 type Props = {
   filters: any
@@ -187,7 +233,7 @@ const BeastMarketFilters: FC<Props> = ({
                     </div>
 
                     {/* Filters */}
-                    <form className="mt-4 border-t border-gray-500">
+                    <form className="mt-4 border-t">
                       <h3 className="sr-only">Categories</h3>
                       <ul role="list" className="px-2 py-3 font-medium ">
                         {subCategories.map((category) => (
@@ -195,6 +241,10 @@ const BeastMarketFilters: FC<Props> = ({
                             <a href={category.href} className="block px-2 py-3">
                               {category.name}
                             </a>
+                            <Switch>
+                              <SwitchInput type="checkbox" />
+                              <SwitchSlider></SwitchSlider>
+                            </Switch>
                           </li>
                         ))}
                       </ul>
@@ -352,10 +402,14 @@ const BeastMarketFilters: FC<Props> = ({
                   >
                     {subCategories.map((category) => (
                       <li
-                        className=" border-b  border-gray-500"
+                        className="flex w-full justify-between items-center"
                         key={category.name}
                       >
                         <a href={category.href}>{category.name}</a>
+                        <Switch>
+                          <SwitchInput type="checkbox" />
+                          <SwitchSlider></SwitchSlider>
+                        </Switch>
                       </li>
                     ))}
                   </ul>

@@ -1207,6 +1207,10 @@ const BeastMarket: FC<Props> = () => {
     <>
       <HeaderBeastCollection>
         <FilterButton
+          style={{
+            background: buttonColor(filterOpen).btnColor,
+            color: buttonColor(filterOpen).fontColor,
+          }}
           className="hidden lg:block"
           onClick={() => setFilterOpen(!filterOpen)}
         >
@@ -1214,6 +1218,10 @@ const BeastMarket: FC<Props> = () => {
           <FilterIcon className="mx-auto h-5 w-5" />
         </FilterButton>
         <FilterButton
+          style={{
+            background: buttonColor(filterOpen).btnColor,
+            color: buttonColor(filterOpen).fontColor,
+          }}
           className="lg:hidden"
           onClick={() => setMobileFiltersOpen(true)}
         >
