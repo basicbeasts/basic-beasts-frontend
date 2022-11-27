@@ -5,6 +5,7 @@ import styled from "styled-components"
 import BeastMarketThumbnail from "../BeastMarketThumbnail"
 import { faHeart as heartFull } from "@fortawesome/free-solid-svg-icons"
 import { faHeart as heartEmpty } from "@fortawesome/free-regular-svg-icons"
+import QuickBidModal from "../QuickBidModal"
 
 const MarketUl = styled.ul`
   padding-top: 5px;
@@ -243,6 +244,8 @@ type Props = {
   openBulkBid: any
   selectedBeasts: any
   setSelectedBeasts: any
+  setSelectedBeast: any
+  setQuickBidOpen: any
   // setDisplayNickname: any
 }
 const BeastMarketBeastList: FC<Props> = ({
@@ -250,6 +253,8 @@ const BeastMarketBeastList: FC<Props> = ({
   openBulkBid,
   selectedBeasts,
   setSelectedBeasts,
+  setSelectedBeast,
+  setQuickBidOpen,
   // setDisplayNickname,
 }) => {
   const selectBeast = (beast: any) => {
@@ -266,6 +271,8 @@ const BeastMarketBeastList: FC<Props> = ({
   }
 
   const [favoriteBeasts, setFavoriteBeasts] = useState<any>([])
+  // const [quickBidOpen, setQuickBidOpen] = useState(false)
+  // const [selectedBeast, setSelectedBeast] = useState<any>()
 
   useEffect(() => {
     const favBeasts = window.localStorage.getItem("FAVORITE_BEASTS")
@@ -433,6 +440,11 @@ const BeastMarketBeastList: FC<Props> = ({
 
     return (
       <div>
+        {/* <QuickBidModal
+          open={quickBidOpen}
+          setOpen={setQuickBidOpen}
+          beast={selectedBeast}
+        /> */}
         <ThumbnailDetails
           style={{ borderRadius: "0 0 20px 20px" }}
           bgColor={
@@ -549,7 +561,14 @@ const BeastMarketBeastList: FC<Props> = ({
               beastTemplateID={beast.beastTemplateID}
             />
           </div>
-          <QuickBuyButton>Quick Bid</QuickBuyButton>
+          <QuickBuyButton
+            onClick={() => {
+              setSelectedBeast(beast)
+              setQuickBidOpen(true)
+            }}
+          >
+            Quick Bid
+          </QuickBuyButton>
           {/* Make thumbnail details into a component and useState inside that component and add DialogInfo to it */}
           <ThumbnailDetailsFC beast={beast} />
         </BeastLi>

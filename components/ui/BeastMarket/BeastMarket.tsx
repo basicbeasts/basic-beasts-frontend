@@ -31,6 +31,7 @@ import {
   tx,
 } from "@onflow/fcl"
 import BeastMarketSweep from "../BeastMarketSweep"
+import QuickBidModal from "../QuickBidModal"
 
 const Wrapper = styled.div`
   padding: 20px 20px 100px 20px;
@@ -880,6 +881,7 @@ const filterOptions = [
 const BeastMarket: FC<Props> = () => {
   const [displayBeasts, setDisplayBeasts] = useState<any>(null)
   const [selectedBeast, setSelectedBeast] = useState<any>(null)
+  const [quickBidOpen, setQuickBidOpen] = useState(false)
   const [open, setOpen] = useState(false)
   const [displayNickname, setDisplayNickname] = useState<string | null>(null)
   const [sortBy, setSortBy] = useState("SORT BY")
@@ -1205,6 +1207,11 @@ const BeastMarket: FC<Props> = () => {
 
   return (
     <>
+      <QuickBidModal
+        open={quickBidOpen}
+        setOpen={setQuickBidOpen}
+        beast={selectedBeast}
+      />
       <HeaderBeastCollection>
         <FilterButton
           style={{
@@ -1310,6 +1317,8 @@ const BeastMarket: FC<Props> = () => {
               openBulkBid={openBulkBid}
               selectedBeasts={selectedBeasts}
               setSelectedBeasts={setSelectedBeasts}
+              setSelectedBeast={setSelectedBeast}
+              setQuickBidOpen={setQuickBidOpen}
               // setOpen={setOpen}
               // setDisplayNickname={setDisplayNickname}
             />
