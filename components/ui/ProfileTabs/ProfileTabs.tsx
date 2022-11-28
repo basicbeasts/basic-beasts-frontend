@@ -18,7 +18,7 @@ const Container = styled.div`
   overflow: hidden;
 `
 
-const TabButtons = styled.div`
+const TabButtons = styled.div<any>`
   overflow-x: scroll;
   display: flex;
   // -ms-overflow-style: none; /* IE and Edge */
@@ -30,6 +30,12 @@ const TabButtons = styled.div`
     flex-direction: column;
     /* overflow-x: scroll;
     width: 50vw; */
+  }
+
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  &::-webkit-scrollbar {
+    display: none;
   }
 `
 
@@ -111,7 +117,7 @@ const ProfileTabs: FC<Props> = ({
 
   return (
     <Container>
-      <TabButtons>
+      <TabButtons currentUserCollection={user?.addr == walletAddress}>
         <TabButtonContainer>
           {beasts != null ? (
             <TabButton
