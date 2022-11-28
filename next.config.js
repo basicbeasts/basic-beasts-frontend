@@ -13,11 +13,13 @@ module.exports = {
       },
     ]
   },
-  async rewrites() {
+  async headers() {
     return [
       {
-        source: "/api/:path*",
-        destination: "https://api.basicbeasts.io/:path*",
+        source: "/_next/:path*",
+        headers: [
+          { key: "Access-Control-Allow-Origin", value: "http://example.com" },
+        ],
       },
     ]
   },
