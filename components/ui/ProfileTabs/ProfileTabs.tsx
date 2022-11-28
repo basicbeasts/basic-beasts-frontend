@@ -148,17 +148,6 @@ const ProfileTabs: FC<Props> = ({
             <TabButtonContainer>
               <TabButton
                 onClick={() => {
-                  selectFilter("eggs")
-                  setNewTokens(false)
-                }}
-                selected={filter === "eggs"}
-                buttonText={"Eggs"}
-                // notify={filter !== "eggs" && newTokens}
-              />
-            </TabButtonContainer>
-            <TabButtonContainer>
-              <TabButton
-                onClick={() => {
                   selectFilter("items")
                   setNewTokens(false)
                 }}
@@ -174,6 +163,17 @@ const ProfileTabs: FC<Props> = ({
                 selected={filter === "packs"}
                 buttonText={"Packs"}
                 notify={filter !== "packs" && hasPacks}
+              />
+            </TabButtonContainer>
+            <TabButtonContainer>
+              <TabButton
+                onClick={() => {
+                  selectFilter("eggs")
+                  setNewTokens(false)
+                }}
+                selected={filter === "eggs"}
+                buttonText={"Eggs"}
+                // notify={filter !== "eggs" && newTokens}
               />
             </TabButtonContainer>
           </>
