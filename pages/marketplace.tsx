@@ -27,7 +27,7 @@ const Marketplace: NextPage = () => {
       sex: "Female",
       breedingCount: 1, //Fetched from another script
       numberOfMintedBeastTemplates: 300,
-      beastTemplateID: 1,
+      beastTemplateID: 676,
       price: 200,
     },
     {

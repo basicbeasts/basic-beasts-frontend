@@ -140,6 +140,8 @@ type Props = {
   setSelectedFilters: any
   mobileFiltersOpen: any
   setMobileFiltersOpen: any
+  setFavoriteToggled: any
+  favoriteToggled: any
 }
 
 const sortOptions = [
@@ -161,27 +163,37 @@ const BeastMarketFilters: FC<Props> = ({
   setSelectedFilters,
   mobileFiltersOpen,
   setMobileFiltersOpen,
+  favoriteToggled,
+  setFavoriteToggled,
 }) => {
   // const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
 
   useEffect(() => {}, [filters])
 
-  const handleChange = (categoryId: any, optionValue: any) => {
+  const handleChange = (categoryId: string, optionValue: number | string) => {
     const selFilters = {
       dexNumber: [1, 2, 3, 4],
       serialNumber: [1, 2, 3],
     }
+    console.log("selectedFilters")
+    console.log(selectedFilters)
     console.log(selFilters)
     console.log(categoryId + " " + optionValue) // Works
     console.log(selFilters.dexNumber) // Works shows all dex numbers
     console.log(Object.keys(selFilters)) // Works shows types of filters ['dexNumber', 'serialNumber']
 
-    var categoryName: any = categoryId
-    console.log(categoryName)
+    console.log(categoryId)
+    //categoryID -> "traits"?
+
+    const removeCheckBox = (values: any, checkedValue: any) => {
+      return values.filter((x: any) => x != checkedValue)
+    }
 
     setSelectedFilters({
       ...selectedFilters,
-      categoryName: ["hello"],
+      dexNumber: selectedFilters.dexNumber.includes(optionValue)
+        ? removeCheckBox(selectedFilters.dexNumber, optionValue)
+        : [...selectedFilters.dexNumber, optionValue],
     })
 
     console.log(selectedFilters)
@@ -242,7 +254,13 @@ const BeastMarketFilters: FC<Props> = ({
                               {category.name}
                             </a>
                             <Switch>
-                              <SwitchInput type="checkbox" />
+                              <SwitchInput
+                                defaultChecked={favoriteToggled}
+                                type="checkbox"
+                                onChange={() =>
+                                  setFavoriteToggled(!favoriteToggled)
+                                }
+                              />
                               <SwitchSlider></SwitchSlider>
                             </Switch>
                           </li>
@@ -407,7 +425,13 @@ const BeastMarketFilters: FC<Props> = ({
                       >
                         <a href={category.href}>{category.name}</a>
                         <Switch>
-                          <SwitchInput type="checkbox" />
+                          <SwitchInput
+                            defaultChecked={favoriteToggled}
+                            type="checkbox"
+                            onChange={() => {
+                              setFavoriteToggled(!favoriteToggled)
+                            }}
+                          />
                           <SwitchSlider></SwitchSlider>
                         </Switch>
                       </li>

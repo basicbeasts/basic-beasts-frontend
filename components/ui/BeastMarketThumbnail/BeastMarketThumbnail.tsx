@@ -47,9 +47,14 @@ const BeastMarketThumbnail: FC<BeastThumbnailProps> = ({
       <Container {...props} tagColor={"#FFD966"}>
         <>
           <Img
+            // src={
+            //   beastTemplates[beastTemplateID as keyof typeof beastTemplates]
+            //     ?.marketThumbnail || thumbnail.src
+            // }
             src={
-              beastTemplates[beastTemplateID as keyof typeof beastTemplates]
-                ?.marketThumbnail || thumbnail.src
+              "https://basicbeasts.mypinata.cloud/ipfs/" +
+                beastTemplates[beastTemplateID as keyof typeof beastTemplates]
+                  ?.thumbnail || thumbnail.src
             }
           />
         </>

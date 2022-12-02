@@ -896,13 +896,22 @@ const BeastMarket: FC<Props> = () => {
   const [mobileCartOpen, setMobileCartOpen] = useState(false)
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
 
-  const [selectedFilters, setSelectedFilters] = useState<any>()
+  const [selectedFilters, setSelectedFilters] = useState<any>({
+    dexNumber: [],
+    skin: [],
+    starLevel: [],
+    element: [],
+    serialNumber: [],
+  })
   const [beasts, setBeasts] = useState<any>([])
 
   const [beastArray, setBeastArray] = useState<any>([])
   // console.log(beastArray)
 
   const [selectedBeasts, setSelectedBeasts] = useState<any>([])
+
+  const [favoriteBeasts, setFavoriteBeasts] = useState<any>([])
+  const [favoriteToggled, setFavoriteToggled] = useState(false)
 
   const selectBeast = (beast: any) => {
     if (!selectedBeasts.includes(beast)) {
@@ -957,7 +966,7 @@ const BeastMarket: FC<Props> = () => {
     }
   }, [beasts])
 
-  //When search changes
+  // When search changes
   useEffect(() => {
     if (search != "") {
       filterSerial(search)
@@ -975,6 +984,29 @@ const BeastMarket: FC<Props> = () => {
       setDisplayBeasts(newBeasts)
     }
   }
+
+  useEffect(() => {
+    if (favoriteToggled) {
+      console.log(favoriteToggled)
+      // const newBeasts = displayBeasts.filter((beast: any) => {
+      //   favoriteBeasts.includes(beast.id)
+      // })
+      console.log(favoriteBeasts)
+      var newBeasts: any = []
+      for (let key in displayBeasts) {
+        var beast = displayBeasts[key]
+        if (favoriteBeasts.includes(beast.id)) {
+          newBeasts.push(beast)
+        }
+      }
+      // setElementFilter((elementFilter: any) => [...elementFilter, "Electric"])
+      setDisplayBeasts(newBeasts)
+    } else {
+      setDisplayBeasts(displayBeasts)
+    }
+    // console.log(favoriteBeasts.toString())
+    // console.log(favoriteBeasts)
+  }, [favoriteToggled])
 
   const [filter, setFilter] = useState<any>()
 
@@ -1133,9 +1165,50 @@ const BeastMarket: FC<Props> = () => {
     ])
   }, [beasts])
 
+  //function that filter beasts
+  //(selectedFilter: any){}
+  //beats.filter()
+
+  const filterBeasts = (beasts: any, filters: any) => {
+    return beasts.filter((beast: any) => {
+      return (
+        filters.dexNumber?.includes(beast.dexNumber) ||
+        filters.skin?.includes(beast.skin) ||
+        filters.starLevel?.includes(beast.starLevel) ||
+        filters.element?.includes(beast.element) ||
+        filters.serialNumber?.includes(beast.serialNumber)
+      )
+    })
+  }
+
+  const checkFilters = (filters: any): boolean => {
+    return (
+      filters.dexNumber.length == 0 &&
+      filters.skin.length == 0 &&
+      filters.starLevel.length == 0 &&
+      filters.element.length == 0 &&
+      filters.serialNumber.length == 0
+    )
+  }
+
+  //useCallback
+  //useMemo
+
   useEffect(() => {
-    // setSelectedFilters(filters)
-  }, [filters])
+    console.log("selectedFilters changed", selectedFilters)
+    //{SELECTED FILTER}
+
+    const newList = filterBeasts(beasts, selectedFilters)
+    const checkFiltersResult = checkFilters(selectedFilters)
+
+    setDisplayBeasts(checkFiltersResult ? beasts : newList)
+
+    console.log("NEWLIST", newList)
+
+    console.log("BEASTS", beasts)
+
+    //setDisplayBeasts()
+  }, [selectedFilters, beasts])
 
   const getAllBeasts = async () => {
     try {
@@ -1308,6 +1381,8 @@ const BeastMarket: FC<Props> = () => {
                 setSelectedFilters={setSelectedFilters}
                 mobileFiltersOpen={mobileFiltersOpen}
                 setMobileFiltersOpen={setMobileFiltersOpen}
+                favoriteToggled={favoriteToggled}
+                setFavoriteToggled={setFavoriteToggled}
               />
             </div>
           )}
@@ -1319,6 +1394,8 @@ const BeastMarket: FC<Props> = () => {
               setSelectedBeasts={setSelectedBeasts}
               setSelectedBeast={setSelectedBeast}
               setQuickBidOpen={setQuickBidOpen}
+              favoriteBeasts={favoriteBeasts}
+              setFavoriteBeasts={setFavoriteBeasts}
               // setOpen={setOpen}
               // setDisplayNickname={setDisplayNickname}
             />

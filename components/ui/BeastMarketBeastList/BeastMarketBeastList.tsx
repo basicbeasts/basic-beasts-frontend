@@ -246,6 +246,8 @@ type Props = {
   setSelectedBeasts: any
   setSelectedBeast: any
   setQuickBidOpen: any
+  favoriteBeasts: any
+  setFavoriteBeasts: any
   // setDisplayNickname: any
 }
 const BeastMarketBeastList: FC<Props> = ({
@@ -255,6 +257,8 @@ const BeastMarketBeastList: FC<Props> = ({
   setSelectedBeasts,
   setSelectedBeast,
   setQuickBidOpen,
+  favoriteBeasts,
+  setFavoriteBeasts,
   // setDisplayNickname,
 }) => {
   const selectBeast = (beast: any) => {
@@ -270,7 +274,7 @@ const BeastMarketBeastList: FC<Props> = ({
     }
   }
 
-  const [favoriteBeasts, setFavoriteBeasts] = useState<any>([])
+  // const [favoriteBeasts, setFavoriteBeasts] = useState<any>([])
   // const [quickBidOpen, setQuickBidOpen] = useState(false)
   // const [selectedBeast, setSelectedBeast] = useState<any>()
 
