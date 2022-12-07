@@ -787,7 +787,8 @@ const BeastModalView: FC<Props> = ({
                           </RightHeaderDetails>
                         </HeaderDetails>
                         <Img
-                          src={'https://basicbeasts.mypinata.cloud/ipfs/' +
+                          src={
+                            "https://basicbeasts.mypinata.cloud/ipfs/" +
                             beastTemplates[
                               beast.beastTemplateID as keyof typeof beastTemplates
                             ].imageTransparentBg
@@ -1129,20 +1130,45 @@ const BeastModalView: FC<Props> = ({
                           <></>
                         )}
                         {filter === "Breeding" ? (
-                          <Breeding
-                            evolvableBeasts={evolvableBeasts}
-                            beast={beast}
-                            makeLovePotionModalOpen={makeLovePotionModalOpen}
-                            setMakeLovePotionModalOpen={
-                              setMakeLovePotionModalOpen
-                            }
-                            eggObtainedModalOpen={eggObtainedModalOpen}
-                            setEggObtainedModalOpen={setEggObtainedModalOpen}
-                          />
+                          // <Breeding
+                          //   evolvableBeasts={evolvableBeasts}
+                          //   beast={beast}
+                          //   makeLovePotionModalOpen={makeLovePotionModalOpen}
+                          //   setMakeLovePotionModalOpen={
+                          //     setMakeLovePotionModalOpen
+                          //   }
+                          //   eggObtainedModalOpen={eggObtainedModalOpen}
+                          //   setEggObtainedModalOpen={setEggObtainedModalOpen}
+                          // />
+                          <NotEnoughContainer>
+                            <Body
+                              style={{
+                                margin: "0px 0 20px",
+                                textAlign: "center",
+                                fontSize: "1em",
+                              }}
+                            >
+                              Coming soon
+                            </Body>
+                          </NotEnoughContainer>
                         ) : (
                           <></>
                         )}
-                        {filter === "Supply" ? <div>Coming soon</div> : <></>}
+                        {filter === "Supply" ? (
+                          <NotEnoughContainer>
+                            <Body
+                              style={{
+                                margin: "0px 0 20px",
+                                textAlign: "center",
+                                fontSize: "1em",
+                              }}
+                            >
+                              Coming soon
+                            </Body>
+                          </NotEnoughContainer>
+                        ) : (
+                          <></>
+                        )}
                       </Content>
                     </Container>
                   ) : (

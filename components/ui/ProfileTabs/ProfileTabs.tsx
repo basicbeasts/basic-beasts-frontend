@@ -165,7 +165,7 @@ const ProfileTabs: FC<Props> = ({
                 notify={filter !== "packs" && hasPacks}
               />
             </TabButtonContainer>
-            <TabButtonContainer>
+            {/* <TabButtonContainer>
               <TabButton
                 onClick={() => {
                   selectFilter("eggs")
@@ -175,7 +175,7 @@ const ProfileTabs: FC<Props> = ({
                 buttonText={"Eggs"}
                 // notify={filter !== "eggs" && newTokens}
               />
-            </TabButtonContainer>
+            </TabButtonContainer> */}
           </>
         ) : (
           <></>
