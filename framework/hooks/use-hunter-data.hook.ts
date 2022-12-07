@@ -219,6 +219,9 @@ export default function useHunterData() {
     }
 
     // setHunterData(hunterDataRankedByTotalBeasts)
+    hunterDataRankedByTotalBeasts.sort(
+      (a: any, b: any) => b.rankByHunterScore - a.rankByHunterScore,
+    )
 
     dispatch({ type: "SUCCESS", payload: hunterDataRankedByTotalBeasts })
   }

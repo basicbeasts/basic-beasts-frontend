@@ -461,8 +461,8 @@ const DropDown: FC<{ setRankBy: any; setSorting: any }> = ({
                       setRankBy("hunter score")
                       setSorting([
                         {
-                          id: "hunterScore",
-                          desc: true,
+                          id: "rankByHunterScore",
+                          desc: false,
                         },
                       ])
                     }}
@@ -482,8 +482,8 @@ const DropDown: FC<{ setRankBy: any; setSorting: any }> = ({
                       setRankBy("total beasts")
                       setSorting([
                         {
-                          id: "numberOfBeastsCollected",
-                          desc: true,
+                          id: "rankByTotalBeasts",
+                          desc: false,
                         },
                       ])
                     }}
@@ -511,8 +511,8 @@ const RankingList: FC<Props> = ({ hunterData }) => {
   const [globalFilter, setGlobalFilter] = useState("")
   const [sorting, setSorting] = useState<SortingState>([
     {
-      id: "hunterScore",
-      desc: true,
+      id: "rankByHunterScore",
+      desc: false,
     },
   ])
 
