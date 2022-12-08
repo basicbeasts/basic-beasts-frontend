@@ -58,45 +58,6 @@ const Wrapper = styled.div`
   }
 `
 
-const ThumbnailDetails = styled.div<Omit<Color, "background">>`
-  color: #000000;
-  background: ${(props) => props.bgColor || "#FFD966"};
-  display: grid;
-  grid-template-columns: auto auto;
-  align-items: center;
-  justify-content: space-between;
-  clear: both;
-  width: 100%;
-
-  padding: 10px;
-  cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
-      14 0,
-    pointer !important;
-`
-
-const StarLevel = styled.div`
-  vertical-align: middle;
-  position: absolute;
-  top: 0;
-`
-
-const StarImg = styled.img`
-  margin-top: 10px;
-  width: 1.2em;
-  user-drag: none;
-  -webkit-user-drag: none;
-  float: left;
-`
-
-const ThumbnailLabel = styled.div`
-  margin: 8px 0;
-  float: right;
-  color: #808080;
-  line-height: 1.2em;
-  @media (max-width: 360px) {
-    font-size: 0.7em;
-  }
-`
 const FilterButton = styled.button`
   background: #282e3a;
   border-radius: 10px;
@@ -114,26 +75,6 @@ const BuyButton = styled.button`
   padding: 0 20px;
 `
 
-const Button = styled.button`
-  padding: 8px 24px 12px 26px;
-  margin-right: 2px;
-  font-size: 26px;
-  background-color: #feff95;
-  box-shadow: -3px 0px 0px 0px #a15813, 0px -3px 0px 0px #a15813,
-    0px 3px 0px 0px #a15813, 3px 0px 0px 0px #a15813, inset -3px -3px #f3cb23;
-  color: #a75806;
-  border: none;
-  transition: all 0.1s ease 0s;
-  -moz-transition: all 0.1s ease 0s;
-  -webkit-transition: all 0.1s ease 0s;
-  &:active {
-    transition: all 0.1s ease 0s;
-    -moz-transition: all 0.1s ease 0s;
-    -webkit-transition: all 0.1s ease 0s;
-    box-shadow: -3px 0px 0px 0px #a15813, 0px -3px 0px 0px #a15813,
-      0px 3px 0px 0px #a15813, 3px 0px 0px 0px #a15813, inset 3px 3px #f3cb23;
-  }
-`
 const SortByButton = styled.div`
   border-radius: 10px;
   // border: solid #808080 0.5px;
@@ -242,81 +183,7 @@ const MenuButton = styled<any>(Menu.Button)`
     width: 100%;
   }
 `
-const DetailButton = styled.button<any>`
-  position: relative;
-  border: solid #808080 0.5px;
-  border-radius: 10px;
-  font-size: 16px;
-  background: ${(props) => props.buttonColor};
 
-  padding: 0 15px;
-  &:hover {
-    box-shadow: 2px 2px 5px 1px black;
-  }
-`
-const Dialog = styled.dialog<any>`
-  // position: absolute;
-  // left: ${(props) => props.left}%;
-  // right: ${(props) => props.right}%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  align-items: start;
-  color: #fff;
-  background: #111823;
-  /* border: solid #808080 0.5px; */
-  border-radius: 10px;
-  min-width: max-content;
-  z-index: 99999;
-
-  @media (max-width: 420px) {
-    position: fixed;
-    top: 0;
-    right: 0;
-    min-width: 100%;
-    min-height: 100%;
-    border-radius: 0;
-  }
-`
-const Attributes = styled.div`
-  display: grid;
-  width: 100%;
-  gap: 10px;
-  grid-template-columns: 1fr 1fr;
-  margin-bottom: 75px;
-  @media (max-width: 420px) {
-    margin-bottom: 0;
-  }
-`
-const AttributeBlock = styled.div`
-  display: flex;
-  padding: 15px;
-  flex-direction: column;
-  align-items: start;
-  gap: 5px;
-  font-size: 1.5rem;
-  background: #212127;
-  border-radius: 10px;
-  color: grey;
-  &:last-child {
-    grid-column: 1 / 3;
-    align-items: center;
-    color: #f3cb23;
-  }
-  div {
-    color: white;
-  }
-`
-const P = styled.p`
-  line-height: 0.5;
-  text-transform: uppercase;
-`
-const TraitCount = styled.div`
-  color: #f3cb23 !important;
-  line-height: 0.75;
-  font-size: 1.2rem;
-`
 const ClearButton = styled.button`
   display: flex;
   align-items: center;
@@ -971,13 +838,18 @@ const BeastMarket: FC<Props> = () => {
     if (search != "") {
       filterSerial(search)
     } else {
-      setDisplayBeasts(beasts)
+      // setDisplayBeasts(beasts) // Problem
+      const newList = filterBeasts(beasts, selectedFilters)
+      const checkFiltersResult = checkFilters(selectedFilters)
+
+      setDisplayBeasts(checkFiltersResult ? beasts : newList)
     }
   }, [search])
 
   const filterSerial = (filters: any) => {
     if (beasts != null) {
-      const newBeasts = beasts.filter((beast: any) =>
+      let testBeasts = displayBeasts
+      const newBeasts = testBeasts.filter((beast: any) =>
         beast.serialNumber.toString().includes(filters.toString()),
       )
       // setElementFilter((elementFilter: any) => [...elementFilter, "Electric"])
@@ -1169,15 +1041,24 @@ const BeastMarket: FC<Props> = () => {
   //(selectedFilter: any){}
   //beats.filter()
 
+  // filters = ["Water", "Fire"]
+  // beast.elemnts = ["Water"]
+
+  //filters.includes(beast.elements.map(element => element))
+
+  // filters.element?.includes(beast.elements) &&
+
+  // prettier-ignore
   const filterBeasts = (beasts: any, filters: any) => {
+    console.log("TESTTT",filters.dexNumber?.length)
     return beasts.filter((beast: any) => {
       return (
-        filters.dexNumber?.includes(beast.dexNumber) ||
-        filters.skin?.includes(beast.skin) ||
-        filters.starLevel?.includes(beast.starLevel) ||
-        filters.element?.includes(beast.element) ||
-        filters.serialNumber?.includes(beast.serialNumber)
-      )
+        (filters.dexNumber?.length == 0 || filters.dexNumber?.includes(beast.dexNumber)) && 
+        (filters.skin?.length == 0 || filters.skin?.includes(beast.skin)) && 
+        (filters.starLevel?.length == 0 || filters.starLevel?.includes(beast.starLevel)) && 
+        (filters.element?.length == 0 || filters.element?.every((e: any) => beast.elements.includes(e))) && 
+        (filters.serialNumber?.length == 0 || filters.serialNumber?.includes(beast.serialNumber))
+       )
     })
   }
 
@@ -1202,8 +1083,6 @@ const BeastMarket: FC<Props> = () => {
     const checkFiltersResult = checkFilters(selectedFilters)
 
     setDisplayBeasts(checkFiltersResult ? beasts : newList)
-
-    console.log("NEWLIST", newList)
 
     console.log("BEASTS", beasts)
 

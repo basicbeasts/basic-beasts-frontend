@@ -305,13 +305,13 @@ const SlideOverNavbar: FC<Props> = ({
                             </LargeNavItem>
                           </a>
                         </Link>
-                        <Link href="/dexicon">
+                        {/* <Link href="/dexicon">
                           <a>
                             <LargeNavItem onClick={() => close()}>
                               Dexicon
                             </LargeNavItem>
                           </a>
-                        </Link>
+                        </Link> */}
                         <Link href="/treasure-hunt">
                           <a>
                             <SmallNavItem onClick={() => close()}>

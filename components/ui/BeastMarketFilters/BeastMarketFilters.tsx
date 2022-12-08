@@ -170,31 +170,78 @@ const BeastMarketFilters: FC<Props> = ({
 
   useEffect(() => {}, [filters])
 
-  const handleChange = (categoryId: string, optionValue: number | string) => {
-    const selFilters = {
-      dexNumber: [1, 2, 3, 4],
-      serialNumber: [1, 2, 3],
-    }
-    console.log("selectedFilters")
-    console.log(selectedFilters)
-    console.log(selFilters)
-    console.log(categoryId + " " + optionValue) // Works
-    console.log(selFilters.dexNumber) // Works shows all dex numbers
-    console.log(Object.keys(selFilters)) // Works shows types of filters ['dexNumber', 'serialNumber']
+  type SelectedFilters = {
+    dexNumber: [number]
+    skin: [string]
+    starLevel: [number]
+    element: [string]
+    serialNumber: [number]
+  }
 
-    console.log(categoryId)
-    //categoryID -> "traits"?
+  //categoryId = dexNumber or skin...
+  const handleChange = (categoryId: any, optionValue: number | string) => {
+    console.log("CATEGORY IDDD", categoryId)
 
     const removeCheckBox = (values: any, checkedValue: any) => {
       return values.filter((x: any) => x != checkedValue)
     }
 
-    setSelectedFilters({
-      ...selectedFilters,
-      dexNumber: selectedFilters.dexNumber.includes(optionValue)
-        ? removeCheckBox(selectedFilters.dexNumber, optionValue)
-        : [...selectedFilters.dexNumber, optionValue],
-    })
+    let selectedFilter = selectedFilters as SelectedFilters
+
+    if (categoryId == "dexNumber") {
+      console.log("DexNumber added")
+      setSelectedFilters({
+        ...selectedFilters,
+        dexNumber: selectedFilters.dexNumber.includes(optionValue)
+          ? removeCheckBox(selectedFilters.dexNumber, optionValue)
+          : [...selectedFilters.dexNumber, optionValue],
+      })
+    }
+    if (categoryId == "skin") {
+      setSelectedFilters({
+        ...selectedFilters,
+        skin: selectedFilters.skin.includes(optionValue)
+          ? removeCheckBox(selectedFilters.skin, optionValue)
+          : [...selectedFilters.skin, optionValue],
+      })
+    }
+    if (categoryId == "starLevel") {
+      setSelectedFilters({
+        ...selectedFilters,
+        starLevel: selectedFilters.starLevel.includes(optionValue)
+          ? removeCheckBox(selectedFilters.starLevel, optionValue)
+          : [...selectedFilters.starLevel, optionValue],
+      })
+    }
+    if (categoryId == "element") {
+      setSelectedFilters({
+        ...selectedFilters,
+        element: selectedFilters.element.includes(optionValue)
+          ? removeCheckBox(selectedFilters.element, optionValue)
+          : [...selectedFilters.element, optionValue],
+      })
+    }
+    if (categoryId == "serialNumber") {
+      console.log("DexNumber added")
+      setSelectedFilters({
+        ...selectedFilters,
+        serialNumber: selectedFilters.serialNumber.includes(optionValue)
+          ? removeCheckBox(selectedFilters.serialNumber, optionValue)
+          : [...selectedFilters.serialNumber, optionValue],
+      })
+    }
+    // if (selectedFilter > 0) {
+    //   selectedFilter = [...selectedFilter, optionValue]
+    // }
+
+    console.log("UPDATED SELECTED FILTER", selectedFilter)
+
+    // setSelectedFilters({
+    //   ...selectedFilters,
+    //   categoryId: selectedFilters.categoryId.includes(optionValue)
+    //     ? removeCheckBox(selectedFilters.categoryId, optionValue)
+    //     : [...selectedFilters.categoryId, optionValue],
+    // })
 
     console.log(selectedFilters)
   }

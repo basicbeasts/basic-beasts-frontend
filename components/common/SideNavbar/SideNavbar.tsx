@@ -198,9 +198,9 @@ const SideNavbar: FC<Props> = ({ isSideNavbarOpen, toggle }: Props) => {
               <A onClick={toggle}>Collection</A>
             </NextLink>
           )}
-          <NextLink href="/dexicon">
+          {/* <NextLink href="/dexicon">
             <A onClick={toggle}>Dexicon</A>
-          </NextLink>
+          </NextLink> */}
           <A
             target="_blank"
             rel="noreferrer"
