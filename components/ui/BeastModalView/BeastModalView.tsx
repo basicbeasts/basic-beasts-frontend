@@ -172,7 +172,7 @@ const Img = styled.img`
   user-drag: none;
   -webkit-user-drag: none;
   @media (max-width: 767px) {
-    top: -30px;
+    top: -50px;
   }
 `
 
