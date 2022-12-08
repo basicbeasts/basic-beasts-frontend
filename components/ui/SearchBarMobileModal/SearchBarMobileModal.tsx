@@ -329,8 +329,8 @@ const SearchBar: FC<{
             type="text"
             placeholder={placeholder}
             value={wordEntered}
-            // onChange={handleFilter}
-            onChange={(e) => setWordEntered(e.target.value)}
+            onChange={handleFilter}
+            // onChange={(e) => setWordEntered(e.target.value)}
             onClick={handleFilter}
             key={"bazinga"}
           />
