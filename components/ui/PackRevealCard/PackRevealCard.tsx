@@ -520,8 +520,7 @@ const PackRevealCard: FC<Props> = ({
         <Description>{pack.beastDescription}</Description>
         {pack.beastMaxAdminMintAllowed <= 1000 ? (
           <Serial>
-            Serial Serial #{pack.beastSerialNumber} |{" "}
-            {pack.beastMaxAdminMintAllowed}
+            Serial #{pack.beastSerialNumber} | {pack.beastMaxAdminMintAllowed}
           </Serial>
         ) : (
           <Serial>Serial Serial #{pack.beastSerialNumber} | ?</Serial>
