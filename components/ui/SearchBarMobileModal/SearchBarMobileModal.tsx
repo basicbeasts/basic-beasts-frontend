@@ -331,6 +331,7 @@ const SearchBar: FC<{
             value={wordEntered}
             onChange={handleFilter}
             onClick={handleFilter}
+            key={"bazinga"}
           />
           {wordEntered != "" && (
             <a>
