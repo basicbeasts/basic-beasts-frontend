@@ -328,7 +328,7 @@ const SearchBar: FC<{
           <InputBar
             type="text"
             placeholder={placeholder}
-            defaultValue={wordEntered}
+            value={wordEntered}
             onChange={handleFilter}
             onClick={handleFilter}
           />
