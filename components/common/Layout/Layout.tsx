@@ -9,6 +9,7 @@ import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import SlideOverNavbar from "../SlideOverNavbar"
 import profilePictures from "data/profilePictures"
+import Snowfall from "react-snowfall"
 
 //Configure FCL
 fcl
@@ -123,6 +124,7 @@ const Layout: FC = ({ children }) => {
         profile={profile}
         setProfile={setProfile}
       />
+      <Snowfall />
       <main>{children}</main>
       <Footer />
     </>
