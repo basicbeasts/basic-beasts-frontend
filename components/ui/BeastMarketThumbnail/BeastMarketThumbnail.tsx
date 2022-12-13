@@ -4,6 +4,7 @@ import styled from "styled-components"
 import star from "public/basic_starLevel.png"
 import thumbnail from "public/beasts/beast_market_thumbnail/001_thumbnail_marketplace.png"
 import beastTemplates from "data/beastTemplates"
+import { InView } from "react-intersection-observer"
 
 const Container = styled.div<{
   selected?: boolean
@@ -43,23 +44,25 @@ const BeastMarketThumbnail: FC<BeastThumbnailProps> = ({
   ...props
 }: BeastThumbnailProps) => {
   return (
-    <div className={className}>
-      <Container {...props} tagColor={"#FFD966"}>
-        <>
-          <Img
-            // src={
-            //   beastTemplates[beastTemplateID as keyof typeof beastTemplates]
-            //     ?.marketThumbnail || thumbnail.src
-            // }
-            src={
-              "https://basicbeasts.mypinata.cloud/ipfs/" +
-                beastTemplates[beastTemplateID as keyof typeof beastTemplates]
-                  ?.thumbnail || thumbnail.src
-            }
-          />
-        </>
-      </Container>
-    </div>
+    <InView onChange={(inView, entry) => console.log("Inview:", inView)}>
+      <div className={className}>
+        <Container {...props} tagColor={"#FFD966"}>
+          <>
+            <Img
+              // src={
+              //   beastTemplates[beastTemplateID as keyof typeof beastTemplates]
+              //     ?.marketThumbnail || thumbnail.src
+              // }
+              src={
+                "https://basicbeasts.mypinata.cloud/ipfs/" +
+                  beastTemplates[beastTemplateID as keyof typeof beastTemplates]
+                    ?.thumbnail || thumbnail.src
+              }
+            />
+          </>
+        </Container>
+      </div>
+    </InView>
   )
 }
 export default BeastMarketThumbnail
