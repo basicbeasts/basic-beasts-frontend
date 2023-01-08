@@ -275,7 +275,6 @@ const BeastMarketBeastList: FC<Props> = ({
   }
 
   // const [favoriteBeasts, setFavoriteBeasts] = useState<any>([])
-  // const [quickBidOpen, setQuickBidOpen] = useState(false)
   // const [selectedBeast, setSelectedBeast] = useState<any>()
 
   useEffect(() => {
@@ -444,11 +443,6 @@ const BeastMarketBeastList: FC<Props> = ({
 
     return (
       <div>
-        {/* <QuickBidModal
-          open={quickBidOpen}
-          setOpen={setQuickBidOpen}
-          beast={selectedBeast}
-        /> */}
         <ThumbnailDetails
           style={{ borderRadius: "0 0 20px 20px" }}
           bgColor={
@@ -571,7 +565,7 @@ const BeastMarketBeastList: FC<Props> = ({
               setQuickBidOpen(true)
             }}
           >
-            Quick Bid
+            Quick Buy
           </QuickBuyButton>
           {/* Make thumbnail details into a component and useState inside that component and add DialogInfo to it */}
           <ThumbnailDetailsFC beast={beast} />

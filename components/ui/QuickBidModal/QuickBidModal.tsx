@@ -316,6 +316,8 @@ const QuickBidModal: FC<Props> = ({ open, setOpen, beast }) => {
               >
                 <Container>
                   <Title>{beast?.id}</Title>
+                  <Title>name: {beast?.name}</Title>
+                  <Title>Serial: {beast?.serialNumber}</Title>
 
                   <div>
                     <FuncArgInput

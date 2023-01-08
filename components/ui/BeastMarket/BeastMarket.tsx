@@ -1205,7 +1205,7 @@ const BeastMarket: FC<Props> = () => {
           setSortBy={setSortBy}
         />
         <div className=" hidden md:flex gap-2">
-          {/* <BuyButton
+          <BuyButton
             style={{
               background: buttonColor(bulkBuyOpen).btnColor,
               color: buttonColor(bulkBuyOpen).fontColor,
@@ -1218,7 +1218,7 @@ const BeastMarket: FC<Props> = () => {
             )}
           >
             Bulk Buy
-          </BuyButton> */}
+          </BuyButton>
           <BuyButton
             style={{
               background: buttonColor(bulkBidOpen).btnColor,
@@ -1233,7 +1233,7 @@ const BeastMarket: FC<Props> = () => {
           >
             Bulk Bid
           </BuyButton>
-          {/* <BuyButton
+          <BuyButton
             style={{
               background: buttonColor(sweepOpen).btnColor,
               color: buttonColor(sweepOpen).fontColor,
@@ -1246,7 +1246,7 @@ const BeastMarket: FC<Props> = () => {
             )}
           >
             Sweep
-          </BuyButton> */}
+          </BuyButton>
         </div>
       </HeaderBeastCollection>
 
