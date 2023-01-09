@@ -567,6 +567,7 @@ const BeastModalView: FC<Props> = ({
         transaction(`
         import Evolution from 0xEvolution
         import BasicBeasts from 0xBasicBeasts
+        import FUSD from 0xFUSD
 
         pub fun hasEvolver(_ address: Address): Bool {
           return getAccount(address)
@@ -579,6 +580,26 @@ const BeastModalView: FC<Props> = ({
             let collectionRef: &BasicBeasts.Collection
 
           prepare(acct: AuthAccount) {
+
+            // check for FUSD vault
+            if acct.borrow<&FUSD.Vault>(from: /storage/fusdVault) == nil {
+                // Create a new FUSD Vault and put it in storage
+                acct.save(<-FUSD.createEmptyVault(), to: /storage/fusdVault)
+
+                // Create a public capability to the Vault that only exposes
+                // the deposit function through the Receiver interface
+                acct.link<&FUSD.Vault{FungibleToken.Receiver}>(
+                    /public/fusdReceiver,
+                    target: /storage/fusdVault
+                )
+
+                // Create a public capability to the Vault that only exposes
+                // the balance field through the Balance interface
+                acct.link<&FUSD.Vault{FungibleToken.Balance}>(
+                    /public/fusdBalance,
+                    target: /storage/fusdVault
+                )
+            }
 
             if !hasEvolver(acct.address) {
               if acct.borrow<&Evolution.Evolver>(from: Evolution.EvolverStoragePath) == nil {

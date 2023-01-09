@@ -45,7 +45,7 @@ export default function useHunterData() {
         }
         `,
       })
-      console.log("use-hunter-data.hook: fetchAllHunterScores()")
+      // console.log("use-hunter-data.hook: fetchAllHunterScores()")
       return res
     } catch (error) {
       dispatch({ type: "ERROR" })
@@ -65,7 +65,7 @@ export default function useHunterData() {
         }
         `,
       })
-      console.log("use-hunter-data.hook: fetchAllBeastsCollected()")
+      // console.log("use-hunter-data.hook: fetchAllBeastsCollected()")
       return res
     } catch (error) {
       dispatch({ type: "ERROR" })

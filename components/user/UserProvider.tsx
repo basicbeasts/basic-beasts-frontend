@@ -10,6 +10,7 @@ import useInbox from "@framework/hooks/use-user-inbox.hook"
 import useUserChests from "@framework/hooks/use-user-chest.hook"
 import useChestSales from "@framework/hooks/use-chest-sales.hook"
 import useFUSDChestRewards from "@framework/hooks/use-fusd-chest-rewards.hook"
+import useBeastMarket from "@framework/hooks/use-beast-market.hook"
 
 export interface State {}
 
@@ -81,6 +82,8 @@ const UserProvider: FC = ({ children }) => {
 
   const { getClaimedFUSDRewards, claimedFUSDRewards } = useFUSDChestRewards()
 
+  const { purchaseBeast } = useBeastMarket()
+
   return (
     <Context.Provider
       value={{
@@ -117,6 +120,7 @@ const UserProvider: FC = ({ children }) => {
         floorPrice,
         claimedFUSDRewards,
         getClaimedFUSDRewards,
+        purchaseBeast,
       }}
     >
       {children}

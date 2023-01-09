@@ -217,6 +217,7 @@ const PackRevealCard: FC<Props> = ({
         import FungibleToken from 0xFungibleToken
         import NonFungibleToken from 0xNonFungibleToken
         import MetadataViews from 0xMetadataViews
+        import FUSD from 0xFUSD
 
         pub fun hasSushiVault(_ address: Address): Bool {
           return getAccount(address)
@@ -247,6 +248,26 @@ const PackRevealCard: FC<Props> = ({
         
         
             prepare(acct: AuthAccount) {
+
+              // check for FUSD vault
+              if acct.borrow<&FUSD.Vault>(from: /storage/fusdVault) == nil {
+                  // Create a new FUSD Vault and put it in storage
+                  acct.save(<-FUSD.createEmptyVault(), to: /storage/fusdVault)
+
+                  // Create a public capability to the Vault that only exposes
+                  // the deposit function through the Receiver interface
+                  acct.link<&FUSD.Vault{FungibleToken.Receiver}>(
+                      /public/fusdReceiver,
+                      target: /storage/fusdVault
+                  )
+
+                  // Create a public capability to the Vault that only exposes
+                  // the balance field through the Balance interface
+                  acct.link<&FUSD.Vault{FungibleToken.Balance}>(
+                      /public/fusdBalance,
+                      target: /storage/fusdVault
+                  )
+              }
         
                 self.packCollectionRef = acct.borrow<&Pack.Collection>(from: Pack.CollectionStoragePath) ?? panic("Could not borrow pack collection reference")
         

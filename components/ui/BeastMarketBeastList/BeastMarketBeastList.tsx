@@ -6,6 +6,7 @@ import BeastMarketThumbnail from "../BeastMarketThumbnail"
 import { faHeart as heartFull } from "@fortawesome/free-solid-svg-icons"
 import { faHeart as heartEmpty } from "@fortawesome/free-regular-svg-icons"
 import QuickBidModal from "../QuickBidModal"
+import { useUser } from "@components/user/UserProvider"
 
 const MarketUl = styled.ul`
   padding-top: 5px;
@@ -206,6 +207,7 @@ const ThumbnailLabel = styled.div`
 
   display: table;
   clear: both;
+  font-size: 1.3em;
 `
 
 const NameWrapper = styled.div`
@@ -304,6 +306,8 @@ const BeastMarketBeastList: FC<Props> = ({
       )
     }
   }
+
+  const { userBeasts } = useUser()
 
   const DialogInfo: FC<{
     id: any
@@ -440,6 +444,9 @@ const BeastMarketBeastList: FC<Props> = ({
     //   left = 50
     //   right = 50
     // }
+    // useEffect(() => {
+    //   console.log(userBeasts.map((beast: any) => beast.id))
+    // }, [userBeasts])
 
     return (
       <div>
@@ -459,17 +466,25 @@ const BeastMarketBeastList: FC<Props> = ({
         >
           <ThumbnailWrapper>
             <ThumbnailLabel>
-              {beast.nickname.length < 13 ? (
-                <NameWrapper style={{ fontSize: "1.3em", color: "black" }}>
-                  {beast.nickname}
-                </NameWrapper>
-              ) : (
-                <NameWrapper style={{ fontSize: "1em" }}>
-                  {beast.nickname}
-                </NameWrapper>
-              )}
-              <SerialWrapper style={{ fontSize: "1.3em" }}>
-                #{beast.serialNumber}
+              <NameWrapper style={{ color: "black" }}>100 FUSD</NameWrapper>
+              <span>
+                {userBeasts.map((beast: any) => beast.id).includes(beast.id)
+                  ? "owned"
+                  : "not owned"}
+              </span>
+              {/* <span>For testing: {beast.id}</span> */}
+              <SerialWrapper>
+                {beast.nickname.length < 10 ? (
+                  <>
+                    <span>
+                      {beast.nickname}#{beast.serialNumber}
+                    </span>
+                  </>
+                ) : (
+                  <span style={{ fontSize: "0.8em" }}>
+                    {beast.nickname}#{beast.serialNumber}
+                  </span>
+                )}
               </SerialWrapper>
             </ThumbnailLabel>
             <ThumbnailFooter>
@@ -535,6 +550,8 @@ const BeastMarketBeastList: FC<Props> = ({
       </div>
     )
   }
+
+  const { purchaseBeast } = useUser()
   return (
     <MarketUl
       role="list"
@@ -559,14 +576,42 @@ const BeastMarketBeastList: FC<Props> = ({
               beastTemplateID={beast.beastTemplateID}
             />
           </div>
-          <QuickBuyButton
-            onClick={() => {
-              setSelectedBeast(beast)
-              setQuickBidOpen(true)
-            }}
-          >
-            Quick Buy
-          </QuickBuyButton>
+          {userBeasts.map((beast: any) => beast.id).includes(beast.id) ? (
+            <>
+              {true ? (
+                <QuickBuyButton
+                  onClick={() => {
+                    setSelectedBeast(beast)
+                    // setQuickBidOpen(true)
+                    purchaseBeast("0x7af4fbec6da8a216", beast.id, 200.0)
+                  }}
+                >
+                  List for sale
+                </QuickBuyButton>
+              ) : (
+                <QuickBuyButton
+                  onClick={() => {
+                    setSelectedBeast(beast)
+                    // setQuickBidOpen(true)
+                    purchaseBeast("0x7af4fbec6da8a216", beast.id, 200.0)
+                  }}
+                >
+                  Delist
+                </QuickBuyButton>
+              )}
+            </>
+          ) : (
+            <QuickBuyButton
+              onClick={() => {
+                setSelectedBeast(beast)
+                // setQuickBidOpen(true)
+                purchaseBeast("0x7af4fbec6da8a216", beast.id, 200.0)
+              }}
+            >
+              Quick Buy
+            </QuickBuyButton>
+          )}
+
           {/* Make thumbnail details into a component and useState inside that component and add DialogInfo to it */}
           <ThumbnailDetailsFC beast={beast} />
         </BeastLi>

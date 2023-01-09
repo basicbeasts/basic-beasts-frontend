@@ -1050,7 +1050,7 @@ const BeastMarket: FC<Props> = () => {
 
   // prettier-ignore
   const filterBeasts = (beasts: any, filters: any) => {
-    console.log("TESTTT",filters.dexNumber?.length)
+    // console.log("TESTTT",filters.dexNumber?.length)
     return beasts.filter((beast: any) => {
       return (
         (filters.dexNumber?.length == 0 || filters.dexNumber?.includes(beast.dexNumber)) && 
@@ -1076,7 +1076,7 @@ const BeastMarket: FC<Props> = () => {
   //useMemo
 
   useEffect(() => {
-    console.log("selectedFilters changed", selectedFilters)
+    // console.log("selectedFilters changed", selectedFilters)
     //{SELECTED FILTER}
 
     const newList = filterBeasts(beasts, selectedFilters)

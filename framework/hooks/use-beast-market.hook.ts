@@ -99,18 +99,56 @@ export default function useBeastMarket() {
   //     }
   //   }
 
-  const purchaseBeast = async (beastID: number) => {
+  const purchaseBeast = async (
+    address: String,
+    beastID: number,
+    purchaseAmount: number,
+  ) => {
     const id = toast.loading("Initializing...")
 
     try {
       const res = await send([
         transaction(`
-        import 
+          import FungibleToken from 0xFungibleToken
+          import FUSD from 0xFUSD
+          import BasicBeasts from 0xBasicBeasts
+          import BeastMarket from 0xBeastMarket
+
+          transaction(sellerAddress: Address, beastID: UInt64, purchaseAmount: UFix64) {
+              prepare(acct: AuthAccount) {
+                  // borrow a reference to the signer's collection
+                  let collection = acct.borrow<&BasicBeasts.Collection>(from: BasicBeasts.CollectionStoragePath)
+                      ?? panic("Could not borrow reference to the Beast Collection")
+
+                  // borrow a reference to the signer's fusd token Vault
+                  let provider = acct.borrow<&FUSD.Vault{FungibleToken.Provider}>(from: /storage/fusdVault)!
+                  
+                  // withdraw tokens from the signer's vault
+                  let tokens <- provider.withdraw(amount: purchaseAmount) as! @FUSD.Vault
+
+                  // get the seller's public account object
+                  let seller = getAccount(sellerAddress)
+
+                  // borrow a public reference to the seller's sale collection
+                  let saleCollection = seller.getCapability(BeastMarket.CollectionPublicPath)
+                      .borrow<&BeastMarket.SaleCollection{BeastMarket.SalePublic}>()
+                      ?? panic("Could not borrow public sale reference")
+              
+                  // purchase the moment
+                  let purchasedBeast <- saleCollection.purchase(tokenID: beastID, buyTokens: <-tokens, buyer: acct.address)
+
+                  // deposit the purchased moment into the signer's collection
+                  collection.deposit(token: <-purchasedBeast)
+              }
+
+          }
+
         `),
         args([
-          arg(process.env.NEXT_PUBLIC_INBOX_ADDRESS, t.Address),
-          arg(500, t.Int),
-        ]), //Admin Account on testnet
+          arg(address, t.Address),
+          arg(beastID, t.UInt64),
+          arg(purchaseAmount, t.UFix64),
+        ]),
         payer(authz),
         proposer(authz),
         authorizations([authz]),
@@ -152,7 +190,7 @@ export default function useBeastMarket() {
             autoClose: 5000,
           })
         })
-      //   fetchInbox()
+      // Add getters here
     } catch (err) {
       toast.update(id, {
         render: "Error, try again later...",
@@ -168,6 +206,7 @@ export default function useBeastMarket() {
 
   return {
     ...state,
+    purchaseBeast,
     // getAllChestSaleOffers,
     // floorPrice,
   }
