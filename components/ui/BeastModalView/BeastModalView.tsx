@@ -483,7 +483,7 @@ const tabs = [
   { name: "Info", href: "#info" },
   { name: "Evolution", href: "#evolution" },
   { name: "Breeding", href: "#breeding" },
-  { name: "Supply", href: "#supply" },
+  { name: "Trade", href: "#trade" },
 ]
 
 function classNames(...classes: any) {
@@ -1175,7 +1175,7 @@ const BeastModalView: FC<Props> = ({
                         ) : (
                           <></>
                         )}
-                        {filter === "Supply" ? (
+                        {filter === "Trade" ? (
                           <NotEnoughContainer>
                             <Body
                               style={{

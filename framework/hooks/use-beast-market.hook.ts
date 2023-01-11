@@ -204,10 +204,133 @@ export default function useBeastMarket() {
 
   const purchaseManyBeasts = async (beastIDs: number[]) => {}
 
+  const listBeastForSale = async (
+    address: String,
+    beastID: number,
+    purchaseAmount: number,
+  ) => {
+    const id = toast.loading("Initializing...")
+
+    try {
+      const res = await send([
+        transaction(`
+          import FungibleToken from 0xFungibleToken
+          import FUSD from 0xFUSD
+          import BasicBeasts from 0xBasicBeasts
+          import BeastMarket from 0xBeastMarket
+
+          transaction(beastID: UInt64, price: UFix64) {
+
+              prepare(acct: AuthAccount) {
+                  // check for FUSD vault
+                  if acct.borrow<&FUSD.Vault>(from: /storage/fusdVault) == nil {
+                      // Create a new FUSD Vault and put it in storage
+                      acct.save(<-FUSD.createEmptyVault(), to: /storage/fusdVault)
+
+                      // Create a public capability to the Vault that only exposes
+                      // the deposit function through the Receiver interface
+                      acct.link<&FUSD.Vault{FungibleToken.Receiver}>(
+                          /public/fusdReceiver,
+                          target: /storage/fusdVault
+                      )
+
+                      // Create a public capability to the Vault that only exposes
+                      // the balance field through the Balance interface
+                      acct.link<&FUSD.Vault{FungibleToken.Balance}>(
+                          /public/fusdBalance,
+                          target: /storage/fusdVault
+                      )
+                  }
+
+                  // check to see if a sale collection already exists
+                  if acct.borrow<&BeastMarket.SaleCollection>(from: BeastMarket.CollectionStoragePath) == nil {
+                      // get the fungible token capabilities for the owner and beneficiary
+                      let ownerCapability = acct.getCapability<&FUSD.Vault{FungibleToken.Receiver}>(/public/fusdReceiver)
+
+                      let ownerCollection = acct.link<&BasicBeasts.Collection>(BasicBeasts.CollectionPrivatePath, target: BasicBeasts.CollectionStoragePath)!
+
+                      // create a new sale collection
+                      let saleCollection <- BeastMarket.createSaleCollection(ownerCollection: ownerCollection, ownerCapability: ownerCapability)
+                      
+                      // save it to storage
+                      acct.save(<-saleCollection, to: BeastMarket.CollectionStoragePath)
+                  
+                      // create a public link to the sale collection
+                      acct.link<&BeastMarket.SaleCollection{BeastMarket.SalePublic}>(BeastMarket.CollectionPublicPath, target: BeastMarket.CollectionStoragePath)
+                  }
+
+                  // borrow a reference to the sale
+                  let saleCollection = acct.borrow<&BeastMarket.SaleCollection>(from: BeastMarket.CollectionStoragePath)
+                      ?? panic("Could not borrow from sale in storage")
+                  
+                  // put the beast up for sale
+                  saleCollection.listForSale(tokenID: beastID, price: price)
+                  
+              }
+          }
+
+        `),
+        args([
+          arg(address, t.Address),
+          arg(beastID, t.UInt64),
+          arg(purchaseAmount, t.UFix64),
+        ]),
+        payer(authz),
+        proposer(authz),
+        authorizations([authz]),
+        limit(9999),
+      ]).then(decode)
+      tx(res).subscribe((res: any) => {
+        if (res.status === 1) {
+          toast.update(id, {
+            render: "Pending...",
+            type: "default",
+            isLoading: true,
+            autoClose: 5000,
+          })
+        }
+        if (res.status === 2) {
+          toast.update(id, {
+            render: "Finalizing...",
+            type: "default",
+            isLoading: true,
+            autoClose: 5000,
+          })
+        }
+        if (res.status === 3) {
+          toast.update(id, {
+            render: "Executing...",
+            type: "default",
+            isLoading: true,
+            autoClose: 5000,
+          })
+        }
+      })
+      await tx(res)
+        .onceSealed()
+        .then((result: any) => {
+          toast.update(id, {
+            render: "Transaction Sealed",
+            type: "success",
+            isLoading: false,
+            autoClose: 5000,
+          })
+        })
+      // Add getters here
+    } catch (err) {
+      toast.update(id, {
+        render: "Error, try again later...",
+        type: "error",
+        isLoading: false,
+        autoClose: 5000,
+      })
+      console.log(err)
+    }
+  }
+
   return {
     ...state,
     purchaseBeast,
-    // getAllChestSaleOffers,
-    // floorPrice,
+    listBeastForSale,
   }
 }

@@ -5,7 +5,6 @@ import styled from "styled-components"
 import BeastMarketThumbnail from "../BeastMarketThumbnail"
 import { faHeart as heartFull } from "@fortawesome/free-solid-svg-icons"
 import { faHeart as heartEmpty } from "@fortawesome/free-regular-svg-icons"
-import QuickBidModal from "../QuickBidModal"
 import { useUser } from "@components/user/UserProvider"
 
 const MarketUl = styled.ul`
@@ -247,7 +246,7 @@ type Props = {
   selectedBeasts: any
   setSelectedBeasts: any
   setSelectedBeast: any
-  setQuickBidOpen: any
+  setListBeastForSaleOpen: any
   favoriteBeasts: any
   setFavoriteBeasts: any
   // setDisplayNickname: any
@@ -258,7 +257,7 @@ const BeastMarketBeastList: FC<Props> = ({
   selectedBeasts,
   setSelectedBeasts,
   setSelectedBeast,
-  setQuickBidOpen,
+  setListBeastForSaleOpen,
   favoriteBeasts,
   setFavoriteBeasts,
   // setDisplayNickname,
@@ -467,11 +466,11 @@ const BeastMarketBeastList: FC<Props> = ({
           <ThumbnailWrapper>
             <ThumbnailLabel>
               <NameWrapper style={{ color: "black" }}>100 FUSD</NameWrapper>
-              <span>
+              {/* <span>
                 {userBeasts.map((beast: any) => beast.id).includes(beast.id)
                   ? "owned"
                   : "not owned"}
-              </span>
+              </span> */}
               {/* <span>For testing: {beast.id}</span> */}
               <SerialWrapper>
                 {beast.nickname.length < 10 ? (
@@ -576,14 +575,13 @@ const BeastMarketBeastList: FC<Props> = ({
               beastTemplateID={beast.beastTemplateID}
             />
           </div>
-          {userBeasts.map((beast: any) => beast.id).includes(beast.id) ? (
+          {userBeasts?.map((beast: any) => beast.id).includes(beast.id) ? (
             <>
               {true ? (
                 <QuickBuyButton
                   onClick={() => {
                     setSelectedBeast(beast)
-                    // setQuickBidOpen(true)
-                    purchaseBeast("0x7af4fbec6da8a216", beast.id, 200.0)
+                    setListBeastForSaleOpen(true)
                   }}
                 >
                   List for sale
