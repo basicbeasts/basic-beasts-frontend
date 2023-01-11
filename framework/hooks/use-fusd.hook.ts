@@ -19,6 +19,7 @@ import * as fcl from "@onflow/fcl"
 import * as FlowTypes from "@onflow/types"
 import { PURCHASE } from "flow/transactions/transaction.purchase"
 import { toast } from "react-toastify"
+import { toastStatus } from "@framework/helpers/toastStatus"
 
 export default function useFUSD(user: any) {
   const [state, dispatch] = useReducer(defaultReducer, {
@@ -72,30 +73,7 @@ export default function useFUSD(user: any) {
       // wait for transaction to be mined
 
       tx(res).subscribe((res: any) => {
-        if (res.status === 1) {
-          toast.update(id, {
-            render: "Pending...",
-            type: "default",
-            isLoading: true,
-            autoClose: 5000,
-          })
-        }
-        if (res.status === 2) {
-          toast.update(id, {
-            render: "Finalizing...",
-            type: "default",
-            isLoading: true,
-            autoClose: 5000,
-          })
-        }
-        if (res.status === 3) {
-          toast.update(id, {
-            render: "Executing...",
-            type: "default",
-            isLoading: true,
-            autoClose: 5000,
-          })
-        }
+        toastStatus(id, res.status)
       })
       const trx = await tx(res)
         .onceSealed()

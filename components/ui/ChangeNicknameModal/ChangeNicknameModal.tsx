@@ -19,6 +19,7 @@ import {
 } from "@onflow/fcl"
 import * as t from "@onflow/types"
 import { toast } from "react-toastify"
+import { toastStatus } from "@framework/helpers/toastStatus"
 
 const ActionItem = styled.div`
   padding: 10px 0;
@@ -145,30 +146,7 @@ const BeastModalView: FC<Props> = ({
         setDisplayNickname(beastName)
       }
       tx(res).subscribe((res: any) => {
-        if (res.status === 1) {
-          toast.update(id, {
-            render: "Pending...",
-            type: "default",
-            isLoading: true,
-            autoClose: 5000,
-          })
-        }
-        if (res.status === 2) {
-          toast.update(id, {
-            render: "Finalizing...",
-            type: "default",
-            isLoading: true,
-            autoClose: 5000,
-          })
-        }
-        if (res.status === 3) {
-          toast.update(id, {
-            render: "Executing...",
-            type: "default",
-            isLoading: true,
-            autoClose: 5000,
-          })
-        }
+        toastStatus(id, res.status)
       })
       await tx(res)
         .onceSealed()

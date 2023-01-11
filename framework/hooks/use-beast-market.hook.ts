@@ -17,6 +17,8 @@ import {
 } from "@onflow/fcl"
 import * as t from "@onflow/types"
 
+import { toastStatus } from "../helpers/toastStatus"
+
 export default function useBeastMarket() {
   const [state, dispatch] = useReducer(defaultReducer, {
     loading: true,
@@ -155,30 +157,7 @@ export default function useBeastMarket() {
         limit(9999),
       ]).then(decode)
       tx(res).subscribe((res: any) => {
-        if (res.status === 1) {
-          toast.update(id, {
-            render: "Pending...",
-            type: "default",
-            isLoading: true,
-            autoClose: 5000,
-          })
-        }
-        if (res.status === 2) {
-          toast.update(id, {
-            render: "Finalizing...",
-            type: "default",
-            isLoading: true,
-            autoClose: 5000,
-          })
-        }
-        if (res.status === 3) {
-          toast.update(id, {
-            render: "Executing...",
-            type: "default",
-            isLoading: true,
-            autoClose: 5000,
-          })
-        }
+        toastStatus(id, res.status)
       })
       await tx(res)
         .onceSealed()
@@ -281,30 +260,7 @@ export default function useBeastMarket() {
         limit(9999),
       ]).then(decode)
       tx(res).subscribe((res: any) => {
-        if (res.status === 1) {
-          toast.update(id, {
-            render: "Pending...",
-            type: "default",
-            isLoading: true,
-            autoClose: 5000,
-          })
-        }
-        if (res.status === 2) {
-          toast.update(id, {
-            render: "Finalizing...",
-            type: "default",
-            isLoading: true,
-            autoClose: 5000,
-          })
-        }
-        if (res.status === 3) {
-          toast.update(id, {
-            render: "Executing...",
-            type: "default",
-            isLoading: true,
-            autoClose: 5000,
-          })
-        }
+        toastStatus(id, res.status)
       })
       await tx(res)
         .onceSealed()
