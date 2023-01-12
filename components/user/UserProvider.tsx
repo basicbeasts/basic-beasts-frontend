@@ -82,7 +82,15 @@ const UserProvider: FC = ({ children }) => {
 
   const { getClaimedFUSDRewards, claimedFUSDRewards } = useFUSDChestRewards()
 
-  const { purchaseBeast, listBeastForSale } = useBeastMarket()
+  const {
+    beastsForSale,
+    getAllBeastsForSale,
+    purchaseBeast,
+    listBeastForSale,
+    delistBeast,
+    beasts,
+    getAllBeasts,
+  } = useBeastMarket()
 
   return (
     <Context.Provider
@@ -120,8 +128,13 @@ const UserProvider: FC = ({ children }) => {
         floorPrice,
         claimedFUSDRewards,
         getClaimedFUSDRewards,
+        beastsForSale,
+        getAllBeastsForSale,
         purchaseBeast,
         listBeastForSale,
+        delistBeast,
+        beasts,
+        getAllBeasts,
       }}
     >
       {children}

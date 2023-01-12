@@ -162,6 +162,7 @@ export default function useHunterData() {
     }
 
     setFindNames(findNames)
+    // console.log("findNames", findNames)
 
     // assign rank by hunter score
     hunterData.sort((a: any, b: any) => b.hunterScore - a.hunterScore)
@@ -221,6 +222,15 @@ export default function useHunterData() {
     // setHunterData(hunterDataRankedByTotalBeasts)
     hunterDataRankedByTotalBeasts.sort(
       (a: any, b: any) => b.rankByHunterScore - a.rankByHunterScore,
+    )
+
+    console.log("hunterData", hunterDataRankedByTotalBeasts)
+
+    console.log(
+      "hunterData",
+      hunterDataRankedByTotalBeasts.filter(
+        (hunter: any) => hunter.address == "0x9b4180f13bbc9e4d",
+      )?.[0],
     )
 
     dispatch({ type: "SUCCESS", payload: hunterDataRankedByTotalBeasts })

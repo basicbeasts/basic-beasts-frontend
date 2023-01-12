@@ -26,80 +26,143 @@ export default function useBeastMarket() {
     data: null,
   })
 
-  //   const [floorPrice, setFloorPrice] = useState(0.0)
+  const [beasts, setBeasts] = useState<any>([])
+  const [beastsForSale, setBeastsForSale] = useState<any>([])
 
   useEffect(() => {
-    // getAllChestSaleOffers()
+    getAllBeastsForSale()
+    getAllBeasts()
   }, [])
 
-  //   const getAllChestSaleOffers = async () => {
-  //     dispatch({ type: "PROCESSING" })
-  //     try {
-  //       let res = await query({
-  //         cadence: `
-  //         import FungibleToken from 0xFungibleToken
-  //         import NonFungibleToken from 0xNonFungibleToken
-  //         import FUSD from 0xFUSD
-  //         import BlackMarketplace from 0xBlackMarketplace
-  //         import NFTDayTreasureChest from 0xNFTDayTreasureChest
+  const getAllBeasts = async () => {
+    try {
+      let res = await query({
+        cadence: `
+        import HunterScore from 0xHunterScore
+        import BasicBeasts from 0xBasicBeasts
 
-  //         // This script returns the available chest sales
-  //         pub fun main() : {Address:{UInt64: UFix64}} {
+        pub fun main(): [{String:AnyStruct}] {
 
-  //             let addresses = BlackMarketplace.getSellers()
+          let addresses = HunterScore.getHunterScores().keys
+          var beasts: [{String: AnyStruct}] = []
 
-  //             var saleOffers: {Address:{UInt64: UFix64}} = {}
+          for address in addresses {
+            let collectionRef = getAccount(address).getCapability(BasicBeasts.CollectionPublicPath)
+            .borrow<&{BasicBeasts.BeastCollectionPublic}>()
+            if (collectionRef != nil) {
+              let IDs = collectionRef!.getIDs()
+              var i = 0
+              while i < IDs.length {
+                let token = collectionRef!.borrowBeast(id: IDs[i])
+                ?? panic("Couldn't borrow a reference to the specified beast")
 
-  //             for address in addresses {
-  //                 let account = getAccount(address)
-  //                 var addressSaleOffers: {UInt64: UFix64} = {}
+                let beastTemplate = token.getBeastTemplate()
 
-  //                 let saleCollection = account.getCapability(BlackMarketplace.CollectionPublicPath).borrow<&{BlackMarketplace.SalePublic}>()
-  //                 if(saleCollection != nil) {
-  //                     let IDs = saleCollection!.getIDs()
-  //                     for id in IDs {
-  //                         addressSaleOffers[id] = saleCollection!.idPrice(tokenID: id)
-  //                     }
-  //                     saleOffers[address] = addressSaleOffers
-  //                 }
-  //             }
+                var price: UFix64? = nil
 
-  //             return saleOffers
+                if (i%2==0) {
+                  price = 69.0 + UFix64(i)
+                }
+                
+                let beast = {
+                  "name" : beastTemplate.name,
+                  "description" : beastTemplate.description,
+                  "nickname" : token.getNickname(),
+                  "serialNumber" : token.serialNumber,
+                  "dexNumber" : beastTemplate.dexNumber,
+                  "skin" : beastTemplate.skin,
+                  "starLevel" : beastTemplate.starLevel,
+                  "elements" : beastTemplate.elements,
+                  "basicSkills" : beastTemplate.basicSkills,
+                  "ultimateSkill" : beastTemplate.ultimateSkill,
+                  "currentOwner" : address,
+                  "firstOwner" : token.getFirstOwner(),
+                  "sex" : token.sex,
+                  "breedingCount" : 0,
+                  "numberOfMintedBeastTemplates" : 100,
+                  "beastTemplateID" : beastTemplate.beastTemplateID,
+                  "price" : price,
+                  "id": token.id
+                }
 
-  //         }
-  //         `,
-  //       })
-  //       let sales: any[] = []
-  //       // let sales: any[] = [
-  //       //   { address: "0x", id: "1", price: 5.0 },
-  //       //   { address: "0x", id: "1", price: 1.0 },
-  //       //   { address: "0x", id: "1", price: 7.0 },
-  //       // ]
+                beasts.insert(at:i, beast)
+            
+                i = i + 1
+              }
+            }
+          }
 
-  //       for (let address in res) {
-  //         const saleOffers = res[address]
-  //         const keys = Object.keys(saleOffers)
-  //         for (let key in keys) {
-  //           var id = keys[key]
-  //           var price = saleOffers[id]
-  //           var newSaleOffer = {
-  //             address: address,
-  //             id: id,
-  //             price: price,
-  //           }
-  //           sales.push(newSaleOffer)
-  //         }
-  //       }
-  //       sales.sort((a: any, b: any) => a.price - b.price)
-  //       if (sales.length > 0) {
-  //         setFloorPrice(sales[0].price)
-  //       }
-  //       dispatch({ type: "SUCCESS", payload: sales })
-  //     } catch (err) {
-  //       dispatch({ type: "ERROR" })
-  //       console.log(err)
-  //     }
-  //   }
+          return beasts
+        }
+        `,
+      })
+      setBeasts(res)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const getAllBeastsForSale = async () => {
+    try {
+      let res = await query({
+        cadence: `
+        import HunterScore from 0xHunterScore
+        import BasicBeasts from 0xBasicBeasts
+        import BeastMarket from 0xBeastMarket
+
+        pub fun main(): [{String:AnyStruct}] {
+
+          //Get all addresses
+          let addresses = HunterScore.getHunterScores().keys
+      
+          var beastsForSale: [{String: AnyStruct}] = []
+      
+          for address in addresses {
+      
+              let collectionRef = getAccount(address).getCapability(BeastMarket.CollectionPublicPath)
+              .borrow<&BeastMarket.SaleCollection{BeastMarket.SalePublic}>()
+              
+              if (collectionRef != nil) {
+                  let IDs = collectionRef!.getIDs()
+      
+                  var i = 0
+                  while i < IDs.length {
+                  let token = collectionRef!.borrowBeast(id: IDs[i])
+      
+                  if(token != nil) {
+                      let beastTemplate = token!.getBeastTemplate()
+      
+                      let price = collectionRef!.getPrice(tokenID: IDs[i])
+                      
+                      let beast = {
+                          "name" : beastTemplate.name,
+                          "beastTemplateID" : beastTemplate.beastTemplateID,
+                          "id": IDs[i],
+                          "price" : price,
+                          "seller": address
+      
+                      }
+      
+                      beastsForSale.insert(at:i, beast)
+                  }
+      
+                  
+              
+                  i = i + 1
+                  }
+              }
+          }
+      
+          return beastsForSale
+      }
+        `,
+      })
+      setBeastsForSale(res)
+      console.log(res)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   const purchaseBeast = async (
     address: String,
@@ -183,11 +246,7 @@ export default function useBeastMarket() {
 
   const purchaseManyBeasts = async (beastIDs: number[]) => {}
 
-  const listBeastForSale = async (
-    address: String,
-    beastID: number,
-    purchaseAmount: number,
-  ) => {
+  const listBeastForSale = async (beastID: number, price: number) => {
     const id = toast.loading("Initializing...")
 
     try {
@@ -249,11 +308,7 @@ export default function useBeastMarket() {
           }
 
         `),
-        args([
-          arg(address, t.Address),
-          arg(beastID, t.UInt64),
-          arg(purchaseAmount, t.UFix64),
-        ]),
+        args([arg(beastID, t.UInt64), arg(price, t.UFix64)]),
         payer(authz),
         proposer(authz),
         authorizations([authz]),
@@ -273,6 +328,61 @@ export default function useBeastMarket() {
           })
         })
       // Add getters here
+      getAllBeastsForSale()
+    } catch (err) {
+      toast.update(id, {
+        render: "Error, try again later...",
+        type: "error",
+        isLoading: false,
+        autoClose: 5000,
+      })
+      console.log(err)
+    }
+  }
+
+  const delistBeast = async (beastID: number) => {
+    const id = toast.loading("Initializing...")
+
+    try {
+      const res = await send([
+        transaction(`
+          import BeastMarket from 0xBeastMarket
+
+          transaction(beastID: UInt64) {
+
+            prepare(acct: AuthAccount) {
+                // borrow a reference to the sale
+                let saleCollection = acct.borrow<&BeastMarket.SaleCollection>(from: BeastMarket.CollectionStoragePath)
+                    ?? panic("Could not borrow from sale in storage")
+                
+                // put the beast up for sale
+                saleCollection.cancelSale(tokenID: beastID)
+                
+            }
+        }
+
+        `),
+        args([arg(beastID, t.UInt64)]),
+        payer(authz),
+        proposer(authz),
+        authorizations([authz]),
+        limit(9999),
+      ]).then(decode)
+      tx(res).subscribe((res: any) => {
+        toastStatus(id, res.status)
+      })
+      await tx(res)
+        .onceSealed()
+        .then((result: any) => {
+          toast.update(id, {
+            render: "Transaction Sealed",
+            type: "success",
+            isLoading: false,
+            autoClose: 5000,
+          })
+        })
+      // Add getters here
+      getAllBeastsForSale()
     } catch (err) {
       toast.update(id, {
         render: "Error, try again later...",
@@ -286,7 +396,12 @@ export default function useBeastMarket() {
 
   return {
     ...state,
+    beastsForSale,
+    getAllBeastsForSale,
     purchaseBeast,
     listBeastForSale,
+    delistBeast,
+    beasts,
+    getAllBeasts,
   }
 }

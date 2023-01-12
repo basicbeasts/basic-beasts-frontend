@@ -306,7 +306,7 @@ const BeastMarketBeastList: FC<Props> = ({
     }
   }
 
-  const { userBeasts } = useUser()
+  const { userBeasts, beastsForSale } = useUser()
 
   const DialogInfo: FC<{
     id: any
@@ -465,7 +465,22 @@ const BeastMarketBeastList: FC<Props> = ({
         >
           <ThumbnailWrapper>
             <ThumbnailLabel>
-              <NameWrapper style={{ color: "black" }}>100 FUSD</NameWrapper>
+              <NameWrapper style={{ color: "black" }}>
+                {beastsForSale
+                  ?.map((beast: any) => beast.id)
+                  .includes(beast.id) ? (
+                  <>
+                    {parseFloat(
+                      beastsForSale?.filter(
+                        (beastForSale: any) => beastForSale.id == beast.id,
+                      )[0].price,
+                    ).toFixed(0)}{" "}
+                    FUSD
+                  </>
+                ) : (
+                  <></>
+                )}
+              </NameWrapper>
               {/* <span>
                 {userBeasts.map((beast: any) => beast.id).includes(beast.id)
                   ? "owned"
@@ -504,10 +519,7 @@ const BeastMarketBeastList: FC<Props> = ({
                   />
                 </Favorite>
               )}
-              <DetailsWrapper>
-                {/* {beast.price != null
-              ? parseFloat(beast.price).toFixed(2)
-              : "not for sale"} */}
+              {/* <DetailsWrapper>
                 <DetailButton
                   style={{ background: btnColor }}
                   onClick={() => setDialogOpen(!dialogOpen)}
@@ -519,6 +531,11 @@ const BeastMarketBeastList: FC<Props> = ({
                     beast={beast}
                     // left={left} right={right}
                   />
+                </DetailButton>
+              </DetailsWrapper> */}
+              <DetailsWrapper>
+                <DetailButton style={{ background: btnColor }}>
+                  <a href={"/beast-details/" + beast?.id}>Details</a>
                 </DetailButton>
               </DetailsWrapper>
             </ThumbnailFooter>
@@ -550,7 +567,7 @@ const BeastMarketBeastList: FC<Props> = ({
     )
   }
 
-  const { purchaseBeast } = useUser()
+  const { purchaseBeast, delistBeast } = useUser()
   return (
     <MarketUl
       role="list"
@@ -577,7 +594,18 @@ const BeastMarketBeastList: FC<Props> = ({
           </div>
           {userBeasts?.map((beast: any) => beast.id).includes(beast.id) ? (
             <>
-              {true ? (
+              {beastsForSale
+                ?.map((beast: any) => beast.id)
+                .includes(beast.id) ? (
+                <QuickBuyButton
+                  onClick={() => {
+                    setSelectedBeast(beast)
+                    delistBeast(beast.id)
+                  }}
+                >
+                  Delist
+                </QuickBuyButton>
+              ) : (
                 <QuickBuyButton
                   onClick={() => {
                     setSelectedBeast(beast)
@@ -586,28 +614,34 @@ const BeastMarketBeastList: FC<Props> = ({
                 >
                   List for sale
                 </QuickBuyButton>
-              ) : (
+              )}
+            </>
+          ) : (
+            <>
+              {beastsForSale
+                ?.map((beast: any) => beast.id)
+                .includes(beast.id) ? (
                 <QuickBuyButton
                   onClick={() => {
                     setSelectedBeast(beast)
                     // setQuickBidOpen(true)
-                    purchaseBeast("0x7af4fbec6da8a216", beast.id, 200.0)
+                    purchaseBeast(
+                      beastsForSale?.filter(
+                        (beastForSale: any) => beastForSale.id == beast.id,
+                      )[0].seller,
+                      beast.id,
+                      beastsForSale?.filter(
+                        (beastForSale: any) => beastForSale.id == beast.id,
+                      )[0].price,
+                    )
                   }}
                 >
-                  Delist
+                  Quick Buy
                 </QuickBuyButton>
+              ) : (
+                <></>
               )}
             </>
-          ) : (
-            <QuickBuyButton
-              onClick={() => {
-                setSelectedBeast(beast)
-                // setQuickBidOpen(true)
-                purchaseBeast("0x7af4fbec6da8a216", beast.id, 200.0)
-              }}
-            >
-              Quick Buy
-            </QuickBuyButton>
           )}
 
           {/* Make thumbnail details into a component and useState inside that component and add DialogInfo to it */}

@@ -15,16 +15,18 @@ import { faHeart as heartEmpty } from "@fortawesome/free-regular-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { RefreshIcon } from "@heroicons/react/outline"
 import BeastMarketBeastList from "../BeastMarketBeastList"
+import beastTemplates from "data/beastTemplates"
 
 const StarLevel = styled.div`
   vertical-align: middle;
   position: absolute;
-  top: 0;
+  top: 5px;
+  left: 15px;
 `
 
 const StarImg = styled.img`
   margin-top: 10px;
-  width: 1.2em;
+  width: 1.5em;
   user-drag: none;
   -webkit-user-drag: none;
   float: left;
@@ -38,7 +40,7 @@ const Panel = styled.div`
       14 0,
     pointer !important;
   padding: 10px;
-  margin: 2rem auto;
+  margin: 1rem auto;
 
   text-align: left;
   font-size: 16px;
@@ -52,7 +54,7 @@ const AccordionTitle = styled.div`
   margin-left: 10px;
 
   font-size: 2rem;
-  margin-bottom: 5px;
+  margin-bottom: 20px;
   /* border-bottom: 1px solid rgba(220, 220, 220, 0.25); */
   line-height: 1;
 `
@@ -89,9 +91,8 @@ const ImgDiv = styled.div`
   position: relative;
   max-width: 40rem;
 
-  border-radius: 1rem;
   overflow: hidden;
-  margin: 0 auto;
+  margin: 0 auto 50px;
 `
 const Owners = styled.div`
   display: flex;
@@ -236,12 +237,18 @@ const MoreBeasts = styled.ul`
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
 `
 
+const Img = styled.img`
+  user-drag: none;
+  -webkit-user-drag: none;
+  border-radius: 20px;
+`
+
 type Props = {
   beast: any
-  beasts: any
+  hunterData: any
 }
 
-const ProductBeastView: FC<Props> = ({ beast, beasts }) => {
+const ProductBeastView: FC<Props> = ({ beast, hunterData }) => {
   const [heart, setHeart] = useState<any>(heartEmpty)
 
   const heartChange = () => {
@@ -264,7 +271,14 @@ const ProductBeastView: FC<Props> = ({ beast, beasts }) => {
       <Panel className="accordion-item" onClick={() => setIsActive(!isActive)}>
         <AccordionTitle>
           <div>{title}</div>
-          <div>{isActive ? "-" : "+"}</div>
+          <>
+            {" "}
+            {isActive ? (
+              <div style={{ marginTop: "2px", fontSize: "0.7em" }}>⌄</div>
+            ) : (
+              <div style={{ marginTop: "13px", fontSize: "0.7em" }}>⌃</div>
+            )}
+          </>
         </AccordionTitle>
         {isActive && <AccordionContent>{content}</AccordionContent>}
       </Panel>
@@ -277,28 +291,28 @@ const ProductBeastView: FC<Props> = ({ beast, beasts }) => {
         <div className="flex text-3xl mb-5 justify-between">
           <div className="flex w-full gap-2">
             {/* <FontAwesomeIcon style={{ color: "black" }} icon={faCaretUp} /> */}
-            <img src={dexNumIcon.src} alt="" />
+            {/* <img src={dexNumIcon.src} alt="" /> */}
             <p>Dex number</p>
           </div>
-          <span>#{("00" + beast.dexNumber).slice(-3)}</span>
+          <span>#{("00" + beast?.dexNumber).slice(-3)}</span>
         </div>
         <Attributes>
           <AttributeBlock>
             <Trait>Skin</Trait>
-            <H3>{beast.skin}</H3>
+            <H3>{beast?.skin}</H3>
           </AttributeBlock>
           <AttributeBlock>
             <Trait>Element</Trait>
-            <H3>{beast.elements} </H3>
+            <H3>{beast?.elements} </H3>
           </AttributeBlock>
           <AttributeBlock>
             <Trait>Star Level</Trait>
-            <H3>{beast.starLevel}</H3>
+            <H3>{beast?.starLevel}</H3>
           </AttributeBlock>
           <AttributeBlock>
             <Trait>Basic Skills</Trait>
             <ul>
-              {beast.basicSkills.map((skill: any, id: any) => (
+              {beast?.basicSkills.map((skill: any, id: any) => (
                 <li key={id} className="leading-none">
                   <H2Traits>{skill}</H2Traits>
                 </li>
@@ -307,7 +321,7 @@ const ProductBeastView: FC<Props> = ({ beast, beasts }) => {
           </AttributeBlock>
           <AttributeBlock>
             <Trait>Ultimate Skill</Trait>
-            <H3>{beast.ultimateSkill} </H3>
+            <H3>{beast?.ultimateSkill} </H3>
           </AttributeBlock>
         </Attributes>
       </div>
@@ -345,16 +359,22 @@ const ProductBeastView: FC<Props> = ({ beast, beasts }) => {
 
   return (
     <>
-      <section className="flex justify-between mx-5 text-white px-5">
+      <section
+        style={{ marginTop: "40px" }}
+        className="flex justify-between mx-5 text-white px-5"
+      >
         <div className="mx-auto w-1/2">
           <ImgDiv>
-            <BeastMarketThumbnail
-              id={beast.id}
-              className="object-cover  group-hover:opacity-90"
-              beastTemplateID={beast.beastTemplateID}
+            <Img
+              src={
+                "https://basicbeasts.mypinata.cloud/ipfs/" +
+                beastTemplates[
+                  beast?.beastTemplateID as keyof typeof beastTemplates
+                ]?.thumbnail
+              }
             />
             <StarLevel>
-              {Array(beast.starLevel)
+              {Array(beast?.starLevel)
                 .fill(0)
                 .map((_, i) => (
                   <StarImg key={i} src={star.src} />
@@ -364,7 +384,7 @@ const ProductBeastView: FC<Props> = ({ beast, beasts }) => {
           <AccordionDiv>
             <Accordion
               title="Description"
-              content={beast.description}
+              content={beast?.description}
               defaultActive={true}
             />
           </AccordionDiv>
@@ -385,22 +405,58 @@ const ProductBeastView: FC<Props> = ({ beast, beasts }) => {
         </div>
         <Info>
           <div className="w-11/12">
-            <H1>{beast.name + " " + "#" + beast.serialNumber}</H1>
+            <H1>{beast?.name + " " + "#" + beast?.serialNumber}</H1>
             <Owners>
-              <Owner>
-                <OwnerImg src={pic.src} alt="" />
-                <div>
-                  <H2>first owner</H2>
-                  <P>{beast.firstOwner}</P>
-                </div>
-              </Owner>
-              <Owner>
-                <OwnerImg src={pic.src} alt="" />
-                <div>
-                  <H2>current owner</H2>
-                  <P>{beast.currentOwner}</P>
-                </div>
-              </Owner>
+              <a href={"/profile/" + beast?.firstOwner}>
+                <Owner>
+                  <OwnerImg
+                    src={
+                      hunterData?.filter(
+                        (hunter: any) => hunter.address == beast?.firstOwner,
+                      )?.[0]?.avatar
+                    }
+                    alt="first owner avatar"
+                  />
+                  <div>
+                    <H2>first owner</H2>
+                    <P>
+                      {hunterData?.filter(
+                        (hunter: any) => hunter.address == beast?.firstOwner,
+                      )?.[0]?.findName != ""
+                        ? hunterData?.filter(
+                            (hunter: any) =>
+                              hunter.address == beast?.firstOwner,
+                          )?.[0]?.findName
+                        : beast?.firstOwner}
+                    </P>
+                  </div>
+                </Owner>
+              </a>
+              <a href={"/profile/" + beast?.currentOwner}>
+                <Owner>
+                  <OwnerImg
+                    src={
+                      hunterData?.filter(
+                        (hunter: any) => hunter.address == beast?.currentOwner,
+                      )?.[0]?.avatar
+                    }
+                    alt="current owner avatar"
+                  />
+                  <div>
+                    <H2>current owner</H2>
+                    <P>
+                      {hunterData?.filter(
+                        (hunter: any) => hunter.address == beast?.currentOwner,
+                      )?.[0]?.findName != ""
+                        ? hunterData?.filter(
+                            (hunter: any) =>
+                              hunter.address == beast?.currentOwner,
+                          )?.[0]?.findName
+                        : beast?.currentOwner}
+                    </P>
+                  </div>
+                </Owner>
+              </a>
             </Owners>
             <div className="flex w-full p-5 justify-between items-center">
               <Ul>
@@ -428,7 +484,7 @@ const ProductBeastView: FC<Props> = ({ beast, beasts }) => {
             <div className="flex flex-col xl:flex-row gap-5 w-full">
               <PriceBox>
                 <H2>Price</H2>
-                <H3>{beast.price} FUSD</H3>
+                <H3>{beast?.price} FUSD</H3>
               </PriceBox>
               <PriceBox>
                 <H2>Highest Floor bid</H2>

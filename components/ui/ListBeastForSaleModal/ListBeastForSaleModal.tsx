@@ -1,29 +1,13 @@
 import { FC, Fragment, useEffect, useState } from "react"
 import { Dialog, Transition, Menu } from "@headlessui/react"
 import styled from "styled-components"
-import { ChevronDownIcon } from "@heroicons/react/solid"
-import * as fcl from "@onflow/fcl"
-import {
-  query,
-  send,
-  transaction,
-  args,
-  arg,
-  payer,
-  proposer,
-  authorizations,
-  limit,
-  authz,
-  decode,
-  tx,
-} from "@onflow/fcl"
-import * as t from "@onflow/types"
-import { toast } from "react-toastify"
 import { useUser } from "@components/user/UserProvider"
+import beastTemplates from "data/beastTemplates"
 
 const ContainerDiv = styled.div`
   align-items: center;
   text-align: center;
+  z-index: 20;
 `
 
 const DialogPanel = styled<any>(Dialog.Panel)`
@@ -60,64 +44,16 @@ const Button = styled.button`
   }
 `
 
-const Title = styled.div`
-  font-size: 2.5em;
-  margin-bottom: 20px;
+const Title = styled.h1`
+  font-size: 2em;
+  margin-bottom: 10px;
+  line-height: 1em;
 
   color: #fff;
 `
 
-const SelectButton = styled.div`
-  font-size: 1.2em;
-  border-radius: 10px;
-  border: solid #bc9d24 2px;
-  background: transparent;
-  outline: none;
-  &::placeholder {
-    color: #e4be23;
-  }
-  text-transform: uppercase;
-
-  color: #e4be23;
-  &:hover {
-    background: transparent;
-  }
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8px;
-  padding-left: 15px;
-  // margin-left: 20px;
-  // margin-right: 18px;
-`
-
 const A = styled.a`
   font-size: 1em;
-`
-
-const DropDownList = styled.div`
-  width: 100%;
-  height: auto;
-  background-color: #212127;
-  color: #e4be23;
-  border-radius: 10px;
-  z-index: 10;
-  //
-  // Scroll
-  overflow: hidden;
-  overflow-y: scroll;
-  max-height: 170px;
-  margin-top: 10px;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-  &::-webkit-scrollbar {
-    display: none;
-  }
-`
-
-const MenuItems = styled<any>(Menu.Items)`
-  /* z-index: 9999; */
-  width: 100%;
 `
 
 const FuncArgInput = styled.input`
@@ -138,6 +74,12 @@ const FuncArgInput = styled.input`
   }
 `
 
+const Img = styled.img`
+  user-drag: none;
+  -webkit-user-drag: none;
+  border-radius: 10px;
+`
+
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ")
 }
@@ -150,6 +92,7 @@ type Props = {
 
 const ListBeastForSaleModal: FC<Props> = ({ open, setOpen, beast }) => {
   const [price, setPrice] = useState()
+  const { listBeastForSale } = useUser()
 
   const handleChange = (event: any) => {
     event.preventDefault()
@@ -193,9 +136,18 @@ const ListBeastForSaleModal: FC<Props> = ({ open, setOpen, beast }) => {
                 className="relative rounded-lg text-left transform transition-all sm:my-8 sm:max-w-md w-full md:max-w-md"
               >
                 <Container>
-                  <Title>{beast?.id}</Title>
-                  <Title>name: {beast?.name}</Title>
-                  <Title>Serial: {beast?.serialNumber}</Title>
+                  <Img
+                    src={
+                      "https://basicbeasts.mypinata.cloud/ipfs/" +
+                      beastTemplates[
+                        beast?.beastTemplateID as keyof typeof beastTemplates
+                      ]?.thumbnail
+                    }
+                  />
+                  <Title>{beast?.name}</Title>
+                  <Title>
+                    {beast?.nickname}#{beast?.serialNumber}
+                  </Title>
 
                   <div>
                     <FuncArgInput
@@ -209,11 +161,7 @@ const ListBeastForSaleModal: FC<Props> = ({ open, setOpen, beast }) => {
                     />
                   </div>
                   <div>
-                    <Button
-                    //   onClick={
-                    // () => listForSale()
-                    //   }
-                    >
+                    <Button onClick={() => listBeastForSale(beast?.id, price)}>
                       List
                     </Button>
                   </div>

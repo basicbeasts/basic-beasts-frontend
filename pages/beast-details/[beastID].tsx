@@ -1,5 +1,7 @@
 import type { NextPage } from "next"
 import ProductBeastView from "@components/ui/ProductBeastView"
+import { useUser } from "@components/user/UserProvider"
+import { useRouter } from "next/router"
 
 const dummyData = [
   {
@@ -133,9 +135,19 @@ const dummyData = [
 ]
 
 const BeastDetails: NextPage = () => {
+  const { beasts, hunterData } = useUser()
+
+  const router = useRouter()
+  const { beastID } = router.query
+
   return (
     <div>
-      <ProductBeastView beast={dummyData[0]} beasts={dummyData} />
+      {beastID != null && (
+        <ProductBeastView
+          beast={beasts?.filter((beasts: any) => beasts.id == beastID)[0]}
+          hunterData={hunterData}
+        />
+      )}
     </div>
   )
 }

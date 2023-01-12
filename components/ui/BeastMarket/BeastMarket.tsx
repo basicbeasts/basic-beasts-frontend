@@ -33,6 +33,7 @@ import {
 import BeastMarketSweep from "../BeastMarketSweep"
 import QuickBidModal from "../QuickBidModal"
 import ListBeastForSaleModal from "../ListBeastForSaleModal"
+import { useUser } from "@components/user/UserProvider"
 
 const Wrapper = styled.div`
   padding: 20px 20px 100px 20px;
@@ -771,7 +772,7 @@ const BeastMarket: FC<Props> = () => {
     element: [],
     serialNumber: [],
   })
-  const [beasts, setBeasts] = useState<any>([])
+  // const [beasts, setBeasts] = useState<any>([])
 
   const [beastArray, setBeastArray] = useState<any>([])
   // console.log(beastArray)
@@ -780,6 +781,8 @@ const BeastMarket: FC<Props> = () => {
 
   const [favoriteBeasts, setFavoriteBeasts] = useState<any>([])
   const [favoriteToggled, setFavoriteToggled] = useState(false)
+
+  const { beasts, getAllBeasts } = useUser()
 
   const selectBeast = (beast: any) => {
     if (!selectedBeasts.includes(beast)) {
@@ -824,7 +827,7 @@ const BeastMarket: FC<Props> = () => {
   }
 
   useEffect(() => {
-    getAllBeasts()
+    // getAllBeasts()
   }, [])
 
   //When beasts changes
@@ -1090,73 +1093,72 @@ const BeastMarket: FC<Props> = () => {
     //setDisplayBeasts()
   }, [selectedFilters, beasts])
 
-  const getAllBeasts = async () => {
-    try {
-      let res = await query({
-        cadence: `
-        import HunterScore from 0xHunterScore
-        import BasicBeasts from 0xBasicBeasts
+  // const getAllBeasts = async () => {
+  //   try {
+  //     let res = await query({
+  //       cadence: `
+  //       import HunterScore from 0xHunterScore
+  //       import BasicBeasts from 0xBasicBeasts
 
-        pub fun main(): [{String:AnyStruct}] {
+  //       pub fun main(): [{String:AnyStruct}] {
 
-          let addresses = HunterScore.getHunterScores().keys
-          var beasts: [{String: AnyStruct}] = []
+  //         let addresses = HunterScore.getHunterScores().keys
+  //         var beasts: [{String: AnyStruct}] = []
 
-          for address in addresses {
-            let collectionRef = getAccount(address).getCapability(BasicBeasts.CollectionPublicPath)
-            .borrow<&{BasicBeasts.BeastCollectionPublic}>()
-            if (collectionRef != nil) {
-              let IDs = collectionRef!.getIDs()
-              var i = 0
-              while i < IDs.length {
-                let token = collectionRef!.borrowBeast(id: IDs[i])
-                ?? panic("Couldn't borrow a reference to the specified beast")
+  //         for address in addresses {
+  //           let collectionRef = getAccount(address).getCapability(BasicBeasts.CollectionPublicPath)
+  //           .borrow<&{BasicBeasts.BeastCollectionPublic}>()
+  //           if (collectionRef != nil) {
+  //             let IDs = collectionRef!.getIDs()
+  //             var i = 0
+  //             while i < IDs.length {
+  //               let token = collectionRef!.borrowBeast(id: IDs[i])
+  //               ?? panic("Couldn't borrow a reference to the specified beast")
 
-                let beastTemplate = token.getBeastTemplate()
+  //               let beastTemplate = token.getBeastTemplate()
 
-                var price: UFix64? = nil
+  //               var price: UFix64? = nil
 
-                if (i%2==0) {
-                  price = 69.0 + UFix64(i)
-                }
-                
-                let beast = {
-                  "name" : beastTemplate.name,
-                  "nickname" : token.getNickname(),
-                  "serialNumber" : token.serialNumber,
-                  "dexNumber" : beastTemplate.dexNumber,
-                  "skin" : beastTemplate.skin,
-                  "starLevel" : beastTemplate.starLevel,
-                  "elements" : beastTemplate.elements,
-                  "basicSkills" : beastTemplate.basicSkills,
-                  "ultimateSkill" : beastTemplate.ultimateSkill,
-                  "currentOwner" : address,
-                  "firstOwner" : token.getFirstOwner(),
-                  "sex" : token.sex,
-                  "breedingCount" : 0,
-                  "numberOfMintedBeastTemplates" : 100,
-                  "beastTemplateID" : beastTemplate.beastTemplateID,
-                  "price" : price,
-                  "id": token.id
-                }
+  //               if (i%2==0) {
+  //                 price = 69.0 + UFix64(i)
+  //               }
 
-                beasts.insert(at:i, beast)
-            
-                i = i + 1
-              }
-            }
-          }
+  //               let beast = {
+  //                 "name" : beastTemplate.name,
+  //                 "nickname" : token.getNickname(),
+  //                 "serialNumber" : token.serialNumber,
+  //                 "dexNumber" : beastTemplate.dexNumber,
+  //                 "skin" : beastTemplate.skin,
+  //                 "starLevel" : beastTemplate.starLevel,
+  //                 "elements" : beastTemplate.elements,
+  //                 "basicSkills" : beastTemplate.basicSkills,
+  //                 "ultimateSkill" : beastTemplate.ultimateSkill,
+  //                 "currentOwner" : address,
+  //                 "firstOwner" : token.getFirstOwner(),
+  //                 "sex" : token.sex,
+  //                 "breedingCount" : 0,
+  //                 "numberOfMintedBeastTemplates" : 100,
+  //                 "beastTemplateID" : beastTemplate.beastTemplateID,
+  //                 "price" : price,
+  //                 "id": token.id
+  //               }
 
-          return beasts
-        }
-        `,
-      })
-      setBeasts(res)
-      // console.log(res)
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  //               beasts.insert(at:i, beast)
+
+  //               i = i + 1
+  //             }
+  //           }
+  //         }
+
+  //         return beasts
+  //       }
+  //       `,
+  //     })
+  //     setBeasts(res)
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
   return (
     <>
