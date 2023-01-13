@@ -16,6 +16,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { RefreshIcon } from "@heroicons/react/outline"
 import BeastMarketBeastList from "../BeastMarketBeastList"
 import beastTemplates from "data/beastTemplates"
+import { useUser } from "@components/user/UserProvider"
+import { useAuth } from "@components/auth/AuthProvider"
+import ListBeastForSaleModal from "../ListBeastForSaleModal"
 
 const StarLevel = styled.div`
   vertical-align: middle;
@@ -76,6 +79,9 @@ const BuyButton = styled.button`
   font-size: 1.5rem;
   padding: 0.75rem 2rem;
   border: 1px solid #5c5e6c;
+  &:active {
+    transform: scale(0.95);
+  }
 `
 const BidButton = styled.button`
   width: 100%;
@@ -85,6 +91,9 @@ const BidButton = styled.button`
   font-size: 1.5rem;
   padding: 0.75rem 2rem;
   border: 1px solid grey;
+  &:active {
+    transform: scale(0.95);
+  }
 `
 
 const ImgDiv = styled.div`
@@ -225,7 +234,7 @@ const PriceBox = styled.div`
   background: #1e1e23;
   border-radius: 1rem;
   padding: 1rem;
-  width: 50%;
+  width: 100%;
   @media (max-width: 1280px) {
     width: 100%;
   }
@@ -250,6 +259,10 @@ type Props = {
 
 const ProductBeastView: FC<Props> = ({ beast, hunterData }) => {
   const [heart, setHeart] = useState<any>(heartEmpty)
+  const [listBeastForSaleOpen, setListBeastForSaleOpen] = useState<any>(false)
+
+  const { purchaseBeast, delistBeast, beastsForSale } = useUser()
+  const { user } = useAuth()
 
   const heartChange = () => {
     {
@@ -359,6 +372,11 @@ const ProductBeastView: FC<Props> = ({ beast, hunterData }) => {
 
   return (
     <>
+      <ListBeastForSaleModal
+        open={listBeastForSaleOpen}
+        setOpen={setListBeastForSaleOpen}
+        beast={beast}
+      />
       <section
         style={{ marginTop: "40px" }}
         className="flex justify-between mx-5 text-white px-5"
@@ -405,7 +423,7 @@ const ProductBeastView: FC<Props> = ({ beast, hunterData }) => {
         </div>
         <Info>
           <div className="w-11/12">
-            <H1>{beast?.name + " " + "#" + beast?.serialNumber}</H1>
+            <H1>{beast?.nickname + " " + "#" + beast?.serialNumber}</H1>
             <Owners>
               <a href={"/profile/" + beast?.firstOwner}>
                 <Owner>
@@ -458,7 +476,8 @@ const ProductBeastView: FC<Props> = ({ beast, hunterData }) => {
                 </Owner>
               </a>
             </Owners>
-            <div className="flex w-full p-5 justify-between items-center">
+            {/* social share, refresh, favorite */}
+            {/* <div className="flex w-full p-5 justify-between items-center">
               <Ul>
                 <Li onClick={() => heartChange()}>
                   <FontAwesomeIcon style={{ color: "grey" }} icon={heart} />{" "}
@@ -478,32 +497,77 @@ const ProductBeastView: FC<Props> = ({ beast, hunterData }) => {
               >
                 <FontAwesomeIcon icon={faEllipsisH} />
               </button>
-            </div>
+            </div> */}
           </div>
           <SaleDiv>
             <div className="flex flex-col xl:flex-row gap-5 w-full">
-              <PriceBox>
-                <H2>Price</H2>
-                <H3>{beast?.price} FUSD</H3>
-              </PriceBox>
-              <PriceBox>
-                <H2>Highest Floor bid</H2>
-                <H3>[price] FUSD</H3>
+              {beast?.price != null && (
+                <PriceBox>
+                  <H2>Price</H2>
+                  <H3>
+                    {parseFloat(parseFloat(beast?.price).toFixed(2))} FUSD
+                  </H3>
+                </PriceBox>
+              )}
+              {beast?.price != null && (
+                <PriceBox>
+                  <H2>Best offer</H2>
+                  <H3>{parseFloat(parseFloat("2.00").toFixed(2))} FUSD</H3>
 
-                <H2>
-                  by <span className="text-white">0xsomething</span>
-                </H2>
-              </PriceBox>
+                  <H2>
+                    by <span className="text-white">0xsomething</span>
+                  </H2>
+                </PriceBox>
+              )}
             </div>
-            <span>Last sale price [price] ETH</span>
-            <BuyButton>Buy now for [price] ETH</BuyButton>
+            {/* <span>Last sale price [price] FUSD</span> */}
+            {/* TODO */}
+            {user?.addr == beast?.currentOwner ? (
+              <>
+                {beastsForSale
+                  ?.map((beast: any) => beast.id)
+                  .includes(beast?.id) ? (
+                  <BuyButton onClick={() => delistBeast(beast?.id)}>
+                    Delist
+                  </BuyButton>
+                ) : (
+                  <BuyButton onClick={() => setListBeastForSaleOpen(true)}>
+                    List for sale
+                  </BuyButton>
+                )}
+              </>
+            ) : (
+              <>
+                {beast?.price != null && (
+                  <BuyButton
+                    onClick={() =>
+                      purchaseBeast(
+                        beast?.currentOwner,
+                        beast?.id,
+                        beast?.price,
+                      )
+                    }
+                  >
+                    Buy now for{" "}
+                    {parseFloat(parseFloat(beast?.price).toFixed(2))} FUSD
+                  </BuyButton>
+                )}
+              </>
+            )}
+
             <BidButton>Place a bid</BidButton>
-            <H2>Sale ends in [time]</H2>
+            {/* <H2>Sale ends in [time]</H2> */}
           </SaleDiv>
+          {/* ) : (
+            <div style={{ marginTop: "50px", width: "80%" }}>
+              <BidButton>Make an offer</BidButton>
+            </div>
+          )} */}
         </Info>{" "}
       </section>
       <section className="mb-24 mx-auto">
-        <H1 className="mx-auto text-center">More Basic Beasts</H1>
+        {/* Maybe for later showcase more beasts */}
+        {/* <H1 className="mx-auto text-center">More Basic Beasts</H1> */}
 
         <div className="hidden xl:flex justify-center w-10/12 mx-auto ">
           {/* <BeastMarketBeastList

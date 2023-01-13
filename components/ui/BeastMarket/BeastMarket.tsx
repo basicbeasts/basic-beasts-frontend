@@ -863,7 +863,7 @@ const BeastMarket: FC<Props> = () => {
 
   useEffect(() => {
     if (favoriteToggled) {
-      console.log(favoriteToggled)
+      // console.log(favoriteToggled)
       // const newBeasts = displayBeasts.filter((beast: any) => {
       //   favoriteBeasts.includes(beast.id)
       // })
@@ -878,7 +878,7 @@ const BeastMarket: FC<Props> = () => {
       // setElementFilter((elementFilter: any) => [...elementFilter, "Electric"])
       setDisplayBeasts(newBeasts)
     } else {
-      setDisplayBeasts(displayBeasts)
+      setDisplayBeasts(beasts)
     }
     // console.log(favoriteBeasts.toString())
     // console.log(favoriteBeasts)

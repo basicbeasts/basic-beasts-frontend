@@ -57,12 +57,6 @@ export default function useBeastMarket() {
                 ?? panic("Couldn't borrow a reference to the specified beast")
 
                 let beastTemplate = token.getBeastTemplate()
-
-                var price: UFix64? = nil
-
-                if (i%2==0) {
-                  price = 69.0 + UFix64(i)
-                }
                 
                 let beast = {
                   "name" : beastTemplate.name,
@@ -81,7 +75,6 @@ export default function useBeastMarket() {
                   "breedingCount" : 0,
                   "numberOfMintedBeastTemplates" : 100,
                   "beastTemplateID" : beastTemplate.beastTemplateID,
-                  "price" : price,
                   "id": token.id
                 }
 
@@ -96,7 +89,50 @@ export default function useBeastMarket() {
         }
         `,
       })
-      setBeasts(res)
+
+      var forSale: any = null
+      await getAllBeastsForSale().then((response: any) => {
+        forSale = response
+      })
+
+      var allBeasts: any = []
+
+      for (let key in res) {
+        let element = res[key]
+
+        var beastPrice = null
+
+        if (
+          forSale.filter((beast: any) => beast.id == element.id)?.[0] != null
+        ) {
+          beastPrice = forSale.filter(
+            (beast: any) => beast.id == element.id,
+          )?.[0].price
+        }
+
+        var beast = {
+          name: element.name,
+          description: element.description,
+          nickname: element.nickname,
+          serialNumber: element.serialNumber,
+          dexNumber: element.dexNumber,
+          skin: element.skin,
+          starLevel: element.starLevel,
+          elements: element.elements,
+          basicSkills: element.basicSkills,
+          ultimateSkill: element.ultimateSkill,
+          currentOwner: element.currentOwner,
+          firstOwner: element.firstOwner,
+          sex: element.sex,
+          breedingCount: element.breedingCount,
+          numberOfMintedBeastTemplates: element.numberOfMintedBeastTemplates,
+          beastTemplateID: element.beastTemplateID,
+          price: beastPrice,
+          id: element.id,
+        }
+        allBeasts.push(beast)
+      }
+      setBeasts(allBeasts)
     } catch (error) {
       console.log(error)
     }
@@ -159,6 +195,7 @@ export default function useBeastMarket() {
       })
       setBeastsForSale(res)
       console.log(res)
+      return res
     } catch (error) {
       console.log(error)
     }
@@ -328,7 +365,7 @@ export default function useBeastMarket() {
           })
         })
       // Add getters here
-      getAllBeastsForSale()
+      getAllBeasts()
     } catch (err) {
       toast.update(id, {
         render: "Error, try again later...",
@@ -382,7 +419,7 @@ export default function useBeastMarket() {
           })
         })
       // Add getters here
-      getAllBeastsForSale()
+      getAllBeasts()
     } catch (err) {
       toast.update(id, {
         render: "Error, try again later...",

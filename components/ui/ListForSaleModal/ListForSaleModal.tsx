@@ -376,7 +376,13 @@ const ListForSaleModal: FC<Props> = ({ open, setOpen, IDs }) => {
                     />
                   </div>
                   <div>
-                    <Button onClick={() => listForSale()}>Sell</Button>
+                    <Button
+                      onClick={() => {
+                        listForSale()
+                      }}
+                    >
+                      Sell
+                    </Button>
                   </div>
                   <div style={{ color: "white" }}>
                     If you no longer own any chests and have used your

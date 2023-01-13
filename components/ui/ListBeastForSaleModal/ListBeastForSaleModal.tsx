@@ -161,7 +161,12 @@ const ListBeastForSaleModal: FC<Props> = ({ open, setOpen, beast }) => {
                     />
                   </div>
                   <div>
-                    <Button onClick={() => listBeastForSale(beast?.id, price)}>
+                    <Button
+                      onClick={() => {
+                        listBeastForSale(beast?.id, price)
+                        setOpen(false)
+                      }}
+                    >
                       List
                     </Button>
                   </div>
