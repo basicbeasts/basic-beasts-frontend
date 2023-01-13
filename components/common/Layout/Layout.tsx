@@ -82,6 +82,8 @@ fcl
     "0xBlackMarketplace",
     process.env.NEXT_PUBLIC_NFT_DAY_TREASURE_CHEST_ADDRESS,
   )
+  .put("0xBeastMarket", process.env.NEXT_PUBLIC_BEAST_MARKET_ADDRESS)
+  .put("0xBeastOffers", process.env.NEXT_PUBLIC_BEAST_OFFERS_ADDRESS)
 
 const Layout: FC = ({ children }) => {
   const [isSideNavbarOpen, setIsSideNavbarOpen] = useState(false)
@@ -124,13 +126,13 @@ const Layout: FC = ({ children }) => {
         profile={profile}
         setProfile={setProfile}
       />
-      <Snowfall
+      {/* <Snowfall
         style={{
           position: "fixed",
           width: "100vw",
           height: "100vh",
         }}
-      />
+      /> */}
       <main>{children}</main>
       <Footer />
     </>
