@@ -155,7 +155,7 @@ const TableStyles = styled.div`
     }
     .rankByHunterScore,
     .rankByTotalBeasts {
-      width: 55px;
+      width: 60px;
       font-size: 3em;
       @media (max-width: 800px) {
         font-size: 20px;
