@@ -1153,7 +1153,7 @@ const BeastModalView: FC<Props> = ({
                         ) : (
                           <></>
                         )}
-                        {filter === "Trade" ? (
+                        {filter === "Trade" && (
                           <NotEnoughContainer>
                             <Body
                               style={{
@@ -1162,11 +1162,30 @@ const BeastModalView: FC<Props> = ({
                                 fontSize: "1em",
                               }}
                             >
-                              Coming soon
+                              Need more beasts or sell this one?
                             </Body>
+                            <div>
+                              <Link href={"/beast-details/" + beast?.id}>
+                                <a>
+                                  <Button>Trade this Beast</Button>
+                                </a>
+                              </Link>
+                              <Link href="/marketplace">
+                                <a>
+                                  <Button style={{ margin: "0 15px 0" }}>
+                                    Marketplace
+                                  </Button>
+                                </a>
+                              </Link>
+                              <a
+                                target="_blank"
+                                href="https://discord.gg/xgFtWhwSaR"
+                                rel="noreferrer"
+                              >
+                                <Button>Get help</Button>
+                              </a>
+                            </div>
                           </NotEnoughContainer>
-                        ) : (
-                          <></>
                         )}
                       </Content>
                     </Container>
