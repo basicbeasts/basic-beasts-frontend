@@ -1,8 +1,9 @@
 import styled from "styled-components"
 import BeastMarketThumbnail from "../BeastMarketThumbnail"
 import BeastMarketSkinOverviewModal from "../BeastMarketSkinOverviewModal"
-
+import beastTemplates from "data/beastTemplates"
 import { FC, useState, Fragment, useEffect } from "react"
+import { useUser } from "@components/user/UserProvider"
 
 const Main = styled.main`
   display: flex;
@@ -209,7 +210,7 @@ const Item = styled.div`
   }
 `
 const Showcase = styled.div`
-  background: goldenrod;
+  background: CornflowerBlue;
   background-image: linear-gradient(
     -45deg,
     transparent,
@@ -217,7 +218,7 @@ const Showcase = styled.div`
     transparent 90%
   );
   width: max-content;
-  max-width: 50%;
+  max-width: 45%;
   border-radius: 0 0 0 50px;
   padding: 6rem 4rem;
   display: flex;
@@ -247,6 +248,12 @@ const Discover = styled.div`
     text-align: center;
     padding: 0 10px;
   }
+`
+
+const Img = styled.img`
+  user-drag: none;
+  -webkit-user-drag: none;
+  border-radius: 20px;
 `
 type Props = {
   beast: any
@@ -365,6 +372,8 @@ const ThumbnailDetailsFC: FC<{
 const BeastMarketHero: FC<Props> = ({ beast }) => {
   const [skinOverviewOpen, setSkinOverviewOpen] = useState(false)
 
+  const { hunterData, beasts } = useUser()
+
   return (
     <>
       <Main>
@@ -376,13 +385,13 @@ const BeastMarketHero: FC<Props> = ({ beast }) => {
             representing interactive beasts that can evolve, breed, and be
             loved.
           </P>
-          <Button>Place A Bid →</Button>
+          <Button>Adopt a Beast →</Button>
           <ItemInfo onClick={() => setSkinOverviewOpen(true)}>
             <Item>
-              <H2>780</H2> Owners
+              <H2>{hunterData?.length}</H2> Hunters
             </Item>
             <Item>
-              <H2>2030</H2> Beasts
+              <H2>{beasts?.length}</H2> Beasts
             </Item>
             <Item>
               <H2>$10000</H2> Highest Sale
@@ -394,12 +403,22 @@ const BeastMarketHero: FC<Props> = ({ beast }) => {
           />
         </Discover>{" "}
         <Showcase>
-          <BeastMarketThumbnail
+          {/* <BeastMarketThumbnail
             id={beast.id}
             className="object-cover group-hover:opacity-90 rounded-t-3xl overflow-hidden "
             beastTemplateID={beast.beastTemplateID}
           />
-          <ThumbnailDetailsFC beast={beast} />
+          <ThumbnailDetailsFC beast={beast} /> */}
+          <Img
+            // src={
+            //   beastTemplates[beastTemplateID as keyof typeof beastTemplates]
+            //     ?.marketThumbnail || thumbnail.src
+            // }
+            src={
+              "https://basicbeasts.mypinata.cloud/ipfs/" +
+              beastTemplates[691 as keyof typeof beastTemplates]?.image
+            }
+          />
         </Showcase>{" "}
       </Main>
     </>

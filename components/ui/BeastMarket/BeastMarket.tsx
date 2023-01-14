@@ -252,6 +252,19 @@ const DropDown: FC<{
   sortBy: any
   setSortBy: any
 }> = ({ beasts, sortBy, setSortBy }) => {
+  const sortByPriceLowHigh = () => {
+    if (beasts != null) {
+      beasts.sort((a: any, b: any) => a.beastTemplateID - b.beastTemplateID)
+      beasts.sort((a: any, b: any) => a.price - b.price)
+    }
+  }
+  const sortByPriceHighLow = () => {
+    if (beasts != null) {
+      beasts.sort((a: any, b: any) => a.beastTemplateID - b.beastTemplateID)
+      beasts.sort((a: any, b: any) => b.price - a.price)
+    }
+  }
+
   const sortByDexLowHigh = () => {
     if (beasts != null) {
       beasts.sort((a: any, b: any) => a.beastTemplateID - b.beastTemplateID)
@@ -374,6 +387,38 @@ const DropDown: FC<{
         <Menu.Items className="origin-top-right absolute right-0 mt-2  rounded-md focus:outline-none">
           <DropDownList>
             <div className="py-1">
+              <Menu.Item>
+                {({ active }) => (
+                  <A
+                    onClick={() => {
+                      sortByPriceLowHigh()
+                      setSortBy("Price (Low-High)")
+                    }}
+                    className={classNames(
+                      active ? "bg-gray-700" : "",
+                      "block px-4 py-2 text-sm",
+                    )}
+                  >
+                    Price (Low-High)
+                  </A>
+                )}
+              </Menu.Item>
+              <Menu.Item>
+                {({ active }) => (
+                  <A
+                    onClick={() => {
+                      sortByPriceHighLow()
+                      setSortBy("Price (High-Low)")
+                    }}
+                    className={classNames(
+                      active ? "bg-gray-700" : "",
+                      "block px-4 py-2 text-sm",
+                    )}
+                  >
+                    Price (High-Low)
+                  </A>
+                )}
+              </Menu.Item>
               <Menu.Item>
                 {({ active }) => (
                   <A
@@ -1162,11 +1207,6 @@ const BeastMarket: FC<Props> = () => {
 
   return (
     <>
-      <QuickBidModal
-        open={listBeastForSaleOpen}
-        setOpen={setListBeastForSaleOpen}
-        beast={selectedBeast}
-      />
       <ListBeastForSaleModal
         open={listBeastForSaleOpen}
         setOpen={setListBeastForSaleOpen}
@@ -1212,7 +1252,8 @@ const BeastMarket: FC<Props> = () => {
           sortBy={sortBy}
           setSortBy={setSortBy}
         />
-        <div className=" hidden md:flex gap-2">
+        {/* Wait with bulk buy, bulk bid, sweep */}
+        {/* <div className=" hidden md:flex gap-2">
           <BuyButton
             style={{
               background: buttonColor(bulkBuyOpen).btnColor,
@@ -1255,7 +1296,7 @@ const BeastMarket: FC<Props> = () => {
           >
             Sweep
           </BuyButton>
-        </div>
+        </div> */}
       </HeaderBeastCollection>
 
       <Wrapper>
