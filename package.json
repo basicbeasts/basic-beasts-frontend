@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "react-scripts --openssl-legacy-provider start",
     "lint": "next lint",
     "format": "prettier . --write",
     "generate": "gqty generate"
