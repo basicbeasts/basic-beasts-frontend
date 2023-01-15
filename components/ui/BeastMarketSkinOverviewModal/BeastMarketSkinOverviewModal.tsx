@@ -98,13 +98,13 @@ const BeastMarketSkinItem: FC<{ background: any }> = ({ background }) => {
   return (
     <ItemInfo style={{ background: background }}>
       <Item style={{ alignItems: "start" }}>
-        <H2>78K</H2>Beasts
+        <H2>78</H2>Hunters
       </Item>
       <Item>
-        <H2>78K</H2>Floor
+        <H2>78K</H2>Beasts
       </Item>
       <Item style={{ alignItems: "end" }}>
-        <H2>78K</H2>Highest Sale
+        <H2>78K</H2>Floor
       </Item>
     </ItemInfo>
   )

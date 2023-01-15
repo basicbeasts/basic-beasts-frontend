@@ -51,6 +51,18 @@ export default function useFUSD(user: any) {
     }
   }
 
+  const getUserFUSDBalance = async (address: any) => {
+    try {
+      let response = await query({
+        cadence: GET_FUSD_BALANCE,
+        args: (arg: any, t: any) => [arg(address, t.Address)],
+      })
+      console.log("user fusd", response)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   //TODO: Try and catch
 
   const purchase = async (amount: any, address: any) => {
@@ -106,5 +118,6 @@ export default function useFUSD(user: any) {
     ...state,
     getFUSDBalance,
     purchase,
+    getUserFUSDBalance,
   }
 }

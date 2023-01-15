@@ -1,4 +1,4 @@
-import { FC, useState } from "react"
+import { FC, useEffect, useState } from "react"
 import picture from "public/beasts/001_normal.png"
 import BeastMarketThumbnail from "../BeastMarketThumbnail"
 import styled from "styled-components"
@@ -19,6 +19,9 @@ import beastTemplates from "data/beastTemplates"
 import { useUser } from "@components/user/UserProvider"
 import { useAuth } from "@components/auth/AuthProvider"
 import ListBeastForSaleModal from "../ListBeastForSaleModal"
+import PlaceABidModal from "../PlaceABidModal"
+import profilePictures from "data/profilePictures"
+import AcceptOfferModal from "../AcceptOfferModal"
 
 const StarLevel = styled.div`
   vertical-align: middle;
@@ -39,9 +42,6 @@ const Panel = styled.div`
   /* border: 1px solid gray;
   border-radius: 10px; */
   color: #fff;
-  cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
-      14 0,
-    pointer !important;
   padding: 10px;
   margin: 1rem auto;
 
@@ -246,10 +246,37 @@ const MoreBeasts = styled.ul`
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
 `
 
+const OfferDetails = styled.div`
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid #2e3340;
+  padding-bottom: 20px;
+`
+
+const Offeror = styled.div`
+  display: flex;
+  align-items: center;
+`
+
 const Img = styled.img`
   user-drag: none;
   -webkit-user-drag: none;
   border-radius: 20px;
+`
+
+const AccordianToggle = styled.div`
+  cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
+      14 0,
+    pointer !important;
+`
+
+const Clickable = styled.span`
+  cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
+      14 0,
+    pointer !important;
+  &:active {
+    transform: scale(0.95);
+  }
 `
 
 type Props = {
@@ -260,9 +287,35 @@ type Props = {
 const ProductBeastView: FC<Props> = ({ beast, hunterData }) => {
   const [heart, setHeart] = useState<any>(heartEmpty)
   const [listBeastForSaleOpen, setListBeastForSaleOpen] = useState<any>(false)
+  const [placeABidOpen, setPlaceABidOpen] = useState<any>(false)
+  const [acceptOfferOpen, setAcceptOfferOpen] = useState<any>(false)
+  const [bestOffer, setBestOffer] = useState<any>(null)
 
-  const { purchaseBeast, delistBeast, beastsForSale } = useUser()
+  const {
+    purchaseBeast,
+    delistBeast,
+    beastsForSale,
+    allBeastOffers,
+    removeOffer,
+    getUserFUSDBalance,
+  } = useUser()
   const { user } = useAuth()
+
+  useEffect(() => {
+    if (
+      allBeastOffers?.filter((offer: any) => offer?.beastID == beast?.id)
+        .length > 0
+    ) {
+      var offers = allBeastOffers
+        ?.filter((offer: any) => offer?.beastID == beast?.id)
+        .sort((a: any, b: any) => b.offerAmount - a.offerAmount)
+      setBestOffer(offers[0])
+    }
+  }, [allBeastOffers, beast])
+
+  useEffect(() => {
+    getUserFUSDBalance("0xfa252d0aa22bf86a")
+  }, [])
 
   const heartChange = () => {
     {
@@ -281,16 +334,18 @@ const ProductBeastView: FC<Props> = ({ beast, hunterData }) => {
     const [isActive, setIsActive] = useState(defaultActive)
 
     return (
-      <Panel className="accordion-item" onClick={() => setIsActive(!isActive)}>
+      <Panel className="accordion-item">
         <AccordionTitle>
           <div>{title}</div>
           <>
             {" "}
-            {isActive ? (
-              <div style={{ marginTop: "2px", fontSize: "0.7em" }}>⌄</div>
-            ) : (
-              <div style={{ marginTop: "13px", fontSize: "0.7em" }}>⌃</div>
-            )}
+            <AccordianToggle onClick={() => setIsActive(!isActive)}>
+              {isActive ? (
+                <div style={{ marginTop: "2px", fontSize: "0.7em" }}>⌄</div>
+              ) : (
+                <div style={{ marginTop: "13px", fontSize: "0.7em" }}>⌃</div>
+              )}
+            </AccordianToggle>
           </>
         </AccordionTitle>
         {isActive && <AccordionContent>{content}</AccordionContent>}
@@ -340,30 +395,74 @@ const ProductBeastView: FC<Props> = ({ beast, hunterData }) => {
       </div>
     )
   }
-  const accordionOffers = () => {
+  const accordionOffers: any = (beast: any) => {
     let offerday = 5
     let offerweek = 3
 
     return (
       <div>
         <ul>
+          {allBeastOffers
+            ?.filter((offer: any) => offer?.beastID == beast?.id)
+            .sort((a: any, b: any) => b.offerAmount - a.offerAmount)
+            .map((offer: any) => (
+              <>
+                <li>
+                  <OfferDetails className="flex text-3xl mb-5 justify-between">
+                    <Offeror className="flex flex-col md:flex-row gap-5">
+                      <OwnerImg
+                        src={
+                          hunterData?.filter(
+                            (hunter: any) => hunter.address == offer?.offeror,
+                          )?.[0]?.avatar || profilePictures[1].image
+                        }
+                        alt="first owner avatar"
+                      />
+                      <div>
+                        <span>
+                          {hunterData?.filter(
+                            (hunter: any) => hunter.address == offer?.offeror,
+                          )?.[0]?.findName != null ? (
+                            <>
+                              {hunterData?.filter(
+                                (hunter: any) =>
+                                  hunter.address == offer?.offeror,
+                              )?.[0]?.findName != ""
+                                ? hunterData?.filter(
+                                    (hunter: any) =>
+                                      hunter.address == offer?.offeror,
+                                  )?.[0]?.findName
+                                : offer?.offeror}{" "}
+                            </>
+                          ) : (
+                            offer?.offeror
+                          )}
+                        </span>
+                        {/* Wait with time of offers */}
+                        {/* <H2>
+                          {offerday} day{offerday > 1 && "s "} ago | Expires in{" "}
+                          {offerweek} week
+                          {offerweek > 1 && "s "} | Floor bid
+                        </H2> */}
+                      </div>
+                    </Offeror>
+                    <span>
+                      {parseFloat(
+                        parseFloat(offer?.offerAmount.toString()).toFixed(2),
+                      )}{" "}
+                      FUSD
+                    </span>
+                    {user?.addr == offer?.offeror && (
+                      <Clickable onClick={() => removeOffer(offer?.offerID)}>
+                        Remove
+                      </Clickable>
+                    )}
+                  </OfferDetails>
+                </li>
+              </>
+            ))}
           {/* {something.map((offer: any) => ( */}
-          <li>
-            <div className="flex text-3xl mb-5 justify-between">
-              <div className="flex flex-col md:flex-row gap-5">
-                <OwnerImg src={pic.src} alt="" />
-                <div>
-                  <span>{/* {offer.name} */}Name</span>
-                  <H2>
-                    {offerday} day{offerday > 1 && "s "} ago | Expires in{" "}
-                    {offerweek} week
-                    {offerweek > 1 && "s "} | Floor bid
-                  </H2>
-                </div>
-              </div>
-              <span>{/* {offer.price} */}FUSD</span>
-            </div>
-          </li>
+
           {/* ))} */}
         </ul>
       </div>
@@ -376,6 +475,18 @@ const ProductBeastView: FC<Props> = ({ beast, hunterData }) => {
         open={listBeastForSaleOpen}
         setOpen={setListBeastForSaleOpen}
         beast={beast}
+      />
+      <PlaceABidModal
+        open={placeABidOpen}
+        setOpen={setPlaceABidOpen}
+        beast={beast}
+      />
+
+      <AcceptOfferModal
+        open={acceptOfferOpen}
+        setOpen={setAcceptOfferOpen}
+        beast={beast}
+        offer={bestOffer}
       />
       <section
         style={{ marginTop: "40px" }}
@@ -413,13 +524,16 @@ const ProductBeastView: FC<Props> = ({ beast, hunterData }) => {
               defaultActive={true}
             />
           </AccordionDiv>
-          <AccordionDiv>
-            <Accordion
-              title="Offers"
-              content={accordionOffers()}
-              defaultActive={true}
-            />
-          </AccordionDiv>
+          {allBeastOffers?.filter((offer: any) => offer?.beastID == beast?.id)
+            .length > 0 && (
+            <AccordionDiv>
+              <Accordion
+                title="Offers"
+                content={accordionOffers(beast)}
+                defaultActive={true}
+              />
+            </AccordionDiv>
+          )}
         </div>
         <Info>
           <div className="w-11/12">
@@ -509,13 +623,39 @@ const ProductBeastView: FC<Props> = ({ beast, hunterData }) => {
                   </H3>
                 </PriceBox>
               )}
-              {beast?.price != null && (
+              {allBeastOffers?.filter(
+                (offer: any) => offer?.beastID == beast?.id,
+              ).length > 0 && (
                 <PriceBox>
                   <H2>Best offer</H2>
-                  <H3>{parseFloat(parseFloat("2.00").toFixed(2))} FUSD</H3>
+                  <H3>
+                    {parseFloat(parseFloat(bestOffer?.offerAmount).toFixed(2))}{" "}
+                    FUSD
+                  </H3>
 
                   <H2>
-                    by <span className="text-white">0xsomething</span>
+                    by{" "}
+                    <Clickable className="text-white">
+                      <a href={"/profile/" + bestOffer?.offeror}>
+                        {hunterData?.filter(
+                          (hunter: any) => hunter.address == bestOffer?.offeror,
+                        )?.[0]?.findName != null ? (
+                          <>
+                            {hunterData?.filter(
+                              (hunter: any) =>
+                                hunter.address == bestOffer?.offeror,
+                            )?.[0]?.findName != ""
+                              ? hunterData?.filter(
+                                  (hunter: any) =>
+                                    hunter.address == bestOffer?.offeror,
+                                )?.[0]?.findName
+                              : bestOffer?.offeror}
+                          </>
+                        ) : (
+                          bestOffer?.offeror
+                        )}
+                      </a>
+                    </Clickable>
                   </H2>
                 </PriceBox>
               )}
@@ -554,8 +694,17 @@ const ProductBeastView: FC<Props> = ({ beast, hunterData }) => {
                 )}
               </>
             )}
+            {user?.addr != beast?.currentOwner && (
+              <BidButton onClick={() => setPlaceABidOpen(true)}>
+                Place a bid
+              </BidButton>
+            )}
+            {user?.addr == beast?.currentOwner && bestOffer != null && (
+              <BidButton onClick={() => setAcceptOfferOpen(true)}>
+                Accept best offer
+              </BidButton>
+            )}
 
-            <BidButton>Place a bid</BidButton>
             {/* <H2>Sale ends in [time]</H2> */}
           </SaleDiv>
           {/* ) : (

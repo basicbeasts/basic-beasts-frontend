@@ -5,6 +5,7 @@ import BuyButton from "../BuyButton"
 import { useAuth } from "@components/auth/AuthProvider"
 import NextLink from "next/link"
 import { useUser } from "@components/user/UserProvider"
+import InboxBestOfferBeast from "../InboxBestOfferBeast"
 
 const Button = styled.button`
   padding: 8px 24px 12px 26px;
@@ -63,6 +64,8 @@ const PackContainer = styled.div`
 `
 
 const InboxItemListTemp: FC = () => {
+  const [bestOffers, setBestOffers] = useState<any>([])
+
   const {
     centralizedInbox,
     starterPacks,
@@ -72,6 +75,9 @@ const InboxItemListTemp: FC = () => {
     claimAllMails,
     fetchInbox,
     getNumberOfPacks,
+    userBeasts,
+    allBeastOffers,
+    hunterData,
   } = useUser()
 
   const { user } = useAuth()
@@ -84,6 +90,35 @@ const InboxItemListTemp: FC = () => {
     getNumberOfPacks()
   }, [centralizedInbox])
 
+  useEffect(() => {
+    if (userBeasts?.length > 0) {
+      var bestOffers = []
+      userBeasts?.map((beast: any) => {
+        if (
+          allBeastOffers?.filter((offer: any) => beast?.id == offer?.beastID)
+            .length > 0
+        ) {
+          var bestOffer = allBeastOffers
+            ?.filter((offer: any) => beast?.id == offer?.beastID)
+            .sort((a: any, b: any) => b.offerAmount - a.offerAmount)?.[0]
+          var bestOfferBeast = {
+            id: beast?.id,
+            serialNumber: beast?.serialNumber,
+            name: beast?.name,
+            nickname: beast?.nickname,
+            beastTemplateID: beast?.beastTemplateID,
+            offerID: bestOffer?.offerID,
+            offerAmount: bestOffer?.offerAmount,
+            offeror: bestOffer?.offeror,
+          }
+          bestOffers.push(bestOfferBeast)
+        }
+      })
+    }
+    setBestOffers(bestOffers)
+    console.log(bestOffers)
+  }, [userBeasts, allBeastOffers])
+
   return (
     <Container>
       <>
@@ -91,7 +126,7 @@ const InboxItemListTemp: FC = () => {
           <>
             {centralizedInbox.length > 0 ? (
               <>
-                {starterPacks > 0 ? (
+                {starterPacks > 0 && (
                   <>
                     <InboxPackItem
                       quantity={starterPacks}
@@ -99,10 +134,8 @@ const InboxItemListTemp: FC = () => {
                       value={10}
                     />
                   </>
-                ) : (
-                  ""
                 )}
-                {metallicPacks > 0 ? (
+                {metallicPacks > 0 && (
                   <>
                     <InboxPackItem
                       quantity={metallicPacks}
@@ -110,10 +143,8 @@ const InboxItemListTemp: FC = () => {
                       value={0}
                     />
                   </>
-                ) : (
-                  ""
                 )}
-                {cursedPacks > 0 ? (
+                {cursedPacks > 0 && (
                   <>
                     <InboxPackItem
                       quantity={cursedPacks}
@@ -121,10 +152,8 @@ const InboxItemListTemp: FC = () => {
                       value={300}
                     />
                   </>
-                ) : (
-                  ""
                 )}
-                {shinyPacks > 0 ? (
+                {shinyPacks > 0 && (
                   <>
                     <InboxPackItem
                       quantity={shinyPacks}
@@ -132,8 +161,6 @@ const InboxItemListTemp: FC = () => {
                       value={999}
                     />
                   </>
-                ) : (
-                  ""
                 )}
                 <BuyButton
                   onClick={() => claimAllMails()}
@@ -164,6 +191,17 @@ const InboxItemListTemp: FC = () => {
           </>
         ) : (
           <NoInbox>No inbox found</NoInbox>
+        )}
+        {bestOffers?.length > 0 && (
+          <div style={{ marginTop: "40px" }}>
+            {bestOffers?.map((bestOfferBeast: any) => (
+              <InboxBestOfferBeast
+                key={bestOfferBeast.id}
+                bestOfferBeast={bestOfferBeast}
+                hunterData={hunterData}
+              />
+            ))}
+          </div>
         )}
       </>
     </Container>

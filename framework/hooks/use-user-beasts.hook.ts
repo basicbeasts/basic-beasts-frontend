@@ -159,6 +159,8 @@ export default function useUserBeasts(user: any) {
       mappedCollection.sort((a: any, b: any) => b.id - a.id)
       // setUserBeastCollection(mappedCollection)
       dispatch({ type: "SUCCESS", payload: mappedCollection })
+
+      console.log("your beasts", mappedCollection)
       // Get evolvable beast dictionary {beastTemplateID: [beasts]}
       var beasts = [...mappedCollection]
       beasts.sort((a, b) => a.serialNumber - b.serialNumber)

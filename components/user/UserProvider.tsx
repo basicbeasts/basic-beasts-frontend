@@ -24,7 +24,13 @@ const UserProvider: FC = ({ children }) => {
   //   "user-composite-signature",
   // )
 
-  const { data: balance, getFUSDBalance, purchase, loading } = useFUSD(user)
+  const {
+    data: balance,
+    getFUSDBalance,
+    purchase,
+    loading,
+    getUserFUSDBalance,
+  } = useFUSD(user)
   const {
     data: userBeasts,
     fetchUserBeasts,
@@ -90,6 +96,13 @@ const UserProvider: FC = ({ children }) => {
     delistBeast,
     beasts,
     getAllBeasts,
+    placeABid,
+    getAllBeastOffers,
+    allBeastOffers,
+    removeOffer,
+    acceptOffer,
+    highestSale,
+    getHighestSale,
   } = useBeastMarket()
 
   return (
@@ -135,6 +148,14 @@ const UserProvider: FC = ({ children }) => {
         delistBeast,
         beasts,
         getAllBeasts,
+        placeABid,
+        getAllBeastOffers,
+        allBeastOffers,
+        removeOffer,
+        acceptOffer,
+        getUserFUSDBalance,
+        highestSale,
+        getHighestSale,
       }}
     >
       {children}

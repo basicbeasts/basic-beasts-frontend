@@ -1,5 +1,5 @@
-import { FC, Fragment, useEffect, useState } from "react"
-import { Dialog, Transition, Menu } from "@headlessui/react"
+import { FC, Fragment } from "react"
+import { Dialog, Transition } from "@headlessui/react"
 import styled from "styled-components"
 import { useUser } from "@components/user/UserProvider"
 import beastTemplates from "data/beastTemplates"
@@ -32,7 +32,7 @@ const Container = styled.div`
 `
 
 const Button = styled.button`
-  // margin-top: 10px;
+  margin-top: 10px;
   font-size: 1.5em;
   width: 100%;
   color: white;
@@ -56,28 +56,25 @@ const Title = styled.h1`
   text-align: left;
 
   color: #fff;
+  border-bottom: 2px solid #2e3340;
+
+  display: table;
+  clear: both;
 `
 
-const A = styled.a`
-  font-size: 1em;
-`
+const Text = styled.h3`
+  font-size: 1.2em;
+  margin-bottom: 0px;
+  line-height: 1em;
+  text-align: left;
 
-const FuncArgInput = styled.input`
-  background: transparent;
-  border: 1px solid #fff;
   color: #fff;
-  font-size: 1.5em;
-  padding: 5px 0px 5px 20px;
-  border-radius: 8px;
-  /* width: 50%; */
-  cursor: pointer;
-  outline: none;
-  width: 100%;
-  &::-webkit-outer-spin-button,
-  &::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
+
+  border-bottom: 2px solid #2e3340;
+  padding-bottom: 10px;
+
+  display: table;
+  clear: both;
 `
 
 const Img = styled.img`
@@ -94,20 +91,11 @@ type Props = {
   open: boolean
   setOpen: any
   beast: any
+  offer: any
 }
 
-const PlaceABidModal: FC<Props> = ({ open, setOpen, beast }) => {
-  const [price, setPrice] = useState(0.0)
-  const { placeABid, balance } = useUser()
-
-  const handleChange = (event: any) => {
-    event.preventDefault()
-    var result = event.target.value.replace(/[^0-9.]/g, "")
-    result = parseFloat(result).toFixed(2)
-    console.log(result)
-
-    setPrice(result.toString())
-  }
+const AcceptOfferModal: FC<Props> = ({ open, setOpen, beast, offer }) => {
+  const { acceptOffer } = useUser()
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -156,33 +144,38 @@ const PlaceABidModal: FC<Props> = ({ open, setOpen, beast }) => {
                   {beast?.name != beast?.nickname && (
                     <Title>{beast?.nickname}</Title>
                   )}
-                  <Title>FUSD Balance: {parseFloat(balance)}</Title>
-
-                  <div style={{ marginTop: "20px;" }}>
-                    <FuncArgInput
-                      id="myTextBox"
-                      placeholder="Price in FUSD"
-                      type="number"
-                      onChange={
-                        handleChange
-                        // (e: any) => setPrice(e.target.value)
-                      }
-                    />
-                  </div>
+                  <Text>
+                    <span style={{ float: "left" }}>Subtotal:</span>{" "}
+                    <span style={{ float: "right" }}>
+                      ${parseFloat(offer?.offerAmount)} FUSD
+                    </span>
+                  </Text>
+                  <Text>
+                    <span style={{ float: "left" }}>Creator royalty:</span>{" "}
+                    <span style={{ float: "right" }}>5%</span>
+                  </Text>
+                  <Text>
+                    <span style={{ float: "left" }}>First owner royalty:</span>{" "}
+                    <span style={{ float: "right" }}>5%</span>
+                  </Text>
+                  <Title style={{ border: "none" }}>
+                    <span style={{ float: "left" }}>Total received:</span>{" "}
+                    <span style={{ float: "right" }}>
+                      ${parseFloat(offer?.offerAmount) * 0.9} FUSD
+                    </span>
+                  </Title>
                   <div>
                     <Button
-                      disabled={parseFloat(balance) < price}
                       onClick={() => {
-                        console.log("price", price)
-                        console.log("beastID", beast?.id)
-                        placeABid(price, beast?.id)
+                        acceptOffer(offer?.offeror, offer?.offerID, beast?.id)
                         setOpen(false)
                       }}
                     >
-                      {parseFloat(balance) < price
-                        ? "Not enough FUSD"
-                        : "Make offer"}
+                      Accept offer
                     </Button>
+                    {beast?.id != offer?.beastID && (
+                      <div>Something is wrong</div>
+                    )}
                   </div>
                 </Container>
               </DialogPanel>
@@ -194,4 +187,4 @@ const PlaceABidModal: FC<Props> = ({ open, setOpen, beast }) => {
   )
 }
 
-export default PlaceABidModal
+export default AcceptOfferModal

@@ -80,6 +80,21 @@ const Img = styled.img`
   border-radius: 10px;
 `
 
+const Text = styled.h3`
+  font-size: 1.2em;
+  margin-bottom: 0px;
+  line-height: 1em;
+  text-align: left;
+
+  color: #fff;
+
+  border-bottom: 2px solid #2e3340;
+  padding-bottom: 10px;
+
+  display: table;
+  clear: both;
+`
+
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ")
 }
@@ -91,16 +106,19 @@ type Props = {
 }
 
 const ListBeastForSaleModal: FC<Props> = ({ open, setOpen, beast }) => {
-  const [price, setPrice] = useState()
+  const [price, setPrice] = useState(0.0)
   const { listBeastForSale } = useUser()
 
   const handleChange = (event: any) => {
-    event.preventDefault()
-    var result = event.target.value.replace(/[^0-9.]/g, "")
-    result = parseFloat(result).toFixed(2)
-    console.log(result)
+    if (event.target.value == "") {
+      setPrice(0)
+    } else {
+      event.preventDefault()
+      var result = event.target.value.replace(/[^0-9.]/g, "")
+      result = parseFloat(result).toFixed(2)
 
-    setPrice(result.toString())
+      setPrice(result.toString())
+    }
   }
 
   return (
@@ -144,9 +162,36 @@ const ListBeastForSaleModal: FC<Props> = ({ open, setOpen, beast }) => {
                       ]?.thumbnail
                     }
                   />
-                  <Title>{beast?.name}</Title>
                   <Title>
-                    {beast?.nickname}#{beast?.serialNumber}
+                    {beast?.name} Serial#{beast?.serialNumber}
+                  </Title>
+                  {beast?.name != beast?.nickname && (
+                    <Title>{beast?.nickname}</Title>
+                  )}
+                  <Text>
+                    <span style={{ float: "left" }}>Subtotal:</span>{" "}
+                    <span style={{ float: "right" }}>
+                      ${parseFloat(parseFloat(price.toString()).toFixed(2))}{" "}
+                      FUSD
+                    </span>
+                  </Text>
+                  <Text>
+                    <span style={{ float: "left" }}>Creator royalty:</span>{" "}
+                    <span style={{ float: "right" }}>5%</span>
+                  </Text>
+                  <Text>
+                    <span style={{ float: "left" }}>First owner royalty:</span>{" "}
+                    <span style={{ float: "right" }}>5%</span>
+                  </Text>
+                  <Title style={{ border: "none" }}>
+                    <span style={{ float: "left" }}>Total received:</span>{" "}
+                    <span style={{ float: "right" }}>
+                      $
+                      {parseFloat(
+                        parseFloat((price * 0.9).toString()).toFixed(2),
+                      )}{" "}
+                      FUSD
+                    </span>
                   </Title>
 
                   <div>

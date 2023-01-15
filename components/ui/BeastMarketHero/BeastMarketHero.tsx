@@ -372,7 +372,7 @@ const ThumbnailDetailsFC: FC<{
 const BeastMarketHero: FC<Props> = ({ beast }) => {
   const [skinOverviewOpen, setSkinOverviewOpen] = useState(false)
 
-  const { hunterData, beasts } = useUser()
+  const { hunterData, beasts, highestSale } = useUser()
 
   return (
     <>
@@ -394,7 +394,7 @@ const BeastMarketHero: FC<Props> = ({ beast }) => {
               <H2>{beasts?.length}</H2> Beasts
             </Item>
             <Item>
-              <H2>$10000</H2> Highest Sale
+              <H2>${parseFloat(highestSale).toFixed(0)}</H2> Highest Sale
             </Item>
           </ItemInfo>
           <BeastMarketSkinOverviewModal
