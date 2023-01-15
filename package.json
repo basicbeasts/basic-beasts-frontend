@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "cross-env NODE_OPTIONS='--openssl-legacy-provider' next dev",
-    "build": "next build",
-    "start": "react-scripts --openssl-legacy-provider start",
+    "build": "NODE_OPTIONS=--openssl-legacy-provider next build",
+    "start": "NODE_OPTIONS=--openssl-legacy-provider next start",
     "lint": "next lint",
     "format": "prettier . --write",
     "generate": "gqty generate"
