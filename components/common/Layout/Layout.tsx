@@ -11,7 +11,7 @@ import SlideOverNavbar from "../SlideOverNavbar"
 import profilePictures from "data/profilePictures"
 import Snowfall from "react-snowfall"
 
-//Configure FCL
+//Configure FC
 fcl
   .config()
   .put("accessNode.api", process.env.NEXT_PUBLIC_ACCESS_NODE_API)
