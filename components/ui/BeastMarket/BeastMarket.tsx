@@ -34,6 +34,7 @@ import BeastMarketSweep from "../BeastMarketSweep"
 import QuickBidModal from "../QuickBidModal"
 import ListBeastForSaleModal from "../ListBeastForSaleModal"
 import { useUser } from "@components/user/UserProvider"
+import PlaceABidModal from "../PlaceABidModal"
 
 const Wrapper = styled.div`
   padding: 20px 20px 100px 20px;
@@ -796,6 +797,7 @@ const BeastMarket: FC<Props> = () => {
   const [displayBeasts, setDisplayBeasts] = useState<any>(null)
   const [selectedBeast, setSelectedBeast] = useState<any>(null)
   const [listBeastForSaleOpen, setListBeastForSaleOpen] = useState(false)
+  const [placeABidOpen, setPlaceABidOpen] = useState(false)
   const [open, setOpen] = useState(false)
   const [displayNickname, setDisplayNickname] = useState<string | null>(null)
   const [sortBy, setSortBy] = useState("SORT BY")
@@ -1212,6 +1214,11 @@ const BeastMarket: FC<Props> = () => {
         setOpen={setListBeastForSaleOpen}
         beast={selectedBeast}
       />
+      <PlaceABidModal
+        open={placeABidOpen}
+        setOpen={setPlaceABidOpen}
+        beast={selectedBeast}
+      />
       <HeaderBeastCollection>
         <FilterButton
           style={{
@@ -1324,6 +1331,7 @@ const BeastMarket: FC<Props> = () => {
               setListBeastForSaleOpen={setListBeastForSaleOpen}
               favoriteBeasts={favoriteBeasts}
               setFavoriteBeasts={setFavoriteBeasts}
+              setPlaceABidOpen={setPlaceABidOpen}
               // setOpen={setOpen}
               // setDisplayNickname={setDisplayNickname}
             />

@@ -6,6 +6,7 @@ import BeastMarketThumbnail from "../BeastMarketThumbnail"
 import { faHeart as heartFull } from "@fortawesome/free-solid-svg-icons"
 import { faHeart as heartEmpty } from "@fortawesome/free-regular-svg-icons"
 import { useUser } from "@components/user/UserProvider"
+import { useAuth } from "@components/auth/AuthProvider"
 
 const MarketUl = styled.ul`
   padding-top: 5px;
@@ -252,6 +253,7 @@ type Props = {
   setListBeastForSaleOpen: any
   favoriteBeasts: any
   setFavoriteBeasts: any
+  setPlaceABidOpen: any
   // setDisplayNickname: any
 }
 const BeastMarketBeastList: FC<Props> = ({
@@ -263,6 +265,7 @@ const BeastMarketBeastList: FC<Props> = ({
   setListBeastForSaleOpen,
   favoriteBeasts,
   setFavoriteBeasts,
+  setPlaceABidOpen,
   // setDisplayNickname,
 }) => {
   const selectBeast = (beast: any) => {
@@ -572,6 +575,9 @@ const BeastMarketBeastList: FC<Props> = ({
   }
 
   const { purchaseBeast, delistBeast } = useUser()
+
+  const { loggedIn, logIn } = useAuth()
+
   return (
     <MarketUl
       role="list"
@@ -643,7 +649,22 @@ const BeastMarketBeastList: FC<Props> = ({
                   Quick Buy
                 </QuickBuyButton>
               ) : (
-                <></>
+                <>
+                  {!loggedIn ? (
+                    <QuickBuyButton onClick={() => logIn()}>
+                      Make offer
+                    </QuickBuyButton>
+                  ) : (
+                    <QuickBuyButton
+                      onClick={() => {
+                        setSelectedBeast(beast)
+                        setPlaceABidOpen(true)
+                      }}
+                    >
+                      Make offer
+                    </QuickBuyButton>
+                  )}
+                </>
               )}
             </>
           )}

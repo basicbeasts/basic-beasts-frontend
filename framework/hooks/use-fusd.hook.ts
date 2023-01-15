@@ -25,7 +25,7 @@ export default function useFUSD(user: any) {
   const [state, dispatch] = useReducer(defaultReducer, {
     loading: true,
     error: false,
-    data: null,
+    data: 0,
   })
 
   useEffect(() => {
