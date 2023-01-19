@@ -3,6 +3,7 @@ import { Dialog, Transition, Menu } from "@headlessui/react"
 import styled from "styled-components"
 import { useUser } from "@components/user/UserProvider"
 import beastTemplates from "data/beastTemplates"
+import { useAuth } from "@components/auth/AuthProvider"
 
 const ContainerDiv = styled.div`
   align-items: center;
@@ -99,6 +100,7 @@ type Props = {
 const PlaceABidModal: FC<Props> = ({ open, setOpen, beast }) => {
   const [price, setPrice] = useState(0.0)
   const { placeABid, balance } = useUser()
+  const { loggedIn, logIn } = useAuth()
 
   const handleChange = (event: any) => {
     event.preventDefault()
@@ -170,19 +172,23 @@ const PlaceABidModal: FC<Props> = ({ open, setOpen, beast }) => {
                     />
                   </div>
                   <div>
-                    <Button
-                      disabled={parseFloat(balance) < price}
-                      onClick={() => {
-                        console.log("price", price)
-                        console.log("beastID", beast?.id)
-                        placeABid(price, beast?.id)
-                        setOpen(false)
-                      }}
-                    >
-                      {parseFloat(balance) < price
-                        ? "Not enough FUSD"
-                        : "Make offer"}
-                    </Button>
+                    {!loggedIn ? (
+                      <Button onClick={() => logIn()}>Make offer</Button>
+                    ) : (
+                      <Button
+                        disabled={parseFloat(balance) < price}
+                        onClick={() => {
+                          console.log("price", price)
+                          console.log("beastID", beast?.id)
+                          placeABid(price, beast?.id)
+                          setOpen(false)
+                        }}
+                      >
+                        {parseFloat(balance) < price
+                          ? "Not enough FUSD"
+                          : "Make offer"}
+                      </Button>
+                    )}
                   </div>
                 </Container>
               </DialogPanel>
