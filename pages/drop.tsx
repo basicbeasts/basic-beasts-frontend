@@ -3,8 +3,8 @@ import HeaderDark from "@components/ui/HeaderDark"
 import PackStore from "@components/ui/PackStore"
 import styled from "styled-components"
 
-const Store: NextPage = () => {
+const Drop: NextPage = () => {
   return <PackStore />
 }
 
-export default Store
+export default Drop

@@ -1466,7 +1466,8 @@ const BeastMarket: FC<Props> = () => {
           )}
           {/* </div> */}
         </div>
-        <MobileMarket className="flex md:hidden">
+        {/* wait with this */}
+        {/* <MobileMarket className="flex md:hidden">
           <div>Information is coming here</div>
           <CartButton onClick={() => setMobileCartOpen(true)}>
             View Cart
@@ -1477,7 +1478,7 @@ const BeastMarket: FC<Props> = () => {
             open={mobileCartOpen}
             setOpen={setMobileCartOpen}
           />
-        </MobileMarket>
+        </MobileMarket> */}
       </Wrapper>
     </>
   )

@@ -44,7 +44,7 @@ export default function useFUSD(user: any) {
         args: (arg: any, t: any) => [arg(user?.addr, t.Address)],
       })
       dispatch({ type: "SUCCESS", payload: response })
-      console.log("use-fusd.hook.ts: getFUSDBalance()")
+      // console.log("use-fusd.hook.ts: getFUSDBalance()")
     } catch (err) {
       dispatch({ type: "ERROR" })
       console.log(err)
@@ -57,7 +57,7 @@ export default function useFUSD(user: any) {
         cadence: GET_FUSD_BALANCE,
         args: (arg: any, t: any) => [arg(address, t.Address)],
       })
-      console.log("user fusd", response)
+      console.log("Admin FUSD vault", response)
     } catch (err) {
       console.log(err)
     }

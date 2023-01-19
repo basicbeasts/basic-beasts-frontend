@@ -17,7 +17,7 @@ const MarketUl = styled.ul`
   overflow: hidden;
   overflow-y: scroll;
 
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  // grid-template-columns: repeat(auto-fill, minmax(200px, 2fr));
   gap: 1.25rem;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
@@ -472,19 +472,39 @@ const BeastMarketBeastList: FC<Props> = ({
           <ThumbnailWrapper>
             <ThumbnailLabel>
               <NameWrapper style={{ color: "black" }}>
-                {beastsForSale
+                {userBeasts
                   ?.map((beast: any) => beast.id)
                   .includes(beast.id) ? (
-                  <>
-                    {parseFloat(
-                      beastsForSale?.filter(
-                        (beastForSale: any) => beastForSale.id == beast.id,
-                      )[0].price,
-                    ).toFixed(0)}{" "}
-                    FUSD
-                  </>
+                  <div>
+                    Owned{" "}
+                    {beastsForSale
+                      ?.map((beast: any) => beast.id)
+                      .includes(beast.id) && (
+                      <>
+                        {parseFloat(
+                          beastsForSale?.filter(
+                            (beastForSale: any) => beastForSale.id == beast.id,
+                          )[0].price,
+                        ).toFixed(0)}{" "}
+                        FUSD
+                      </>
+                    )}
+                  </div>
                 ) : (
-                  <></>
+                  <>
+                    {beastsForSale
+                      ?.map((beast: any) => beast.id)
+                      .includes(beast.id) && (
+                      <>
+                        {parseFloat(
+                          beastsForSale?.filter(
+                            (beastForSale: any) => beastForSale.id == beast.id,
+                          )[0].price,
+                        ).toFixed(0)}{" "}
+                        FUSD
+                      </>
+                    )}
+                  </>
                 )}
               </NameWrapper>
               {/* <span>
@@ -581,7 +601,7 @@ const BeastMarketBeastList: FC<Props> = ({
   return (
     <MarketUl
       role="list"
-      // className="grid grid-cols-1 gap-x-5 gap-y-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-5"
+      className="grid grid-cols-2 gap-x-5 gap-y-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5"
     >
       {displayBeasts.map((beast: any) => (
         <BeastLi

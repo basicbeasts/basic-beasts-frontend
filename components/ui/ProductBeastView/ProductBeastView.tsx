@@ -406,60 +406,57 @@ const ProductBeastView: FC<Props> = ({ beast, hunterData }) => {
             ?.filter((offer: any) => offer?.beastID == beast?.id)
             .sort((a: any, b: any) => b.offerAmount - a.offerAmount)
             .map((offer: any) => (
-              <>
-                <li>
-                  <OfferDetails className="flex text-3xl mb-5 justify-between">
-                    <Offeror className="flex flex-col md:flex-row gap-5">
-                      <OwnerImg
-                        src={
-                          hunterData?.filter(
-                            (hunter: any) => hunter.address == offer?.offeror,
-                          )?.[0]?.avatar || profilePictures[1].image
-                        }
-                        alt="first owner avatar"
-                      />
-                      <div>
-                        <span>
-                          {hunterData?.filter(
-                            (hunter: any) => hunter.address == offer?.offeror,
-                          )?.[0]?.findName != null ? (
-                            <>
-                              {hunterData?.filter(
-                                (hunter: any) =>
-                                  hunter.address == offer?.offeror,
-                              )?.[0]?.findName != ""
-                                ? hunterData?.filter(
-                                    (hunter: any) =>
-                                      hunter.address == offer?.offeror,
-                                  )?.[0]?.findName
-                                : offer?.offeror}{" "}
-                            </>
-                          ) : (
-                            offer?.offeror
-                          )}
-                        </span>
-                        {/* Wait with time of offers */}
-                        {/* <H2>
+              <li key={offer?.offerID}>
+                <OfferDetails className="flex text-3xl mb-5 justify-between">
+                  <Offeror className="flex flex-col md:flex-row gap-5">
+                    <OwnerImg
+                      src={
+                        hunterData?.filter(
+                          (hunter: any) => hunter.address == offer?.offeror,
+                        )?.[0]?.avatar || profilePictures[1].image
+                      }
+                      alt="first owner avatar"
+                    />
+                    <div>
+                      <span>
+                        {hunterData?.filter(
+                          (hunter: any) => hunter.address == offer?.offeror,
+                        )?.[0]?.findName != null ? (
+                          <>
+                            {hunterData?.filter(
+                              (hunter: any) => hunter.address == offer?.offeror,
+                            )?.[0]?.findName != ""
+                              ? hunterData?.filter(
+                                  (hunter: any) =>
+                                    hunter.address == offer?.offeror,
+                                )?.[0]?.findName
+                              : offer?.offeror}{" "}
+                          </>
+                        ) : (
+                          offer?.offeror
+                        )}
+                      </span>
+                      {/* Wait with time of offers */}
+                      {/* <H2>
                           {offerday} day{offerday > 1 && "s "} ago | Expires in{" "}
                           {offerweek} week
                           {offerweek > 1 && "s "} | Floor bid
                         </H2> */}
-                      </div>
-                    </Offeror>
-                    <span>
-                      {parseFloat(
-                        parseFloat(offer?.offerAmount.toString()).toFixed(2),
-                      )}{" "}
-                      FUSD
-                    </span>
-                    {user?.addr == offer?.offeror && (
-                      <Clickable onClick={() => removeOffer(offer?.offerID)}>
-                        Remove
-                      </Clickable>
-                    )}
-                  </OfferDetails>
-                </li>
-              </>
+                    </div>
+                  </Offeror>
+                  <span>
+                    {parseFloat(
+                      parseFloat(offer?.offerAmount.toString()).toFixed(2),
+                    )}{" "}
+                    FUSD
+                  </span>
+                  {user?.addr == offer?.offeror && (
+                    <Clickable onClick={() => removeOffer(offer?.offerID)}>
+                      Remove
+                    </Clickable>
+                  )}
+                </OfferDetails>
+              </li>
             ))}
           {/* {something.map((offer: any) => ( */}
 
@@ -667,11 +664,17 @@ const ProductBeastView: FC<Props> = ({ beast, hunterData }) => {
                 {beastsForSale
                   ?.map((beast: any) => beast.id)
                   .includes(beast?.id) ? (
-                  <BuyButton onClick={() => delistBeast(beast?.id)}>
+                  <BuyButton
+                    key={beast?.id}
+                    onClick={() => delistBeast(beast?.id)}
+                  >
                     Delist
                   </BuyButton>
                 ) : (
-                  <BuyButton onClick={() => setListBeastForSaleOpen(true)}>
+                  <BuyButton
+                    key={beast?.id}
+                    onClick={() => setListBeastForSaleOpen(true)}
+                  >
                     List for sale
                   </BuyButton>
                 )}
@@ -696,7 +699,7 @@ const ProductBeastView: FC<Props> = ({ beast, hunterData }) => {
             )}
             {user?.addr != beast?.currentOwner && (
               <BidButton onClick={() => setPlaceABidOpen(true)}>
-                Place a bid
+                Make offer
               </BidButton>
             )}
             {user?.addr == beast?.currentOwner && bestOffer != null && (

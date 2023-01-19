@@ -21,7 +21,7 @@ const Main = styled.main`
 const Header = styled.h1`
   font-size: 4rem;
   color: #fff;
-  max-width: 14ch;
+  // max-width: 14ch;
   text-transform: uppercase;
   line-height: 1;
   @media (max-width: 380px) {
@@ -31,6 +31,7 @@ const Header = styled.h1`
 const P = styled.p`
   color: white;
   max-width: 56ch;
+  font-size: 1.2em;
 `
 const H2 = styled.h2`
   font-size: 1.5rem;
@@ -356,7 +357,7 @@ const ThumbnailDetailsFC: FC<{
         >
           50 FUSD
         </div>
-        <BidButton>Place A Bid</BidButton>
+        <BidButton>Make offer</BidButton>
         <DetailButton
           style={{ background: btnColor }}
           onClick={() => setDialogOpen(!dialogOpen)}
@@ -379,13 +380,13 @@ const BeastMarketHero: FC<Props> = ({ beast }) => {
       <Main>
         {" "}
         <Discover>
-          <Header>Discover The Beasts</Header>
+          <Header>Discover Beasts</Header>
           <P>
             Basic Beasts is a collection of unique digital collectibles
             representing interactive beasts that can evolve, breed, and be
             loved.
           </P>
-          <Button>Adopt a Beast →</Button>
+          {/* <Button>Adopt a Beast →</Button> */}
           <ItemInfo onClick={() => setSkinOverviewOpen(true)}>
             <Item>
               <H2>{hunterData?.length}</H2> Hunters

@@ -45,15 +45,18 @@ export default function useUserPacks(user: any) {
         
             let collectionRef = getAccount(acct).getCapability(Pack.CollectionPublicPath)
                 .borrow<&{Pack.PackCollectionPublic}>()
-                ?? panic("Could not get public Pack collection reference")
+                // ?? panic("Could not get public Pack collection reference")
+            if (collectionRef != nil) {
+              let PackIDs = collectionRef!.getIDs()
         
-            let PackIDs = collectionRef.getIDs()
-        
-            for id in PackIDs {
-                let pack = collectionRef.borrowPack(id: id)!
-                
-                packCollection.append(pack)
+              for id in PackIDs {
+                  let pack = collectionRef!.borrowPack(id: id)!
+                  
+                  packCollection.append(pack)
+              }
             }
+        
+            
         
           return packCollection
         }
@@ -100,7 +103,7 @@ export default function useUserPacks(user: any) {
         mappedPacks.push(pack)
       }
       dispatch({ type: "SUCCESS", payload: mappedPacks })
-      console.log("use-user-packs.hook.ts: fetchUserPacks()")
+      // console.log("use-user-packs.hook.ts: fetchUserPacks()")
     } catch (err) {
       dispatch({ type: "ERROR" })
       console.log(err)

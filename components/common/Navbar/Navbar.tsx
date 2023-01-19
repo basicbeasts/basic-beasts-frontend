@@ -613,7 +613,7 @@ const Navbar: FC<FuncProps> = ({
           setProfilePicture(element.image)
         }
       }
-      console.log("Navbar.ts: getCurrentUserProfile()")
+      // console.log("Navbar.ts: getCurrentUserProfile()")
     } catch (error) {
       console.log(error)
     }

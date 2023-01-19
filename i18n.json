@@ -4,6 +4,6 @@
   "pages": {
     "*": ["common"],
     "/": ["home"],
-    "/store": ["home"]
+    "/drop": ["home"]
   }
 }

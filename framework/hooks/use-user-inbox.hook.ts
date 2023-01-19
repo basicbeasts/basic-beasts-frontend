@@ -203,7 +203,7 @@ export default function useInbox(user: any) {
         ],
       })
       setCentralizedInbox(res)
-      console.log("use-user-inbox.hook.ts: fetchInbox()")
+      // console.log("use-user-inbox.hook.ts: fetchInbox()")
     } catch (err) {
       console.log(err)
     }

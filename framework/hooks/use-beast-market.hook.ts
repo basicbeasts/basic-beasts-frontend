@@ -197,7 +197,7 @@ export default function useBeastMarket() {
         `,
       })
       setBeastsForSale(res)
-      console.log(res)
+      // console.log(res)
       return res
     } catch (error) {
       console.log(error)
@@ -601,7 +601,7 @@ export default function useBeastMarket() {
         `,
       })
       setAllBeastOffers(res)
-      console.log("all offers", res)
+      // console.log("all offers", res)
       return res
     } catch (error) {
       console.log(error)
