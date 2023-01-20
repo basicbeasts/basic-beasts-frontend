@@ -256,7 +256,16 @@ const DropDown: FC<{
   const sortByPriceLowHigh = () => {
     if (beasts != null) {
       beasts.sort((a: any, b: any) => a.beastTemplateID - b.beastTemplateID)
-      beasts.sort((a: any, b: any) => a.price - b.price)
+      beasts.sort((a: any, b: any) => {
+        if (a.price == null || a.price === 0) {
+          return 1
+        } else if (b.price == null || b.price === 0) {
+          return -1
+        } else {
+          return a.price - b.price
+        }
+      })
+      // beasts.sort((a: any, b: any) => a.price - b.price)
     }
   }
   const sortByPriceHighLow = () => {
