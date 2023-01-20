@@ -350,8 +350,7 @@ const FUSDClaimModal: FC<Props> = ({
                 <Container>
                   <Title>Claim FUSD from Chest</Title>
                   <div style={{ color: "white", fontSize: "1.5em" }}>
-                    Current Balance:{" "}
-                    {balance != null ? balance?.slice(0, -6) : 0} ₣USD
+                    Current Balance: {balance != null ? balance : 0} ₣USD
                   </div>
                   <DropDown
                     IDs={IDs}
