@@ -89,6 +89,7 @@ const UserProvider: FC = ({ children }) => {
   const { getClaimedFUSDRewards, claimedFUSDRewards } = useFUSDChestRewards()
 
   const {
+    data: beastMarketStuff,
     beastsForSale,
     getAllBeastsForSale,
     purchaseBeast,
@@ -156,6 +157,7 @@ const UserProvider: FC = ({ children }) => {
         getUserFUSDBalance,
         highestSale,
         getHighestSale,
+        beastMarketStuff,
       }}
     >
       {children}

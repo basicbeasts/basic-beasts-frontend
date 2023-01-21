@@ -39,6 +39,7 @@ export default function useBeastMarket() {
   }, [])
 
   const getAllBeasts = async () => {
+    dispatch({ type: "PROCESSING" })
     try {
       let res = await query({
         cadence: `
@@ -137,7 +138,9 @@ export default function useBeastMarket() {
         allBeasts.push(beast)
       }
       setBeasts(allBeasts)
+      dispatch({ type: "SUCCESS" })
     } catch (error) {
+      dispatch({ type: "ERROR" })
       console.log(error)
     }
   }

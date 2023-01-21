@@ -2,6 +2,7 @@ import type { NextPage } from "next"
 import ProductBeastView from "@components/ui/ProductBeastView"
 import { useUser } from "@components/user/UserProvider"
 import { useRouter } from "next/router"
+import useBeastMarket from "@framework/hooks/use-beast-market.hook"
 
 const dummyData = [
   {
@@ -137,11 +138,14 @@ const dummyData = [
 const BeastDetails: NextPage = () => {
   const { beasts, hunterData } = useUser()
 
+  const { loading } = useBeastMarket()
+
   const router = useRouter()
   const { beastID } = router.query
 
   return (
     <div>
+      {loading && <div>LOADING STAY CALM</div>}
       {beastID != null && (
         <ProductBeastView
           beast={beasts?.filter((beasts: any) => beasts.id == beastID)[0]}
