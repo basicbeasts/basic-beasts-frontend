@@ -88,6 +88,13 @@ const QuickBuyButton = styled.button`
   /* &:hover {
     box-shadow: 2px 2px 5px 1px black;
   } not needed dense*/
+
+  @media (max-width: 420px) {
+    display: none;
+    ${BeastLi}:hover & {
+      display: none;
+    }
+  }
 `
 
 const StarLevel = styled.div`
@@ -624,6 +631,7 @@ const BeastMarketBeastList: FC<Props> = ({
           </div>
           {userBeasts?.map((beast: any) => beast.id).includes(beast.id) ? (
             <>
+              {/* Owned */}
               {beastsForSale
                 ?.map((beast: any) => beast.id)
                 .includes(beast.id) ? (
@@ -648,6 +656,7 @@ const BeastMarketBeastList: FC<Props> = ({
             </>
           ) : (
             <>
+              {/* Not owned */}
               {beastsForSale
                 ?.map((beast: any) => beast.id)
                 .includes(beast.id) ? (
