@@ -92,7 +92,7 @@ const Switch = styled.label`
   display: inline-block;
   width: 36px;
   height: 20px;
-  margin: 1rem 0;
+  margin: 0.8rem 0;
 `
 const SwitchSlider = styled.span`
   position: absolute;
@@ -151,7 +151,10 @@ const sortOptions = [
   { name: "Price: Low to High", href: "#", current: false },
   { name: "Price: High to Low", href: "#", current: false },
 ]
-const subCategories = [{ name: "Favorites", href: "#" }]
+const subCategories = [
+  { name: "Favorites", href: "#" },
+  { name: "Owned", href: "#" },
+]
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ")
@@ -294,22 +297,24 @@ const BeastMarketFilters: FC<Props> = ({
                     {/* Filters */}
                     <form className="mt-4 border-t">
                       <h3 className="sr-only">Categories</h3>
-                      <ul role="list" className="px-2 py-3 font-medium ">
+                      <ul role="list" className="px-2 py-2 font-medium ">
                         {subCategories.map((category) => (
                           <li key={category.name}>
-                            <a href={category.href} className="block px-2 py-3">
+                            <a href={category.href} className="block px-2 py-2">
                               {category.name}
                             </a>
-                            <Switch>
-                              <SwitchInput
-                                defaultChecked={favoriteToggled}
-                                type="checkbox"
-                                onChange={() =>
-                                  setFavoriteToggled(!favoriteToggled)
-                                }
-                              />
-                              <SwitchSlider></SwitchSlider>
-                            </Switch>
+                            {category.name == "Favorites" && (
+                              <Switch>
+                                <SwitchInput
+                                  defaultChecked={favoriteToggled}
+                                  type="checkbox"
+                                  onChange={() =>
+                                    setFavoriteToggled(!favoriteToggled)
+                                  }
+                                />
+                                <SwitchSlider></SwitchSlider>
+                              </Switch>
+                            )}
                           </li>
                         ))}
                       </ul>
@@ -461,26 +466,27 @@ const BeastMarketFilters: FC<Props> = ({
                 {/* Filters */}
                 <form className="hidden lg:block">
                   <h3 className="sr-only">Categories</h3>
-                  <ul
-                    role="list"
-                    className="space-y-4 pb-6 text-sm font-medium "
-                  >
+                  <ul role="list" className="pb-6 text-sm font-medium ">
                     {subCategories.map((category) => (
                       <li
                         className="flex w-full justify-between items-center"
                         key={category.name}
                       >
-                        <a href={category.href}>{category.name}</a>
-                        <Switch>
-                          <SwitchInput
-                            defaultChecked={favoriteToggled}
-                            type="checkbox"
-                            onChange={() => {
-                              setFavoriteToggled(!favoriteToggled)
-                            }}
-                          />
-                          <SwitchSlider></SwitchSlider>
-                        </Switch>
+                        <a style={{ fontSize: "1.3em" }} href={category.href}>
+                          {category.name}
+                        </a>
+                        {category.name == "Favorites" && (
+                          <Switch>
+                            <SwitchInput
+                              defaultChecked={favoriteToggled}
+                              type="checkbox"
+                              onChange={() => {
+                                setFavoriteToggled(!favoriteToggled)
+                              }}
+                            />
+                            <SwitchSlider></SwitchSlider>
+                          </Switch>
+                        )}
                       </li>
                     ))}
                   </ul>
@@ -496,18 +502,21 @@ const BeastMarketFilters: FC<Props> = ({
                         <>
                           <h3 className="-my-3 flow-root">
                             <Disclosure.Button className="flex w-full items-center justify-between py-3 text-sm text-white hover:text-gray-500">
-                              <span className="font-medium ">
+                              <span
+                                style={{ fontSize: "1.3em" }}
+                                className="font-medium "
+                              >
                                 {section.name}
                               </span>
                               <span className="ml-6 flex items-center">
                                 {open ? (
                                   <MinusIcon
-                                    className="h-5 w-5"
+                                    className="h-4 w-4"
                                     aria-hidden="true"
                                   />
                                 ) : (
                                   <PlusIcon
-                                    className="h-5 w-5"
+                                    className="h-4 w-4"
                                     aria-hidden="true"
                                   />
                                 )}
