@@ -837,8 +837,9 @@ const BeastMarket: FC<Props> = () => {
 
   const [favoriteBeasts, setFavoriteBeasts] = useState<any>([])
   const [favoriteToggled, setFavoriteToggled] = useState(false)
+  const [ownedToggled, setOwnedToggled] = useState(false)
 
-  const { beasts, getAllBeasts } = useUser()
+  const { beasts, getAllBeasts, userBeasts } = useUser()
 
   const selectBeast = (beast: any) => {
     if (!selectedBeasts.includes(beast)) {
@@ -939,6 +940,21 @@ const BeastMarket: FC<Props> = () => {
     // console.log(favoriteBeasts.toString())
     // console.log(favoriteBeasts)
   }, [favoriteToggled])
+
+  useEffect(() => {
+    if (ownedToggled) {
+      var newBeasts: any = []
+      for (let key in displayBeasts) {
+        var beast = displayBeasts[key]
+        if (userBeasts?.map((beast: any) => beast.id).includes(beast.id)) {
+          newBeasts.push(beast)
+        }
+      }
+      setDisplayBeasts(newBeasts)
+    } else {
+      setDisplayBeasts(beasts)
+    }
+  }, [ownedToggled])
 
   const [filter, setFilter] = useState<any>()
 
@@ -1327,6 +1343,8 @@ const BeastMarket: FC<Props> = () => {
                 setMobileFiltersOpen={setMobileFiltersOpen}
                 favoriteToggled={favoriteToggled}
                 setFavoriteToggled={setFavoriteToggled}
+                ownedToggled={ownedToggled}
+                setOwnedToggled={setOwnedToggled}
               />
             </div>
           )}

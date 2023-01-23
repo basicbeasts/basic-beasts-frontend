@@ -142,6 +142,8 @@ type Props = {
   setMobileFiltersOpen: any
   setFavoriteToggled: any
   favoriteToggled: any
+  ownedToggled: boolean
+  setOwnedToggled: any
 }
 
 const sortOptions = [
@@ -168,6 +170,8 @@ const BeastMarketFilters: FC<Props> = ({
   setMobileFiltersOpen,
   favoriteToggled,
   setFavoriteToggled,
+  ownedToggled,
+  setOwnedToggled,
 }) => {
   // const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
 
@@ -294,7 +298,7 @@ const BeastMarketFilters: FC<Props> = ({
                       </button>
                     </div>
 
-                    {/* Filters */}
+                    {/* Filters for mobile*/}
                     <form className="mt-4 border-t">
                       <h3 className="sr-only">Categories</h3>
                       <ul role="list" className="px-2 py-2 font-medium ">
@@ -463,7 +467,7 @@ const BeastMarketFilters: FC<Props> = ({
               </h2>
 
               <div className="grid grid-cols-1 gap-x-8 gap-y-10 ">
-                {/* Filters */}
+                {/* Filters for desktop */}
                 <form className="hidden lg:block">
                   <h3 className="sr-only">Categories</h3>
                   <ul role="list" className="pb-6 text-sm font-medium ">
@@ -487,76 +491,96 @@ const BeastMarketFilters: FC<Props> = ({
                             <SwitchSlider></SwitchSlider>
                           </Switch>
                         )}
+                        {category.name == "Owned" && (
+                          <Switch>
+                            <SwitchInput
+                              defaultChecked={ownedToggled}
+                              type="checkbox"
+                              onChange={() => {
+                                setOwnedToggled(!ownedToggled)
+                              }}
+                            />
+                            <SwitchSlider></SwitchSlider>
+                          </Switch>
+                        )}
                       </li>
                     ))}
                   </ul>
-
-                  {filters?.map((section: any) => (
-                    <Disclosure
-                      as="div"
-                      key={section.id}
-                      style={{ backgroundColor: "#111823" }}
-                      className=" border-t border-gray-500 py-6"
-                    >
-                      {({ open }) => (
-                        <>
-                          <h3 className="-my-3 flow-root">
-                            <Disclosure.Button className="flex w-full items-center justify-between py-3 text-sm text-white hover:text-gray-500">
-                              <span
-                                style={{ fontSize: "1.3em" }}
-                                className="font-medium "
-                              >
-                                {section.name}
-                              </span>
-                              <span className="ml-6 flex items-center">
-                                {open ? (
-                                  <MinusIcon
-                                    className="h-4 w-4"
-                                    aria-hidden="true"
-                                  />
-                                ) : (
-                                  <PlusIcon
-                                    className="h-4 w-4"
-                                    aria-hidden="true"
-                                  />
-                                )}
-                              </span>
-                            </Disclosure.Button>
-                          </h3>
-                          <Disclosure.Panel className="pt-6">
-                            <div className="space-y-4">
-                              {section.options?.map(
-                                (option: any, optionIdx: any) => (
-                                  <CheckboxWrapper
-                                    key={option.value}
-                                    className="flex items-center"
+                  {ownedToggled || favoriteToggled ? (
+                    <></>
+                  ) : (
+                    <>
+                      {filters?.map((section: any) => (
+                        <Disclosure
+                          as="div"
+                          key={section.id}
+                          style={{ backgroundColor: "#111823" }}
+                          className=" border-t border-gray-500 py-6"
+                        >
+                          {({ open }) => (
+                            <>
+                              <h3 className="-my-3 flow-root">
+                                <Disclosure.Button className="flex w-full items-center justify-between py-3 text-sm text-white hover:text-gray-500">
+                                  <span
+                                    style={{ fontSize: "1.3em" }}
+                                    className="font-medium "
                                   >
-                                    <input
-                                      id={`filter-${section.id}-${optionIdx}`}
-                                      name={`${section.id}[]`}
-                                      defaultValue={option.value}
-                                      type="checkbox"
-                                      defaultChecked={option.checked}
-                                      onChange={() =>
-                                        handleChange(section.id, option.value)
-                                      }
-                                      className="h-4 w-4 rounded border-gray-300  focus:ring-indigo-500"
-                                    />
-                                    <label
-                                      htmlFor={`filter-${section.id}-${optionIdx}`}
-                                      className="ml-3 text-sm "
-                                    >
-                                      {option.label}
-                                    </label>
-                                  </CheckboxWrapper>
-                                ),
-                              )}
-                            </div>
-                          </Disclosure.Panel>
-                        </>
-                      )}
-                    </Disclosure>
-                  ))}
+                                    {section.name}
+                                  </span>
+                                  <span className="ml-6 flex items-center">
+                                    {open ? (
+                                      <MinusIcon
+                                        className="h-4 w-4"
+                                        aria-hidden="true"
+                                      />
+                                    ) : (
+                                      <PlusIcon
+                                        className="h-4 w-4"
+                                        aria-hidden="true"
+                                      />
+                                    )}
+                                  </span>
+                                </Disclosure.Button>
+                              </h3>
+                              <Disclosure.Panel className="pt-6">
+                                <div className="space-y-4">
+                                  {section.options?.map(
+                                    (option: any, optionIdx: any) => (
+                                      <CheckboxWrapper
+                                        key={option.value}
+                                        className="flex items-center"
+                                      >
+                                        <input
+                                          id={`filter-${section.id}-${optionIdx}`}
+                                          name={`${section.id}[]`}
+                                          defaultValue={option.value}
+                                          type="checkbox"
+                                          defaultChecked={option.checked}
+                                          onChange={() =>
+                                            handleChange(
+                                              section.id,
+                                              option.value,
+                                            )
+                                          }
+                                          className="h-4 w-4 rounded border-gray-300  focus:ring-indigo-500"
+                                        />
+                                        <label
+                                          htmlFor={`filter-${section.id}-${optionIdx}`}
+                                          className="ml-3 text-sm "
+                                        >
+                                          {option.label}
+                                        </label>
+                                      </CheckboxWrapper>
+                                    ),
+                                  )}
+                                </div>
+                              </Disclosure.Panel>
+                            </>
+                          )}
+                        </Disclosure>
+                      ))}
+                    </>
+                  )}
                 </form>
               </div>
             </section>
