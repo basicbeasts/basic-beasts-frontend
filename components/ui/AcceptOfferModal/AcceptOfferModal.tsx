@@ -164,6 +164,12 @@ const AcceptOfferModal: FC<Props> = ({ open, setOpen, beast, offer }) => {
                       ${parseFloat(offer?.offerAmount) * 0.9} FUSD
                     </span>
                   </Title>
+                  <div
+                    className="text-right absolute top-0 left-0 right-3 sm:hidden"
+                    onClick={() => setOpen(false)}
+                  >
+                    <div style={{ fontSize: "2em", color: "white" }}>x</div>
+                  </div>
                   <div>
                     <Button
                       onClick={() => {

@@ -159,7 +159,12 @@ const PlaceABidModal: FC<Props> = ({ open, setOpen, beast }) => {
                     <Title>{beast?.nickname}</Title>
                   )}
                   <Title>FUSD Balance: {parseFloat(balance)}</Title>
-
+                  <div
+                    className="text-right absolute top-0 left-0 right-3 sm:hidden"
+                    onClick={() => setOpen(false)}
+                  >
+                    <div style={{ fontSize: "2em", color: "white" }}>x</div>
+                  </div>
                   <div style={{ marginTop: "20px;" }}>
                     <FuncArgInput
                       id="myTextBox"
