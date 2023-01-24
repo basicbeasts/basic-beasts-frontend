@@ -934,6 +934,15 @@ const BeastMarket: FC<Props> = () => {
       }
       // setElementFilter((elementFilter: any) => [...elementFilter, "Electric"])
       setDisplayBeasts(newBeasts)
+    } else if (ownedToggled) {
+      var newBeasts: any = []
+      for (let key in beasts) {
+        var beast = beasts[key]
+        if (userBeasts?.map((beast: any) => beast.id).includes(beast.id)) {
+          newBeasts.push(beast)
+        }
+      }
+      setDisplayBeasts(newBeasts)
     } else {
       setDisplayBeasts(beasts)
     }
@@ -947,6 +956,16 @@ const BeastMarket: FC<Props> = () => {
       for (let key in displayBeasts) {
         var beast = displayBeasts[key]
         if (userBeasts?.map((beast: any) => beast.id).includes(beast.id)) {
+          newBeasts.push(beast)
+        }
+      }
+      setDisplayBeasts(newBeasts)
+    } else if (favoriteToggled) {
+      console.log(favoriteBeasts)
+      var newBeasts: any = []
+      for (let key in beasts) {
+        var beast = beasts[key]
+        if (favoriteBeasts.includes(beast.id)) {
           newBeasts.push(beast)
         }
       }

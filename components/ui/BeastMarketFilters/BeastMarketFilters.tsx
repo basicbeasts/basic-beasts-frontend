@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { FC, Fragment, useEffect, useState } from "react"
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react"
 import { ChevronDownIcon, MinusIcon, PlusIcon } from "@heroicons/react/solid"
+import { useAuth } from "@components/auth/AuthProvider"
 
 const Wrapper = styled.div`
   background: transparent;
@@ -176,6 +177,8 @@ const BeastMarketFilters: FC<Props> = ({
   // const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
 
   useEffect(() => {}, [filters])
+
+  const { loggedIn } = useAuth()
 
   type SelectedFilters = {
     dexNumber: [number]
@@ -472,38 +475,61 @@ const BeastMarketFilters: FC<Props> = ({
                   <h3 className="sr-only">Categories</h3>
                   <ul role="list" className="pb-6 text-sm font-medium ">
                     {subCategories.map((category) => (
-                      <li
-                        className="flex w-full justify-between items-center"
-                        key={category.name}
-                      >
-                        <a style={{ fontSize: "1.3em" }} href={category.href}>
-                          {category.name}
-                        </a>
-                        {category.name == "Favorites" && (
-                          <Switch>
-                            <SwitchInput
-                              defaultChecked={favoriteToggled}
-                              type="checkbox"
-                              onChange={() => {
-                                setFavoriteToggled(!favoriteToggled)
-                              }}
-                            />
-                            <SwitchSlider></SwitchSlider>
-                          </Switch>
+                      <>
+                        {category.name == "Owned" ? (
+                          <>
+                            {loggedIn && (
+                              <li
+                                className="flex w-full justify-between items-center"
+                                key={category.name}
+                              >
+                                <a
+                                  style={{ fontSize: "1.3em" }}
+                                  href={category.href}
+                                >
+                                  {category.name}
+                                </a>
+                                {category.name == "Owned" && (
+                                  <Switch>
+                                    <SwitchInput
+                                      defaultChecked={ownedToggled}
+                                      type="checkbox"
+                                      onChange={() => {
+                                        setOwnedToggled(!ownedToggled)
+                                      }}
+                                    />
+                                    <SwitchSlider></SwitchSlider>
+                                  </Switch>
+                                )}
+                              </li>
+                            )}
+                          </>
+                        ) : (
+                          <li
+                            className="flex w-full justify-between items-center"
+                            key={category.name}
+                          >
+                            <a
+                              style={{ fontSize: "1.3em" }}
+                              href={category.href}
+                            >
+                              {category.name}
+                            </a>
+                            {category.name == "Favorites" && (
+                              <Switch>
+                                <SwitchInput
+                                  defaultChecked={favoriteToggled}
+                                  type="checkbox"
+                                  onChange={() => {
+                                    setFavoriteToggled(!favoriteToggled)
+                                  }}
+                                />
+                                <SwitchSlider></SwitchSlider>
+                              </Switch>
+                            )}
+                          </li>
                         )}
-                        {category.name == "Owned" && (
-                          <Switch>
-                            <SwitchInput
-                              defaultChecked={ownedToggled}
-                              type="checkbox"
-                              onChange={() => {
-                                setOwnedToggled(!ownedToggled)
-                              }}
-                            />
-                            <SwitchSlider></SwitchSlider>
-                          </Switch>
-                        )}
-                      </li>
+                      </>
                     ))}
                   </ul>
                   {ownedToggled || favoriteToggled ? (
