@@ -51,7 +51,7 @@ const Panel = styled.div`
 
   outline: none;
   transition: 0.4s;
-  @media (max-width: 420px) {
+  @media (max-width: 1024px) {
     border: 1px solid #5c5e6c;
     border-radius: 1.2rem;
   }
@@ -65,7 +65,7 @@ const AccordionTitle = styled.div`
   margin-bottom: 20px;
   /* border-bottom: 1px solid rgba(220, 220, 220, 0.25); */
   line-height: 1;
-  @media (max-width: 420px) {
+  @media (max-width: 1024px) {
     margin-bottom: 0.5rem;
     justify-content: space-between;
     margin-right: 10px;
@@ -77,7 +77,7 @@ const AccordionContent = styled.div`
   border: 1px solid #5c5e6c;
   border-radius: 1rem;
   width: 100%;
-  @media (max-width: 420px) {
+  @media (max-width: 1024px) {
     border: 0;
     padding: 0.5rem;
   }
@@ -116,7 +116,7 @@ const ImgDiv = styled.div`
 
   overflow: hidden;
   margin: 0 auto 50px;
-  @media (max-width: 420px) {
+  @media (max-width: 1024px) {
     margin-bottom: 20px;
   }
 `
@@ -136,7 +136,7 @@ export const OwnerImg = styled.img`
   border-radius: 8px;
   height: max-content;
   object-fit: contain;
-  @media (max-width: 420px) {
+  @media (max-width: 1024px) {
     max-width: 3rem;
   }
 `
@@ -153,7 +153,7 @@ const Trait = styled.p`
   line-height: 0;
   text-transform: uppercase;
   margin: 1rem 0;
-  @media (max-width: 420px) {
+  @media (max-width: 1024px) {
     font-size: 1.2rem;
     margin: 0.5rem 0;
   }
@@ -176,7 +176,7 @@ export const H3 = styled.h3`
   width: 100%;
   font-size: 2rem;
   color: white;
-  @media (max-width: 420px) {
+  @media (max-width: 1024px) {
     font-size: 1.2rem;
   }
 `
@@ -239,7 +239,7 @@ const AttributeBlock = styled.div`
     color: white;
   }
 
-  @media (max-width: 420px) {
+  @media (max-width: 1024px) {
     padding: 5px 15px 5px 15px;
     gap: 0px;
   }
@@ -250,7 +250,7 @@ const Info = styled.div`
   align-items: center;
   width: 32%;
   // padding: 0 10rem;
-  @media (max-width: 420px) {
+  @media (max-width: 1024px) {
     display: none;
   }
 `
@@ -286,7 +286,7 @@ const OfferDetails = styled.div`
   align-items: center;
   border-bottom: 2px solid #2e3340;
   padding-bottom: 20px;
-  @media (max-width: 420px) {
+  @media (max-width: 1024px) {
     flex-direction: row;
   }
 `
@@ -294,7 +294,7 @@ const OfferDetails = styled.div`
 const Offeror = styled.div`
   display: flex;
   align-items: center;
-  @media (max-width: 420px) {
+  @media (max-width: 1024px) {
     flex-direction: row;
   }
 `
@@ -318,7 +318,7 @@ export const Clickable = styled.span`
   &:active {
     transform: scale(0.95);
   }
-  @media (max-width: 420px) {
+  @media (max-width: 1024px) {
     font-size: 1.2rem;
   }
 `
@@ -328,7 +328,7 @@ const BeastDescription = styled.section`
   display: flex;
   justify-content: space-between;
   color: white;
-  @media (max-width: 420px) {
+  @media (max-width: 1024px) {
     flex-direction: column;
     padding-left: 0;
     padding-right: 0;
@@ -336,40 +336,40 @@ const BeastDescription = styled.section`
 `
 
 const BeastDescriptionWrapper = styled.div`
-  @media (max-width: 420px) {
+  @media (max-width: 1024px) {
     width: 100%;
   }
 `
 
 const BeastDetails = styled.div`
   display: block;
-  @media (max-width: 420px) {
+  @media (max-width: 1024px) {
     display: none;
   }
 `
 
 const BeastDetailsMobile = styled.div`
   display: none;
-  @media (max-width: 420px) {
+  @media (max-width: 1024px) {
     display: block;
   }
 `
 
 const OfferorId = styled.span`
-  @media (max-width: 420px) {
+  @media (max-width: 1024px) {
     display: none;
   }
 `
 const OfferorIdMobile = styled.span`
   display: none;
-  @media (max-width: 420px) {
+  @media (max-width: 1024px) {
     display: block;
     font-size: 1.2rem;
   }
 `
 
 const OfferorPrice = styled.span`
-  @media (max-width: 420px) {
+  @media (max-width: 1024px) {
     font-size: 1rem;
   }
 `

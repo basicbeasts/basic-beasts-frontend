@@ -21,7 +21,7 @@ const InfoMobileWrapper = styled.div`
   display: none;
   width: 32%;
   // padding: 0 10rem;
-  @media (max-width: 420px) {
+  @media (max-width: 1024px) {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -31,7 +31,7 @@ const InfoMobileWrapper = styled.div`
 
 const BeastDetailsMobile = styled.div`
   display: none;
-  @media (max-width: 420px) {
+  @media (max-width: 1024px) {
     display: block;
   }
 `
