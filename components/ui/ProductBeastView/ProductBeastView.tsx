@@ -22,6 +22,7 @@ import ListBeastForSaleModal from "../ListBeastForSaleModal"
 import PlaceABidModal from "../PlaceABidModal"
 import profilePictures from "data/profilePictures"
 import AcceptOfferModal from "../AcceptOfferModal"
+import { InfoMobile } from "./InfoMobile"
 
 const StarLevel = styled.div`
   vertical-align: middle;
@@ -50,6 +51,10 @@ const Panel = styled.div`
 
   outline: none;
   transition: 0.4s;
+  @media (max-width: 420px) {
+    border: 1px solid #5c5e6c;
+    border-radius: 1.2rem;
+  }
 `
 const AccordionTitle = styled.div`
   display: flex;
@@ -60,6 +65,11 @@ const AccordionTitle = styled.div`
   margin-bottom: 20px;
   /* border-bottom: 1px solid rgba(220, 220, 220, 0.25); */
   line-height: 1;
+  @media (max-width: 420px) {
+    margin-bottom: 0.5rem;
+    justify-content: space-between;
+    margin-right: 10px;
+  }
 `
 const AccordionContent = styled.div`
   padding: 1.5rem;
@@ -67,11 +77,15 @@ const AccordionContent = styled.div`
   border: 1px solid #5c5e6c;
   border-radius: 1rem;
   width: 100%;
+  @media (max-width: 420px) {
+    border: 0;
+    padding: 0.5rem;
+  }
 `
 const AccordionDiv = styled.div`
   width: 100%;
 `
-const BuyButton = styled.button`
+export const BuyButton = styled.button`
   width: 100%;
   background: #ffd966;
   border-radius: 10px;
@@ -83,7 +97,7 @@ const BuyButton = styled.button`
     transform: scale(0.95);
   }
 `
-const BidButton = styled.button`
+export const BidButton = styled.button`
   width: 100%;
   background: transparent;
   border-radius: 10px;
@@ -102,8 +116,11 @@ const ImgDiv = styled.div`
 
   overflow: hidden;
   margin: 0 auto 50px;
+  @media (max-width: 420px) {
+    margin-bottom: 20px;
+  }
 `
-const Owners = styled.div`
+export const Owners = styled.div`
   display: flex;
   gap: 1rem;
   padding: 2rem 0;
@@ -113,45 +130,55 @@ const Owners = styled.div`
     flex-direction: column;
   }
 `
-const OwnerImg = styled.img`
+export const OwnerImg = styled.img`
   max-width: 3.5rem;
   border: solid 2px #f3cb23;
   border-radius: 8px;
   height: max-content;
   object-fit: contain;
+  @media (max-width: 420px) {
+    max-width: 3rem;
+  }
 `
-const Owner = styled.div`
+export const Owner = styled.div`
   display: flex;
   gap: 1rem;
   align-items: center;
 `
 
-const P = styled.p`
+export const P = styled.p`
   color: white;
 `
 const Trait = styled.p`
   line-height: 0;
   text-transform: uppercase;
   margin: 1rem 0;
+  @media (max-width: 420px) {
+    font-size: 1.2rem;
+    margin: 0.5rem 0;
+  }
 `
-const H1 = styled.h1`
+export const H1 = styled.h1`
   width: 100%;
   font-size: 4.25rem;
   color: white;
 `
-const H2 = styled.h2`
+export const H2 = styled.h2`
   font-size: 1.215rem;
   line-height: 0.75;
   color: grey;
 `
-const H2Traits = styled.h2`
+export const H2Traits = styled.h2`
   font-size: 1.215rem;
   color: white;
 `
-const H3 = styled.h3`
+export const H3 = styled.h3`
   width: 100%;
   font-size: 2rem;
   color: white;
+  @media (max-width: 420px) {
+    font-size: 1.2rem;
+  }
 `
 
 const Ul = styled.ul`
@@ -211,6 +238,11 @@ const AttributeBlock = styled.div`
   div {
     color: white;
   }
+
+  @media (max-width: 420px) {
+    padding: 5px 15px 5px 15px;
+    gap: 0px;
+  }
 `
 const Info = styled.div`
   display: flex;
@@ -218,8 +250,11 @@ const Info = styled.div`
   align-items: center;
   width: 32%;
   // padding: 0 10rem;
+  @media (max-width: 420px) {
+    display: none;
+  }
 `
-const SaleDiv = styled.div`
+export const SaleDiv = styled.div`
   display: flex;
   gap: 1.25rem;
   flex-direction: column;
@@ -230,7 +265,7 @@ const SaleDiv = styled.div`
   padding: 2.5rem;
   width: 100%;
 `
-const PriceBox = styled.div`
+export const PriceBox = styled.div`
   background: #1e1e23;
   border-radius: 1rem;
   padding: 1rem;
@@ -251,11 +286,17 @@ const OfferDetails = styled.div`
   align-items: center;
   border-bottom: 2px solid #2e3340;
   padding-bottom: 20px;
+  @media (max-width: 420px) {
+    flex-direction: row;
+  }
 `
 
 const Offeror = styled.div`
   display: flex;
   align-items: center;
+  @media (max-width: 420px) {
+    flex-direction: row;
+  }
 `
 
 const Img = styled.img`
@@ -270,12 +311,66 @@ const AccordianToggle = styled.div`
     pointer !important;
 `
 
-const Clickable = styled.span`
+export const Clickable = styled.span`
   cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
       14 0,
     pointer !important;
   &:active {
     transform: scale(0.95);
+  }
+  @media (max-width: 420px) {
+    font-size: 1.2rem;
+  }
+`
+
+const BeastDescription = styled.section`
+  margin-top: 40px;
+  display: flex;
+  justify-content: space-between;
+  color: white;
+  @media (max-width: 420px) {
+    flex-direction: column;
+    padding-left: 0;
+    padding-right: 0;
+  }
+`
+
+const BeastDescriptionWrapper = styled.div`
+  @media (max-width: 420px) {
+    width: 100%;
+  }
+`
+
+const BeastDetails = styled.div`
+  display: block;
+  @media (max-width: 420px) {
+    display: none;
+  }
+`
+
+const BeastDetailsMobile = styled.div`
+  display: none;
+  @media (max-width: 420px) {
+    display: block;
+  }
+`
+
+const OfferorId = styled.span`
+  @media (max-width: 420px) {
+    display: none;
+  }
+`
+const OfferorIdMobile = styled.span`
+  display: none;
+  @media (max-width: 420px) {
+    display: block;
+    font-size: 1.2rem;
+  }
+`
+
+const OfferorPrice = styled.span`
+  @media (max-width: 420px) {
+    font-size: 1rem;
   }
 `
 
@@ -290,6 +385,41 @@ const ProductBeastView: FC<Props> = ({ beast, hunterData }) => {
   const [placeABidOpen, setPlaceABidOpen] = useState<any>(false)
   const [acceptOfferOpen, setAcceptOfferOpen] = useState<any>(false)
   const [bestOffer, setBestOffer] = useState<any>(null)
+
+  const [windowWidth, setWindowWidth] = useState<any>()
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    if (window.innerWidth) {
+      // window.addEventListener("resize", () => {
+      //   if (window.innerWidth > 420) {
+      //     console.log(window.innerWidth)
+      //     setIsMobile(true)
+      //   }
+      //   setWindowWidth(window.innerWidth)
+      // })
+      if (window.innerWidth < 420) {
+        console.log(window.innerWidth)
+        setIsMobile(true)
+      }
+      console.log(window.innerWidth)
+    }
+  }, [])
+  useEffect(() => {
+    if (window.innerWidth) {
+      window.addEventListener("resize", () => {
+        if (window.innerWidth < 420) {
+          console.log(window.innerWidth)
+          setIsMobile(true)
+        }
+        setWindowWidth(window.innerWidth)
+      })
+    }
+  }, [])
+
+  // const isMobile = () => {
+  //   return windowWidth > 420
+  // }
 
   const {
     purchaseBeast,
@@ -418,7 +548,28 @@ const ProductBeastView: FC<Props> = ({ beast, hunterData }) => {
                       alt="first owner avatar"
                     />
                     <div>
-                      <span>
+                      <OfferorIdMobile>
+                        {hunterData?.filter(
+                          (hunter: any) => hunter.address == offer?.offeror,
+                        )?.[0]?.findName != null ? (
+                          <>
+                            {hunterData?.filter(
+                              (hunter: any) => hunter.address == offer?.offeror,
+                            )?.[0]?.findName != ""
+                              ? hunterData?.filter(
+                                  (hunter: any) =>
+                                    hunter.address == offer?.offeror,
+                                )?.[0]?.findName
+                              : offer?.offeror
+                                  .slice(0, 6)
+                                  .concat("...")
+                                  .concat(offer?.offeror.slice(-4))}{" "}
+                          </>
+                        ) : (
+                          offer?.offeror
+                        )}
+                      </OfferorIdMobile>
+                      <OfferorId>
                         {hunterData?.filter(
                           (hunter: any) => hunter.address == offer?.offeror,
                         )?.[0]?.findName != null ? (
@@ -435,7 +586,7 @@ const ProductBeastView: FC<Props> = ({ beast, hunterData }) => {
                         ) : (
                           offer?.offeror
                         )}
-                      </span>
+                      </OfferorId>
                       {/* Wait with time of offers */}
                       {/* <H2>
                           {offerday} day{offerday > 1 && "s "} ago | Expires in{" "}
@@ -444,12 +595,12 @@ const ProductBeastView: FC<Props> = ({ beast, hunterData }) => {
                         </H2> */}
                     </div>
                   </Offeror>
-                  <span>
+                  <OfferorPrice>
                     {parseFloat(
                       parseFloat(offer?.offerAmount.toString()).toFixed(2),
                     )}{" "}
                     FUSD
-                  </span>
+                  </OfferorPrice>
                   {user?.addr == offer?.offeror && (
                     <Clickable onClick={() => removeOffer(offer?.offerID)}>
                       Remove
@@ -485,11 +636,8 @@ const ProductBeastView: FC<Props> = ({ beast, hunterData }) => {
         beast={beast}
         offer={bestOffer}
       />
-      <section
-        style={{ marginTop: "40px" }}
-        className="flex justify-between mx-5 text-white px-5"
-      >
-        <div className="mx-auto w-1/2">
+      <BeastDescription className="mx-5 px-5">
+        <BeastDescriptionWrapper className="mx-auto w-1/2">
           <ImgDiv>
             <Img
               src={
@@ -507,18 +655,31 @@ const ProductBeastView: FC<Props> = ({ beast, hunterData }) => {
                 ))}
             </StarLevel>
           </ImgDiv>
-          <AccordionDiv>
+          <InfoMobile
+            beast={beast}
+            hunterData={hunterData}
+            user={user}
+            allBeastOffers={allBeastOffers}
+            bestOffer={bestOffer}
+            beastsForSale={beastsForSale}
+            delistBeast={delistBeast}
+            setListBeastForSaleOpen={setListBeastForSaleOpen}
+            purchaseBeast={purchaseBeast}
+            setPlaceABidOpen={setPlaceABidOpen}
+            setAcceptOfferOpen={setAcceptOfferOpen}
+          />
+          <AccordionDiv onClick={() => console.log(windowWidth)}>
             <Accordion
               title="Description"
               content={beast?.description}
-              defaultActive={true}
+              defaultActive={!isMobile}
             />
           </AccordionDiv>
           <AccordionDiv>
             <Accordion
               title="Properties"
               content={accordionProperties()}
-              defaultActive={true}
+              defaultActive={!isMobile}
             />
           </AccordionDiv>
           {allBeastOffers?.filter((offer: any) => offer?.beastID == beast?.id)
@@ -527,13 +688,13 @@ const ProductBeastView: FC<Props> = ({ beast, hunterData }) => {
               <Accordion
                 title="Offers"
                 content={accordionOffers(beast)}
-                defaultActive={true}
+                defaultActive={!isMobile}
               />
             </AccordionDiv>
           )}
-        </div>
+        </BeastDescriptionWrapper>
         <Info>
-          <div className="w-11/12">
+          <BeastDetails className="w-11/12">
             <H1>{beast?.nickname + " " + "#" + beast?.serialNumber}</H1>
             <Owners>
               <a href={"/profile/" + beast?.firstOwner}>
@@ -609,7 +770,7 @@ const ProductBeastView: FC<Props> = ({ beast, hunterData }) => {
                 <FontAwesomeIcon icon={faEllipsisH} />
               </button>
             </div> */}
-          </div>
+          </BeastDetails>
           <SaleDiv>
             <div className="flex flex-col xl:flex-row gap-5 w-full">
               {beast?.price != null && (
@@ -716,7 +877,7 @@ const ProductBeastView: FC<Props> = ({ beast, hunterData }) => {
             </div>
           )} */}
         </Info>{" "}
-      </section>
+      </BeastDescription>
       <section className="mb-24 mx-auto">
         {/* Maybe for later showcase more beasts */}
         {/* <H1 className="mx-auto text-center">More Basic Beasts</H1> */}
