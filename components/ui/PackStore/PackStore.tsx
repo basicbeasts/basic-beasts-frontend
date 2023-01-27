@@ -910,7 +910,7 @@ const Purchase: FC<BuyProps> = ({
                         <AlertText>
                           You don&apos;t have enough FUSD.{" "}
                           <a
-                            href="https://twitter.com/basicbeastsnft/status/1458521186724352002?s=20"
+                            href="https://swap.blocto.app/#/swap"
                             target="_blank"
                             rel="noreferrer"
                           >
