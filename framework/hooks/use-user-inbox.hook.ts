@@ -75,6 +75,7 @@ export default function useInbox(user: any) {
         import Pack from 0xPack
         import NonFungibleToken from 0xNonFungibleToken
         import MetadataViews from 0xMetadataViews
+        import FungibleToken from 0xFungibleToken
         import FUSD from 0xFUSD
 
         pub fun hasPackCollection(_ address: Address): Bool {

@@ -91,6 +91,7 @@ const InboxItemList: FC = () => {
         import Inbox from 0xInbox
         import Pack from 0xPack
         import NonFungibleToken from 0xNonFungibleToken
+        import FungibleToken from 0xFungibleToken
         import MetadataViews from 0xMetadataViews
         
         pub fun hasPackCollection(_ address: Address): Bool {
