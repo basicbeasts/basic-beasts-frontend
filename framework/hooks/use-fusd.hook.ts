@@ -18,6 +18,7 @@ import {
 import * as fcl from "@onflow/fcl"
 import * as FlowTypes from "@onflow/types"
 import { PURCHASE } from "flow/transactions/transaction.purchase"
+import { PURCHASE_PACK_TYPE } from "flow/transactions/transaction.purchase-pack-type"
 import { toast } from "react-toastify"
 import { toastStatus } from "@framework/helpers/toastStatus"
 
@@ -114,10 +115,56 @@ export default function useFUSD(user: any) {
     }
   }
 
+  const purchasePackType = async (amount: any, address: any, type: any) => {
+    dispatch({ type: "PROCESSING" })
+
+    const id = toast.loading("Initializing...")
+
+    try {
+      const res = await send([
+        transaction(PURCHASE_PACK_TYPE),
+        args([
+          arg(amount, FlowTypes.UFix64),
+          arg(address, FlowTypes.Address),
+          arg(type, FlowTypes.String),
+        ]),
+        payer(authz),
+        proposer(authz),
+        authorizations([authz]),
+        limit(9999),
+      ]).then(decode)
+      tx(res).subscribe((res: any) => {
+        toastStatus(id, res.status)
+      })
+      const trx = await tx(res)
+        .onceSealed()
+        .then((result: any) => {
+          toast.update(id, {
+            render: "Transaction Sealed",
+            type: "success",
+            isLoading: false,
+            autoClose: 5000,
+          })
+        })
+      getFUSDBalance()
+      return trx
+    } catch (err) {
+      toast.update(id, {
+        render: "Error, try again later...",
+        type: "error",
+        isLoading: false,
+        autoClose: 5000,
+      })
+      dispatch({ type: "ERROR" })
+      console.log(err)
+    }
+  }
+
   return {
     ...state,
     getFUSDBalance,
     purchase,
     getUserFUSDBalance,
+    purchasePackType,
   }
 }

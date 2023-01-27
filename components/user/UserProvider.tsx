@@ -30,6 +30,7 @@ const UserProvider: FC = ({ children }) => {
     purchase,
     loading,
     getUserFUSDBalance,
+    purchasePackType,
   } = useFUSD(user)
   const {
     data: userBeasts,
@@ -158,6 +159,7 @@ const UserProvider: FC = ({ children }) => {
         highestSale,
         getHighestSale,
         beastMarketStuff,
+        purchasePackType,
       }}
     >
       {children}

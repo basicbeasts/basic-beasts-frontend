@@ -339,12 +339,12 @@ const TotalPrice = styled.div<{
   color: ${(props) => props.fontColor};
   font-size: 4vw;
   white-space: nowrap;
-  margin-bottom: 0.5vw;
+  margin: 20px 0;
   line-height: 40px;
 
   @media (max-width: 1010px) {
     font-size: 13vw;
-    margin: 3vw 0;
+    margin: 25px 0;
   }
 `
 
@@ -604,7 +604,7 @@ type BuyProps = {
 }
 
 //Open up for sale
-const available = false
+const available = true
 
 const Purchase: FC<BuyProps> = ({
   maxQuantity,
@@ -621,7 +621,7 @@ const Purchase: FC<BuyProps> = ({
 
   const { logIn, loggedIn } = useAuth()
 
-  const { balance, purchase } = useUser()
+  const { balance, purchase, purchasePackType } = useUser()
 
   const incrementQuantity = () => {
     if (quantity < maxQuantity) {
@@ -716,7 +716,7 @@ const Purchase: FC<BuyProps> = ({
           >
             {calculateTotalPrice().toLocaleString()} <Currency>₣USD</Currency>
           </TotalPrice>
-          <ReservationOption
+          {/* <ReservationOption
             onClick={() => setCheckboxValue(!checkboxValue)}
             fontColor={
               packType === "Starter"
@@ -738,7 +738,7 @@ const Purchase: FC<BuyProps> = ({
               {t("home:reserve-packs")}
               <ToolTipText>{t("home:reserve-packs-tooltip")}</ToolTipText>
             </ToolTipNoUnderline>
-          </ReservationOption>
+          </ReservationOption> */}
           <>
             {!available ? (
               <>
@@ -854,7 +854,11 @@ const Purchase: FC<BuyProps> = ({
                           const address = checkboxValue
                             ? addressReservable
                             : addressRefundable
-                          const tx = await purchase(totalPrice, address)
+                          const tx = await purchasePackType(
+                            totalPrice,
+                            address,
+                            packType,
+                          )
                           if (tx) {
                             const txId = tx.events[0].transactionId as string
                             if (tx) {

@@ -82,6 +82,10 @@ fcl
     "0xBlackMarketplace",
     process.env.NEXT_PUBLIC_NFT_DAY_TREASURE_CHEST_ADDRESS,
   )
+  .put(
+    "0xBasicBeastsDrop",
+    process.env.NEXT_PUBLIC_NFT_DAY_TREASURE_CHEST_ADDRESS,
+  )
 // .put("0xBeastMarket", process.env.NEXT_PUBLIC_BEAST_MARKET_ADDRESS)
 // .put("0xBeastOffers", process.env.NEXT_PUBLIC_BEAST_OFFERS_ADDRESS)
 
