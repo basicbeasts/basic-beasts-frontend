@@ -162,7 +162,7 @@ const Hero: FC = () => {
           <P fontSize={lang === "ru" ? "2vw" : "2.5vw"}>
             {t("home:hero-description")}
           </P>
-          <NextLink href="/store">
+          <NextLink href="/drop">
             <Button
               style={{ marginTop: "2vw" }}
               fontSize={lang === "ru" ? "2vw" : "2.5vw"}

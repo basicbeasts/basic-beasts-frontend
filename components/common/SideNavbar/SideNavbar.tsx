@@ -185,7 +185,7 @@ const SideNavbar: FC<Props> = ({ isSideNavbarOpen, toggle }: Props) => {
       </Icon>
       <SideNavbarWrapper>
         <SideNavbarMenu>
-          <NextLink href="/store">
+          <NextLink href="/drop">
             <A onClick={toggle}>Store</A>
           </NextLink>
 
