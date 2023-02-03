@@ -219,11 +219,24 @@ export default function useBeastMarket() {
         transaction(`
           import FungibleToken from 0xFungibleToken
           import FUSD from 0xFUSD
+          import NonFungibleToken from 0xNonFungibleToken
+          import MetadataViews from 0xMetadataViews
           import BasicBeasts from 0xBasicBeasts
           import BeastMarket from 0xBeastMarket
 
           transaction(sellerAddress: Address, beastID: UInt64, purchaseAmount: UFix64) {
               prepare(acct: AuthAccount) {
+
+                //Link the Beast collection
+                if acct.borrow<&BasicBeasts.Collection{BasicBeasts.BeastCollectionPublic}>(from: BasicBeasts.CollectionStoragePath) == nil {
+                    acct.save(<- BasicBeasts.createEmptyCollection(), to: BasicBeasts.CollectionStoragePath)
+                    acct.unlink(BasicBeasts.CollectionPublicPath)
+                    acct.link<&BasicBeasts.Collection{NonFungibleToken.Receiver, 
+                        NonFungibleToken.CollectionPublic, 
+                        BasicBeasts.BeastCollectionPublic, 
+                        MetadataViews.ResolverCollection}>
+                        (BasicBeasts.CollectionPublicPath, target: BasicBeasts.CollectionStoragePath)
+                }
                   // borrow a reference to the signer's collection
                   let collection = acct.borrow<&BasicBeasts.Collection>(from: BasicBeasts.CollectionStoragePath)
                       ?? panic("Could not borrow reference to the Beast Collection")
