@@ -482,7 +482,7 @@ const BeastMarketBeastList: FC<Props> = ({
                 {userBeasts
                   ?.map((beast: any) => beast.id)
                   .includes(beast.id) ? (
-                  <div>
+                  <div key={beast.id}>
                     Owned{" "}
                     {beastsForSale
                       ?.map((beast: any) => beast.id)
