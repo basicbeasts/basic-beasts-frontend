@@ -44,7 +44,7 @@ const BeastMarketThumbnail: FC<BeastThumbnailProps> = ({
   ...props
 }: BeastThumbnailProps) => {
   return (
-    <InView onChange={(inView, entry) => console.log("Inview:", inView)}>
+    <InView>
       <div className={className}>
         <Container {...props} tagColor={"#FFD966"}>
           <>
