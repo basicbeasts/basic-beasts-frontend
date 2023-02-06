@@ -15,6 +15,7 @@ import BeastMarketBulkBid from "../BeastMarketBulkBid"
 import beastTemplates from "data/beastTemplates"
 import BeastMarketMobileCartModal from "../BeastMarketMobileCartModal"
 import BeastMarketBeastList from "../BeastMarketBeastList"
+import { NextRouter, useRouter } from "next/dist/client/router"
 
 import {
   query,
@@ -35,6 +36,7 @@ import QuickBidModal from "../QuickBidModal"
 import ListBeastForSaleModal from "../ListBeastForSaleModal"
 import { useUser } from "@components/user/UserProvider"
 import PlaceABidModal from "../PlaceABidModal"
+import router from "next/router"
 
 const Wrapper = styled.div`
   padding: 20px 20px 100px 20px;
@@ -67,6 +69,26 @@ const FilterButton = styled.button`
   height: 40px;
   aspect-ratio: 1;
   color: white;
+`
+const FilterButtonMobile = styled.button`
+  border-radius: 10px;
+  background: #282e3a;
+  outline: none;
+  &::placeholder {
+    color: #d0d8e1;
+  }
+  text-transform: uppercase;
+  width: 45vw;
+  gap: 7px;
+  font-size: 1rem;
+  color: #d0d8e1;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  @media (max-width: 420px) {
+    display: flex;
+  }
 `
 const BuyButton = styled.button`
   min-width: max-content;
@@ -109,6 +131,30 @@ const SortByButton = styled.div`
   //   width: 165px;
   //   margin-left: 5px;
   // }
+  @media (max-width: 420px) {
+    display: none;
+  }
+`
+
+const SortByButtonMobile = styled.div`
+  border-radius: 10px;
+  background: #282e3a;
+  outline: none;
+  &::placeholder {
+    color: #d0d8e1;
+  }
+  text-transform: uppercase;
+  width: 45vw;
+  gap: 7px;
+  font-size: 1rem;
+  color: #d0d8e1;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  @media (max-width: 420px) {
+    display: flex;
+  }
 `
 const DropDownList = styled.div`
   width: 200px;
@@ -176,8 +222,9 @@ const HeaderBeastCollection = styled.div`
     padding: 0 20px;
   }
   @media (max-width: 440px) {
-    flex-direction: column;
-    align-items: end;
+    // flex-direction: column;
+    // align-items: end;
+    display: none;
   }
 `
 
@@ -248,6 +295,25 @@ const CartButton = styled.button`
   height: max-content;
   border-radius: 8px;
 `
+
+const HeaderBeastCollectionMobile = styled.div`
+  display: none;
+  @media (max-width: 440px) {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 12px 16px 0;
+    // margin: 20px 10px 0;
+    position: relative;
+    z-index: 5;
+  }
+`
+const MobileWrapperFilters = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  gap: 10px;
+`
+
 const DropDown: FC<{
   beasts: any
   sortBy: any
@@ -382,6 +448,10 @@ const DropDown: FC<{
               aria-hidden="true"
             />
           </SortByButton>
+          <SortByButtonMobile>
+            <img className="w-6" src="/sort_icon.png" alt="Sort_Icon" />
+            {sortBy}
+          </SortByButtonMobile>
         </MenuButton>
       </div>
 
@@ -828,10 +898,8 @@ const BeastMarket: FC<Props> = () => {
     element: [],
     serialNumber: [],
   })
-  // const [beasts, setBeasts] = useState<any>([])
 
   const [beastArray, setBeastArray] = useState<any>([])
-  // console.log(beastArray)
 
   const [selectedBeasts, setSelectedBeasts] = useState<any>([])
 
@@ -883,10 +951,6 @@ const BeastMarket: FC<Props> = () => {
     return { btnColor, fontColor }
   }
 
-  useEffect(() => {
-    // getAllBeasts()
-  }, [])
-
   //When beasts changes
   useEffect(() => {
     if (beasts != null) {
@@ -918,13 +982,12 @@ const BeastMarket: FC<Props> = () => {
     }
   }
 
+  //
   useEffect(() => {
     if (favoriteToggled) {
-      // console.log(favoriteToggled)
       // const newBeasts = displayBeasts.filter((beast: any) => {
       //   favoriteBeasts.includes(beast.id)
       // })
-      console.log(favoriteBeasts)
       var newBeasts: any = []
       for (let key in displayBeasts) {
         var beast = displayBeasts[key]
@@ -946,8 +1009,6 @@ const BeastMarket: FC<Props> = () => {
     } else {
       setDisplayBeasts(beasts)
     }
-    // console.log(favoriteBeasts.toString())
-    // console.log(favoriteBeasts)
   }, [favoriteToggled])
 
   useEffect(() => {
@@ -961,7 +1022,6 @@ const BeastMarket: FC<Props> = () => {
       }
       setDisplayBeasts(newBeasts)
     } else if (favoriteToggled) {
-      console.log(favoriteBeasts)
       var newBeasts: any = []
       for (let key in beasts) {
         var beast = beasts[key]
@@ -989,12 +1049,7 @@ const BeastMarket: FC<Props> = () => {
     },
   ])
 
-  // useEffect(() => {
-  //   alert("filters changed")
-  // }, [filters.dexNumberOptions])
-
   useEffect(() => {
-    // beasts.map((beast: any) => console.log("Nickname: " + beast.nickname))
     // Get skins
     const skins = beasts
       .map((beast: any) => beast.skin)
@@ -1080,7 +1135,6 @@ const BeastMarket: FC<Props> = () => {
         checked: false,
       })
     }
-    // console.log(starLevels)
 
     // Get Dex Number e.g. value 1, label #001 Moon
     const dexNumbers = beasts
@@ -1132,28 +1186,221 @@ const BeastMarket: FC<Props> = () => {
     ])
   }, [beasts])
 
-  //function that filter beasts
-  //(selectedFilter: any){}
-  //beats.filter()
+  const router = useRouter()
 
-  // filters = ["Water", "Fire"]
-  // beast.elemnts = ["Water"]
+  // Takes the values of the selectedFilters and returns it as a string
+  const showFilterKeyPlusValue = () => {
+    let filtersPlusValue = []
+    for (let i in selectedFilters) {
+      if (selectedFilters[i].length >= 1) {
+        filtersPlusValue.push(`${i}=${selectedFilters[i].join(",")}`)
+      }
+    }
+    return filtersPlusValue
+  }
 
-  //filters.includes(beast.elements.map(element => element))
+  const [sortObj, setSortObj] = useState({})
 
-  // filters.element?.includes(beast.elements) &&
+  // Change the url string based on filter and sort states
+  useEffect(() => {
+    let activeFilters = showFilterKeyPlusValue()
+    let filterObject: Record<string, any> = {}
 
-  // prettier-ignore
+    activeFilters?.forEach((activeFilter) => {
+      const [key, value] = activeFilter.split("=")
+      filterObject[key] = value
+    })
+
+    if (Object.keys(filterObject).length > 0) {
+      // If not empty then add the filter object and sort object
+      router.replace(
+        {
+          pathname: "/marketplace",
+          query: { ...filterObject, ...sortObj },
+        },
+        undefined,
+        { shallow: true },
+      ) // shallow true, to avoid page from doing hard-reload when selecting filters
+    } else if (Object.keys(filterObject).length === 0 && router.query) {
+      // If empty, then add only sort object
+      router.replace(
+        {
+          pathname: "/marketplace",
+          query: { ...sortObj },
+        },
+        undefined,
+        { shallow: true },
+      )
+    }
+  }, [selectedFilters, sortObj])
+
+  // Set sort object
+  useEffect(() => {
+    if (sortBy !== "SORT BY") {
+      setSortObj({ sort: sortBy })
+    }
+  }, [sortBy])
+
+  const { query } = router
+  // Reads the url and update the filters and sort state.
+  useEffect(() => {
+    const { sort } = query
+    let changeValues = query
+    if (sort) {
+      setSortBy(typeof query.sort === "string" ? query.sort : "Sort By")
+      changeValues = Object.entries(query)
+        .filter(([key]) => key !== "sort")
+        .reduce((obj, [key, value]) => ({ ...obj, [key]: value }), {})
+    }
+    handleMassChange(changeValues)
+    // handleMassChange(query) // if anything breaks cuz of the sorting just comment the code above and uncomment this one
+  }, [query])
+
+  useEffect(() => {
+    const { sort } = query
+    if (!beasts || !beasts.length) {
+      return
+    }
+    switch (sort) {
+      case "Price (Low-High)":
+        beasts.sort((a: any, b: any) => a.beastTemplateID - b.beastTemplateID)
+        beasts.sort((a: any, b: any) => {
+          if (a.price == null || a.price === 0) {
+            return 1
+          } else if (b.price == null || b.price === 0) {
+            return -1
+          } else {
+            return a.price - b.price
+          }
+        })
+        break
+
+      case "Price (High-Low)":
+        beasts.sort((a: any, b: any) => a.beastTemplateID - b.beastTemplateID)
+        beasts.sort((a: any, b: any) => b.price - a.price)
+        break
+
+      case "Dex No. (Low-High)":
+        beasts.sort((a: any, b: any) => a.beastTemplateID - b.beastTemplateID)
+        beasts.sort((a: any, b: any) => a.dexNumber - b.dexNumber)
+        break
+
+      case "Dex No. (High-Low)":
+        beasts.sort((a: any, b: any) => a.beastTemplateID - b.beastTemplateID)
+        beasts.sort((a: any, b: any) => b.dexNumber - a.dexNumber)
+        break
+
+      case "Nickname A-Z":
+        beasts.sort((a: any, b: any) => (a.nickname > b.nickname ? 1 : -1))
+        break
+
+      case "Nickname Z-A":
+        beasts.sort((a: any, b: any) => (a.nickname < b.nickname ? 1 : -1))
+        break
+
+      case "Serial (Low-High)":
+        beasts.sort((a: any, b: any) => a.beastTemplateID - b.beastTemplateID)
+        beasts.sort((a: any, b: any) => a.serialNumber - b.serialNumber)
+        break
+
+      case "Serial (High-Low)":
+        beasts.sort((a: any, b: any) => a.beastTemplateID - b.beastTemplateID)
+        beasts.sort((a: any, b: any) => b.serialNumber - a.serialNumber)
+        break
+
+      case "Skin (Low-High)":
+        const dic = {
+          Normal: 1,
+          "Metallic Silver": 2,
+          "Cursed Black": 3,
+          "Shiny Gold": 4,
+          "Mythic Diamond": 5,
+        }
+        if (beasts != null) {
+          beasts.sort((a: any, b: any) => {
+            var aValue = 0
+            var bValue = 0
+            aValue = dic[a.skin as keyof typeof dic]
+            bValue = dic[b.skin as keyof typeof dic]
+            if (aValue < bValue) return -1
+            if (aValue > bValue) return 1
+            return 0
+          })
+        }
+        break
+
+      case "Skin (High-Low)":
+        if (beasts != null) {
+          beasts.sort((a: any, b: any) => {
+            var aValue = 0
+            var bValue = 0
+            aValue = dic[a.skin as keyof typeof dic]
+            bValue = dic[b.skin as keyof typeof dic]
+            if (aValue < bValue) return 1
+            if (aValue > bValue) return -1
+            return 0
+          })
+        }
+        break
+
+      case "Element Type":
+        const dict = { Electric: 1, Water: 2, Grass: 3, Fire: 4, Normal: 5 }
+        if (beasts != null) {
+          beasts.sort((a: any, b: any) => {
+            var aValue = 0
+            var bValue = 0
+            aValue = dict[a.elements[0] as keyof typeof dict]
+            bValue = dict[b.elements[0] as keyof typeof dict]
+            if (aValue < bValue) return -1
+            if (aValue > bValue) return 1
+            return 0
+          })
+        }
+        break
+    }
+  }, [beasts, query])
+
+  const handleMassChange = (query?: any) => {
+    if (Object.keys(query).length > 0) {
+      const selectedFiltersMockup: any = {
+        dexNumber: [],
+        skin: [],
+        starLevel: [],
+        element: [],
+        serialNumber: [],
+      }
+      for (const i in query) {
+        if (!query[i].includes(",")) {
+          selectedFiltersMockup[i].push(query[i])
+        } else {
+          const valuesArr = query[i].split(",")
+          for (const k in valuesArr) {
+            selectedFiltersMockup[i].push(valuesArr[k])
+          }
+        }
+      }
+      if (
+        JSON.stringify(selectedFilters) !==
+        JSON.stringify(selectedFiltersMockup)
+      ) {
+        setSelectedFilters(selectedFiltersMockup)
+      }
+    }
+  }
+
   const filterBeasts = (beasts: any, filters: any) => {
-    // console.log("TESTTT",filters.dexNumber?.length)
     return beasts.filter((beast: any) => {
       return (
-        (filters.dexNumber?.length == 0 || filters.dexNumber?.includes(beast.dexNumber)) && 
-        (filters.skin?.length == 0 || filters.skin?.includes(beast.skin)) && 
-        (filters.starLevel?.length == 0 || filters.starLevel?.includes(beast.starLevel)) && 
-        (filters.element?.length == 0 || filters.element?.every((e: any) => beast.elements.includes(e))) && 
-        (filters.serialNumber?.length == 0 || filters.serialNumber?.includes(beast.serialNumber))
-       )
+        (filters.dexNumber?.length == 0 ||
+          filters.dexNumber?.includes(beast.dexNumber)) &&
+        (filters.skin?.length == 0 || filters.skin?.includes(beast.skin)) &&
+        (filters.starLevel?.length == 0 ||
+          filters.starLevel?.includes(beast.starLevel)) &&
+        (filters.element?.length == 0 ||
+          filters.element?.every((e: any) => beast.elements.includes(e))) &&
+        (filters.serialNumber?.length == 0 ||
+          filters.serialNumber?.includes(beast.serialNumber))
+      )
     })
   }
 
@@ -1170,18 +1417,11 @@ const BeastMarket: FC<Props> = () => {
   //useCallback
   //useMemo
 
+  // SETS BEASTS FOR DISPLAY AFTER FILTERS
   useEffect(() => {
-    // console.log("selectedFilters changed", selectedFilters)
-    //{SELECTED FILTER}
-
     const newList = filterBeasts(beasts, selectedFilters)
     const checkFiltersResult = checkFilters(selectedFilters)
-
     setDisplayBeasts(checkFiltersResult ? beasts : newList)
-
-    console.log("BEASTS", beasts)
-
-    //setDisplayBeasts()
   }, [selectedFilters, beasts])
 
   // const getAllBeasts = async () => {
@@ -1349,6 +1589,39 @@ const BeastMarket: FC<Props> = () => {
           </BuyButton>
         </div> */}
       </HeaderBeastCollection>
+      <HeaderBeastCollectionMobile>
+        <InputContainer>
+          <FuncArgInput
+            placeholder="Search beasts serial number"
+            type="text"
+            value={search?.toString()}
+            onChange={(e: any) => setSearch(e.target.value.toLowerCase())}
+          />
+          {search != "" && (
+            <ClearButton onClick={() => setSearch("")}>x</ClearButton>
+          )}
+        </InputContainer>
+        <MobileWrapperFilters>
+          <FilterButtonMobile
+            style={{
+              background: "#282e3a",
+              color: "#d0d8e1",
+            }}
+            className="lg:hidden"
+            onClick={() => setMobileFiltersOpen(true)}
+          >
+            <img className="w-6" src="/sort_icon.png" alt="Sort_Icon" />
+            <span className="not-sr-only">Filters</span>
+            {/* <FilterIcon className="mx-auto h-5 w-5" /> */}
+          </FilterButtonMobile>
+
+          <DropDown
+            beasts={displayBeasts}
+            sortBy={sortBy}
+            setSortBy={setSortBy}
+          />
+        </MobileWrapperFilters>
+      </HeaderBeastCollectionMobile>
 
       <Wrapper>
         <div className="flex ">

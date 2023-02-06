@@ -1,5 +1,6 @@
 import styled from "styled-components"
 
+import { useRouter } from "next/dist/client/router"
 import { FC, Fragment, useEffect, useState } from "react"
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react"
 import { ChevronDownIcon, MinusIcon, PlusIcon } from "@heroicons/react/solid"
@@ -174,10 +175,6 @@ const BeastMarketFilters: FC<Props> = ({
   ownedToggled,
   setOwnedToggled,
 }) => {
-  // const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
-
-  useEffect(() => {}, [filters])
-
   const { loggedIn } = useAuth()
 
   type SelectedFilters = {
@@ -187,73 +184,35 @@ const BeastMarketFilters: FC<Props> = ({
     element: [string]
     serialNumber: [number]
   }
+  const router = useRouter()
+  const { query } = router
 
-  //categoryId = dexNumber or skin...
-  const handleChange = (categoryId: any, optionValue: number | string) => {
-    console.log("CATEGORY IDDD", categoryId)
-
+  const handleChange = (
+    categoryId: any,
+    optionValue: number | string | string[] | any,
+  ) => {
     const removeCheckBox = (values: any, checkedValue: any) => {
       return values.filter((x: any) => x != checkedValue)
     }
 
-    let selectedFilter = selectedFilters as SelectedFilters
+    const categories = [
+      "dexNumber",
+      "skin",
+      "starLevel",
+      "element",
+      "serialNumber",
+    ]
 
-    if (categoryId == "dexNumber") {
-      console.log("DexNumber added")
-      setSelectedFilters({
-        ...selectedFilters,
-        dexNumber: selectedFilters.dexNumber.includes(optionValue)
-          ? removeCheckBox(selectedFilters.dexNumber, optionValue)
-          : [...selectedFilters.dexNumber, optionValue],
-      })
+    if (!categories.includes(categoryId)) {
+      return
     }
-    if (categoryId == "skin") {
-      setSelectedFilters({
-        ...selectedFilters,
-        skin: selectedFilters.skin.includes(optionValue)
-          ? removeCheckBox(selectedFilters.skin, optionValue)
-          : [...selectedFilters.skin, optionValue],
-      })
-    }
-    if (categoryId == "starLevel") {
-      setSelectedFilters({
-        ...selectedFilters,
-        starLevel: selectedFilters.starLevel.includes(optionValue)
-          ? removeCheckBox(selectedFilters.starLevel, optionValue)
-          : [...selectedFilters.starLevel, optionValue],
-      })
-    }
-    if (categoryId == "element") {
-      setSelectedFilters({
-        ...selectedFilters,
-        element: selectedFilters.element.includes(optionValue)
-          ? removeCheckBox(selectedFilters.element, optionValue)
-          : [...selectedFilters.element, optionValue],
-      })
-    }
-    if (categoryId == "serialNumber") {
-      console.log("DexNumber added")
-      setSelectedFilters({
-        ...selectedFilters,
-        serialNumber: selectedFilters.serialNumber.includes(optionValue)
-          ? removeCheckBox(selectedFilters.serialNumber, optionValue)
-          : [...selectedFilters.serialNumber, optionValue],
-      })
-    }
-    // if (selectedFilter > 0) {
-    //   selectedFilter = [...selectedFilter, optionValue]
-    // }
 
-    console.log("UPDATED SELECTED FILTER", selectedFilter)
-
-    // setSelectedFilters({
-    //   ...selectedFilters,
-    //   categoryId: selectedFilters.categoryId.includes(optionValue)
-    //     ? removeCheckBox(selectedFilters.categoryId, optionValue)
-    //     : [...selectedFilters.categoryId, optionValue],
-    // })
-
-    console.log(selectedFilters)
+    setSelectedFilters({
+      ...selectedFilters,
+      [categoryId]: selectedFilters[categoryId].includes(optionValue)
+        ? removeCheckBox(selectedFilters[categoryId], optionValue)
+        : [...selectedFilters[categoryId], optionValue],
+    })
   }
 
   return (
@@ -359,28 +318,38 @@ const BeastMarketFilters: FC<Props> = ({
                                     <div className="space-y-6">
                                       {section.options?.map(
                                         (option: any, optionIdx: any) => (
-                                          <>
-                                            <CheckboxWrapper
-                                              key={option.value}
-                                              className="flex items-center"
-                                            >
-                                              <input
-                                                id={`filter-mobile-${section.id}-${optionIdx}`}
-                                                name={`${section.id}[]`}
-                                                defaultValue={option.value}
-                                                type="checkbox"
-                                                defaultChecked={option.checked}
-                                                className="h-4 w-4 rounded border-gray-300 
+                                          <CheckboxWrapper
+                                            key={option.value}
+                                            className="flex items-center"
+                                          >
+                                            <input
+                                              id={`filter-${section.id}-${optionIdx}`}
+                                              name={`${section.id}[]`}
+                                              defaultValue={option.value}
+                                              type="checkbox"
+                                              checked={
+                                                selectedFilters[
+                                                  section.id
+                                                ]?.includes(option.value) ||
+                                                query[option.id] ===
+                                                  option.value
+                                              }
+                                              onChange={() =>
+                                                handleChange(
+                                                  section.id,
+                                                  option.value,
+                                                )
+                                              }
+                                              className="h-4 w-4 rounded border-gray-300 
                                            focus:ring-indigo-500"
-                                              />
-                                              <label
-                                                htmlFor={`filter-mobile-${section.id}-${optionIdx}`}
-                                                className="ml-3 min-w-0 flex-1 "
-                                              >
-                                                {option.label}
-                                              </label>
-                                            </CheckboxWrapper>
-                                          </>
+                                            />
+                                            <label
+                                              htmlFor={`filter-mobile-${section.id}-${optionIdx}`}
+                                              className="ml-3 min-w-0 flex-1 "
+                                            >
+                                              {option.label}
+                                            </label>
+                                          </CheckboxWrapper>
                                         ),
                                       )}
                                     </div>
@@ -475,7 +444,7 @@ const BeastMarketFilters: FC<Props> = ({
                   <h3 className="sr-only">Categories</h3>
                   <ul role="list" className="pb-6 text-sm font-medium ">
                     {subCategories.map((category) => (
-                      <>
+                      <ul key={category.name}>
                         {category.name == "Owned" ? (
                           <>
                             {loggedIn && (
@@ -529,7 +498,7 @@ const BeastMarketFilters: FC<Props> = ({
                             )}
                           </li>
                         )}
-                      </>
+                      </ul>
                     ))}
                   </ul>
                   {ownedToggled || favoriteToggled ? (
@@ -581,7 +550,12 @@ const BeastMarketFilters: FC<Props> = ({
                                           name={`${section.id}[]`}
                                           defaultValue={option.value}
                                           type="checkbox"
-                                          defaultChecked={option.checked}
+                                          checked={
+                                            selectedFilters[
+                                              section.id
+                                            ]?.includes(option.value) ||
+                                            query[option.id] === option.value
+                                          }
                                           onChange={() =>
                                             handleChange(
                                               section.id,

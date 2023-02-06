@@ -427,6 +427,7 @@ const Button = styled.button`
   padding: 4px 20px 5px;
   border-radius: 12px;
   font-size: 0.8em;
+  margin: 0.2rem 0 0.2rem 0;
   text-transform: capitalize;
   &:hover {
     color: rgb(255, 255, 255);
@@ -569,6 +570,7 @@ const BeastModalView: FC<Props> = ({
         import Evolution from 0xEvolution
         import BasicBeasts from 0xBasicBeasts
         import FUSD from 0xFUSD
+        import FungibleToken from 0xFungibleToken
 
         pub fun hasEvolver(_ address: Address): Bool {
           return getAccount(address)
@@ -961,7 +963,7 @@ const BeastModalView: FC<Props> = ({
                                         same skin and star level to do Evolution
                                       </Body>
                                       <div>
-                                        <Link href="/store">
+                                        <Link href="/drop">
                                           <a>
                                             <Button>Buy Packs</Button>
                                           </a>
@@ -1151,7 +1153,17 @@ const BeastModalView: FC<Props> = ({
                             </Body>
                           </NotEnoughContainer>
                         ) : (
-                          <></>
+                          <NotEnoughContainer>
+                            <Body
+                              style={{
+                                margin: "0px 0 20px",
+                                textAlign: "center",
+                                fontSize: "1em",
+                              }}
+                            >
+                              Coming soon
+                            </Body>
+                          </NotEnoughContainer>
                         )}
                         {filter === "Trade" && (
                           <NotEnoughContainer>
