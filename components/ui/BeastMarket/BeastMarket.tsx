@@ -1330,12 +1330,19 @@ const BeastMarket: FC<Props> = () => {
         break
 
       case "Skin (High-Low)":
+        const dic2 = {
+          Normal: 1,
+          "Metallic Silver": 2,
+          "Cursed Black": 3,
+          "Shiny Gold": 4,
+          "Mythic Diamond": 5,
+        }
         if (beasts != null) {
           beasts.sort((a: any, b: any) => {
             var aValue = 0
             var bValue = 0
-            aValue = dic[a.skin as keyof typeof dic]
-            bValue = dic[b.skin as keyof typeof dic]
+            aValue = dic2[a.skin as keyof typeof dic2]
+            bValue = dic2[b.skin as keyof typeof dic2]
             if (aValue < bValue) return 1
             if (aValue > bValue) return -1
             return 0
