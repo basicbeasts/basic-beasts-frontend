@@ -2,7 +2,7 @@ import { FC, Fragment, useEffect, useState } from "react"
 import { Dialog, Transition } from "@headlessui/react"
 import { CheckIcon, IdentificationIcon } from "@heroicons/react/outline"
 import poopPic from "public/fungible_tokens/fungible_tokens_images/basic_beasts_poop.png"
-import picture from "public/001_normal.png"
+import eggImage from "public/egg.png"
 import star from "public/basic_starLevel.png"
 import styled from "styled-components"
 import {
@@ -231,7 +231,7 @@ const EggObtainedModal: FC<Props> = ({ open, setOpen }) => {
                   <Title>Congratulations!</Title>
                   <Title>You have recieved an egg!</Title>
                   <div className="relative z-10">
-                    <Img src={poopPic.src} />
+                    <Img src={eggImage.src} />
                     <Backshine />
                   </div>
                   <Button>Go To Your Egg Collection</Button>

@@ -153,8 +153,6 @@ const Content = styled.div<any>`
 
   width: 576px;
 
-  overflow-y: auto;
-
   background: #fff;
   padding: 3vw;
   font-size: 1.2em;
@@ -168,7 +166,7 @@ const Content = styled.div<any>`
 const Img = styled.img`
   width: 160px;
   margin: auto;
-  top: -60px;
+  top: -70px;
   position: relative;
   user-drag: none;
   -webkit-user-drag: none;
@@ -415,9 +413,10 @@ const Select = styled.select`
   width: 100%;
   // border: 1px solid rgb(209 213 219);
   &:focus {
-    --tw-ring-color: rgb(99 102 241);
+    // --tw-ring-color: rgb(99 102 241);
     border-color: rgb(99 102 241);
   }
+  outline: none;
 `
 
 const Button = styled.button`
@@ -479,6 +478,9 @@ type Props = {
   allEvolutionPairs: any
   getPersonalDexicon: any
   walletAddress: any
+  sushiBalance: any
+  emptyPotionBottleBalance: any
+  poopBalance: any
 }
 
 const tabs = [
@@ -505,6 +507,9 @@ const BeastModalView: FC<Props> = ({
   allEvolutionPairs,
   getPersonalDexicon,
   walletAddress,
+  sushiBalance,
+  emptyPotionBottleBalance,
+  poopBalance,
 }) => {
   const [open2, setOpen2] = useState(false)
   const [filter, setFilter] = useState("Info")
@@ -715,6 +720,9 @@ const BeastModalView: FC<Props> = ({
                 <MakeLovePotionModal
                   open={makeLovePotionModalOpen}
                   setOpen={setMakeLovePotionModalOpen}
+                  sushiBalance={sushiBalance}
+                  emptyPotionBottleBalance={emptyPotionBottleBalance}
+                  poopBalance={poopBalance}
                 />
 
                 <EggObtainedModal
@@ -1131,39 +1139,32 @@ const BeastModalView: FC<Props> = ({
                           <></>
                         )}
                         {filter === "Breeding" ? (
-                          // <Breeding
-                          //   evolvableBeasts={evolvableBeasts}
-                          //   beast={beast}
-                          //   makeLovePotionModalOpen={makeLovePotionModalOpen}
-                          //   setMakeLovePotionModalOpen={
-                          //     setMakeLovePotionModalOpen
-                          //   }
-                          //   eggObtainedModalOpen={eggObtainedModalOpen}
-                          //   setEggObtainedModalOpen={setEggObtainedModalOpen}
-                          // />
-                          <NotEnoughContainer>
-                            <Body
-                              style={{
-                                margin: "0px 0 20px",
-                                textAlign: "center",
-                                fontSize: "1em",
-                              }}
-                            >
-                              Coming soon
-                            </Body>
-                          </NotEnoughContainer>
+                          <Breeding
+                            evolvableBeasts={evolvableBeasts}
+                            beast={beast}
+                            makeLovePotionModalOpen={makeLovePotionModalOpen}
+                            setMakeLovePotionModalOpen={
+                              setMakeLovePotionModalOpen
+                            }
+                            eggObtainedModalOpen={eggObtainedModalOpen}
+                            setEggObtainedModalOpen={setEggObtainedModalOpen}
+                            sushiBalance={sushiBalance}
+                            emptyPotionBottleBalance={emptyPotionBottleBalance}
+                            poopBalance={poopBalance}
+                          />
                         ) : (
-                          <NotEnoughContainer>
-                            <Body
-                              style={{
-                                margin: "0px 0 20px",
-                                textAlign: "center",
-                                fontSize: "1em",
-                              }}
-                            >
-                              Coming soon
-                            </Body>
-                          </NotEnoughContainer>
+                          // <NotEnoughContainer>
+                          //   <Body
+                          //     style={{
+                          //       margin: "0px 0 20px",
+                          //       textAlign: "center",
+                          //       fontSize: "1em",
+                          //     }}
+                          //   >
+                          //     Coming soon
+                          //   </Body>
+                          // </NotEnoughContainer>
+                          <></>
                         )}
                         {filter === "Trade" && (
                           <NotEnoughContainer>

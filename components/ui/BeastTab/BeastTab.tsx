@@ -516,29 +516,9 @@ type Props = {
   allEvolutionPairs: any
   getPersonalDexicon: any
   walletAddress: any
-}
-
-type Beast = {
-  beastTemplateID: number
-  generation: number
-  dexNumber: number
-  name: String
-  description: String
-  image: String
-  imageTransparentBg: String
-  animationUrl: String
-  externalUrl: String
-  rarity: String
-  skin: String
-  starLevel: number
-  asexual: boolean
-  breedableBeastTemplateID: number
-  maxAdminMintAllowed: number
-  ultimateSkill: String
-  basicSkills: String[]
-  elements: String[]
-  data: any
-  id: any
+  sushiBalance: any
+  emptyPotionBottleBalance: any
+  poopBalance: any
 }
 
 const BeastTab: FC<Props> = ({
@@ -549,6 +529,9 @@ const BeastTab: FC<Props> = ({
   allEvolutionPairs,
   getPersonalDexicon,
   walletAddress,
+  sushiBalance,
+  emptyPotionBottleBalance,
+  poopBalance,
 }) => {
   //   const query = useQuery()
   //   const beasts =
@@ -672,6 +655,9 @@ const BeastTab: FC<Props> = ({
           allEvolutionPairs={allEvolutionPairs}
           getPersonalDexicon={getPersonalDexicon}
           walletAddress={walletAddress}
+          sushiBalance={sushiBalance}
+          emptyPotionBottleBalance={emptyPotionBottleBalance}
+          poopBalance={poopBalance}
         />
         <EvolutionModal
           handleClose={() => setEvolutionModalOpen(false)}

@@ -191,6 +191,9 @@ const ProfileTabs: FC<Props> = ({
           allEvolutionPairs={allEvolutionPairs}
           getPersonalDexicon={getPersonalDexicon}
           walletAddress={walletAddress}
+          sushiBalance={sushiBalance}
+          emptyPotionBottleBalance={emptyPotionBottleBalance}
+          poopBalance={poopBalance}
         />
       )}
       {user?.addr == walletAddress ? (

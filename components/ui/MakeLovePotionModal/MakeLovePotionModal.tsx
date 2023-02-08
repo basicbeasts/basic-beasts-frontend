@@ -5,7 +5,8 @@ import scroll from "public/scroll_icon.png"
 import sushiPic from "public/fungible_tokens/fungible_tokens_images/basic_beasts_sushi.png"
 import bottlePic from "public/fungible_tokens/fungible_tokens_images/basic_beasts_empy_potion_bottle.png"
 import poopPic from "public/fungible_tokens/fungible_tokens_images/basic_beasts_poop.png"
-import picture from "public/001_normal.png"
+import picture from "public/mysterious_old_lady.png"
+import eggImage from "public/egg.png"
 import star from "public/basic_starLevel.png"
 import styled from "styled-components"
 import {
@@ -79,7 +80,7 @@ const DialogPanel = styled(Dialog.Panel)<any>`
 `
 
 const Button = styled.button`
-  margin-top: 20px;
+  margin-top: 30px;
   background: #ffd966;
   // border: 1px solid #e4be23;
   color: black;
@@ -172,9 +173,9 @@ const LadyImg = styled.img`
   -webkit-transition: all 0.3s ease 0s;
 `
 const TextDiv = styled.div`
-  margin-top: 1rem;
+  margin-top: 50px;
   text-align: start;
-  font-size: 1.2rem;
+  font-size: 2rem;
   border: 0.45rem solid white;
   padding: 2rem;
   width: 100%;
@@ -195,22 +196,35 @@ const MaterialNumber = styled.span<any>`
 type Props = {
   open: boolean
   setOpen: any
+  sushiBalance: any
+  emptyPotionBottleBalance: any
+  poopBalance: any
 }
 
-const MakeLovePotionModal: FC<Props> = ({ open, setOpen }) => {
-  const [sushiNumber, setSushiNumber] = useState(0)
+const MakeLovePotionModal: FC<Props> = ({
+  open,
+  setOpen,
+  sushiBalance,
+  emptyPotionBottleBalance,
+  poopBalance,
+}) => {
   const [bottleNumber, setBottleNumber] = useState(1)
   const [poopNumber, setPoopNumber] = useState(2)
+  const SUSHI_REQUIRED = 5
 
   const numberColors = () => {
     let sushiColor
     let bottleColor
     let poopColor
     {
-      sushiNumber >= 2 ? (sushiColor = "white") : (sushiColor = "red")
+      sushiBalance >= SUSHI_REQUIRED
+        ? (sushiColor = "white")
+        : (sushiColor = "red")
     }
     {
-      bottleNumber >= 2 ? (bottleColor = "white") : (bottleColor = "red")
+      emptyPotionBottleBalance >= 2
+        ? (bottleColor = "white")
+        : (bottleColor = "red")
     }
     {
       poopNumber >= 2 ? (poopColor = "white") : (poopColor = "red")
@@ -248,7 +262,7 @@ const MakeLovePotionModal: FC<Props> = ({ open, setOpen }) => {
                 <div className="h-full">
                   <Title>Love Potion</Title>
                   <div>
-                    <p>Required Materials</p>
+                    <P>Required Materials</P>
                     <div className="grid mx-auto mt-2 gap-12 border-t border-gray-500 grid-cols-3 w-max">
                       <div>
                         <ImgDiv style={{ backgroundColor: "#fff1ef" }}>
@@ -256,9 +270,9 @@ const MakeLovePotionModal: FC<Props> = ({ open, setOpen }) => {
                         </ImgDiv>
                         <P>
                           <MaterialNumber numColor={numberColors().sushiColor}>
-                            {sushiNumber}
+                            {parseInt(sushiBalance)}
                           </MaterialNumber>
-                          /2
+                          /{SUSHI_REQUIRED}
                         </P>
                       </div>
                       <div>
@@ -291,7 +305,7 @@ const MakeLovePotionModal: FC<Props> = ({ open, setOpen }) => {
                     </div>
                     <Button
                       disabled={
-                        sushiNumber < 2 || bottleNumber < 2 || poopNumber < 2
+                        sushiBalance < 2 || bottleNumber < 2 || poopNumber < 2
                       }
                     >
                       Make Love Potion
@@ -300,12 +314,8 @@ const MakeLovePotionModal: FC<Props> = ({ open, setOpen }) => {
                   <div className="relative">
                     <LadyImg src={picture.src} />
                     <TextDiv>
-                      <H1>Mysterious old lady</H1>
-                      <p>
-                        Hey there, little adventurer. To be able to breed your
-                        beasts you will nreed love potion. And to make love
-                        potion.. you need potion empty bottle, sushi, and poop!
-                      </p>
+                      <H1>Mysterious Old Lady</H1>
+                      <p>Hey there, young adventurer! Want a love potion?</p>
                     </TextDiv>
                   </div>
                 </div>

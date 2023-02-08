@@ -9,13 +9,13 @@ import { faHeart } from "@fortawesome/free-solid-svg-icons"
 
 import picture from "public/beasts/001_normal.png"
 import scroll from "public/beasts/001_unknown.png"
-import potion from "/public/love_potion.png"
+import potion from "/public/love_potion.gif"
 import { toast } from "react-toastify"
 import MakeLovePotionModal from "../MakeLovePotionModal"
 import EggObtainedModal from "../EggObtainedModal"
 import beastTemplates from "data/beastTemplates"
 
-const Wrapper = styled.section`
+const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -23,6 +23,8 @@ const Wrapper = styled.section`
   // height: 100%;
   padding-bottom: 2rem;
   margin-top: 1rem;
+  height: 300px;
+  // overflow-y: auto;
 `
 const H2 = styled.h2`
   color: grey;
@@ -38,6 +40,7 @@ const BreedingSpot = styled.div`
 `
 const Img = styled.img`
   max-width: 10rem;
+  margin-bottom: 10px;
 `
 const ImgDiv = styled.div`
   text-align: center;
@@ -47,6 +50,7 @@ const PotionDiv = styled.div`
   cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
       14 0,
     pointer !important;
+  margin-top: 30px;
 `
 const Potion = styled.div`
   position: relative;
@@ -65,8 +69,8 @@ const Potion = styled.div`
     display: block;
     position: absolute;
     top: 50%;
-    left: -51%;
-    width: 3.5rem;
+    left: -31%;
+    width: 1.5rem;
     height: 1px;
     background: #ebebe9;
   }
@@ -75,8 +79,8 @@ const Potion = styled.div`
     display: block;
     position: absolute;
     top: 50%;
-    right: -51%;
-    width: 3.5rem;
+    right: -31%;
+    width: 1.5rem;
     height: 1px;
     background: #ebebe9;
   }
@@ -93,18 +97,18 @@ const PotionP = styled.p`
   font-size: 1rem;
 `
 const RequiredNumber = styled.span`
-  color: #dc8494;
+  // color: #dc8494;
 `
 const BreedButton = styled.button<any>`
   position: relative;
   border: 1px solid ${(props) => props.buttonColors.buttonBorder};
   border-radius: 0.25rem;
-  padding: 0.5rem 1rem;
+  padding: 1.5rem;
   width: max-content;
   line-height: 0;
   background: ${(props) => props.buttonColors.buttonBackground};
   color: ${(props) => props.buttonColors.buttonColor};
-  font-size: 1rem;
+  font-size: 1.5em;
   &::before {
     content: "";
     display: block;
@@ -119,8 +123,8 @@ const BreedButton = styled.button<any>`
 
 const ListWrapper = styled.div`
   width: 100%;
-  overflow: hidden;
-  overflow-y: scroll;
+  // overflow: hidden;
+  // overflow-y: scroll;
   // height: 270px;
   margin-top: 15px;
   -ms-overflow-style: none; /* IE and Edge */
@@ -139,6 +143,9 @@ type Props = {
   setMakeLovePotionModalOpen: any
   eggObtainedModalOpen: any
   setEggObtainedModalOpen: any
+  sushiBalance: any
+  emptyPotionBottleBalance: any
+  poopBalance: any
 }
 
 const Breeding: FC<Props> = ({
@@ -148,20 +155,23 @@ const Breeding: FC<Props> = ({
   setMakeLovePotionModalOpen,
   eggObtainedModalOpen,
   setEggObtainedModalOpen,
+  sushiBalance,
+  emptyPotionBottleBalance,
+  poopBalance,
 }) => {
   const [beastSelected, setBeastSelected] = useState(false)
 
   const [selectedBeasts, setSelectedBeasts] = useState<any>([])
   const [serialOneSelected, setSerialOneSelected] = useState<any>(false)
 
-  const potions = 200
+  const potions = 1
 
   const buttonColors = () => {
     let buttonBorder
     let buttonColor
     let buttonBackground
     {
-      potions >= 200 && beastSelected == true
+      false
         ? ((buttonBorder = "#d97586"),
           (buttonColor = "#d97586"),
           (buttonBackground = "#facdd7"))
@@ -223,19 +233,19 @@ const Breeding: FC<Props> = ({
                     beast?.beastTemplateID as keyof typeof beastTemplates
                   ].imageTransparentBg
                 }
-                style={{ transform: "scaleX(-1)" }}
+                // style={{ transform: "scaleX(-1)" }}
               />{" "}
               <ImgInfo>
-                <H2>BREED COUNT</H2>
-                <p>1/7</p>
+                <H2>Breed Count</H2>
+                <p>1/6</p>
               </ImgInfo>
             </ImgDiv>
             <PotionDiv onClick={() => setMakeLovePotionModalOpen(true)}>
-              <PotionP>Required Love Potions</PotionP>
+              {/* <PotionP>Required Love Potions</PotionP> */}
               <Potion>
                 <PotionImg src={potion.src} />
                 <p>
-                  <RequiredNumber>{potions}</RequiredNumber>/200
+                  <RequiredNumber>{potions}</RequiredNumber>/1
                 </p>
               </Potion>
             </PotionDiv>
@@ -252,15 +262,16 @@ const Breeding: FC<Props> = ({
               </ImgInfo>
             </ImgDiv>
           </BreedingSpot>
-          <BreedButton
-            disabled={potions < 200 || !beastSelected}
-            buttonColors={buttonColors()}
-            onClick={() => setEggObtainedModalOpen(true)}
-          >
-            <FontAwesomeIcon icon={faHeart} /> Start Breeding
-          </BreedButton>
+          {potions >= 1 && beastSelected && (
+            <BreedButton
+              buttonColors={buttonColors()}
+              onClick={() => setEggObtainedModalOpen(true)}
+            >
+              🍆
+            </BreedButton>
+          )}
         </div>
-        {evolvableBeasts != null && (
+        {/* {evolvableBeasts != null && (
           <ListWrapper>
             <ul
               role="list"
@@ -288,7 +299,7 @@ const Breeding: FC<Props> = ({
               )}
             </ul>
           </ListWrapper>
-        )}
+        )} */}
 
         {/* <ul
           role="list"
