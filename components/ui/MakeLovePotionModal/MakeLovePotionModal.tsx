@@ -227,7 +227,7 @@ const MakeLovePotionModal: FC<Props> = ({
         : (bottleColor = "red")
     }
     {
-      poopNumber >= POOP_REQUIRED ? (poopColor = "white") : (poopColor = "red")
+      poopBalance >= POOP_REQUIRED ? (poopColor = "white") : (poopColor = "red")
     }
     return { sushiColor, bottleColor, poopColor }
   }
@@ -285,7 +285,7 @@ const MakeLovePotionModal: FC<Props> = ({
 
                         <P>
                           <MaterialNumber numColor={numberColors().bottleColor}>
-                            {bottleNumber}
+                            {parseInt(emptyPotionBottleBalance)}
                           </MaterialNumber>
                           /{BOTTLE_REQUIRED}
                         </P>
@@ -297,7 +297,7 @@ const MakeLovePotionModal: FC<Props> = ({
 
                         <P>
                           <MaterialNumber numColor={numberColors().poopColor}>
-                            {poopNumber}
+                            {parseInt(poopBalance)}
                           </MaterialNumber>
                           /{POOP_REQUIRED}
                         </P>
@@ -305,7 +305,9 @@ const MakeLovePotionModal: FC<Props> = ({
                     </div>
                     <Button
                       disabled={
-                        sushiBalance < 2 || bottleNumber < 2 || poopNumber < 2
+                        sushiBalance < SUSHI_REQUIRED ||
+                        emptyPotionBottleBalance < BOTTLE_REQUIRED ||
+                        poopBalance < POOP_REQUIRED
                       }
                     >
                       Make Love Potion
