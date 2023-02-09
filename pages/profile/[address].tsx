@@ -183,6 +183,7 @@ const Profile: NextPage = () => {
             pub let elements: [String]
             pub let basicSkills: [String]
             pub let ultimateSkill: String
+            pub let breedableBeastTemplateID: UInt32
 
         
             init(
@@ -205,6 +206,7 @@ const Profile: NextPage = () => {
             elements: [String],
             basicSkills: [String],
             ultimateSkill: String,
+            breedableBeastTemplateID: UInt32
             ) {
                 self.id = id
                 self.serialNumber = serialNumber
@@ -225,6 +227,7 @@ const Profile: NextPage = () => {
                 self.elements = elements
                 self.basicSkills = basicSkills
                 self.ultimateSkill = ultimateSkill
+                self.breedableBeastTemplateID = breedableBeastTemplateID
             }
         }
         
@@ -258,7 +261,8 @@ const Profile: NextPage = () => {
                                     description: borrowedBeast.getBeastTemplate().description,
                                     elements: borrowedBeast.getBeastTemplate().elements,
                                     basicSkills: borrowedBeast.getBeastTemplate().basicSkills,
-                                    ultimateSkill: borrowedBeast.getBeastTemplate().ultimateSkill
+                                    ultimateSkill: borrowedBeast.getBeastTemplate().ultimateSkill,
+                                    breedableBeastTemplateID: borrowedBeast.getBeastTemplate().breedableBeastTemplateID
 
                 )
                 beastCollection.append(beast)
@@ -293,6 +297,7 @@ const Profile: NextPage = () => {
           elements: element.elements,
           basicSkills: element.basicSkills,
           ultimateSkill: element.ultimateSkill,
+          breedableBeastTemplateID: element.breedableBeastTemplateID,
         }
         mappedCollection.push(beast)
       }
@@ -323,7 +328,7 @@ const Profile: NextPage = () => {
       console.log(evolvableBeasts)
       setEvolvableBeasts(evolvableBeasts)
       getHunterScore()
-      console.log("profile/[address].tsx: fetchUserBeasts()")
+      console.log("fetchUserBeasts()", mappedCollection)
     } catch (err) {
       console.log(err)
     }
