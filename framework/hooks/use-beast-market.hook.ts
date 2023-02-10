@@ -80,7 +80,8 @@ export default function useBeastMarket() {
                   "breedingCount" : 0,
                   "numberOfMintedBeastTemplates" : 100,
                   "beastTemplateID" : beastTemplate.beastTemplateID,
-                  "id": token.id
+                  "id": token.id,
+                  "breedableBeastTemplateID": beastTemplate.breedableBeastTemplateID
                 }
 
                 beasts.append(beast)
@@ -134,6 +135,7 @@ export default function useBeastMarket() {
           beastTemplateID: element.beastTemplateID,
           price: beastPrice,
           id: element.id,
+          breedableBeastTemplateID: element.breedableBeastTemplateID,
         }
         allBeasts.push(beast)
       }
