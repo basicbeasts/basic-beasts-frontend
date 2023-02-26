@@ -17,8 +17,8 @@ fcl
   .put("accessNode.api", process.env.NEXT_PUBLIC_ACCESS_NODE_API)
   // .put("challenge.handshake", process.env.NEXT_PUBLIC_CHALLENGE_HANDSHAKE)
   .put("discovery.wallet", process.env.NEXT_PUBLIC_CHALLENGE_HANDSHAKE)
-  // .put("discovery.wallet.method", "HTTP/POST") // Needed for testnet to work as it does not allow iframe
-  .put("discovery.wallet.method", "IFRAME/RPC")
+  .put("discovery.wallet.method", "HTTP/POST") // Needed for testnet to work as it does not allow iframe
+  // .put("discovery.wallet.method", "IFRAME/RPC")
   .put("0xFungibleToken", process.env.NEXT_PUBLIC_FUNGIBLE_TOKEN_ADDRESS)
   .put("0xFUSD", process.env.NEXT_PUBLIC_FUSD_ADDRESS)
   .put("0xNonFungibleToken", process.env.NEXT_PUBLIC_NON_FUNGIBLE_TOKEN_ADDRESS)
@@ -86,8 +86,8 @@ fcl
     "0xBasicBeastsDrop",
     process.env.NEXT_PUBLIC_NFT_DAY_TREASURE_CHEST_ADDRESS,
   )
-// .put("0xBeastMarket", process.env.NEXT_PUBLIC_BEAST_MARKET_ADDRESS)
-// .put("0xBeastOffers", process.env.NEXT_PUBLIC_BEAST_OFFERS_ADDRESS)
+  .put("0xBeastMarket", process.env.NEXT_PUBLIC_BEAST_MARKET_ADDRESS)
+  .put("0xBeastOffers", process.env.NEXT_PUBLIC_BEAST_OFFERS_ADDRESS)
 
 const Layout: FC = ({ children }) => {
   const [isSideNavbarOpen, setIsSideNavbarOpen] = useState(false)
