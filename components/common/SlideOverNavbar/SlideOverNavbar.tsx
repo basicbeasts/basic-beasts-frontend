@@ -298,6 +298,13 @@ const SlideOverNavbar: FC<Props> = ({
                             </LargeNavItem>
                           </a>
                         </Link>
+                        <Link href="/wonder-arena">
+                          <a>
+                            <LargeNavItem onClick={() => close()}>
+                              Wonder Arena
+                            </LargeNavItem>
+                          </a>
+                        </Link>
                         <Link href="/rankings">
                           <a>
                             <LargeNavItem onClick={() => close()}>

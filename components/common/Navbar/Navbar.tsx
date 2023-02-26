@@ -681,6 +681,20 @@ const Navbar: FC<FuncProps> = ({
                 </A>
               </NextLink>
             </NavItem>
+
+            <NavItem>
+              <NextLink href={"/wonder-arena/"}>
+                <A
+                  font={
+                    lang === "ru"
+                      ? "arial, sans-serif"
+                      : "Pixelar, sans-serif, arial"
+                  }
+                >
+                  Game
+                </A>
+              </NextLink>
+            </NavItem>
             <NavItem>
               <NextLink href={"/rankings/"}>
                 <A

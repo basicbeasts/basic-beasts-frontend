@@ -5,6 +5,22 @@ import { useAuth } from "@components/auth/AuthProvider"
 import styled from "styled-components"
 import { query } from "@onflow/fcl"
 import WonderBeastThumbnail from "@components/ui/WonderArena/WonderBeastThumbnail"
+import {
+  send,
+  transaction,
+  args,
+  arg,
+  payer,
+  proposer,
+  authorizations,
+  limit,
+  authz,
+  decode,
+  tx,
+} from "@onflow/fcl"
+import { toast } from "react-toastify"
+import * as t from "@onflow/types"
+import { toastStatus } from "@framework/helpers/toastStatus"
 
 const Button = styled.button`
   padding: 8px 24px 12px 26px;
@@ -34,7 +50,7 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   height: 200px;
-  margin-bottom: 100px;
+  margin-bottom: 80px;
 `
 
 const ListWrapper = styled.div`
@@ -70,7 +86,7 @@ const Container = styled.div`
   }
   @media (max-width: 800px) {
     height: 400px;
-    margin: 30px;
+    margin: 20px;
   }
 `
 
@@ -80,7 +96,7 @@ const ContainerWrapper = styled.div`
   justify-content: center;
   align-items: center;
   gap: 8%;
-  margin: 60px 0 120px;
+  margin: 60px 0;
 
   @media (max-width: 800px) {
     flex-direction: column;
@@ -100,7 +116,7 @@ const H3 = styled.h3`
   font-size: 1rem;
   color: #fff;
   line-height: 1;
-  margin: 10px 0 100px;
+  margin: 10px 0;
 `
 
 const WonderArena: NextPage = () => {
@@ -271,6 +287,130 @@ const WonderArena: NextPage = () => {
     }
   }
 
+  const transferToWonderArena = async () => {
+    const id = toast.loading("Initializing...")
+
+    try {
+      const res = await send([
+        transaction(`
+        import NonFungibleToken from 0x631e88ae7f1d7c20
+        import BasicBeasts from 0xfa252d0aa22bf86a
+
+        transaction(receiverAddress: Address, beastIDs: [UInt64]) {
+            let senderCollection: &BasicBeasts.Collection
+            let collection: &BasicBeasts.Collection{BasicBeasts.BeastCollectionPublic}
+
+            prepare(acct: AuthAccount) {
+
+                self.senderCollection = acct.borrow<&BasicBeasts.Collection>(from: BasicBeasts.CollectionStoragePath)
+                    ?? panic("borrow sender collection failed")
+
+                self.collection = getAccount(receiverAddress)
+                    .getCapability(BasicBeasts.CollectionPublicPath)
+                    .borrow<&BasicBeasts.Collection{BasicBeasts.BeastCollectionPublic}>()
+                    ?? panic("borrow receiverAddress collection failed")
+            }
+
+            execute {
+                for id in beastIDs {
+                    let beast <- self.senderCollection.withdraw(withdrawID: id)
+                    self.collection.deposit(token: <- beast)
+                }
+            }
+        }
+        `),
+        payer(authz),
+        proposer(authz),
+        authorizations([authz]),
+        limit(9999),
+      ]).then(decode)
+      tx(res).subscribe((res: any) => {
+        toastStatus(id, res.status)
+      })
+      await tx(res)
+        .onceSealed()
+        .then((result: any) => {
+          toast.update(id, {
+            render: "Transaction Sealed",
+            type: "success",
+            isLoading: false,
+            autoClose: 5000,
+          })
+        })
+      // fetchHunterData() Don't have this otherwise /profile/user.find won't show packs and packs will be reloaded
+    } catch (err) {
+      toast.update(id, {
+        render: () => <div>Error, try again later...</div>,
+        type: "error",
+        isLoading: false,
+        autoClose: 5000,
+      })
+      console.log(err)
+    }
+  }
+
+  const transferToBlocto = async () => {
+    const id = toast.loading("Initializing...")
+
+    try {
+      const res = await send([
+        transaction(`
+        import NonFungibleToken from 0x631e88ae7f1d7c20
+        import BasicBeasts from 0xfa252d0aa22bf86a
+
+        transaction(receiverAddress: Address, beastIDs: [UInt64]) {
+            let senderCollection: &BasicBeasts.Collection
+            let collection: &BasicBeasts.Collection{BasicBeasts.BeastCollectionPublic}
+
+            prepare(acct: AuthAccount) {
+
+                self.senderCollection = acct.borrow<&BasicBeasts.Collection>(from: BasicBeasts.CollectionStoragePath)
+                    ?? panic("borrow sender collection failed")
+
+                self.collection = getAccount(receiverAddress)
+                    .getCapability(BasicBeasts.CollectionPublicPath)
+                    .borrow<&BasicBeasts.Collection{BasicBeasts.BeastCollectionPublic}>()
+                    ?? panic("borrow receiverAddress collection failed")
+            }
+
+            execute {
+                for id in beastIDs {
+                    let beast <- self.senderCollection.withdraw(withdrawID: id)
+                    self.collection.deposit(token: <- beast)
+                }
+            }
+        }
+        `),
+        payer(authz),
+        proposer(authz),
+        authorizations([authz]),
+        limit(9999),
+      ]).then(decode)
+      tx(res).subscribe((res: any) => {
+        toastStatus(id, res.status)
+      })
+      await tx(res)
+        .onceSealed()
+        .then((result: any) => {
+          toast.update(id, {
+            render: "Transaction Sealed",
+            type: "success",
+            isLoading: false,
+            autoClose: 5000,
+          })
+        })
+      // fetchHunterData() Don't have this otherwise /profile/user.find won't show packs and packs will be reloaded
+    } catch (err) {
+      toast.update(id, {
+        render: () => <div>Error, try again later...</div>,
+        type: "error",
+        isLoading: false,
+        autoClose: 5000,
+      })
+      console.log(err)
+    }
+  }
+
   const handleChange = (id: any, serial: any) => {
     if (selectedBeasts.includes(id)) {
       //remove
@@ -291,89 +431,107 @@ const WonderArena: NextPage = () => {
       />
       {/* <pre>{JSON.stringify(selectedBeasts, null, 2)}</pre> */}
       {loggedIn ? (
-        <ContainerWrapper>
-          <div>
-            <H1>Wonder Arena Account: ADD ADDRESS</H1>
-
-            <Container>
-              {userBloctoBeasts != null && (
-                <div>
-                  <ListWrapper>
-                    <ul
-                      role="list"
-                      className="grid gap-x-2 gap-y-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-4"
-                    >
-                      {userBloctoBeasts?.map((beast: any, i: any) => (
-                        <>
-                          <li
-                            key={i}
-                            onClick={() =>
-                              handleChange(beast?.id, beast?.serialNumber)
-                            }
-                          >
-                            <div>
-                              <WonderBeastThumbnail
-                                beast={beast}
-                                selected={selectedBeasts.includes(beast?.id)}
-                              />
-                            </div>
-                          </li>
-                        </>
-                      ))}
-                    </ul>
-                  </ListWrapper>
-                </div>
+        <div>
+          <ContainerWrapper>
+            <div>
+              <H1>Wonder Arena Account: ADD ADDRESS</H1>
+              <H3>
+                Hold beasts in your Wonder Arena account to play on{" "}
+                <a style={{ textDecoration: "underline" }}>mobile app</a> or{" "}
+                <a style={{ textDecoration: "underline" }}>desktop web app</a>
+              </H3>
+              <Container>
+                {userBloctoBeasts != null && (
+                  <div>
+                    <ListWrapper>
+                      <ul
+                        role="list"
+                        className="grid gap-x-2 gap-y-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-4"
+                      >
+                        {userBloctoBeasts?.map((beast: any, i: any) => (
+                          <>
+                            <li
+                              key={i}
+                              onClick={() =>
+                                handleChange(beast?.id, beast?.serialNumber)
+                              }
+                            >
+                              <div>
+                                <WonderBeastThumbnail
+                                  beast={beast}
+                                  selected={selectedBeasts.includes(beast?.id)}
+                                />
+                              </div>
+                            </li>
+                          </>
+                        ))}
+                      </ul>
+                    </ListWrapper>
+                  </div>
+                )}
+              </Container>
+              {selectedBeasts.length > 0 && (
+                <>
+                  <Button>Transfer Wonder Arena → Blocto</Button>
+                  <H3>Selected: {selectedBeasts.length}</H3>
+                </>
               )}
-            </Container>
-            {selectedBeasts.length > 0 && (
-              <>
-                <Button>Transfer Wonder Arena → Blocto</Button>
-                <H3>Selected: {selectedBeasts.length}</H3>
-              </>
-            )}
-          </div>
-          <div>
-            <H1>Blocto Wallet: {user?.addr}</H1>
-            <Container>
-              {userBloctoBeasts != null && (
-                <div>
-                  <ListWrapper>
-                    <ul
-                      role="list"
-                      className="grid gap-x-2 gap-y-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-4"
-                      // className="grid gap-x-2 gap-y-4 grid-cols-3 sm:grid-cols-4"
-                    >
-                      {userBloctoBeasts?.map((beast: any, i: any) => (
-                        <>
-                          <li
-                            key={i}
-                            onClick={() =>
-                              handleChange(beast?.id, beast?.serialNumber)
-                            }
-                          >
-                            <div>
-                              <WonderBeastThumbnail
-                                beast={beast}
-                                selected={selectedBeasts.includes(beast?.id)}
-                              />
-                            </div>
-                          </li>
-                        </>
-                      ))}
-                    </ul>
-                  </ListWrapper>
-                </div>
-              )}
-            </Container>
+            </div>
+            <div>
+              <H1>Blocto Wallet: {user?.addr}</H1>
+              <H3>
+                Hold beasts in your Blocto wallet to trade in the{" "}
+                <a style={{ textDecoration: "underline" }}>marketplace</a>
+              </H3>
+              <Container>
+                {userBloctoBeasts != null && (
+                  <div>
+                    <ListWrapper>
+                      <ul
+                        role="list"
+                        className="grid gap-x-2 gap-y-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-4"
+                        // className="grid gap-x-2 gap-y-4 grid-cols-3 sm:grid-cols-4"
+                      >
+                        {userBloctoBeasts?.map((beast: any, i: any) => (
+                          <>
+                            <li
+                              key={i}
+                              onClick={() =>
+                                handleChange(beast?.id, beast?.serialNumber)
+                              }
+                            >
+                              <div>
+                                <WonderBeastThumbnail
+                                  beast={beast}
+                                  selected={selectedBeasts.includes(beast?.id)}
+                                />
+                              </div>
+                            </li>
+                          </>
+                        ))}
+                      </ul>
+                    </ListWrapper>
+                  </div>
+                )}
+              </Container>
 
-            {selectedBeasts.length > 0 && (
-              <>
-                <Button>Transfer Blocto → Wonder Arena</Button>
-                <H3>Selected: {selectedBeasts.length}</H3>
-              </>
-            )}
-          </div>
-        </ContainerWrapper>
+              {selectedBeasts.length > 0 && (
+                <>
+                  <Button onClick={() => transfer(user?.addr)}>
+                    Transfer Blocto → Wonder Arena
+                  </Button>
+                  <H3>Selected: {selectedBeasts.length}</H3>
+                </>
+              )}
+            </div>
+          </ContainerWrapper>
+          <Wrapper>
+            <H1>
+              <a>Visit Wonder Arena App →</a>
+              {/* TODO */}
+            </H1>
+          </Wrapper>
+        </div>
       ) : (
         <Wrapper>
           <Button onClick={() => logIn()}>Connect Wallet</Button>
