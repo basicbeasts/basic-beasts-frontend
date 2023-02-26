@@ -13,11 +13,11 @@ const Container = styled.div`
 
   @media (max-width: 700px) {
     border: solid 15px #111111;
-    border-top: none;
+    border: none;
   }
   @media (max-width: 1420px) {
     border: solid 25px #111111;
-    border-top: none;
+    border: none;
   }
 `
 
@@ -42,6 +42,7 @@ const H1 = styled.h1`
   text-align: center;
   @media (max-width: 700px) {
     font-size: 3rem;
+    line-height: 3rem;
   }
   @media (max-width: 400px) {
     font-size: 2rem;
