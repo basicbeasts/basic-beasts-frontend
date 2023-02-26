@@ -21,6 +21,7 @@ import {
 import { toast } from "react-toastify"
 import * as t from "@onflow/types"
 import { toastStatus } from "@framework/helpers/toastStatus"
+import NextLink from "next/link"
 
 const Button = styled.button`
   padding: 8px 24px 12px 26px;
@@ -94,7 +95,6 @@ const ContainerWrapper = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
   gap: 8%;
   margin: 60px 0;
 
@@ -123,14 +123,20 @@ const WonderArena: NextPage = () => {
   const { logIn, logOut, user, loggedIn } = useAuth()
 
   const [userBloctoBeasts, setUserBloctoBeasts] = useState<any>(null)
+  const [userWonderBeasts, setUserWonderBeasts] = useState<any>(null)
   const [selectedBeasts, setSelectedBeasts] = useState<any>([])
-  const [beastSelected, setBeastSelected] = useState(false)
+  const [selectedWonderBeasts, setSelectedWonderBeasts] = useState<any>([])
+  const [wonderArenaAddress, setWonderArenaAddress] = useState(null)
 
   useEffect(() => {
     if (user?.addr != null) {
       fetchUserBeasts()
+      fetchWonderArenaAccount()
     }
-  }, [user?.addr])
+    if (wonderArenaAddress != null) {
+      fetchUserWonderBeasts()
+    }
+  }, [user?.addr, wonderArenaAddress])
 
   const fetchUserBeasts = async () => {
     try {
@@ -277,7 +283,162 @@ const WonderArena: NextPage = () => {
         mappedCollection.push(beast)
       }
       mappedCollection.sort((a: any, b: any) => b.id - a.id)
+      mappedCollection.sort((a: any, b: any) => a.serialNumber - b.serialNumber)
+      mappedCollection.sort(
+        (a: any, b: any) => a.beastTemplateID - b.beastTemplateID,
+      )
       setUserBloctoBeasts(mappedCollection)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const fetchUserWonderBeasts = async () => {
+    try {
+      let res = await query({
+        cadence: `
+        import BasicBeasts from 0xBasicBeasts
+        
+        pub struct Beast {
+            pub let id: UInt64
+            pub let serialNumber: UInt32
+            pub let beastTemplateID: UInt32
+            pub let nickname: String?
+            pub let firstOwner: Address?
+            pub let sex: String
+            pub let matron: BasicBeasts.BeastNftStruct?
+            pub let sire: BasicBeasts.BeastNftStruct?
+            pub let name: String
+            pub let starLevel: UInt32
+            pub let data: {String: String}
+            pub let skin: String
+            pub let evolvedFrom: [BasicBeasts.BeastNftStruct]?
+            pub let maxAdminMintAllowed: UInt32
+            pub let dexNumber: UInt32
+            pub let description: String
+            pub let elements: [String]
+            pub let basicSkills: [String]
+            pub let ultimateSkill: String
+            pub let breedableBeastTemplateID: UInt32
+
+        
+            init(
+            id: UInt64, 
+            serialNumber: UInt32,
+            beastTemplateID: UInt32,
+            nickname: String?,
+            firstOwner: Address?,
+            sex: String, 
+            matron: BasicBeasts.BeastNftStruct?,
+            sire: BasicBeasts.BeastNftStruct?,
+            name: String,
+            starLevel: UInt32,
+            data: {String: String},
+            skin: String,
+            evolvedFrom: [BasicBeasts.BeastNftStruct]?,
+            maxAdminMintAllowed: UInt32,
+            dexNumber: UInt32,
+            description: String,
+            elements: [String],
+            basicSkills: [String],
+            ultimateSkill: String,
+            breedableBeastTemplateID: UInt32
+            ) {
+                self.id = id
+                self.serialNumber = serialNumber
+                self.beastTemplateID = beastTemplateID
+                self.nickname = nickname
+                self.firstOwner = firstOwner
+                self.sex = sex
+                self.matron = matron
+                self.sire = sire
+                self.name = name
+                self.starLevel = starLevel
+                self.data = data
+                self.skin = skin
+                self.evolvedFrom = evolvedFrom
+                self.maxAdminMintAllowed = maxAdminMintAllowed
+                self.dexNumber = dexNumber
+                self.description = description
+                self.elements = elements
+                self.basicSkills = basicSkills
+                self.ultimateSkill = ultimateSkill
+                self.breedableBeastTemplateID = breedableBeastTemplateID
+            }
+        }
+        
+        pub fun main(acct: Address): [Beast] {
+            var beastCollection: [Beast] = []
+        
+            let collectionRef = getAccount(acct).getCapability(BasicBeasts.CollectionPublicPath)
+                .borrow<&{BasicBeasts.BeastCollectionPublic}>()
+                ?? panic("Could not get public beast collection reference")
+        
+            let beastIDs = collectionRef.getIDs()
+        
+            for id in beastIDs {
+                let borrowedBeast = collectionRef.borrowBeast(id: id)!
+                let beast = Beast(
+                                    id: borrowedBeast.id, 
+                                    serialNumber: borrowedBeast.serialNumber, 
+                                    beastTemplateID: borrowedBeast.getBeastTemplate().beastTemplateID,
+                                    nickname: borrowedBeast.getNickname(), 
+                                    firstOwner: borrowedBeast.getFirstOwner(), 
+                                    sex: borrowedBeast.sex, 
+                                    matron: borrowedBeast.matron, 
+                                    sire: borrowedBeast.sire, 
+                                    name: borrowedBeast.getBeastTemplate().name, 
+                                    starLevel: borrowedBeast.getBeastTemplate().starLevel, 
+                                    data: borrowedBeast.getBeastTemplate().data, 
+                                    skin: borrowedBeast.getBeastTemplate().skin, 
+                                    evolvedFrom: borrowedBeast.getEvolvedFrom(),
+                                    maxAdminMintAllowed: borrowedBeast.getBeastTemplate().maxAdminMintAllowed,
+                                    dexNumber: borrowedBeast.getBeastTemplate().dexNumber,
+                                    description: borrowedBeast.getBeastTemplate().description,
+                                    elements: borrowedBeast.getBeastTemplate().elements,
+                                    basicSkills: borrowedBeast.getBeastTemplate().basicSkills,
+                                    ultimateSkill: borrowedBeast.getBeastTemplate().ultimateSkill,
+                                    breedableBeastTemplateID: borrowedBeast.getBeastTemplate().breedableBeastTemplateID
+
+                )
+                beastCollection.append(beast)
+            }
+        
+          return beastCollection
+        }
+        `,
+
+        args: (arg: any, t: any) => [arg(wonderArenaAddress, t.Address)],
+      })
+      let mappedCollection: any = []
+      for (let item in res) {
+        const element = res[item]
+        var beast = {
+          id: element.id,
+          serialNumber: element.serialNumber,
+          beastTemplateID: element.beastTemplateID,
+          nickname: element.nickname,
+          firstOwner: element.firstOwner,
+          sex: element.sex,
+          matron: element.matron,
+          sire: element.sire,
+          name: element.name,
+          starLevel: element.starLevel,
+          data: element.data,
+          skin: element.skin,
+          evolvedFrom: element.evolvedFrom,
+          maxAdminMintAllowed: element.maxAdminMintAllowed,
+          dexNumber: element.dexNumber,
+          description: element.description,
+          elements: element.elements,
+          basicSkills: element.basicSkills,
+          ultimateSkill: element.ultimateSkill,
+          breedableBeastTemplateID: element.breedableBeastTemplateID,
+        }
+        mappedCollection.push(beast)
+      }
+      mappedCollection.sort((a: any, b: any) => b.id - a.id)
+      setUserWonderBeasts(mappedCollection)
       // Get evolvable beast dictionary {beastTemplateID: [beasts]}
       var beasts = [...mappedCollection]
       beasts.sort((a, b) => a.serialNumber - b.serialNumber)
@@ -287,6 +448,33 @@ const WonderArena: NextPage = () => {
     }
   }
 
+  const fetchWonderArenaAccount = async () => {
+    try {
+      let res = await query({
+        cadence: `
+        import ChildAccount from 0x1b655847a90e644a
+
+        pub fun main(address: Address): Address? {
+            let manager = getAuthAccount(address)
+                .borrow<&ChildAccount.ChildAccountManager>(from: ChildAccount.ChildAccountManagerStoragePath)
+                ?? panic("borrow manager failed")
+
+            if (manager.getChildAccountAddresses()[0] != nil) {
+              return manager.getChildAccountAddresses()[0]
+            } else {
+              return nil
+            }
+        }
+        `,
+
+        args: (arg: any, t: any) => [arg(user?.addr, t.Address)],
+      })
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  //TODO
   const transferToWonderArena = async () => {
     const id = toast.loading("Initializing...")
 
@@ -349,6 +537,7 @@ const WonderArena: NextPage = () => {
     }
   }
 
+  //TODO
   const transferToBlocto = async () => {
     const id = toast.loading("Initializing...")
 
@@ -411,15 +600,136 @@ const WonderArena: NextPage = () => {
     }
   }
 
-  const handleChange = (id: any, serial: any) => {
+  const linkBloctoToWonder = async () => {
+    const id = toast.loading("Initializing...")
+
+    try {
+      const res = await send([
+        transaction(`
+        import ChildAccount from 0x1b655847a90e644a
+        import MetadataViews from 0x631e88ae7f1d7c20
+
+        transaction(
+            pubKey: String,
+            childAddress: Address
+          ) {
+          let managerRef: &ChildAccount.ChildAccountManager
+          let info: ChildAccount.ChildAccountInfo
+          let childAccountCap: Capability<&AuthAccount>
+
+          prepare(signer: AuthAccount) {
+            let childAccountName = "WonderArena ".concat(childAddress.toString())
+            let childAccountDescription = childAccountName
+            let clientIconURL = ""
+            let clientExternalURL = ""
+
+            // Get ChildAccountManager Capability, linking if necessary
+            if signer.borrow<
+                &ChildAccount.ChildAccountManager
+              >(
+                from: ChildAccount.ChildAccountManagerStoragePath
+              ) == nil {
+              // Save a ChildAccountManager to the signer's account
+              signer.save(
+                <-ChildAccount.createChildAccountManager(),
+                to: ChildAccount.ChildAccountManagerStoragePath
+              )
+            }
+            // Ensure ChildAccountManagerViewer is linked properly
+            if !signer.getCapability<
+                &ChildAccount.ChildAccountManager{ChildAccount.ChildAccountManagerViewer}
+              >(ChildAccount.ChildAccountManagerPublicPath).check() {
+              // Link
+              signer.link<
+                &ChildAccount.ChildAccountManager{ChildAccount.ChildAccountManagerViewer}
+              >(
+                ChildAccount.ChildAccountManagerPublicPath,
+                target: ChildAccount.ChildAccountManagerStoragePath
+              )
+            }
+            // Get ChildAccountManager reference from signer
+            self.managerRef = signer.borrow<
+                &ChildAccount.ChildAccountManager
+              >(from: ChildAccount.ChildAccountManagerStoragePath)!
+            // Claim the previously published AuthAccount Capability from the given Address
+            self.childAccountCap = signer.inbox.claim<&AuthAccount>(
+                "AuthAccountCapability",
+                provider: childAddress
+              ) ?? panic(
+                "No AuthAccount Capability available from given provider"
+                .concat(childAddress.toString())
+                .concat(" with name ")
+                .concat("AuthAccountCapability")
+              )
+            // Construct ChildAccountInfo struct from given arguments
+            self.info = ChildAccount.ChildAccountInfo(
+              name: childAccountName,
+              description: childAccountDescription,
+              clientIconURL: MetadataViews.HTTPFile(url: clientIconURL),
+              clienExternalURL: MetadataViews.ExternalURL(clientExternalURL),
+              originatingPublicKey: pubKey
+            )
+          }
+
+          execute {
+            // Add account as child to the ChildAccountManager
+            self.managerRef.addAsChildAccount(childAccountCap: self.childAccountCap, childAccountInfo: self.info)
+          }
+        }
+        `),
+        args([arg(wonderArenaAddress, t.Address)]),
+        payer(authz),
+        proposer(authz),
+        authorizations([authz]),
+        limit(9999),
+      ]).then(decode)
+      tx(res).subscribe((res: any) => {
+        toastStatus(id, res.status)
+      })
+      await tx(res)
+        .onceSealed()
+        .then((result: any) => {
+          toast.update(id, {
+            render: "Transaction Sealed",
+            type: "success",
+            isLoading: false,
+            autoClose: 5000,
+          })
+        })
+      // fetchHunterData() Don't have this otherwise /profile/user.find won't show packs and packs will be reloaded
+    } catch (err) {
+      toast.update(id, {
+        render: () => <div>Error, try again later...</div>,
+        type: "error",
+        isLoading: false,
+        autoClose: 5000,
+      })
+      console.log(err)
+    }
+  }
+
+  const handleChange = (id: any) => {
     if (selectedBeasts.includes(id)) {
       //remove
       setSelectedBeasts(selectedBeasts.filter((beast: any) => beast != id))
-      setBeastSelected(false)
     } else if (selectedBeasts.length < 100) {
       //add
       setSelectedBeasts((selectedBeasts: any) => [...selectedBeasts, id])
-      setBeastSelected(true)
+    }
+  }
+
+  const handleChangeWonder = (id: any) => {
+    if (selectedWonderBeasts.includes(id)) {
+      //remove
+      setSelectedWonderBeasts(
+        selectedWonderBeasts.filter((beast: any) => beast != id),
+      )
+    } else if (selectedWonderBeasts.length < 100) {
+      //add
+      setSelectedWonderBeasts((selectedWonderBeasts: any) => [
+        ...selectedWonderBeasts,
+        id,
+      ])
     }
   }
 
@@ -434,27 +744,35 @@ const WonderArena: NextPage = () => {
         <div>
           <ContainerWrapper>
             <div>
-              <H1>Wonder Arena Account: ADD ADDRESS</H1>
+              <H1>
+                Wonder Arena Account:{" "}
+                {wonderArenaAddress != null && wonderArenaAddress}
+              </H1>
               <H3>
                 Hold beasts in your Wonder Arena account to play on{" "}
                 <a style={{ textDecoration: "underline" }}>mobile app</a> or{" "}
                 <a style={{ textDecoration: "underline" }}>desktop web app</a>
               </H3>
               <Container>
-                {userBloctoBeasts != null && (
+                {wonderArenaAddress != null && (
+                  <>
+                    <Button onClick={() => linkBloctoToWonder()}>
+                      Link to Wonder Arena
+                    </Button>
+                  </>
+                )}
+                {userWonderBeasts != null && (
                   <div>
                     <ListWrapper>
                       <ul
                         role="list"
                         className="grid gap-x-2 gap-y-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-4"
                       >
-                        {userBloctoBeasts?.map((beast: any, i: any) => (
+                        {userWonderBeasts?.map((beast: any, i: any) => (
                           <>
                             <li
                               key={i}
-                              onClick={() =>
-                                handleChange(beast?.id, beast?.serialNumber)
-                              }
+                              onClick={() => handleChangeWonder(beast?.id)}
                             >
                               <div>
                                 <WonderBeastThumbnail
@@ -470,10 +788,10 @@ const WonderArena: NextPage = () => {
                   </div>
                 )}
               </Container>
-              {selectedBeasts.length > 0 && (
+              {selectedWonderBeasts.length > 0 && (
                 <>
                   <Button>Transfer Wonder Arena → Blocto</Button>
-                  <H3>Selected: {selectedBeasts.length}</H3>
+                  <H3>Selected: {selectedWonderBeasts.length}</H3>
                 </>
               )}
             </div>
@@ -481,7 +799,9 @@ const WonderArena: NextPage = () => {
               <H1>Blocto Wallet: {user?.addr}</H1>
               <H3>
                 Hold beasts in your Blocto wallet to trade in the{" "}
-                <a style={{ textDecoration: "underline" }}>marketplace</a>
+                <NextLink href={"/marketplace/"}>
+                  <a style={{ textDecoration: "underline" }}>marketplace</a>
+                </NextLink>
               </H3>
               <Container>
                 {userBloctoBeasts != null && (
@@ -494,12 +814,7 @@ const WonderArena: NextPage = () => {
                       >
                         {userBloctoBeasts?.map((beast: any, i: any) => (
                           <>
-                            <li
-                              key={i}
-                              onClick={() =>
-                                handleChange(beast?.id, beast?.serialNumber)
-                              }
-                            >
+                            <li key={i} onClick={() => handleChange(beast?.id)}>
                               <div>
                                 <WonderBeastThumbnail
                                   beast={beast}
@@ -517,9 +832,7 @@ const WonderArena: NextPage = () => {
 
               {selectedBeasts.length > 0 && (
                 <>
-                  <Button onClick={() => transfer(user?.addr)}>
-                    Transfer Blocto → Wonder Arena
-                  </Button>
+                  <Button>Transfer Blocto → Wonder Arena</Button>
                   <H3>Selected: {selectedBeasts.length}</H3>
                 </>
               )}
