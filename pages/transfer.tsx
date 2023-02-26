@@ -37,11 +37,12 @@ import BasicBeasts from 0xfa252d0aa22bf86a
 transaction {
     let senderCollection: &BasicBeasts.Collection
     let aliceCollection: &BasicBeasts.Collection{BasicBeasts.BeastCollectionPublic}
-    let bobCollection: &BasicBeasts.Collection{BasicBeasts.BeastCollectionPublic}
+    // let bobCollection: &BasicBeasts.Collection{BasicBeasts.BeastCollectionPublic}
 
     prepare(acct: AuthAccount) {
-        let alice: Address = 0x1801c3f618a511e6
-        let bob: Address = 0x771519260bbe1ee6
+        // let alice: Address = 0x1801c3f618a511e6
+        let alice: Address = 0xbca26f5091cd39ec //admin
+        // let bob: Address = 0x771519260bbe1ee6
 
         self.senderCollection = acct.borrow<&BasicBeasts.Collection>(from: BasicBeasts.CollectionStoragePath)
             ?? panic("borrow sender collection failed")
@@ -51,26 +52,26 @@ transaction {
             .borrow<&BasicBeasts.Collection{BasicBeasts.BeastCollectionPublic}>()
             ?? panic("borrow alice collection failed")
 
-        self.bobCollection = getAccount(bob)
-            .getCapability(BasicBeasts.CollectionPublicPath)
-            .borrow<&BasicBeasts.Collection{BasicBeasts.BeastCollectionPublic}>()
-            ?? panic("borrow bob collection failed")
+        // self.bobCollection = getAccount(bob)
+        //     .getCapability(BasicBeasts.CollectionPublicPath)
+        //     .borrow<&BasicBeasts.Collection{BasicBeasts.BeastCollectionPublic}>()
+        //     ?? panic("borrow bob collection failed")
     }
 
     execute {
-        let aliceTokenIDs: [UInt64] = [131641608,131641628,131641648,131641668,131641613,131641633,131641653,131641673,131641618,131641638,131641658,131641678,131641698,131641693,131641623,131641643,131641663,131641683,131641703]
+        let aliceTokenIDs: [UInt64] = [133176368,133176388,133176408,133176428,133176448,133176468,133176488,133176508,133176528,133176548,133176568,133176588,133176608,133176628,133176648,133176668,133176688,133176708,133176728,133176748,133176768,133176788,133176808,133176828,133176373,133176393,133176413,133176433,133176453,133176473,133176493,133176513,133176533,133176553,133176573,133176593,133176613,133176633,133176653,133176673,133176693,133176713,133176733,133176753,133176773,133176793,133176813,133176833,133176378,133176398,133176418,133176438,133176458,133176478,133176498,133176518,133176538,133176558,133176578,133176598,133176618,133176638,133176658,133176678,133176698,133176718,133176738,133176758,133176778,133176798,133176818,133176838,133176383,133176403,133176423,133176443,133176463,133176483,133176503,133176523,133176543,133176563,133176583,133176603,133176623,133176643,133176663,133176683,133176703,133176723,133176743,133176763,133176783,133176803,133176823,133176843]
        for id in aliceTokenIDs {
            let beast <- self.senderCollection.withdraw(withdrawID: id)
            self.aliceCollection.deposit(token: <- beast)
        }
 
 
-       let bobTokenIDs: [UInt64] = [131641688,131641708,131641728,131641748,131641713,131641733,131641753,131641718,131641738,131641758,131641723,131641743,131641763]
+      //  let bobTokenIDs: [UInt64] = [131641688,131641708,131641728,131641748,131641713,131641733,131641753,131641718,131641738,131641758,131641723,131641743,131641763]
 
-        for id in bobTokenIDs {
-            let beast <- self.senderCollection.withdraw(withdrawID: id)
-            self.bobCollection.deposit(token: <- beast)
-        }
+      //   for id in bobTokenIDs {
+      //       let beast <- self.senderCollection.withdraw(withdrawID: id)
+      //       self.bobCollection.deposit(token: <- beast)
+      //   }
     }
 }
         `),
