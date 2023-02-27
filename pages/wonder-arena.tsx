@@ -17,11 +17,14 @@ import {
   authz,
   decode,
   tx,
+  getAccount,
+  sansPrefix,
 } from "@onflow/fcl"
 import { toast } from "react-toastify"
 import * as t from "@onflow/types"
 import { toastStatus } from "@framework/helpers/toastStatus"
 import NextLink from "next/link"
+import { useRouter } from "next/router"
 
 const Button = styled.button`
   padding: 8px 24px 12px 26px;
@@ -126,16 +129,26 @@ const WonderArena: NextPage = () => {
   const [userWonderBeasts, setUserWonderBeasts] = useState<any>(null)
   const [selectedBeasts, setSelectedBeasts] = useState<any>([])
   const [selectedWonderBeasts, setSelectedWonderBeasts] = useState<any>([])
-  const [wonderArenaAddress, setWonderArenaAddress] = useState(null)
+  const [wonderArenaAddress, setWonderArenaAddress] =
+    useState("0xb4d55ce3814a9942")
+  const [publicKey, setPublicKey] = useState(null)
+  const [linkExists, setLinkExists] = useState(false)
 
   useEffect(() => {
     if (user?.addr != null) {
       fetchUserBeasts()
-      fetchWonderArenaAccount()
+      // fetchWonderArenaAccount() TODO remove comment out
+
+      getKey() //TODO remove
     }
     if (wonderArenaAddress != null) {
       fetchUserWonderBeasts()
+      getKey()
+      checkLinkExists()
     }
+    console.log("wonder address: ", wonderArenaAddress)
+    console.log("pub key: ", publicKey)
+    // console.log("query", query)
   }, [user?.addr, wonderArenaAddress])
 
   const fetchUserBeasts = async () => {
@@ -438,11 +451,8 @@ const WonderArena: NextPage = () => {
         mappedCollection.push(beast)
       }
       mappedCollection.sort((a: any, b: any) => b.id - a.id)
+      console.log("Wonder Beasts", mappedCollection)
       setUserWonderBeasts(mappedCollection)
-      // Get evolvable beast dictionary {beastTemplateID: [beasts]}
-      var beasts = [...mappedCollection]
-      beasts.sort((a, b) => a.serialNumber - b.serialNumber)
-      beasts.sort((a, b) => a.beastTemplateID - b.beastTemplateID)
     } catch (err) {
       console.log(err)
     }
@@ -466,23 +476,30 @@ const WonderArena: NextPage = () => {
             }
         }
         `,
-
         args: (arg: any, t: any) => [arg(user?.addr, t.Address)],
       })
+      setWonderArenaAddress(res)
     } catch (err) {
       console.log(err)
     }
   }
 
-  //TODO
+  const getKey = async () => {
+    const accountInfo = await send([getAccount(sansPrefix(wonderArenaAddress))])
+    setPublicKey(
+      accountInfo.account.keys.find((a: any) => a.index == 0).publicKey,
+    )
+  }
+
+  // const pubkey = getKey.publicKey
+
   const transferToWonderArena = async () => {
     const id = toast.loading("Initializing...")
 
     try {
       const res = await send([
         transaction(`
-        import NonFungibleToken from 0x631e88ae7f1d7c20
-        import BasicBeasts from 0xfa252d0aa22bf86a
+        import BasicBeasts from 0xBasicBeasts
 
         transaction(receiverAddress: Address, beastIDs: [UInt64]) {
             let senderCollection: &BasicBeasts.Collection
@@ -507,6 +524,10 @@ const WonderArena: NextPage = () => {
             }
         }
         `),
+        args([
+          arg(wonderArenaAddress, t.Address),
+          arg(selectedBeasts, t.Array(t.UInt64)),
+        ]),
         payer(authz),
         proposer(authz),
         authorizations([authz]),
@@ -537,39 +558,48 @@ const WonderArena: NextPage = () => {
     }
   }
 
-  //TODO
   const transferToBlocto = async () => {
     const id = toast.loading("Initializing...")
 
     try {
       const res = await send([
         transaction(`
-        import NonFungibleToken from 0x631e88ae7f1d7c20
+        import ChildAccount from 0x1b655847a90e644a
         import BasicBeasts from 0xfa252d0aa22bf86a
 
-        transaction(receiverAddress: Address, beastIDs: [UInt64]) {
-            let senderCollection: &BasicBeasts.Collection
-            let collection: &BasicBeasts.Collection{BasicBeasts.BeastCollectionPublic}
+        transaction(childAddress: Address, tokenIDs: [UInt64]) {
+            let childCollection: &BasicBeasts.Collection
+            let parentCollection: &BasicBeasts.Collection
 
             prepare(acct: AuthAccount) {
+                let managerRef = acct
+                    .borrow<&ChildAccount.ChildAccountManager>(from: ChildAccount.ChildAccountManagerStoragePath)
+                    ?? panic("borrow child account manager failed")
 
-                self.senderCollection = acct.borrow<&BasicBeasts.Collection>(from: BasicBeasts.CollectionStoragePath)
-                    ?? panic("borrow sender collection failed")
+                let childAccountRef = managerRef.getChildAccountRef(address: childAddress) 
+                    ?? panic("get child account ref failed")
 
-                self.collection = getAccount(receiverAddress)
-                    .getCapability(BasicBeasts.CollectionPublicPath)
-                    .borrow<&BasicBeasts.Collection{BasicBeasts.BeastCollectionPublic}>()
-                    ?? panic("borrow receiverAddress collection failed")
+                self.childCollection = childAccountRef
+                    .borrow<&BasicBeasts.Collection>(from: BasicBeasts.CollectionStoragePath)
+                    ?? panic("borrow child collection failed")
+
+                self.parentCollection = acct
+                    .borrow<&BasicBeasts.Collection>(from: BasicBeasts.CollectionStoragePath)
+                    ?? panic("borrow parent collection failed")
             }
 
             execute {
-                for id in beastIDs {
-                    let beast <- self.senderCollection.withdraw(withdrawID: id)
-                    self.collection.deposit(token: <- beast)
+                for id in tokenIDs {
+                    let beast <- self.childCollection.withdraw(withdrawID: id)
+                    self.parentCollection.deposit(token: <- beast)
                 }
             }
         }
         `),
+        args([
+          arg(wonderArenaAddress, t.Address),
+          arg(selectedWonderBeasts, t.Array(t.UInt64)),
+        ]),
         payer(authz),
         proposer(authz),
         authorizations([authz]),
@@ -677,7 +707,7 @@ const WonderArena: NextPage = () => {
           }
         }
         `),
-        args([arg(wonderArenaAddress, t.Address)]),
+        args([arg(publicKey, t.String), arg(wonderArenaAddress, t.Address)]),
         payer(authz),
         proposer(authz),
         authorizations([authz]),
@@ -733,6 +763,35 @@ const WonderArena: NextPage = () => {
     }
   }
 
+  const checkLinkExists = async () => {
+    try {
+      let res = await query({
+        cadence: `
+        import ChildAccount from 0x1b655847a90e644a
+
+        pub fun main(address: Address): Bool {
+            let tagCap = getAuthAccount(address)
+                .getCapability<&ChildAccount.ChildAccountTag>(ChildAccount.ChildAccountTagPrivatePath)
+                .borrow()
+
+            if let cap = tagCap {
+                if let parent = cap.parentAddress {
+                    return true
+                }
+            }
+
+            return false
+        }
+        `,
+
+        args: (arg: any, t: any) => [arg(wonderArenaAddress, t.Address)],
+      })
+      setLinkExists(res)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   return (
     <div>
       <DefaultHeroSection
@@ -754,11 +813,17 @@ const WonderArena: NextPage = () => {
                 <a style={{ textDecoration: "underline" }}>desktop web app</a>
               </H3>
               <Container>
-                {wonderArenaAddress != null && (
+                {wonderArenaAddress != null ? (
                   <>
-                    <Button onClick={() => linkBloctoToWonder()}>
-                      Link to Wonder Arena
-                    </Button>
+                    <>
+                      {/* <Button onClick={() => linkBloctoToWonder()}>
+                        Claim Wonder Arena Account
+                      </Button> */}
+                    </>
+                  </>
+                ) : (
+                  <>
+                    <div></div>
                   </>
                 )}
                 {userWonderBeasts != null && (
@@ -769,19 +834,17 @@ const WonderArena: NextPage = () => {
                         className="grid gap-x-2 gap-y-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-4"
                       >
                         {userWonderBeasts?.map((beast: any, i: any) => (
-                          <>
-                            <li
-                              key={i}
-                              onClick={() => handleChangeWonder(beast?.id)}
-                            >
-                              <div>
-                                <WonderBeastThumbnail
-                                  beast={beast}
-                                  selected={selectedBeasts.includes(beast?.id)}
-                                />
-                              </div>
-                            </li>
-                          </>
+                          <li
+                            key={i}
+                            onClick={() => handleChangeWonder(beast?.id)}
+                          >
+                            <div>
+                              <WonderBeastThumbnail
+                                beast={beast}
+                                selected={selectedBeasts.includes(beast?.id)}
+                              />
+                            </div>
+                          </li>
                         ))}
                       </ul>
                     </ListWrapper>
@@ -790,7 +853,9 @@ const WonderArena: NextPage = () => {
               </Container>
               {selectedWonderBeasts.length > 0 && (
                 <>
-                  <Button>Transfer Wonder Arena → Blocto</Button>
+                  <Button onClick={() => transferToBlocto()}>
+                    Transfer Wonder Arena → Blocto
+                  </Button>
                   <H3>Selected: {selectedWonderBeasts.length}</H3>
                 </>
               )}
@@ -832,7 +897,9 @@ const WonderArena: NextPage = () => {
 
               {selectedBeasts.length > 0 && (
                 <>
-                  <Button>Transfer Blocto → Wonder Arena</Button>
+                  <Button onClick={() => transferToWonderArena()}>
+                    Transfer Blocto → Wonder Arena
+                  </Button>
                   <H3>Selected: {selectedBeasts.length}</H3>
                 </>
               )}
