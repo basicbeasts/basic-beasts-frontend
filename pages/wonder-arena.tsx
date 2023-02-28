@@ -528,6 +528,8 @@ const WonderArena: NextPage = () => {
       const res = await send([
         transaction(`
         import BasicBeasts from 0xBasicBeasts
+        import MetadataViews from 0xMetadataViews
+        import NonFungibleToken from 0xNonFungibleToken
 
         transaction(receiverAddress: Address, beastIDs: [UInt64]) {
             let senderCollection: &BasicBeasts.Collection
@@ -604,6 +606,8 @@ const WonderArena: NextPage = () => {
         transaction(`
         import ChildAccount from 0x1b655847a90e644a
         import BasicBeasts from 0xfa252d0aa22bf86a
+        import MetadataViews from 0xMetadataViews
+        import NonFungibleToken from 0xNonFungibleToken
 
         transaction(childAddress: Address, tokenIDs: [UInt64]) {
             let childCollection: &BasicBeasts.Collection
