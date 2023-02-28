@@ -535,6 +535,16 @@ const WonderArena: NextPage = () => {
 
             prepare(acct: AuthAccount) {
 
+              if acct.borrow<&BasicBeasts.Collection{BasicBeasts.BeastCollectionPublic}>(from: BasicBeasts.CollectionStoragePath) == nil {
+                acct.save(<- BasicBeasts.createEmptyCollection(), to: BasicBeasts.CollectionStoragePath)
+                acct.unlink(BasicBeasts.CollectionPublicPath)
+                acct.link<&BasicBeasts.Collection{NonFungibleToken.Receiver, 
+                    NonFungibleToken.CollectionPublic, 
+                    BasicBeasts.BeastCollectionPublic, 
+                    MetadataViews.ResolverCollection}>
+                    (BasicBeasts.CollectionPublicPath, target: BasicBeasts.CollectionStoragePath)
+            }
+
                 self.senderCollection = acct.borrow<&BasicBeasts.Collection>(from: BasicBeasts.CollectionStoragePath)
                     ?? panic("borrow sender collection failed")
 
@@ -600,6 +610,16 @@ const WonderArena: NextPage = () => {
             let parentCollection: &BasicBeasts.Collection
 
             prepare(acct: AuthAccount) {
+              if acct.borrow<&BasicBeasts.Collection{BasicBeasts.BeastCollectionPublic}>(from: BasicBeasts.CollectionStoragePath) == nil {
+                acct.save(<- BasicBeasts.createEmptyCollection(), to: BasicBeasts.CollectionStoragePath)
+                acct.unlink(BasicBeasts.CollectionPublicPath)
+                acct.link<&BasicBeasts.Collection{NonFungibleToken.Receiver, 
+                    NonFungibleToken.CollectionPublic, 
+                    BasicBeasts.BeastCollectionPublic, 
+                    MetadataViews.ResolverCollection}>
+                    (BasicBeasts.CollectionPublicPath, target: BasicBeasts.CollectionStoragePath)
+            }
+
                 let managerRef = acct
                     .borrow<&ChildAccount.ChildAccountManager>(from: ChildAccount.ChildAccountManagerStoragePath)
                     ?? panic("borrow child account manager failed")
