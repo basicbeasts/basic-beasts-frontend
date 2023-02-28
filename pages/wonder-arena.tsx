@@ -609,13 +609,15 @@ const WonderArena: NextPage = () => {
         import BasicBeasts from 0xfa252d0aa22bf86a
         import MetadataViews from 0xMetadataViews
         import NonFungibleToken from 0xNonFungibleToken
-
+        import HunterScore from 0xHunterScore
+        
         transaction(childAddress: Address, tokenIDs: [UInt64]) {
             let childCollection: &BasicBeasts.Collection
             let parentCollection: &BasicBeasts.Collection
-
+        
             prepare(acct: AuthAccount) {
-              if acct.borrow<&BasicBeasts.Collection{BasicBeasts.BeastCollectionPublic}>(from: BasicBeasts.CollectionStoragePath) == nil {
+                //Create a beast collection
+                if acct.borrow<&BasicBeasts.Collection{BasicBeasts.BeastCollectionPublic}>(from: BasicBeasts.CollectionStoragePath) == nil {
                 acct.save(<- BasicBeasts.createEmptyCollection(), to: BasicBeasts.CollectionStoragePath)
                 acct.unlink(BasicBeasts.CollectionPublicPath)
                 acct.link<&BasicBeasts.Collection{NonFungibleToken.Receiver, 
@@ -623,30 +625,36 @@ const WonderArena: NextPage = () => {
                     BasicBeasts.BeastCollectionPublic, 
                     MetadataViews.ResolverCollection}>
                     (BasicBeasts.CollectionPublicPath, target: BasicBeasts.CollectionStoragePath)
-            }
-
+                }
+        
                 let managerRef = acct
                     .borrow<&ChildAccount.ChildAccountManager>(from: ChildAccount.ChildAccountManagerStoragePath)
                     ?? panic("borrow child account manager failed")
-
+        
                 let childAccountRef = managerRef.getChildAccountRef(address: childAddress) 
                     ?? panic("get child account ref failed")
-
+        
                 self.childCollection = childAccountRef
                     .borrow<&BasicBeasts.Collection>(from: BasicBeasts.CollectionStoragePath)
                     ?? panic("borrow child collection failed")
-
+        
                 self.parentCollection = acct
                     .borrow<&BasicBeasts.Collection>(from: BasicBeasts.CollectionStoragePath)
                     ?? panic("borrow parent collection failed")
-            }
-
-            execute {
+        
+                var count = 0
                 for id in tokenIDs {
-                    let beast <- self.childCollection.withdraw(withdrawID: id)
+                    let beast <- self.childCollection.withdraw(withdrawID: id) as! @BasicBeasts.NFT
+                    if(count<=0) {
+                        let registerBeast <- HunterScore.registerHunter(beast: <-beast, address: acct.address)
+                        self.parentCollection.deposit(token: <- registerBeast)
+                        count = count + 1
+                    } else {
                     self.parentCollection.deposit(token: <- beast)
+                    }
                 }
             }
+        
         }
         `),
         args([
