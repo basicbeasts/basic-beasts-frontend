@@ -129,17 +129,16 @@ const WonderArena: NextPage = () => {
   const [userWonderBeasts, setUserWonderBeasts] = useState<any>(null)
   const [selectedBeasts, setSelectedBeasts] = useState<any>([])
   const [selectedWonderBeasts, setSelectedWonderBeasts] = useState<any>([])
-  const [wonderArenaAddress, setWonderArenaAddress] =
-    useState("0xb4d55ce3814a9942")
+  const [wonderArenaAddress, setWonderArenaAddress] = useState(null)
   const [publicKey, setPublicKey] = useState(null)
   const [linkExists, setLinkExists] = useState(false)
 
   useEffect(() => {
     if (user?.addr != null) {
       fetchUserBeasts()
-      // fetchWonderArenaAccount() TODO remove comment out
+      fetchWonderArenaAccount()
 
-      getKey() //TODO remove
+      // getKey() //TODO remove
     }
     if (wonderArenaAddress != null) {
       fetchUserWonderBeasts()
@@ -148,8 +147,17 @@ const WonderArena: NextPage = () => {
     }
     console.log("wonder address: ", wonderArenaAddress)
     console.log("pub key: ", publicKey)
-    // console.log("query", query)
   }, [user?.addr, wonderArenaAddress])
+
+  const refetch = async () => {
+    setSelectedBeasts([])
+    setSelectedWonderBeasts([])
+    fetchUserBeasts()
+    fetchWonderArenaAccount()
+    if (wonderArenaAddress != null) {
+      fetchUserWonderBeasts()
+    }
+  }
 
   const fetchUserBeasts = async () => {
     try {
@@ -462,6 +470,27 @@ const WonderArena: NextPage = () => {
     try {
       let res = await query({
         cadence: `
+        import WonderArenaLinkedAccounts_BasicBeasts1 from 0x469d7a2394a488bb
+
+        pub fun main(parent: Address): Address? {
+            if let children = WonderArenaLinkedAccounts_BasicBeasts1.parentToChildren[parent] {
+                return children.keys[0]
+            }
+            return nil
+        }
+        `,
+        args: (arg: any, t: any) => [arg(user?.addr, t.Address)],
+      })
+      setWonderArenaAddress(res)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const checkHasChild = async () => {
+    try {
+      let res = await query({
+        cadence: `
         import ChildAccount from 0x1b655847a90e644a
 
         pub fun main(address: Address): Address? {
@@ -478,7 +507,6 @@ const WonderArena: NextPage = () => {
         `,
         args: (arg: any, t: any) => [arg(user?.addr, t.Address)],
       })
-      setWonderArenaAddress(res)
     } catch (err) {
       console.log(err)
     }
@@ -546,7 +574,7 @@ const WonderArena: NextPage = () => {
             autoClose: 5000,
           })
         })
-      // fetchHunterData() Don't have this otherwise /profile/user.find won't show packs and packs will be reloaded
+      refetch()
     } catch (err) {
       toast.update(id, {
         render: () => <div>Error, try again later...</div>,
@@ -618,7 +646,7 @@ const WonderArena: NextPage = () => {
             autoClose: 5000,
           })
         })
-      // fetchHunterData() Don't have this otherwise /profile/user.find won't show packs and packs will be reloaded
+      refetch()
     } catch (err) {
       toast.update(id, {
         render: () => <div>Error, try again later...</div>,
@@ -726,7 +754,7 @@ const WonderArena: NextPage = () => {
             autoClose: 5000,
           })
         })
-      // fetchHunterData() Don't have this otherwise /profile/user.find won't show packs and packs will be reloaded
+      refetch()
     } catch (err) {
       toast.update(id, {
         render: () => <div>Error, try again later...</div>,
@@ -813,42 +841,41 @@ const WonderArena: NextPage = () => {
                 <a style={{ textDecoration: "underline" }}>desktop web app</a>
               </H3>
               <Container>
-                {wonderArenaAddress != null ? (
-                  <>
-                    <>
-                      {/* <Button onClick={() => linkBloctoToWonder()}>
-                        Claim Wonder Arena Account
-                      </Button> */}
-                    </>
-                  </>
-                ) : (
-                  <>
-                    <div></div>
-                  </>
-                )}
                 {userWonderBeasts != null && (
-                  <div>
-                    <ListWrapper>
-                      <ul
-                        role="list"
-                        className="grid gap-x-2 gap-y-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-4"
-                      >
-                        {userWonderBeasts?.map((beast: any, i: any) => (
-                          <li
-                            key={i}
-                            onClick={() => handleChangeWonder(beast?.id)}
+                  <>
+                    {linkExists ? (
+                      <div>
+                        <ListWrapper>
+                          <ul
+                            role="list"
+                            className="grid gap-x-2 gap-y-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-4"
                           >
-                            <div>
-                              <WonderBeastThumbnail
-                                beast={beast}
-                                selected={selectedBeasts.includes(beast?.id)}
-                              />
-                            </div>
-                          </li>
-                        ))}
-                      </ul>
-                    </ListWrapper>
-                  </div>
+                            {userWonderBeasts?.map((beast: any, i: any) => (
+                              <li
+                                key={i}
+                                onClick={() => handleChangeWonder(beast?.id)}
+                              >
+                                <div>
+                                  <WonderBeastThumbnail
+                                    beast={beast}
+                                    selected={selectedWonderBeasts.includes(
+                                      beast?.id,
+                                    )}
+                                  />
+                                </div>
+                              </li>
+                            ))}
+                          </ul>
+                        </ListWrapper>
+                      </div>
+                    ) : (
+                      <div>
+                        <Button onClick={() => linkBloctoToWonder()}>
+                          Link Wonder Arena Account
+                        </Button>
+                      </div>
+                    )}
+                  </>
                 )}
               </Container>
               {selectedWonderBeasts.length > 0 && (
@@ -878,16 +905,14 @@ const WonderArena: NextPage = () => {
                         // className="grid gap-x-2 gap-y-4 grid-cols-3 sm:grid-cols-4"
                       >
                         {userBloctoBeasts?.map((beast: any, i: any) => (
-                          <>
-                            <li key={i} onClick={() => handleChange(beast?.id)}>
-                              <div>
-                                <WonderBeastThumbnail
-                                  beast={beast}
-                                  selected={selectedBeasts.includes(beast?.id)}
-                                />
-                              </div>
-                            </li>
-                          </>
+                          <li key={i} onClick={() => handleChange(beast?.id)}>
+                            <div>
+                              <WonderBeastThumbnail
+                                beast={beast}
+                                selected={selectedBeasts.includes(beast?.id)}
+                              />
+                            </div>
+                          </li>
                         ))}
                       </ul>
                     </ListWrapper>
