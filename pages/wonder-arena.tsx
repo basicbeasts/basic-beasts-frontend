@@ -132,6 +132,7 @@ const WonderArena: NextPage = () => {
   const [wonderArenaAddress, setWonderArenaAddress] = useState(null)
   const [publicKey, setPublicKey] = useState(null)
   const [linkExists, setLinkExists] = useState(false)
+  const [linked, setLinked] = useState(false)
 
   useEffect(() => {
     if (user?.addr != null) {
@@ -779,6 +780,7 @@ const WonderArena: NextPage = () => {
           })
         })
       refetch()
+      setLinked(true)
     } catch (err) {
       toast.update(id, {
         render: () => <div>Error, try again later...</div>,
