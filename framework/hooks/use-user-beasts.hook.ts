@@ -94,8 +94,9 @@ export default function useUserBeasts(user: any) {
             let collectionRef = getAccount(acct).getCapability(BasicBeasts.CollectionPublicPath)
                 .borrow<&{BasicBeasts.BeastCollectionPublic}>()
                 ?? panic("Could not get public beast collection reference")
-        
-            let beastIDs = collectionRef.getIDs()
+
+            if(collectionRef != nil) {
+let beastIDs = collectionRef.getIDs()
         
             for id in beastIDs {
                 let borrowedBeast = collectionRef.borrowBeast(id: id)!
@@ -123,6 +124,9 @@ export default function useUserBeasts(user: any) {
                 )
                 beastCollection.append(beast)
             }
+            }
+        
+            
         
           return beastCollection
         }
