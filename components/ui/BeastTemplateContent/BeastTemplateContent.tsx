@@ -134,10 +134,9 @@ const PropContent = styled.div`
 
 const PropBox = styled.div`
   background-color: #292c2e;
-  /* background-color: #243540; */
   padding: 1rem;
   border-radius: 0.5rem;
-  height: fit-content;
+  height: auto;
 
   &.col1 {
     grid-column: 1;
