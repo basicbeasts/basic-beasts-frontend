@@ -489,7 +489,12 @@ const SearchBar: FC<{
                   <a
                     key={key}
                     className="dataItem"
-                    href={"/profile/" + value.name.toLowerCase()}
+                    href={
+                      "/marketplace?dexNumber=" +
+                      value.dexNumber +
+                      "&skin=" +
+                      value.skin
+                    }
                     target="_self"
                     onClick={() => {
                       setOpen(false)

@@ -21,6 +21,7 @@ import { Menu, Transition } from "@headlessui/react"
 import { toast } from "react-toastify"
 import SearchBar from "@components/ui/SearchBar"
 import SearchBarMobileModal from "@components/ui/SearchBarMobileModal"
+import { beastData } from "data/beastData"
 
 const Nav = styled.header<{ font: string; fontSize: string }>`
   background: #111823;
@@ -620,16 +621,6 @@ const Navbar: FC<FuncProps> = ({
   }
 
   const { hunterData } = useUser()
-  const beastData = [
-    {
-      name: "Dappy",
-      imageTransparentBg: "QmUGU1LszrYGmpPp25VL6bAd5d39VW6PuDZDYSuwbj3VFS",
-    },
-    {
-      name: "Gecko",
-      imageTransparentBg: "QmVBqZGtah7sRV7YafvZuXm8nNgts8wR1ihgfvVHa7ykZQ",
-    },
-  ]
 
   return (
     <>

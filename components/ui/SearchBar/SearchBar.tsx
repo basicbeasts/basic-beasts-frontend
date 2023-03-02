@@ -502,9 +502,14 @@ const SearchBar: FC<{
               {filterBeastData.slice(0, 15).map((value: any, key: any) => {
                 return (
                   <a
-                  key = {key}
+                    key={key}
                     className="dataItem"
-                    href={"/profile/" + value.name.toLowerCase()}
+                    href={
+                      "/marketplace?dexNumber=" +
+                      value.dexNumber +
+                      "&skin=" +
+                      value.skin
+                    }
                     target="_self"
                     onClick={() => {
                       setOpen(false)
@@ -513,7 +518,13 @@ const SearchBar: FC<{
                   >
                     <p id="hoverShadow">
                       {" "}
-                      <Img src={'https://basicbeasts.mypinata.cloud/ipfs/' +value.imageTransparentBg} /> {value.name}{" "}
+                      <Img
+                        src={
+                          "https://basicbeasts.mypinata.cloud/ipfs/" +
+                          value.imageTransparentBg
+                        }
+                      />{" "}
+                      {value.name}{" "}
                     </p>
                   </a>
                 )
