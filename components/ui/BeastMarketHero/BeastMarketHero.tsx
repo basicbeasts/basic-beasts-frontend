@@ -374,7 +374,6 @@ const BeastMarketHero: FC<Props> = ({ beast }) => {
   const [skinOverviewOpen, setSkinOverviewOpen] = useState(false)
 
   const { hunterData, beasts, highestSale } = useUser()
-
   return (
     <>
       <Main>
@@ -401,6 +400,7 @@ const BeastMarketHero: FC<Props> = ({ beast }) => {
           <BeastMarketSkinOverviewModal
             open={skinOverviewOpen}
             setOpen={setSkinOverviewOpen}
+            beasts={beasts}
           />
         </Discover>{" "}
         <Showcase>
