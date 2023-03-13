@@ -23,6 +23,7 @@ import PlaceABidModal from "../PlaceABidModal"
 import profilePictures from "data/profilePictures"
 import AcceptOfferModal from "../AcceptOfferModal"
 import { InfoMobile } from "./InfoMobile"
+import SocialMediaShare from "./SocialMediaShare"
 
 const StarLevel = styled.div`
   vertical-align: middle;
@@ -372,6 +373,11 @@ const OfferorPrice = styled.span`
   @media (max-width: 1024px) {
     font-size: 1rem;
   }
+`
+
+const SharingDiv = styled.div`
+  display: block;
+  width: 100%;
 `
 
 type Props = {
@@ -748,28 +754,9 @@ const ProductBeastView: FC<Props> = ({ beast, hunterData }) => {
                 </Owner>
               </a>
             </Owners>
-            {/* social share, refresh, favorite */}
-            {/* <div className="flex w-full p-5 justify-between items-center">
-              <Ul>
-                <Li onClick={() => heartChange()}>
-                  <FontAwesomeIcon style={{ color: "grey" }} icon={heart} />{" "}
-                  <p>76</p>
-                </Li>
-                <Li>
-                  {" "}
-                  <FontAwesomeIcon icon={faShareSquare} /> <p>Share</p>
-                </Li>
-                <Li>
-                  <RefreshIcon className="-mr-1 ml-2 h-5 w-5" />
-                  <p>Refresh</p>
-                </Li>
-              </Ul>
-              <button
-                style={{ color: "grey", textAlign: "end", width: "100%" }}
-              >
-                <FontAwesomeIcon icon={faEllipsisH} />
-              </button>
-            </div> */}
+            <SharingDiv>
+              <SocialMediaShare />
+            </SharingDiv>
           </BeastDetails>
           <SaleDiv>
             <div className="flex flex-col xl:flex-row gap-5 w-full">

@@ -16,6 +16,7 @@ import {
   BuyButton,
   BidButton,
 } from "./ProductBeastView"
+import SocialMediaShare from "./SocialMediaShare"
 
 const InfoMobileWrapper = styled.div`
   display: none;
@@ -34,6 +35,11 @@ const BeastDetailsMobile = styled.div`
   @media (max-width: 1024px) {
     display: block;
   }
+`
+
+const SharingDiv = styled.div`
+  display: block;
+  width: 100%;
 `
 
 type Props = {
@@ -137,27 +143,10 @@ export const InfoMobile: FC<Props> = ({
           </a>
         </Owners>
         {/* social share, refresh, favorite */}
-        {/* <div className="flex w-full p-5 justify-between items-center">
-              <Ul>
-                <Li onClick={() => heartChange()}>
-                  <FontAwesomeIcon style={{ color: "grey" }} icon={heart} />{" "}
-                  <p>76</p>
-                </Li>
-                <Li>
-                  {" "}
-                  <FontAwesomeIcon icon={faShareSquare} /> <p>Share</p>
-                </Li>
-                <Li>
-                  <RefreshIcon className="-mr-1 ml-2 h-5 w-5" />
-                  <p>Refresh</p>
-                </Li>
-              </Ul>
-              <button
-                style={{ color: "grey", textAlign: "end", width: "100%" }}
-              >
-                <FontAwesomeIcon icon={faEllipsisH} />
-              </button>
-            </div> */}
+
+        <SharingDiv>
+          <SocialMediaShare />
+        </SharingDiv>
       </BeastDetailsMobile>
       <SaleDiv>
         <div className="flex flex-col xl:flex-row gap-5 w-full">
