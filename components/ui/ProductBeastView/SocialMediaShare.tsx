@@ -107,7 +107,8 @@ const ShareDropdownDiv = styled.div`
   border: 1px solid #626262;
 
   @media (max-width: 1100px) {
-    width: 70%;
+    width: 60%;
+    right: 10px;
   }
 
   & ul {
@@ -142,9 +143,9 @@ const ShareDropdownDiv = styled.div`
       & button {
         padding: 1rem;
         display: grid;
-        grid-template-columns: 15% 80%;
+        grid-template-columns: 10% 85%;
         gap: 5%;
-        width: 100%;
+        width: 80%;
         justify-content: space-between;
         align-items: center;
 
@@ -299,12 +300,6 @@ const SocialMediaShare: FC = ({}) => {
               </button>
             </li>
             <li>
-              <button onClick={shareFb}>
-                <Icon src={FB.src} />
-                <h2>Share on Facebook</h2>
-              </button>
-            </li>
-            <li>
               <button
                 id="twitter-share-button"
                 className="twitter-share-button"
@@ -318,6 +313,12 @@ const SocialMediaShare: FC = ({}) => {
               <button onClick={shareTg}>
                 <Icon src={TG.src} />
                 <h2>Share on Telegram</h2>
+              </button>
+            </li>
+            <li>
+              <button onClick={shareFb}>
+                <Icon src={FB.src} />
+                <h2>Share on Facebook</h2>
               </button>
             </li>
             <li className="last">

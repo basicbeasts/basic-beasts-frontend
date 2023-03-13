@@ -112,9 +112,16 @@ const SelectedFiltersOverview: FC<Props> = ({
     })
   }
 
+  console.log(
+    Object.values(selectedFilters).filter((selFil: any) => selFil.length != 0),
+  )
+  console.log(Object.values(selectedFilters))
+
   return (
     <>
-      {Object.keys(router.query).length == 0 ? (
+      {Object.keys(router.query).length == 0 ||
+      Object.values(selectedFilters).filter((selFil: any) => selFil.length != 0)
+        .length == 0 ? (
         ""
       ) : (
         <>
@@ -125,7 +132,7 @@ const SelectedFiltersOverview: FC<Props> = ({
               }}
             >
               {" "}
-              Clear all
+              Clear all flters
             </ClearAllFiltersBtn>
             {Object.entries(selectedFilters).map((filters) =>
               filters[1].map((filter: any) => {
