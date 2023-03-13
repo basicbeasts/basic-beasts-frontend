@@ -218,7 +218,6 @@ const SkinBox = styled.div<any>`
 
     & h3 {
       color: black;
-      text-decoration: underline;
     }
   }
 
