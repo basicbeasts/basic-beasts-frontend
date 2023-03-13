@@ -15,6 +15,7 @@ import {
   faCaretUp,
 } from "@fortawesome/free-solid-svg-icons"
 import { faHeart as heartEmpty } from "@fortawesome/free-regular-svg-icons"
+import { toast } from "react-toastify"
 
 const SocialMedia = styled.div`
   position: relative;
@@ -261,6 +262,7 @@ const SocialMediaShare: FC = ({}) => {
 
   const copyLink = (e: any) => {
     navigator.clipboard.writeText(testURL)
+    toast("Copied to clipboard")
   }
 
   const ShareToggle = ({
