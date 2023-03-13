@@ -37,6 +37,7 @@ import ListBeastForSaleModal from "../ListBeastForSaleModal"
 import { useUser } from "@components/user/UserProvider"
 import PlaceABidModal from "../PlaceABidModal"
 import router from "next/router"
+import SelectedFiltersOverview from "./SelectedFiltersOverview"
 
 const Wrapper = styled.div`
   padding: 20px 20px 100px 20px;
@@ -1631,6 +1632,10 @@ const BeastMarket: FC<Props> = () => {
       </HeaderBeastCollectionMobile>
 
       <Wrapper>
+        <SelectedFiltersOverview
+          selectedFilters={selectedFilters}
+          setSelectedFilters={setSelectedFilters}
+        ></SelectedFiltersOverview>
         <div className="flex ">
           {(filterOpen || mobileFiltersOpen) && (
             <div style={{ color: "white" }} className="h-max sticky top-0">
