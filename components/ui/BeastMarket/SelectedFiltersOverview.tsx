@@ -2,8 +2,8 @@ import { FC, Fragment, useEffect, useState } from "react"
 import styled from "styled-components"
 import { useRouter } from "next/router"
 
-const FiltersWrapper = styled.div`
-  display: flex;
+const FiltersWrapper = styled.div<any>`
+  display: ${(props) => (props.show ? "flex" : "none")};
   gap: 10px;
   margin-bottom: 0.5rem;
   max-width: 100%;
@@ -21,12 +21,12 @@ const Filter = styled.div`
   height: 30px;
   color: white;
   border: 1px solid;
-  border-radius: 5px;
+  border-radius: 3px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: rgba(228, 37, 117, 0.2);
-  border-color: rgba(228, 37, 117, 1);
+  background-color: rgba(255, 217, 102, 0.2);
+  border-color: #ffd966;
   padding: 0 10px;
   @media (max-width: 426px) {
     padding: 0 8px;
@@ -47,16 +47,28 @@ const DeleteFilter = styled.div`
   }
 `
 
-const ClearAllFiltersBtn = styled(Filter)`
-  background-color: rgba(36, 24, 47, 1);
-  border-color: rgba(228, 37, 117, 0.2);
+const ClearAllFiltersBtn = styled.div`
+  background-color: rgba(255, 217, 102, 0.2);
+  border: none;
+  border-color: rgba(255, 217, 102, 0.2);
   &:hover {
     cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
         14 0,
       pointer !important;
   }
   @media (max-width: 426px) {
-    min-width: 90px;
+    min-width: 55px;
+  }
+  // min-width: 70px;
+  height: 30px;
+  color: white;
+  border-radius: 3px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+  @media (max-width: 426px) {
+    padding: 0 8px;
   }
 `
 
@@ -67,11 +79,13 @@ interface selectedFilters {
 type Props = {
   selectedFilters: selectedFilters
   setSelectedFilters: React.Dispatch<React.SetStateAction<selectedFilters>>
+  showOnMobile: Boolean
 }
 
 const SelectedFiltersOverview: FC<Props> = ({
   selectedFilters,
   setSelectedFilters,
+  showOnMobile,
 }) => {
   const router = useRouter()
   const removeFilterOption = (filterName: string, filterValue: string) => {
@@ -125,14 +139,14 @@ const SelectedFiltersOverview: FC<Props> = ({
         ""
       ) : (
         <>
-          <FiltersWrapper>
+          <FiltersWrapper show={showOnMobile}>
             <ClearAllFiltersBtn
               onClick={() => {
                 removeAllFilers()
               }}
             >
               {" "}
-              Clear all flters
+              Clear All
             </ClearAllFiltersBtn>
             {Object.entries(selectedFilters).map((filters) =>
               filters[1].map((filter: any) => {

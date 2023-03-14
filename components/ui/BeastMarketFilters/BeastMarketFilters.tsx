@@ -368,7 +368,7 @@ const BeastMarketFilters: FC<Props> = ({
           </Transition.Root>
 
           <Main className="mx-auto max-w-7xl">
-            <div className="flex items-baseline justify-between gap-5   pb-6">
+            <div className="flex items-baseline justify-between gap-5">
               {/* <h1 className="text-4xl font-bold tracking-tight text-gray-900">
                 New Arrivals
               </h1> */}
@@ -433,7 +433,7 @@ const BeastMarketFilters: FC<Props> = ({
               </div>
             </div>
 
-            <section aria-labelledby="products-heading" className="pt-6 pb-2">
+            <section aria-labelledby="products-heading" className="pb-2">
               <h2 id="products-heading" className="sr-only">
                 Products
               </h2>

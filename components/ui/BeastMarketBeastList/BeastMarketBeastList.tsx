@@ -7,6 +7,7 @@ import { faHeart as heartFull } from "@fortawesome/free-solid-svg-icons"
 import { faHeart as heartEmpty } from "@fortawesome/free-regular-svg-icons"
 import { useUser } from "@components/user/UserProvider"
 import { useAuth } from "@components/auth/AuthProvider"
+import SelectedFiltersOverview from "../BeastMarket/SelectedFiltersOverview"
 
 const MarketUl = styled.ul`
   padding-top: 5px;
@@ -248,6 +249,10 @@ const ThumbnailWrapper = styled.div`
   align-items: stretch;
 `
 
+const Container = styled.div`
+  width: 100%;
+`
+
 type Color = {
   bgColor: any
 }
@@ -261,6 +266,8 @@ type Props = {
   favoriteBeasts: any
   setFavoriteBeasts: any
   setPlaceABidOpen: any
+  selectedFilters: any
+  setSelectedFilters: any
   // setDisplayNickname: any
 }
 const BeastMarketBeastList: FC<Props> = ({
@@ -273,6 +280,8 @@ const BeastMarketBeastList: FC<Props> = ({
   favoriteBeasts,
   setFavoriteBeasts,
   setPlaceABidOpen,
+  selectedFilters,
+  setSelectedFilters,
   // setDisplayNickname,
 }) => {
   const selectBeast = (beast: any) => {
@@ -606,144 +615,151 @@ const BeastMarketBeastList: FC<Props> = ({
   const { loggedIn, logIn } = useAuth()
 
   return (
-    <MarketUl
-      role="list"
-      className="grid grid-cols-2 gap-x-5 gap-y-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5"
-    >
-      {displayBeasts.map((beast: any) => (
-        <BeastLi
-          selected={selectedBeasts.includes(beast)}
-          key={beast.id}
-          className="relative"
-        >
-          <div
-            style={{
-              borderRadius: "20px 20px 0 0",
-            }}
-            className="group block w-full aspect-w-9 aspect-h-7 bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden"
+    <Container>
+      <SelectedFiltersOverview
+        selectedFilters={selectedFilters}
+        setSelectedFilters={setSelectedFilters}
+        showOnMobile={false}
+      />
+      <MarketUl
+        role="list"
+        className="grid grid-cols-2 gap-x-5 gap-y-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5"
+      >
+        {displayBeasts.map((beast: any) => (
+          <BeastLi
+            selected={selectedBeasts.includes(beast)}
+            key={beast.id}
+            className="relative"
           >
-            <BeastMarketThumbnail
-              // onClick={() => setBeastArray([...beastArray, beast])}
-              id={beast.id}
-              className="object-cover"
-              beastTemplateID={beast.beastTemplateID}
-            />
-          </div>
-          {userBeasts?.map((beast: any) => beast.id).includes(beast.id) ? (
-            <>
-              {/* Owned */}
-              {beastsForSale
-                ?.map((beast: any) => beast.id)
-                .includes(beast.id) ? (
-                <QuickBuyButton
-                  onClick={() => {
-                    setSelectedBeast(beast)
-                    delistBeast(beast.id)
-                  }}
-                >
-                  Delist
-                </QuickBuyButton>
-              ) : (
-                <QuickBuyButton
-                  onClick={() => {
-                    setSelectedBeast(beast)
-                    setListBeastForSaleOpen(true)
-                  }}
-                >
-                  List for sale
-                </QuickBuyButton>
-              )}
-            </>
-          ) : (
-            <>
-              {/* Not owned */}
-              {beastsForSale
-                ?.map((beast: any) => beast.id)
-                .includes(beast.id) ? (
-                <QuickBuyButton
-                  onClick={() => {
-                    setSelectedBeast(beast)
-                    // setQuickBidOpen(true)
-                    purchaseBeast(
-                      beastsForSale?.filter(
-                        (beastForSale: any) => beastForSale.id == beast.id,
-                      )[0].seller,
-                      beast.id,
-                      beastsForSale?.filter(
-                        (beastForSale: any) => beastForSale.id == beast.id,
-                      )[0].price,
-                    )
-                  }}
-                >
-                  Quick Buy
-                </QuickBuyButton>
-              ) : (
-                <>
-                  {!loggedIn ? (
-                    <QuickBuyButton onClick={() => logIn()}>
-                      Make offer
-                    </QuickBuyButton>
-                  ) : (
-                    <QuickBuyButton
-                      onClick={() => {
-                        setSelectedBeast(beast)
-                        setPlaceABidOpen(true)
-                      }}
-                    >
-                      Make offer
-                    </QuickBuyButton>
-                  )}
-                </>
-              )}
-            </>
-          )}
+            <div
+              style={{
+                borderRadius: "20px 20px 0 0",
+              }}
+              className="group block w-full aspect-w-9 aspect-h-7 bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden"
+            >
+              <BeastMarketThumbnail
+                // onClick={() => setBeastArray([...beastArray, beast])}
+                id={beast.id}
+                className="object-cover"
+                beastTemplateID={beast.beastTemplateID}
+              />
+            </div>
+            {userBeasts?.map((beast: any) => beast.id).includes(beast.id) ? (
+              <>
+                {/* Owned */}
+                {beastsForSale
+                  ?.map((beast: any) => beast.id)
+                  .includes(beast.id) ? (
+                  <QuickBuyButton
+                    onClick={() => {
+                      setSelectedBeast(beast)
+                      delistBeast(beast.id)
+                    }}
+                  >
+                    Delist
+                  </QuickBuyButton>
+                ) : (
+                  <QuickBuyButton
+                    onClick={() => {
+                      setSelectedBeast(beast)
+                      setListBeastForSaleOpen(true)
+                    }}
+                  >
+                    List for sale
+                  </QuickBuyButton>
+                )}
+              </>
+            ) : (
+              <>
+                {/* Not owned */}
+                {beastsForSale
+                  ?.map((beast: any) => beast.id)
+                  .includes(beast.id) ? (
+                  <QuickBuyButton
+                    onClick={() => {
+                      setSelectedBeast(beast)
+                      // setQuickBidOpen(true)
+                      purchaseBeast(
+                        beastsForSale?.filter(
+                          (beastForSale: any) => beastForSale.id == beast.id,
+                        )[0].seller,
+                        beast.id,
+                        beastsForSale?.filter(
+                          (beastForSale: any) => beastForSale.id == beast.id,
+                        )[0].price,
+                      )
+                    }}
+                  >
+                    Quick Buy
+                  </QuickBuyButton>
+                ) : (
+                  <>
+                    {!loggedIn ? (
+                      <QuickBuyButton onClick={() => logIn()}>
+                        Make offer
+                      </QuickBuyButton>
+                    ) : (
+                      <QuickBuyButton
+                        onClick={() => {
+                          setSelectedBeast(beast)
+                          setPlaceABidOpen(true)
+                        }}
+                      >
+                        Make offer
+                      </QuickBuyButton>
+                    )}
+                  </>
+                )}
+              </>
+            )}
 
-          {/* Make thumbnail details into a component and useState inside that component and add DialogInfo to it */}
-          <ThumbnailDetailsFC beast={beast} />
-        </BeastLi>
-      ))}
-      {/* To prevent big gap due to fixed height, which is needed for the scroll */}
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-    </MarketUl>
+            {/* Make thumbnail details into a component and useState inside that component and add DialogInfo to it */}
+            <ThumbnailDetailsFC beast={beast} />
+          </BeastLi>
+        ))}
+        {/* To prevent big gap due to fixed height, which is needed for the scroll */}
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </MarketUl>
+    </Container>
   )
 }
 
