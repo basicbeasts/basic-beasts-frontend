@@ -86,7 +86,7 @@ const FilterButtonMobile = styled.button`
   align-items: center;
   justify-content: center;
   padding: 8px;
-  @media (max-width: 420px) {
+  @media (max-width: 440px) {
     display: flex;
   }
 `
@@ -131,7 +131,7 @@ const SortByButton = styled.div`
   //   width: 165px;
   //   margin-left: 5px;
   // }
-  @media (max-width: 420px) {
+  @media (max-width: 440px) {
     display: none;
   }
 `
@@ -152,7 +152,7 @@ const SortByButtonMobile = styled.div`
   align-items: center;
   justify-content: center;
   padding: 8px;
-  @media (max-width: 420px) {
+  @media (max-width: 440px) {
     display: flex;
   }
 `
@@ -712,6 +712,19 @@ const BeastMarket: FC<Props> = () => {
   const [ownedToggled, setOwnedToggled] = useState(false)
 
   const { beasts, getAllBeasts, userBeasts } = useUser()
+
+  const [isMobile, setIsMobile] = useState(true)
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const mediaQuery = window.matchMedia("(max-width: 440px)")
+      const handleMediaChange = () => setIsMobile(mediaQuery.matches)
+
+      setIsMobile(mediaQuery.matches)
+      mediaQuery.addListener(handleMediaChange)
+      return () => mediaQuery.removeListener(handleMediaChange)
+    }
+  }, [])
 
   const selectBeast = (beast: any) => {
     if (!selectedBeasts.includes(beast)) {
@@ -1368,11 +1381,13 @@ const BeastMarket: FC<Props> = () => {
       </HeaderBeastCollectionMobile>
 
       <Wrapper>
-        <SelectedFiltersOverview
-          selectedFilters={selectedFilters}
-          setSelectedFilters={setSelectedFilters}
-          showOnMobile={true}
-        />
+        {isMobile && (
+          <SelectedFiltersOverview
+            selectedFilters={selectedFilters}
+            setSelectedFilters={setSelectedFilters}
+          />
+        )}
+
         <div className="flex ">
           {(filterOpen || mobileFiltersOpen) && (
             <div style={{ color: "white" }} className="h-max sticky top-0">

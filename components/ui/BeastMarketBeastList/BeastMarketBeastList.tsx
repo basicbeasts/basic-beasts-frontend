@@ -297,6 +297,19 @@ const BeastMarketBeastList: FC<Props> = ({
     }
   }
 
+  const [isMobile, setIsMobile] = useState(true)
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const mediaQuery = window.matchMedia("(max-width: 440px)")
+      const handleMediaChange = () => setIsMobile(mediaQuery.matches)
+
+      setIsMobile(mediaQuery.matches)
+      mediaQuery.addListener(handleMediaChange)
+      return () => mediaQuery.removeListener(handleMediaChange)
+    }
+  }, [])
+
   // const [favoriteBeasts, setFavoriteBeasts] = useState<any>([])
   // const [selectedBeast, setSelectedBeast] = useState<any>()
 
@@ -616,11 +629,13 @@ const BeastMarketBeastList: FC<Props> = ({
 
   return (
     <Container>
-      <SelectedFiltersOverview
-        selectedFilters={selectedFilters}
-        setSelectedFilters={setSelectedFilters}
-        showOnMobile={false}
-      />
+      {!isMobile && (
+        <SelectedFiltersOverview
+          selectedFilters={selectedFilters}
+          setSelectedFilters={setSelectedFilters}
+        />
+      )}
+
       <MarketUl
         role="list"
         className="grid grid-cols-2 gap-x-5 gap-y-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5"

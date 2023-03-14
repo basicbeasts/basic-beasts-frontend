@@ -2,8 +2,8 @@ import { FC, Fragment, useEffect, useState } from "react"
 import styled from "styled-components"
 import { useRouter } from "next/router"
 
-const FiltersWrapper = styled.div<any>`
-  display: ${(props) => (props.show ? "flex" : "none")};
+const FiltersWrapper = styled.div`
+  display: flex;
   gap: 10px;
   margin-bottom: 0.5rem;
   max-width: 100%;
@@ -79,13 +79,11 @@ interface selectedFilters {
 type Props = {
   selectedFilters: selectedFilters
   setSelectedFilters: React.Dispatch<React.SetStateAction<selectedFilters>>
-  showOnMobile: Boolean
 }
 
 const SelectedFiltersOverview: FC<Props> = ({
   selectedFilters,
   setSelectedFilters,
-  showOnMobile,
 }) => {
   const router = useRouter()
   const removeFilterOption = (filterName: string, filterValue: string) => {
@@ -139,7 +137,7 @@ const SelectedFiltersOverview: FC<Props> = ({
         ""
       ) : (
         <>
-          <FiltersWrapper show={showOnMobile}>
+          <FiltersWrapper>
             <ClearAllFiltersBtn
               onClick={() => {
                 removeAllFilers()
