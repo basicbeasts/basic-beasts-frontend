@@ -2,7 +2,7 @@ import { FC } from "react"
 import styled from "styled-components"
 import star from "public/basic_starLevel.png"
 import arrow from "public/arrowIcon.svg"
-import infoIcon from "public/infoicon.svg"
+import infoIcon from "public/infoIcon.svg"
 
 type Props = {
   beast: any
