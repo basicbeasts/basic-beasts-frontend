@@ -1,0 +1,8 @@
+@font-face {
+  font-family: PixeloidSans;
+  src: url(../public/fonts/PixeloidSans/PixeloidSans.ttf);
+}
+
+.ruLang {
+  font-family: "PixeloidSans" !important;
+}

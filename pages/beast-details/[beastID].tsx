@@ -145,7 +145,6 @@ const BeastDetails: NextPage = () => {
 
   return (
     <div>
-      {loading && <div>LOADING STAY CALM</div>}
       {beastID != null && (
         <ProductBeastView
           beast={beasts?.filter((beasts: any) => beasts.id == beastID)[0]}
