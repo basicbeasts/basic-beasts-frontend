@@ -438,10 +438,9 @@ const BeastTemplateContent: FC<Props> = ({
               }
               onClick={() => {
                 router.push({
-                  pathname: "/beast/[pid]",
-                  query: {
-                    pid: beast.dexNumber + "-" + beast.skin.replace(/\s/g, "-"),
-                  },
+                  pathname: `/beast/${
+                    beast.dexNumber + "-" + beast.skin.replace(/\s/g, "-")
+                  }`,
                 })
               }}
             >
