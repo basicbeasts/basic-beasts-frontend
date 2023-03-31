@@ -16,7 +16,7 @@ import {
   BuyButton,
   BidButton,
 } from "./ProductBeastView"
-import SocialMediaShare from "./SocialMediaShare"
+import SocialMediaShare from "../SocialMediaShare"
 
 const InfoMobileWrapper = styled.div`
   display: none;
@@ -39,7 +39,14 @@ const BeastDetailsMobile = styled.div`
 
 const SharingDiv = styled.div`
   display: block;
+  width: fit-content;
+`
+
+const HeaderDiv = styled.div`
   width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `
 
 type Props = {
@@ -90,65 +97,17 @@ export const InfoMobile: FC<Props> = ({
 
   return (
     <InfoMobileWrapper>
-      <BeastDetailsMobile className="w-11/12">
-        <H1>{beast?.nickname + " " + "#" + beast?.serialNumber}</H1>
-        <Owners>
-          <a href={"/profile/" + beast?.firstOwner}>
-            <Owner>
-              <OwnerImg
-                src={
-                  hunterData?.filter(
-                    (hunter: any) => hunter.address == beast?.firstOwner,
-                  )?.[0]?.avatar
-                }
-                alt="first owner avatar"
-              />
-              <div>
-                <H2>first owner</H2>
-                <P>
-                  {hunterData?.filter(
-                    (hunter: any) => hunter.address == beast?.firstOwner,
-                  )?.[0]?.findName != ""
-                    ? hunterData?.filter(
-                        (hunter: any) => hunter.address == beast?.firstOwner,
-                      )?.[0]?.findName
-                    : beast?.firstOwner}
-                </P>
-              </div>
-            </Owner>
-          </a>
-          <a href={"/profile/" + beast?.currentOwner}>
-            <Owner>
-              <OwnerImg
-                src={
-                  hunterData?.filter(
-                    (hunter: any) => hunter.address == beast?.currentOwner,
-                  )?.[0]?.avatar
-                }
-                alt="current owner avatar"
-              />
-              <div>
-                <H2>current owner</H2>
-                <P>
-                  {hunterData?.filter(
-                    (hunter: any) => hunter.address == beast?.currentOwner,
-                  )?.[0]?.findName != ""
-                    ? hunterData?.filter(
-                        (hunter: any) => hunter.address == beast?.currentOwner,
-                      )?.[0]?.findName
-                    : beast?.currentOwner}
-                </P>
-              </div>
-            </Owner>
-          </a>
-        </Owners>
-        {/* social share, refresh, favorite */}
-
-        <SharingDiv>
-          <SocialMediaShare />
-        </SharingDiv>
-      </BeastDetailsMobile>
       <SaleDiv>
+        <HeaderDiv>
+          {beast ? (
+            <H1>{beast?.nickname + " " + "#" + beast?.serialNumber}</H1>
+          ) : (
+            <H1>Loading...</H1>
+          )}
+          <SharingDiv>
+            <SocialMediaShare />
+          </SharingDiv>
+        </HeaderDiv>
         <div className="flex flex-col xl:flex-row gap-5 w-full">
           {beast?.price != null && (
             <PriceBox>
@@ -236,11 +195,82 @@ export const InfoMobile: FC<Props> = ({
 
         {/* <H2>Sale ends in [time]</H2> */}
       </SaleDiv>
-      {/* ) : (
-            <div style={{ marginTop: "50px", width: "80%" }}>
-              <BidButton>Make an offer</BidButton>
-            </div>
-          )} */}
+      <BeastDetailsMobile className="w-11/12">
+        {beast ? (
+          <Owners>
+            <a href={"/profile/" + beast?.firstOwner}>
+              <Owner>
+                <OwnerImg
+                  src={
+                    hunterData?.filter(
+                      (hunter: any) => hunter.address == beast?.firstOwner,
+                    )?.[0]?.avatar
+                  }
+                  alt="first owner avatar"
+                />
+                <div>
+                  <H2>first owner</H2>
+                  <P>
+                    {hunterData?.filter(
+                      (hunter: any) => hunter.address == beast?.firstOwner,
+                    )?.[0]?.findName != ""
+                      ? hunterData?.filter(
+                          (hunter: any) => hunter.address == beast?.firstOwner,
+                        )?.[0]?.findName
+                      : beast?.firstOwner}
+                  </P>
+                </div>
+              </Owner>
+            </a>
+            <a href={"/profile/" + beast?.currentOwner}>
+              <Owner>
+                <OwnerImg
+                  src={
+                    hunterData?.filter(
+                      (hunter: any) => hunter.address == beast?.currentOwner,
+                    )?.[0]?.avatar
+                  }
+                  alt="current owner avatar"
+                />
+                <div>
+                  <H2>current owner</H2>
+                  <P>
+                    {hunterData?.filter(
+                      (hunter: any) => hunter.address == beast?.currentOwner,
+                    )?.[0]?.findName != ""
+                      ? hunterData?.filter(
+                          (hunter: any) =>
+                            hunter.address == beast?.currentOwner,
+                        )?.[0]?.findName
+                      : beast?.currentOwner}
+                  </P>
+                </div>
+              </Owner>
+            </a>
+          </Owners>
+        ) : (
+          <Owners>
+            <a href={"#"}>
+              <Owner>
+                <OwnerImg className="animate-pulse" />
+                <div>
+                  <H2>first owner</H2>
+                  <P>Owner address loading...</P>
+                </div>
+              </Owner>
+            </a>
+            <a href={"#"}>
+              <Owner>
+                <OwnerImg className="animate-pulse" />
+                <div>
+                  <H2>Current owner</H2>
+                  <P>Owner address loading...</P>
+                </div>
+              </Owner>
+            </a>
+          </Owners>
+        )}
+      </BeastDetailsMobile>
     </InfoMobileWrapper>
   )
 }
