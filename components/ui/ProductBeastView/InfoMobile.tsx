@@ -16,7 +16,7 @@ import {
   BuyButton,
   BidButton,
 } from "./ProductBeastView"
-import SocialMediaShare from "../SocialMediaShare"
+import SocialMediaShare from "./SocialMediaShare"
 
 const InfoMobileWrapper = styled.div`
   display: none;

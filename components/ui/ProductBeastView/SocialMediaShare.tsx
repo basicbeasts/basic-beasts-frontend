@@ -1,4 +1,4 @@
-import { FC, useState } from "react"
+import { FC, useEffect, useState } from "react"
 import styled from "styled-components"
 import { useRouter } from "next/router"
 import FB from "public/social_icons/iconFacebook.svg"
@@ -20,21 +20,15 @@ import { toast } from "react-toastify"
 const SocialMedia = styled.div`
   position: relative;
   z-index: 1;
-  min-width: fit-content;
+  width: auto;
+
   display: grid;
-  grid-template-columns: 30% 30% 30%;
+  grid-template-columns: auto auto auto;
+  gap: 1rem;
 
   justify-items: center;
   justify-content: space-between;
   align-items: center;
-  margin-top: 1rem;
-  & a {
-    padding: 0.5rem;
-    & img {
-      height: 1.2rem;
-      display: inline-block;
-    }
-  }
 
   @media (max-width: 400px) {
     justify-content: center;
@@ -44,9 +38,7 @@ const SocialMedia = styled.div`
 `
 
 const HeartDiv = styled.div`
-  grid-column: 1;
-  grid-row: 1;
-
+  display: inline-block;
   &:hover {
     cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
         14 0,
@@ -55,8 +47,7 @@ const HeartDiv = styled.div`
 `
 
 const ShareDiv = styled.div`
-  grid-column: 2;
-  grid-row: 1;
+  display: inline-block;
   &:hover {
     cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
         14 0,
@@ -65,27 +56,12 @@ const ShareDiv = styled.div`
 `
 
 const RefreshDiv = styled.div`
-  grid-column: 3;
-  grid-row: 1;
-
-  display: grid;
-  width: fit-content;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
+  display: inline-block;
 
   &:hover {
     cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
         14 0,
       pointer !important;
-  }
-
-  & p {
-    grid-column: 2;
-
-    @media (max-width: 400px) {
-      display: none;
-    }
   }
 `
 
@@ -98,18 +74,12 @@ const Refresh = styled.div`
 const ShareDropdownDiv = styled.div`
   position: absolute;
   top: 150%;
+  right: 50%;
   z-index: 3;
-  /* background-color: #262d38; */
   background-color: #212127;
   border-radius: 0.5rem;
-  width: 60%;
-  /* box-shadow: 0px 0px 10px #626262; */
+  width: 220%;
   border: 1px solid #626262;
-
-  @media (max-width: 1100px) {
-    width: 60%;
-    right: 10px;
-  }
 
   & ul {
     list-style-type: none;
@@ -143,11 +113,16 @@ const ShareDropdownDiv = styled.div`
       & button {
         padding: 1rem;
         display: grid;
-        grid-template-columns: 10% 85%;
+        grid-template-columns: 15% 80%;
         gap: 5%;
-        width: 80%;
+        width: 100%;
         justify-content: space-between;
         align-items: center;
+
+        @media (max-width: 100px) {
+          width: 50%;
+          margin: 0;
+        }
 
         & h2 {
           grid-column: 2;
@@ -177,34 +152,6 @@ const Icon = styled.img`
 const Share = styled.div`
   display: flex;
   width: fit-content;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-
-  & p {
-    @media (max-width: 400px) {
-      display: none;
-    }
-  }
-`
-
-const Line = styled.div`
-  display: grid;
-  grid-template-columns: 15% 80%;
-  gap: 5%;
-  min-width: fit-content;
-  padding: 0.5rem;
-  align-items: center;
-  border-bottom: 1px solid #505256;
-
-  & h2 {
-    grid-column: 2;
-    width: fit-content;
-  }
-
-  &.last {
-    border: none;
-  }
 `
 
 const SocialMediaShare: FC = ({}) => {
@@ -281,7 +228,7 @@ const SocialMediaShare: FC = ({}) => {
       <>
         <Share onClick={() => setIsActive(!isActive)}>
           <FontAwesomeIcon icon={faShareSquare} />
-          <p> {title} </p>
+          {/* <p> {title} </p> */}
           {isActive && <>{content}</>}
         </Share>
       </>
@@ -304,6 +251,7 @@ const SocialMediaShare: FC = ({}) => {
                 id="twitter-share-button"
                 className="twitter-share-button"
                 onClick={shareTw}
+                data-provider="twitter"
               >
                 <Icon src={TW.src} />
                 <h2>Share on Twitter</h2>
@@ -316,15 +264,15 @@ const SocialMediaShare: FC = ({}) => {
               </button>
             </li>
             <li>
-              <button onClick={shareFb}>
-                <Icon src={FB.src} />
-                <h2>Share on Facebook</h2>
-              </button>
-            </li>
-            <li className="last">
               <button onClick={shareWs}>
                 <Icon src={WT.src} />
                 <h2>Share on WhatsApp</h2>
+              </button>
+            </li>
+            <li className="last">
+              <button onClick={shareFb}>
+                <Icon src={FB.src} />
+                <h2>Share on Facebook</h2>
               </button>
             </li>
           </ul>
@@ -344,7 +292,8 @@ const SocialMediaShare: FC = ({}) => {
       </HeartDiv>
       <ShareDiv>
         <ShareToggle
-          title="Share"
+          // title="Share"
+          title=""
           content={ShareDropdown()}
           defaultActive={false}
         />
@@ -354,7 +303,7 @@ const SocialMediaShare: FC = ({}) => {
           <RefreshIcon />
         </Refresh>
 
-        <p>Refresh</p>
+        {/* <p>Refresh</p> */}
       </RefreshDiv>
     </SocialMedia>
   )
