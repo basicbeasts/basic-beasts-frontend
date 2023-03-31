@@ -151,8 +151,14 @@ const SelectedFiltersOverview: FC<Props> = ({
                 return (
                   <Filter key={filter}>
                     <p>
-                      {filters[0].charAt(0).toUpperCase() +
-                        filters[0].slice(1, filters[0].length)}
+                      {filters[0] == "dexNumber"
+                        ? "Dex Number"
+                        : filters[0] == "starLevel"
+                        ? "Star Level"
+                        : filters[0] == "serialNumber"
+                        ? "Serial"
+                        : filters[0].charAt(0).toUpperCase() +
+                          filters[0].slice(1, filters[0].length)}
                       : {filter}
                     </p>
                     <DeleteFilter
