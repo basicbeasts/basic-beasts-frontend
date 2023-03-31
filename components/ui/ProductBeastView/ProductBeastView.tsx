@@ -1,20 +1,6 @@
 import { FC, useEffect, useState } from "react"
-import picture from "public/beasts/001_normal.png"
-import BeastMarketThumbnail from "../BeastMarketThumbnail"
 import styled from "styled-components"
 import star from "public/basic_starLevel.png"
-import pic from "public/profile_pictures/bb_face_028.png"
-import dexNumIcon from "public/Dex_number_icon.png"
-import {
-  faEllipsisH,
-  faShareSquare,
-  faHeart as heartFull,
-  faCaretUp,
-} from "@fortawesome/free-solid-svg-icons"
-import { faHeart as heartEmpty } from "@fortawesome/free-regular-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { RefreshIcon } from "@heroicons/react/outline"
-import BeastMarketBeastList from "../BeastMarketBeastList"
 import beastTemplates from "data/beastTemplates"
 import { useUser } from "@components/user/UserProvider"
 import { useAuth } from "@components/auth/AuthProvider"
@@ -23,7 +9,12 @@ import PlaceABidModal from "../PlaceABidModal"
 import profilePictures from "data/profilePictures"
 import AcceptOfferModal from "../AcceptOfferModal"
 import { InfoMobile } from "./InfoMobile"
-import SocialMediaShare from "./SocialMediaShare"
+import SocialMediaShare from "../SocialMediaShare"
+import arrow from "public/arrowIcon.svg"
+import listIcon from "public/icons8-list-48.png"
+import document from "public/document.svg"
+import lightning from "public/lightning.svg"
+import emptyImg from "public/emptyImg.png"
 
 const StarLevel = styled.div`
   vertical-align: middle;
@@ -41,10 +32,7 @@ const StarImg = styled.img`
 `
 const Panel = styled.div`
   background: none;
-  /* border: 1px solid gray;
-  border-radius: 10px; */
   color: #fff;
-  padding: 10px;
   margin: 1rem auto;
 
   text-align: left;
@@ -52,34 +40,54 @@ const Panel = styled.div`
 
   outline: none;
   transition: 0.4s;
-  @media (max-width: 1024px) {
-    border: 1px solid #5c5e6c;
-    border-radius: 1.2rem;
-  }
 `
+
+const AccordionIcon = styled.img`
+  height: auto;
+  max-height: 1.5rem;
+  display: inline-block;
+  padding-right: 0.5rem;
+`
+
 const AccordionTitle = styled.div`
+  background-color: rgba(95, 81, 81, 0.07);
   display: flex;
   gap: 1rem;
-  margin-left: 10px;
-
+  padding: 1rem;
+  border: 1px solid #2e3340;
+  border-radius: 0.5rem;
+  justify-content: space-between;
+  align-items: center;
   font-size: 2rem;
-  margin-bottom: 20px;
-  /* border-bottom: 1px solid rgba(220, 220, 220, 0.25); */
-  line-height: 1;
-  @media (max-width: 1024px) {
-    margin-bottom: 0.5rem;
-    justify-content: space-between;
-    margin-right: 10px;
+
+  line-height: normal;
+
+  & div {
+    align-items: center;
   }
 `
+
+const Arrow = styled.img`
+  transform: rotate(180deg);
+  display: inline-block;
+  height: 1rem;
+
+  &.opened {
+    transform: rotate(0deg);
+    position: relative;
+    top: -0.4rem;
+  }
+`
+
 const AccordionContent = styled.div`
-  padding: 1.5rem;
+  padding: 1rem;
+  border: 1px solid #2e3340;
+  border-radius: 0.5rem;
   font-size: 1.2em;
-  border: 1px solid #5c5e6c;
-  border-radius: 1rem;
   width: 100%;
+
+  margin-top: 0.25rem;
   @media (max-width: 1024px) {
-    border: 0;
     padding: 0.5rem;
   }
 `
@@ -112,29 +120,65 @@ export const BidButton = styled.button`
 `
 
 const ImgDiv = styled.div`
+  grid-column: 1;
+  grid-row: 1;
   position: relative;
-  max-width: 40rem;
-
+  width: auto;
   overflow: hidden;
-  margin: 0 auto 50px;
+  /* min-height: 20vh;
+  max-height: 70vh; */
+
   @media (max-width: 1024px) {
-    margin-bottom: 20px;
+    grid-column: 1 / span 2;
+    grid-row: 1;
   }
 `
+
+const Img = styled.img`
+  user-drag: none;
+  -webkit-user-drag: none;
+  border-radius: 1.5rem;
+  width: 100%;
+`
+
+const EmptyImgDiv = styled.img`
+  border-radius: 1.5rem;
+  width: 100%;
+`
+
 export const Owners = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 1rem;
-  padding: 2rem 0;
-  border-bottom: 2px solid #2e3340;
+  padding: 2.5rem 0 0 0;
   justify-content: left;
-  @media (max-width: 1470px) {
-    flex-direction: column;
+
+  @media (max-width: 1024px) {
+    margin-bottom: 2rem;
+  }
+  @media (max-width: 550px) {
+    grid-template-columns: 100%;
+    grid-template-rows: 1fr 1fr;
+  }
+
+  & > a {
+    &.first-owner {
+      grid-column: 1;
+    }
+
+    &.current-owner {
+      grid-column: 2;
+    }
   }
 `
+
 export const OwnerImg = styled.img`
-  max-width: 3.5rem;
+  max-width: 2.5rem;
+  min-width: 1.5rem;
+  min-height: 1.5rem;
+  background-color: #5c5e6c;
   border: solid 2px #f3cb23;
-  border-radius: 8px;
+  border-radius: 0.5rem;
   height: max-content;
   object-fit: contain;
   @media (max-width: 1024px) {
@@ -160,13 +204,18 @@ const Trait = styled.p`
   }
 `
 export const H1 = styled.h1`
-  width: 100%;
+  width: fit-content;
+  display: inline-block;
   font-size: 4.25rem;
   color: white;
+  line-height: normal;
+  @media (max-width: 450px) {
+    font-size: 3rem;
+  }
 `
 export const H2 = styled.h2`
   font-size: 1.215rem;
-  line-height: 0.75;
+  line-height: 1;
   color: grey;
 `
 export const H2Traits = styled.h2`
@@ -182,31 +231,6 @@ export const H3 = styled.h3`
   }
 `
 
-const Ul = styled.ul`
-  font-size: 1.215rem;
-  display: flex;
-  width: 100%;
-  align-items: center;
-  gap: 2rem;
-`
-const Li = styled.li`
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-  line-height: 1;
-  width: 33.33%;
-  color: grey;
-  &:hover {
-    cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
-        14 0,
-      pointer !important;
-  }
-  @media (max-width: 1500px) {
-    p {
-      display: none;
-    }
-  }
-`
 const Attributes = styled.div`
   display: grid;
   width: 100%;
@@ -228,7 +252,7 @@ const AttributeBlock = styled.div`
   gap: 5px;
   font-size: 1.5rem;
   background: #212127;
-  border-radius: 10px;
+  border-radius: 0.5rem;
   color: grey;
   &:last-child {
     grid-column: 1 / -1;
@@ -246,11 +270,11 @@ const AttributeBlock = styled.div`
   }
 `
 const Info = styled.div`
+  grid-column: 2;
+  grid-row: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 32%;
-  // padding: 0 10rem;
   @media (max-width: 1024px) {
     display: none;
   }
@@ -261,11 +285,16 @@ export const SaleDiv = styled.div`
   flex-direction: column;
   align-items: center;
   margin-top: 2rem;
-  border: 1px solid #5c5e6c;
-  border-radius: 1.2rem;
-  padding: 2.5rem;
   width: 100%;
 `
+
+const HeaderDiv = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`
+
 export const PriceBox = styled.div`
   background: #1e1e23;
   border-radius: 1rem;
@@ -300,13 +329,7 @@ const Offeror = styled.div`
   }
 `
 
-const Img = styled.img`
-  user-drag: none;
-  -webkit-user-drag: none;
-  border-radius: 20px;
-`
-
-const AccordianToggle = styled.div`
+const AccordionToggle = styled.div`
   cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
       14 0,
     pointer !important;
@@ -325,34 +348,35 @@ export const Clickable = styled.span`
 `
 
 const BeastDescription = styled.section`
-  margin-top: 40px;
-  display: flex;
-  justify-content: space-between;
+  margin: 3rem 12.5vw 0 12.5vw;
+  line-height: normal;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto;
+  gap: 1vw 4vw;
+
+  position: relative;
+  z-index: 3;
   color: white;
   @media (max-width: 1024px) {
-    flex-direction: column;
     padding-left: 0;
     padding-right: 0;
   }
 `
 
 const BeastDescriptionWrapper = styled.div`
-  @media (max-width: 1024px) {
-    width: 100%;
-  }
+  grid-column: 1 / span 2;
+  grid-row: 2;
+
+  align-content: center;
 `
 
 const BeastDetails = styled.div`
   display: block;
+  width: 100%;
   @media (max-width: 1024px) {
     display: none;
-  }
-`
-
-const BeastDetailsMobile = styled.div`
-  display: none;
-  @media (max-width: 1024px) {
-    display: block;
   }
 `
 
@@ -376,8 +400,8 @@ const OfferorPrice = styled.span`
 `
 
 const SharingDiv = styled.div`
-  display: block;
-  width: 100%;
+  display: inline-block;
+  width: fit-content;
 `
 
 type Props = {
@@ -386,7 +410,7 @@ type Props = {
 }
 
 const ProductBeastView: FC<Props> = ({ beast, hunterData }) => {
-  const [heart, setHeart] = useState<any>(heartEmpty)
+  // const [heart, setHeart] = useState<any>(heartEmpty)
   const [listBeastForSaleOpen, setListBeastForSaleOpen] = useState<any>(false)
   const [placeABidOpen, setPlaceABidOpen] = useState<any>(false)
   const [acceptOfferOpen, setAcceptOfferOpen] = useState<any>(false)
@@ -423,10 +447,6 @@ const ProductBeastView: FC<Props> = ({ beast, hunterData }) => {
     }
   }, [])
 
-  // const isMobile = () => {
-  //   return windowWidth > 420
-  // }
-
   const {
     purchaseBeast,
     delistBeast,
@@ -453,16 +473,13 @@ const ProductBeastView: FC<Props> = ({ beast, hunterData }) => {
     getUserFUSDBalance("0xfa252d0aa22bf86a")
   }, [])
 
-  const heartChange = () => {
-    {
-      heart == heartEmpty ? setHeart(heartFull) : setHeart(heartEmpty)
-    }
-  }
   const Accordion = ({
+    icon,
     title,
     content,
     defaultActive,
   }: {
+    icon: any
     title: any
     content: any
     defaultActive: Boolean
@@ -470,22 +487,43 @@ const ProductBeastView: FC<Props> = ({ beast, hunterData }) => {
     const [isActive, setIsActive] = useState(defaultActive)
 
     return (
-      <Panel className="accordion-item">
-        <AccordionTitle>
-          <div>{title}</div>
-          <>
-            {" "}
-            <AccordianToggle onClick={() => setIsActive(!isActive)}>
-              {isActive ? (
-                <div style={{ marginTop: "2px", fontSize: "0.7em" }}>⌄</div>
-              ) : (
-                <div style={{ marginTop: "13px", fontSize: "0.7em" }}>⌃</div>
-              )}
-            </AccordianToggle>
-          </>
-        </AccordionTitle>
-        {isActive && <AccordionContent>{content}</AccordionContent>}
-      </Panel>
+      <>
+        {beast ? (
+          <Panel className="accordion-item">
+            <AccordionTitle onClick={() => setIsActive(!isActive)}>
+              <div>
+                <AccordionIcon src={icon} />
+                {title}
+              </div>
+              <AccordionToggle>
+                {isActive ? (
+                  <Arrow src={arrow.src} />
+                ) : (
+                  <Arrow src={arrow.src} className="opened" />
+                )}
+              </AccordionToggle>
+            </AccordionTitle>
+            {isActive && <AccordionContent>{content}</AccordionContent>}
+          </Panel>
+        ) : (
+          <Panel className="accordion-item">
+            <AccordionTitle onClick={() => setIsActive(!isActive)}>
+              <div>
+                <AccordionIcon src={icon} />
+                {title}
+              </div>
+              <AccordionToggle>
+                {isActive ? (
+                  <Arrow src={arrow.src} />
+                ) : (
+                  <Arrow src={arrow.src} className="opened" />
+                )}
+              </AccordionToggle>
+            </AccordionTitle>
+            {isActive && <AccordionContent>Loading...</AccordionContent>}
+          </Panel>
+        )}
+      </>
     )
   }
 
@@ -498,39 +536,45 @@ const ProductBeastView: FC<Props> = ({ beast, hunterData }) => {
             {/* <img src={dexNumIcon.src} alt="" /> */}
             <p>Dex number</p>
           </div>
-          <span>#{("00" + beast?.dexNumber).slice(-3)}</span>
+          <span>
+            {/* DG CHecking if the beast is defined, and while it's not, we are displaying the message Loading... */}
+            #{beast ? ("00" + beast?.dexNumber).slice(-3) : "Loading..."}
+          </span>
         </div>
         <Attributes>
           <AttributeBlock>
             <Trait>Skin</Trait>
-            <H3>{beast?.skin}</H3>
+            <H3>{beast ? beast?.skin : "Loading..."}</H3>
           </AttributeBlock>
           <AttributeBlock>
             <Trait>Element</Trait>
-            <H3>{beast?.elements} </H3>
+            <H3>{beast ? beast?.elements : "Loading..."} </H3>
           </AttributeBlock>
           <AttributeBlock>
             <Trait>Star Level</Trait>
-            <H3>{beast?.starLevel}</H3>
+            <H3>{beast ? beast?.starLevel : "Loading..."}</H3>
           </AttributeBlock>
           <AttributeBlock>
             <Trait>Basic Skills</Trait>
             <ul>
-              {beast?.basicSkills.map((skill: any, id: any) => (
-                <li key={id} className="leading-none">
-                  <H2Traits>{skill}</H2Traits>
-                </li>
-              ))}
+              {beast
+                ? beast?.basicSkills.map((skill: any, id: any) => (
+                    <li key={id} className="leading-none">
+                      <H2Traits>{skill}</H2Traits>
+                    </li>
+                  ))
+                : "Loading..."}
             </ul>
           </AttributeBlock>
           <AttributeBlock>
             <Trait>Ultimate Skill</Trait>
-            <H3>{beast?.ultimateSkill} </H3>
+            <H3>{beast ? beast?.ultimateSkill : "Loading..."} </H3>
           </AttributeBlock>
         </Attributes>
       </div>
     )
   }
+
   const accordionOffers: any = (beast: any) => {
     let offerday = 5
     let offerweek = 3
@@ -615,9 +659,6 @@ const ProductBeastView: FC<Props> = ({ beast, hunterData }) => {
                 </OfferDetails>
               </li>
             ))}
-          {/* {something.map((offer: any) => ( */}
-
-          {/* ))} */}
         </ul>
       </div>
     )
@@ -635,15 +676,16 @@ const ProductBeastView: FC<Props> = ({ beast, hunterData }) => {
         setOpen={setPlaceABidOpen}
         beast={beast}
       />
-
       <AcceptOfferModal
         open={acceptOfferOpen}
         setOpen={setAcceptOfferOpen}
         beast={beast}
         offer={bestOffer}
       />
-      <BeastDescription className="mx-5 px-5">
-        <BeastDescriptionWrapper className="mx-auto w-1/2">
+      {/*  className="mx-5 px-5" */}
+      <BeastDescription>
+        {/*  className="mx-auto w-1/2" */}
+        {beast ? (
           <ImgDiv>
             <Img
               src={
@@ -661,6 +703,12 @@ const ProductBeastView: FC<Props> = ({ beast, hunterData }) => {
                 ))}
             </StarLevel>
           </ImgDiv>
+        ) : (
+          <ImgDiv className="animate-pulse">
+            <EmptyImgDiv src={emptyImg.src} />
+          </ImgDiv>
+        )}
+        <BeastDescriptionWrapper>
           <InfoMobile
             beast={beast}
             hunterData={hunterData}
@@ -674,8 +722,10 @@ const ProductBeastView: FC<Props> = ({ beast, hunterData }) => {
             setPlaceABidOpen={setPlaceABidOpen}
             setAcceptOfferOpen={setAcceptOfferOpen}
           />
+
           <AccordionDiv onClick={() => console.log(windowWidth)}>
             <Accordion
+              icon={listIcon.src}
               title="Description"
               content={beast?.description}
               defaultActive={!isMobile}
@@ -683,81 +733,40 @@ const ProductBeastView: FC<Props> = ({ beast, hunterData }) => {
           </AccordionDiv>
           <AccordionDiv>
             <Accordion
+              icon={document.src}
               title="Properties"
               content={accordionProperties()}
               defaultActive={!isMobile}
             />
           </AccordionDiv>
-          {allBeastOffers?.filter((offer: any) => offer?.beastID == beast?.id)
-            .length > 0 && (
-            <AccordionDiv>
-              <Accordion
-                title="Offers"
-                content={accordionOffers(beast)}
-                defaultActive={!isMobile}
-              />
-            </AccordionDiv>
-          )}
+          {/* DG Checking if beast is defined, and while it's not, we are displaying a message Loading Offers... */}
+          {beast
+            ? allBeastOffers?.filter(
+                (offer: any) => offer?.beastID == beast?.id,
+              ).length > 0 && (
+                <AccordionDiv>
+                  <Accordion
+                    icon={lightning.src}
+                    title="Offers"
+                    content={accordionOffers(beast)}
+                    defaultActive={!isMobile}
+                  />
+                </AccordionDiv>
+              )
+            : "Loading Offers..."}
         </BeastDescriptionWrapper>
         <Info>
-          <BeastDetails className="w-11/12">
-            <H1>{beast?.nickname + " " + "#" + beast?.serialNumber}</H1>
-            <Owners>
-              <a href={"/profile/" + beast?.firstOwner}>
-                <Owner>
-                  <OwnerImg
-                    src={
-                      hunterData?.filter(
-                        (hunter: any) => hunter.address == beast?.firstOwner,
-                      )?.[0]?.avatar
-                    }
-                    alt="first owner avatar"
-                  />
-                  <div>
-                    <H2>first owner</H2>
-                    <P>
-                      {hunterData?.filter(
-                        (hunter: any) => hunter.address == beast?.firstOwner,
-                      )?.[0]?.findName != ""
-                        ? hunterData?.filter(
-                            (hunter: any) =>
-                              hunter.address == beast?.firstOwner,
-                          )?.[0]?.findName
-                        : beast?.firstOwner}
-                    </P>
-                  </div>
-                </Owner>
-              </a>
-              <a href={"/profile/" + beast?.currentOwner}>
-                <Owner>
-                  <OwnerImg
-                    src={
-                      hunterData?.filter(
-                        (hunter: any) => hunter.address == beast?.currentOwner,
-                      )?.[0]?.avatar
-                    }
-                    alt="current owner avatar"
-                  />
-                  <div>
-                    <H2>current owner</H2>
-                    <P>
-                      {hunterData?.filter(
-                        (hunter: any) => hunter.address == beast?.currentOwner,
-                      )?.[0]?.findName != ""
-                        ? hunterData?.filter(
-                            (hunter: any) =>
-                              hunter.address == beast?.currentOwner,
-                          )?.[0]?.findName
-                        : beast?.currentOwner}
-                    </P>
-                  </div>
-                </Owner>
-              </a>
-            </Owners>
+          <HeaderDiv>
+            {beast ? (
+              <H1>{beast?.nickname + " " + "#" + beast?.serialNumber}</H1>
+            ) : (
+              <H1>Loading...</H1>
+            )}
             <SharingDiv>
               <SocialMediaShare />
             </SharingDiv>
-          </BeastDetails>
+          </HeaderDiv>
+
           <SaleDiv>
             <div className="flex flex-col xl:flex-row gap-5 w-full">
               {beast?.price != null && (
@@ -839,7 +848,7 @@ const ProductBeastView: FC<Props> = ({ beast, hunterData }) => {
                       )
                     }
                   >
-                    Buy now for{" "}
+                    Buy now for
                     {parseFloat(parseFloat(beast?.price).toFixed(2))} FUSD
                   </BuyButton>
                 )}
@@ -858,12 +867,90 @@ const ProductBeastView: FC<Props> = ({ beast, hunterData }) => {
 
             {/* <H2>Sale ends in [time]</H2> */}
           </SaleDiv>
-          {/* ) : (
-            <div style={{ marginTop: "50px", width: "80%" }}>
-              <BidButton>Make an offer</BidButton>
-            </div>
-          )} */}
-        </Info>{" "}
+          <BeastDetails className="w-11/12">
+            {beast ? (
+              <Owners>
+                <a href={"/profile/" + beast?.firstOwner}>
+                  <Owner>
+                    <OwnerImg
+                      src={
+                        hunterData?.filter(
+                          (hunter: any) => hunter.address == beast?.firstOwner,
+                        )?.[0]?.avatar
+                      }
+                      alt="first owner avatar"
+                    />
+                    <div>
+                      <H2>first owner</H2>
+                      <P>
+                        {hunterData?.filter(
+                          (hunter: any) => hunter.address == beast?.firstOwner,
+                        )?.[0]?.findName != ""
+                          ? hunterData?.filter(
+                              (hunter: any) =>
+                                hunter.address == beast?.firstOwner,
+                            )?.[0]?.findName
+                          : beast?.firstOwner}
+                      </P>
+                    </div>
+                  </Owner>
+                </a>
+                <a href={"/profile/" + beast?.currentOwner}>
+                  <Owner>
+                    <OwnerImg
+                      src={
+                        hunterData?.filter(
+                          (hunter: any) =>
+                            hunter.address == beast?.currentOwner,
+                        )?.[0]?.avatar
+                      }
+                      alt="current owner avatar"
+                    />
+                    <div>
+                      <H2>current owner</H2>
+                      <P>
+                        {hunterData?.filter(
+                          (hunter: any) =>
+                            hunter.address == beast?.currentOwner,
+                        )?.[0]?.findName != ""
+                          ? hunterData?.filter(
+                              (hunter: any) =>
+                                hunter.address == beast?.currentOwner,
+                            )?.[0]?.findName
+                          : beast?.currentOwner}
+                      </P>
+                    </div>
+                  </Owner>
+                </a>
+              </Owners>
+            ) : (
+              <Owners>
+                <a href={"#"}>
+                  <Owner>
+                    <OwnerImg className="animate-pulse" />
+                    <div>
+                      <H2>first owner</H2>
+                      <P>Owner address loading...</P>
+                    </div>
+                  </Owner>
+                </a>
+                <a href={"#"}>
+                  <Owner>
+                    <OwnerImg className="animate-pulse" />
+                    <div>
+                      <H2>Current owner</H2>
+                      <P>Owner address loading...</P>
+                    </div>
+                  </Owner>
+                </a>
+              </Owners>
+            )}
+
+            {/* <SharingDiv>
+              <SocialMediaShare />
+            </SharingDiv> */}
+          </BeastDetails>
+        </Info>
       </BeastDescription>
       <section className="mb-24 mx-auto">
         {/* Maybe for later showcase more beasts */}
