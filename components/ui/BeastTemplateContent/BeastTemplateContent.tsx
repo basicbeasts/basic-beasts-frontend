@@ -2,6 +2,9 @@ import { FC, useState } from "react"
 import { useRouter } from "next/router"
 import styled from "styled-components"
 import arrow from "public/arrowIcon.svg"
+import listIcon from "public/icons8-list-48.png"
+import document from "public/document.svg"
+import overview from "public/overview.svg"
 
 type Props = {
   currBeast: any
@@ -27,7 +30,7 @@ const Container = styled.div`
     font-size: 4rem;
   }
   & h2 {
-    font-size: 2.5rem;
+    font-size: 2rem;
   }
   & h3 {
     font-size: 1.5rem;
@@ -87,9 +90,14 @@ const Column2 = styled.div`
 `
 
 const Header = styled.div`
-  padding-bottom: 1rem;
-  border-bottom: 2px solid #a3a4a5;
-  margin-bottom: 1rem;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(95, 81, 81, 0.07);
+  border: 1px solid #2e3340;
+  border-radius: 0.5rem;
+  font-size: 2rem;
 
   :hover {
     cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
@@ -98,10 +106,18 @@ const Header = styled.div`
   }
 `
 
+const Icon = styled.img`
+  height: auto;
+  max-height: 1.5rem;
+  display: inline-block;
+  padding-right: 0.5rem;
+`
+
 const Name = styled.h2`
   display: inline;
   width: fit-content;
   padding-right: 1rem;
+  line-height: normal;
 `
 
 const Arrow = styled.img`
@@ -111,7 +127,16 @@ const Arrow = styled.img`
 
   &.opened {
     transform: rotate(0deg);
+    position: relative;
+    top: -0.4rem;
   }
+`
+
+const Content = styled.div`
+  padding: 1rem;
+  border: 1px solid #2e3340;
+  border-radius: 0.5rem;
+  margin-top: 0.25rem;
 `
 
 // Description section
@@ -128,12 +153,12 @@ const PropContent = styled.div`
   display: grid;
   grid-template-columns: auto auto;
   grid-template-rows: auto;
-  gap: 3%;
-  margin: 0 0 3rem 0;
+  gap: 3% 2%;
+  margin: 0 0 2rem 0;
 `
 
 const PropBox = styled.div`
-  background-color: #292c2e;
+  background-color: #212127;
   padding: 1rem;
   border-radius: 0.5rem;
   height: auto;
@@ -194,7 +219,7 @@ const SkinContent = styled.div`
 `
 
 const SkinBox = styled.div<any>`
-  background-color: #292c2e;
+  background-color: #212127;
   /* background-color: #243540; */
   height: 6.5vw;
   border-radius: 0.5rem;
@@ -331,10 +356,12 @@ const BeastTemplateContent: FC<Props> = ({
   }
 
   const ToggleCard = ({
+    icon,
     title,
     content,
     defaultActive,
   }: {
+    icon: any
     title: any
     content: any
     defaultActive: Boolean
@@ -344,14 +371,20 @@ const BeastTemplateContent: FC<Props> = ({
     return (
       <>
         <Header onClick={() => setIsActive(!isActive)}>
-          <Name>{title}</Name>
-          {isActive ? (
-            <Arrow src={arrow.src} />
-          ) : (
-            <Arrow src={arrow.src} className="opened" />
-          )}
+          <div>
+            <Icon src={icon} />
+            <Name>{title}</Name>
+          </div>
+
+          <div>
+            {isActive ? (
+              <Arrow src={arrow.src} />
+            ) : (
+              <Arrow src={arrow.src} className="opened" />
+            )}
+          </div>
         </Header>
-        {isActive && <>{content}</>}
+        {isActive && <Content>{content}</Content>}
       </>
     )
   }
@@ -476,6 +509,7 @@ const BeastTemplateContent: FC<Props> = ({
       <Column1>
         <DescriptionDiv>
           <ToggleCard
+            icon={listIcon.src}
             title="Description"
             content={Description()}
             defaultActive={true}
@@ -483,6 +517,7 @@ const BeastTemplateContent: FC<Props> = ({
         </DescriptionDiv>
         <PropertiesDiv>
           <ToggleCard
+            icon={document.src}
             title="Properties"
             content={Properties()}
             defaultActive={true}
@@ -492,6 +527,7 @@ const BeastTemplateContent: FC<Props> = ({
       <Column2>
         <OverviewDiv>
           <ToggleCard
+            icon={overview.src}
             title="Skin overview"
             content={Overview()}
             defaultActive={true}

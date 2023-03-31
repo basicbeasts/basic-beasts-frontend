@@ -59,7 +59,6 @@ const BeastDetails: NextPage = () => {
 
   return (
     <div>
-      {loading && <div>LOADING STAY CALM</div>}
       {beastDexSkin != null && (
         <>
           <BeastTemplateHero beast={newBeast} beasts={beasts} />

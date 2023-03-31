@@ -227,7 +227,7 @@ const EvolLabel = styled.div`
 const EvolutionCard = styled.div<any>`
   height: fit-content;
   width: auto;
-  background-color: #292c2e;
+  background-color: #212127;
   /* background-color: #243540; */
   border-radius: 1rem;
   text-align: center;
