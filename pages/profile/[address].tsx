@@ -236,12 +236,12 @@ const Profile: NextPage = () => {
         
             let collectionRef = getAccount(acct).getCapability(BasicBeasts.CollectionPublicPath)
                 .borrow<&{BasicBeasts.BeastCollectionPublic}>()
-                ?? panic("Could not get public beast collection reference")
-        
-            let beastIDs = collectionRef.getIDs()
+
+                if(collectionRef!=nil) {
+                  let beastIDs = collectionRef!.getIDs()
         
             for id in beastIDs {
-                let borrowedBeast = collectionRef.borrowBeast(id: id)!
+                let borrowedBeast = collectionRef!.borrowBeast(id: id)!
                 let beast = Beast(
                                     id: borrowedBeast.id, 
                                     serialNumber: borrowedBeast.serialNumber, 
@@ -267,6 +267,8 @@ const Profile: NextPage = () => {
                 )
                 beastCollection.append(beast)
             }
+                }
+            
         
           return beastCollection
         }
@@ -426,15 +428,17 @@ const Profile: NextPage = () => {
         
             let collectionRef = getAccount(acct).getCapability(Pack.CollectionPublicPath)
                 .borrow<&{Pack.PackCollectionPublic}>()
-                ?? panic("Could not get public Pack collection reference")
         
-            let PackIDs = collectionRef.getIDs()
+                if(collectionRef != nil) {
+                  let PackIDs = collectionRef!.getIDs()
         
-            for id in PackIDs {
-                let pack = collectionRef.borrowPack(id: id)!
-                
-                packCollection.append(pack)
-            }
+                  for id in PackIDs {
+                      let pack = collectionRef!.borrowPack(id: id)!
+                      
+                      packCollection.append(pack)
+                  }
+                }
+            
         
           return packCollection
         }

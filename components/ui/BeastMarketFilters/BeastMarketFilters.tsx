@@ -21,7 +21,9 @@ const FuncArgInput = styled.input`
   padding: 8px;
   padding-left: 15px;
   width: 100%;
-  cursor: pointer;
+  cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
+      14 0,
+    pointer !important;
   margin-bottom: 0;
   outline: none;
   &::placeholder {
@@ -63,7 +65,9 @@ const CheckboxWrapper = styled.div`
     margin-right: 0.5em;
     border: 0.2px solid #fff;
     outline: none;
-    cursor: pointer;
+    cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
+        14 0,
+      pointer !important;
   }
   input[type="checkbox"]:disabled {
     border-color: #c0c0c0;
@@ -84,6 +88,12 @@ const CheckboxWrapper = styled.div`
   input[type="checkbox"]:checked {
     background-color: #f3cb23;
   }
+  &:hover {
+    background-color: #181d24;
+    cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
+        14 0,
+      pointer !important;
+  }
 `
 const DialogPanel = styled<any>(Dialog.Panel)`
   background: #111823;
@@ -98,7 +108,9 @@ const Switch = styled.label`
 `
 const SwitchSlider = styled.span`
   position: absolute;
-  cursor: pointer;
+  cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
+      14 0,
+    pointer !important;
   top: 0;
   left: 0;
   right: 0;
@@ -134,6 +146,18 @@ const SwitchInput = styled.input`
     -ms-transform: translateX(16px);
     transform: translateX(16px);
   }
+`
+
+const Input = styled.input`
+  cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
+      14 0,
+    pointer !important;
+`
+
+const Label = styled.label`
+  cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
+      14 0,
+    pointer !important;
 `
 
 type Props = {
@@ -322,7 +346,7 @@ const BeastMarketFilters: FC<Props> = ({
                                             key={option.value}
                                             className="flex items-center"
                                           >
-                                            <input
+                                            <Input
                                               id={`filter-${section.id}-${optionIdx}`}
                                               name={`${section.id}[]`}
                                               defaultValue={option.value}
@@ -343,12 +367,12 @@ const BeastMarketFilters: FC<Props> = ({
                                               className="h-4 w-4 rounded border-gray-300 
                                            focus:ring-indigo-500"
                                             />
-                                            <label
+                                            <Label
                                               htmlFor={`filter-mobile-${section.id}-${optionIdx}`}
                                               className="ml-3 min-w-0 flex-1 "
                                             >
                                               {option.label}
-                                            </label>
+                                            </Label>
                                           </CheckboxWrapper>
                                         ),
                                       )}
@@ -545,7 +569,7 @@ const BeastMarketFilters: FC<Props> = ({
                                         key={option.value}
                                         className="flex items-center"
                                       >
-                                        <input
+                                        <Input
                                           id={`filter-${section.id}-${optionIdx}`}
                                           name={`${section.id}[]`}
                                           defaultValue={option.value}
@@ -564,12 +588,12 @@ const BeastMarketFilters: FC<Props> = ({
                                           }
                                           className="h-4 w-4 rounded border-gray-300  focus:ring-indigo-500"
                                         />
-                                        <label
+                                        <Label
                                           htmlFor={`filter-${section.id}-${optionIdx}`}
                                           className="ml-3 text-sm "
                                         >
                                           {option.label}
-                                        </label>
+                                        </Label>
                                       </CheckboxWrapper>
                                     ),
                                   )}

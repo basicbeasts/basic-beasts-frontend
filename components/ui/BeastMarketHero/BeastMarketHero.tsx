@@ -4,6 +4,7 @@ import BeastMarketSkinOverviewModal from "../BeastMarketSkinOverviewModal"
 import beastTemplates from "data/beastTemplates"
 import { FC, useState, Fragment, useEffect } from "react"
 import { useUser } from "@components/user/UserProvider"
+import DappyImg from "public/139_normal.png"
 
 const Main = styled.main`
   display: flex;
@@ -415,10 +416,11 @@ const BeastMarketHero: FC<Props> = ({ beast }) => {
             //   beastTemplates[beastTemplateID as keyof typeof beastTemplates]
             //     ?.marketThumbnail || thumbnail.src
             // }
-            src={
-              "https://basicbeasts.mypinata.cloud/ipfs/" +
-              beastTemplates[691 as keyof typeof beastTemplates]?.image
-            }
+            // src={
+            //   "https://basicbeasts.mypinata.cloud/ipfs/" +
+            //   beastTemplates[691 as keyof typeof beastTemplates]?.image
+            // }
+            src={DappyImg.src}
           />
         </Showcase>{" "}
       </Main>
