@@ -665,7 +665,7 @@ const BeastTab: FC<Props> = ({
           packId={selectedBeast?.beastTemplateID || "1"}
           evolvedBeastId={evolvedBeastId}
         />
-        {displayBeasts != null ? (
+        {displayBeasts?.length > 0 ? (
           <ul
             role="list"
             className="grid grid-cols-2 gap-x-5 gap-y-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-5"

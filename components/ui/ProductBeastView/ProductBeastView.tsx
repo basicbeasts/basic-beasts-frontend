@@ -560,16 +560,8 @@ const ProductBeastView: FC<Props> = ({ beast, hunterData }) => {
             <H3>{beast ? beast?.starLevel : "Loading..."}</H3>
           </AttributeBlock>
           <AttributeBlock>
-            <Trait>Basic Skills</Trait>
-            <ul>
-              {beast
-                ? beast?.basicSkills.map((skill: any, id: any) => (
-                    <li key={id} className="leading-none">
-                      <H2Traits>{skill}</H2Traits>
-                    </li>
-                  ))
-                : "Loading..."}
-            </ul>
+            <Trait>Gender</Trait>
+            <H3>{beast ? beast?.sex : "Loading..."}</H3>
           </AttributeBlock>
           <AttributeBlock>
             <Trait>Ultimate Skill</Trait>

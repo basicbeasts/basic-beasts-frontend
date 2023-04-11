@@ -327,10 +327,8 @@ const Profile: NextPage = () => {
         }
         evolvableBeasts[element.beastTemplateID] = beastsOfSameTemplate
       }
-      console.log(evolvableBeasts)
       setEvolvableBeasts(evolvableBeasts)
       getHunterScore()
-      console.log("fetchUserBeasts()", mappedCollection)
     } catch (err) {
       console.log(err)
     }
@@ -357,7 +355,6 @@ const Profile: NextPage = () => {
         args: (arg: any, t: any) => [arg(walletAddress, t.Address)],
       })
       setSushiBalance(res)
-      console.log("profile/[address].tsx: fetchSushi()")
     } catch (err) {
       console.log(err)
     }
@@ -384,7 +381,6 @@ const Profile: NextPage = () => {
         args: (arg: any, t: any) => [arg(walletAddress, t.Address)],
       })
       setEmptyPotionBottleBalance(res)
-      console.log("profile/[address].tsx: fetchEmptyPotionBottle()")
     } catch (err) {
       console.log(err)
     }
@@ -411,7 +407,6 @@ const Profile: NextPage = () => {
         args: (arg: any, t: any) => [arg(walletAddress, t.Address)],
       })
       setPoopBalance(res)
-      console.log("profile/[address].tsx: fetchPoop()")
     } catch (err) {
       console.log(err)
     }
@@ -486,7 +481,6 @@ const Profile: NextPage = () => {
       }
 
       getPacks(mappedPacks)
-      console.log("profile/[address].tsx: fetchUserPacks()")
     } catch (err) {
       console.log(err)
     }
@@ -505,7 +499,6 @@ const Profile: NextPage = () => {
         args: (arg: any, t: any) => [arg(walletAddress, t.Address)],
       })
       setHunterScore(res)
-      console.log("profile/[address].tsx: getHunterScore()")
     } catch (error) {
       console.log(error)
     }
@@ -537,7 +530,6 @@ const Profile: NextPage = () => {
         personalDex[dexNumber] = image
       }
       setDexicon(personalDex)
-      console.log("profile/[address].tsx: getPersonalDexicon()")
     } catch (error) {
       console.log(error)
     }
@@ -558,11 +550,10 @@ const Profile: NextPage = () => {
         `,
         args: (arg: any, t: any) => [arg(walletAddress, t.Address)],
       })
-      console.log("Profile:" + res)
       //Resolve Profile
       setProfile(res)
       //Resolve Profile Picture
-      let avatar = res.avatar
+      let avatar = res?.avatar
       for (let key in profilePictures) {
         let element =
           profilePictures[key as unknown as keyof typeof profilePictures]
@@ -570,7 +561,6 @@ const Profile: NextPage = () => {
           setProfilePicture(element.image)
         }
       }
-      console.log("profile/[address].tsx: getProfile()")
     } catch (error) {
       console.log(error)
     }

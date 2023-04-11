@@ -568,16 +568,16 @@ const RankingList: FC<Props> = ({ hunterData }) => {
             <tbody>
               {table.getRowModel().rows.map((row, i) => (
                 <tr key={row.id}>
-                  <a
-                    href={
-                      row.getValue("findName") != ""
-                        ? "/profile/" + row.getValue("findName")
-                        : "/profile/" + row.getValue("address")
-                    }
-                  >
-                    <TableRowWrapper>
-                      {row.getVisibleCells().map((cell) => (
-                        <td key={cell.id} className={cell.column.id}>
+                  <TableRowWrapper>
+                    {row.getVisibleCells().map((cell) => (
+                      <td key={cell.id} className={cell.column.id}>
+                        <a
+                          href={
+                            row.getValue("findName") != ""
+                              ? "/profile/" + row.getValue("findName")
+                              : "/profile/" + row.getValue("address")
+                          }
+                        >
                           {/* <div>value: {row.getValue("address")}</div> */}
                           {cell.column.id == "findName" ? (
                             <></>
@@ -619,10 +619,10 @@ const RankingList: FC<Props> = ({ hunterData }) => {
                               )}
                             </>
                           )}
-                        </td>
-                      ))}
-                    </TableRowWrapper>
-                  </a>
+                        </a>
+                      </td>
+                    ))}
+                  </TableRowWrapper>
                 </tr>
               ))}
             </tbody>

@@ -437,7 +437,7 @@ const BeastTemplateHero: FC<Props> = ({ beast, beasts }) => {
             <h2>{maxMintByStar()}</h2>
           </StatsCol2>
         </Stats>
-
+        {/**TODO show evolutionary line */}
         <Evolutions>
           <EvolLabel>
             <h2>Evolutions</h2>
