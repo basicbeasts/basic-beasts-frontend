@@ -845,7 +845,7 @@ const ProductBeastView: FC<Props> = ({ beast, hunterData }) => {
                       )
                     }
                   >
-                    Buy now for
+                    Buy now for{" "}
                     {parseFloat(parseFloat(beast?.price).toFixed(2))} FUSD
                   </BuyButton>
                 )}
