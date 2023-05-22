@@ -204,9 +204,17 @@ type Props = {
   open: boolean
   setOpen: any
   beast: any
+  setOpenBeastModal: any
+  selectFilter: any
 }
 
-const EggObtainedModal: FC<Props> = ({ open, setOpen, beast }) => {
+const EggObtainedModal: FC<Props> = ({
+  open,
+  setOpen,
+  beast,
+  setOpenBeastModal,
+  selectFilter,
+}) => {
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setOpen}>
@@ -255,7 +263,15 @@ const EggObtainedModal: FC<Props> = ({ open, setOpen, beast }) => {
                     />
                     {/* <Backshine /> */}
                   </div>
-                  <Button>Go To Your Egg Collection</Button>
+                  <Button
+                    onClick={() => {
+                      setOpen(false)
+                      setOpenBeastModal(false)
+                      selectFilter("eggs")
+                    }}
+                  >
+                    Go To Your Egg Collection
+                  </Button>
                 </div>
                 {/* <Wrapper className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5"></Wrapper> */}
               </DialogPanel>

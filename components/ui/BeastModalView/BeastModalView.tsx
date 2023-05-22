@@ -483,6 +483,7 @@ type Props = {
   poopBalance: any
   lovePotionBalance: any
   beasts: any
+  selectFilter: any
 }
 
 const tabs = [
@@ -514,6 +515,7 @@ const BeastModalView: FC<Props> = ({
   poopBalance,
   lovePotionBalance,
   beasts,
+  selectFilter,
 }) => {
   const [open2, setOpen2] = useState(false)
   const [filter, setFilter] = useState("Info")
@@ -772,7 +774,9 @@ const BeastModalView: FC<Props> = ({
                 <EggObtainedModal
                   open={eggObtainedModalOpen}
                   setOpen={setEggObtainedModalOpen}
+                  setOpenBeastModal={setOpen}
                   beast={beast}
+                  selectFilter={selectFilter}
                 />
                 <div style={{ borderRadius: "20px" }}>
                   {beast != null ? (

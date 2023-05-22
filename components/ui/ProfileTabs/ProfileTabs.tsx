@@ -71,6 +71,7 @@ type Props = {
   allEvolutionPairs: any
   getPersonalDexicon: any
   walletAddress: any
+  eggs: any
 }
 
 const ProfileTabs: FC<Props> = ({
@@ -94,6 +95,7 @@ const ProfileTabs: FC<Props> = ({
   allEvolutionPairs,
   getPersonalDexicon,
   walletAddress,
+  eggs,
 }) => {
   const [hasPacks, setHasPacks] = useState(false)
 
@@ -197,6 +199,7 @@ const ProfileTabs: FC<Props> = ({
           emptyPotionBottleBalance={emptyPotionBottleBalance}
           poopBalance={poopBalance}
           lovePotionBalance={lovePotionBalance}
+          selectFilter={selectFilter}
         />
       )}
       {user?.addr == walletAddress ? (
@@ -204,6 +207,7 @@ const ProfileTabs: FC<Props> = ({
           {filter === "eggs" && (
             <EggTab
               beasts={beasts}
+              eggs={eggs}
               fetchUserBeasts={fetchUserBeasts}
               userAddr={userAddr}
               evolvableBeasts={evolvableBeasts}

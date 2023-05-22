@@ -9,6 +9,12 @@ import temp from "public/temp/002_temp.png"
 import effect from "public/temp/80557-reward-light-effect.gif"
 import SpotLightAnimation from "../SpotLightAnimation"
 import eggAnimation from "public/eggAnimation.gif"
+import eggDefault from "public/eggs/egg_hatching_default.gif"
+import eggElectric from "public/eggs/egg_hatching_electric.gif"
+import eggWater from "public/eggs/egg_hatching_water.gif"
+import eggGrass from "public/eggs/egg_hatching_grass.gif"
+import eggFire from "public/eggs/egg_hatching_fire.gif"
+import eggNormal from "public/eggs/egg_hatching_normal.gif"
 
 const Container = styled(motion.div)`
   width: clamp(100%, 700px, 90%);
@@ -146,7 +152,7 @@ const CloseIcon = styled.div`
   color: #fff;
   position: absolute;
   font-size: 100px;
-  right: 50px;
+  right: 0px;
   cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
       14 0,
     pointer !important;
@@ -301,6 +307,7 @@ type FuncProps = {
   RevealModalOpen: boolean
   packId: string | "0"
   evolvedBeastId: any
+  egg: any
 }
 
 const HatchingModal: FC<FuncProps> = ({
@@ -308,11 +315,31 @@ const HatchingModal: FC<FuncProps> = ({
   packId,
   RevealModalOpen,
   evolvedBeastId,
+  egg,
 }) => {
   //TODO
   const num: any = parseInt(packId)
+
+  Object.entries(beastTemplates).forEach(([key, beastTemplate]) => {
+    const dexNumberFormatted = String(beastTemplate.dexNumber).padStart(3, "0")
+    let fileFormat = ".png"
+
+    if (
+      beastTemplate.skin === "Metallic Silver" ||
+      beastTemplate.skin === "Shiny Gold"
+    ) {
+      fileFormat = ".gif"
+    }
+
+    let imageTransparentBgCenter = `https://raw.githubusercontent.com/basicbeasts/basic-beasts-frontend/main/public/beasts/${dexNumberFormatted}_${beastTemplate.skin
+      .toLowerCase()
+      .replace(" ", "_")}${fileFormat}`
+
+    ;(beastTemplate as any).imageTransparentBgCenter = imageTransparentBgCenter
+  })
+
   const beast1 = beastTemplates[num as keyof typeof beastTemplates]
-  const evolvedBeast =
+  const evolvedBeast: any =
     beastTemplates[evolvedBeastId as keyof typeof beastTemplates]
 
   return (
@@ -346,7 +373,7 @@ const HatchingModal: FC<FuncProps> = ({
                   duration: 1,
                 }}
               >
-                <CloseIcon onClick={handleClose}>x</CloseIcon>
+                {/* <CloseIcon onClick={handleClose}>x</CloseIcon> */}
                 <Content>
                   <EvolvedBeastContainer
                     animate={{ opacity: [0, 1], scale: [1.1, 0.8, 1] }}
@@ -371,7 +398,21 @@ const HatchingModal: FC<FuncProps> = ({
                             animate={{ filter: "brightness(0) invert(1)" }}
                             transition={{ delay: 3.3, duration: 1.5 }}
                           >
-                            <EggImg src={eggAnimation.src} />
+                            <EggImg
+                              src={
+                                egg?.elementType == "Electric"
+                                  ? eggElectric.src
+                                  : egg?.elementType == "Water"
+                                  ? eggWater.src
+                                  : egg?.elementType == "Grass"
+                                  ? eggGrass.src
+                                  : egg?.elementType == "Fire"
+                                  ? eggFire.src
+                                  : egg?.elementType == "Normal"
+                                  ? eggNormal.src
+                                  : eggDefault.src
+                              }
+                            />
                           </motion.div>
                         </BeastContainer3>
                       </Beast>
@@ -395,10 +436,7 @@ const HatchingModal: FC<FuncProps> = ({
                       transition={{ duration: 0.8, delay: 4.6 }}
                     >
                       <EvolvedBeastImg
-                        src={
-                          "https://basicbeasts.mypinata.cloud/ipfs/" +
-                          evolvedBeast?.imageTransparentBg
-                        }
+                        src={evolvedBeast?.imageTransparentBgCenter}
                       />
                     </EvolvedBeastContainer>
 
@@ -408,10 +446,7 @@ const HatchingModal: FC<FuncProps> = ({
                       transition={{ duration: 1, delay: 3.9 }}
                     >
                       <EvolvedBeastImg
-                        src={
-                          "https://basicbeasts.mypinata.cloud/ipfs/" +
-                          evolvedBeast?.imageTransparentBg
-                        }
+                        src={evolvedBeast?.imageTransparentBgCenter}
                       />
                     </EvolvedBeastContainer>
                     <motion.div
@@ -441,7 +476,7 @@ const HatchingModal: FC<FuncProps> = ({
                       delay: 6,
                     }}
                   >
-                    {evolvedBeast?.name}
+                    {/* {evolvedBeast?.name} */}
                   </BeastName>
                   <StarLevel>
                     {Array.from(Array(evolvedBeast.starLevel), (e, i) => {

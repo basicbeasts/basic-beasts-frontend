@@ -69,6 +69,7 @@ type FuncProps = {
   allEvolutionPairs: any
   getPersonalDexicon: any
   walletAddress: any
+  eggs: any
 }
 
 const UserProfile: FC<FuncProps> = ({
@@ -96,6 +97,7 @@ const UserProfile: FC<FuncProps> = ({
   allEvolutionPairs,
   getPersonalDexicon,
   walletAddress,
+  eggs,
 }) => {
   const [filter, setFilter] = useState<
     "beast collection" | "items" | "packs" | "eggs"
@@ -133,6 +135,7 @@ const UserProfile: FC<FuncProps> = ({
             filter={filter}
             selectFilter={setFilter}
             beasts={beasts}
+            eggs={eggs}
             toggle={toggle}
             selectPackType={selectPackType}
             packCount={packCount}

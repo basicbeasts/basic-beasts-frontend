@@ -23,6 +23,7 @@ const Profile: NextPage = () => {
   const [shinyPacks, setShinyPacks] = useState<any[] | null>(null)
   const [packCount, setPackCount] = useState<any[] | null>(null)
   const [userBeastCollection, setUserBeastCollection] = useState(null)
+  const [userEggCollection, setUserEggCollection] = useState(null)
   const [sushiBalance, setSushiBalance] = useState(0)
   const [emptyPotionBottleBalance, setEmptyPotionBottleBalance] = useState(0)
   const [poopBalance, setPoopBalance] = useState(0)
@@ -65,6 +66,7 @@ const Profile: NextPage = () => {
       }
     }
     fetchUserBeasts()
+    fetchUserEggs()
     fetchSushi()
     fetchEmptyPotionBottle()
     fetchPoop()
@@ -331,6 +333,47 @@ const Profile: NextPage = () => {
       }
       setEvolvableBeasts(evolvableBeasts)
       getHunterScore()
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const fetchUserEggs = async () => {
+    try {
+      let res = await query({
+        cadence: `
+        import Egg from 0xEgg
+        import FungibleToken from 0xFungibleToken
+
+        pub fun main(address: Address): [&Egg.NFT{Egg.Public}] {
+            let account = getAccount(address)
+
+            let collectionRef = account.getCapability(Egg.CollectionPublicPath)
+            .borrow<&{Egg.EggCollectionPublic}>()
+
+            var collection: [&Egg.NFT{Egg.Public}] = []
+            if (collectionRef != nil) {
+                let IDs = collectionRef!.getIDs()
+                var i = 0
+                while i < IDs.length {
+                    let token = collectionRef!.borrowEgg(id: IDs[i])
+                    ?? panic("Couldn't borrow a reference to the specified egg")
+
+                    collection.append(token)
+
+                    i = i + 1
+                }
+            }
+
+            return collection
+          
+        }
+        `,
+
+        args: (arg: any, t: any) => [arg(walletAddress, t.Address)],
+      })
+      setUserEggCollection(res)
+      console.log("eggs", userEggCollection)
     } catch (err) {
       console.log(err)
     }
@@ -656,6 +699,7 @@ const Profile: NextPage = () => {
         selectPackType={setSelectedPackType}
         packCount={packCount}
         beasts={userBeastCollection}
+        eggs={userEggCollection}
         sushiBalance={sushiBalance}
         emptyPotionBottleBalance={emptyPotionBottleBalance}
         poopBalance={poopBalance}

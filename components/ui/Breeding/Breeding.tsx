@@ -412,8 +412,8 @@ const Breeding: FC<Props> = ({
             <BreedButton
               buttonColors={buttonColors()}
               onClick={() => {
-                // breed()
-                setEggObtainedModalOpen(true)
+                breed()
+                // setEggObtainedModalOpen(true)
               }}
             >
               🍆

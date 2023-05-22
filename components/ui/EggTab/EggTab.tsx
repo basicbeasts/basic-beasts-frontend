@@ -10,6 +10,20 @@ import Egg from "public/egg.png"
 import GoldLight from "public/gold_light.png"
 import EggViewModal from "../EggViewModal"
 
+import eggDefault from "public/eggs/default_shine.png"
+import eggElectric from "public/eggs/electric_shine.png"
+import eggWater from "public/eggs/water_shine.png"
+import eggGrass from "public/eggs/grass_shine.png"
+import eggFire from "public/eggs/fire_shine.png"
+import eggNormal from "public/eggs/normal_shine.png"
+import { useHoursLeft } from "./useHoursLeft"
+import incubatorDefault from "public/eggs/incubator_default_testnet.gif"
+import incubatorElectric from "public/eggs/incubator_electric_testnet.gif"
+import incubatorWater from "public/eggs/incubator_water_testnet.gif"
+import incubatorGrass from "public/eggs/incubator_grass_testnet.gif"
+import incubatorFire from "public/eggs/incubator_fire_testnet.gif"
+import incubatorNormal from "public/eggs/incubator_normal_testnet.gif"
+
 const Wrapper = styled.div`
   padding: 20px 20px 100px;
   z-index: 1;
@@ -150,7 +164,7 @@ const InputContainer = styled.div`
 `
 const Img = styled.img`
   position: relative;
-  max-width: 5rem;
+  max-width: 10rem;
 `
 const Light = styled.img`
   position: absolute;
@@ -238,310 +252,31 @@ const MenuItems = styled<any>(Menu.Items)`
     width: 100%;
   }
 `
-const EggDiv = styled.div`
+const EggDiv = styled.div<any>`
   display: flex;
   position: relative;
   justify-content: center;
   align-items: center;
   border-radius: 2rem;
-  background: #ffe8a3;
+  background: ${(props) => props.backgroundColor || "#ffe8a3"};
   width: 10rem;
   aspect-ratio: 1;
   z-index: 1;
   overflow: hidden;
+  cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC)
+      14 0,
+    pointer !important;
 `
 const EggTimer = styled.div`
   position: absolute;
   top: 0;
-  right: 0;
+  right: 8px;
 
   color: rgba(0, 0, 0, 65%);
   font-size: 1.5rem;
 
-  margin-right: 1.2rem;
   margin-top: 0.25rem;
 `
-
-const DropDown: FC<{
-  beasts: any
-  sortBy: any
-  setSortBy: any
-}> = ({ beasts, sortBy, setSortBy }) => {
-  const sortByDexLowHigh = () => {
-    if (beasts != null) {
-      beasts.sort((a: any, b: any) => a.beastTemplateID - b.beastTemplateID)
-      beasts.sort((a: any, b: any) => a.dexNumber - b.dexNumber)
-    }
-  }
-
-  const sortByDexHighLow = () => {
-    if (beasts != null) {
-      beasts.sort((a: any, b: any) => a.beastTemplateID - b.beastTemplateID)
-      beasts.sort((a: any, b: any) => b.dexNumber - a.dexNumber)
-    }
-  }
-
-  const sortBySerialLowHigh = () => {
-    if (beasts != null) {
-      beasts.sort((a: any, b: any) => a.beastTemplateID - b.beastTemplateID)
-      beasts.sort((a: any, b: any) => a.serialNumber - b.serialNumber)
-    }
-  }
-
-  const sortBySerialHighLow = () => {
-    if (beasts != null) {
-      beasts.sort((a: any, b: any) => a.beastTemplateID - b.beastTemplateID)
-      beasts.sort((a: any, b: any) => b.serialNumber - a.serialNumber)
-    }
-  }
-
-  const sortByElement = () => {
-    const dic = { Electric: 1, Water: 2, Grass: 3, Fire: 4, Normal: 5 }
-    if (beasts != null) {
-      beasts.sort((a: any, b: any) => {
-        var aValue = 0
-        var bValue = 0
-        aValue = dic[a.elements[0] as keyof typeof dic]
-        bValue = dic[b.elements[0] as keyof typeof dic]
-        if (aValue < bValue) return -1
-        if (aValue > bValue) return 1
-        return 0
-      })
-    }
-  }
-
-  const sortByNicknameAZ = () => {
-    if (beasts != null) {
-      beasts.sort((a: any, b: any) => (a.nickname > b.nickname ? 1 : -1))
-    }
-  }
-
-  const sortByNicknameZA = () => {
-    if (beasts != null) {
-      beasts.sort((a: any, b: any) => (a.nickname < b.nickname ? 1 : -1))
-    }
-  }
-
-  const sortBySkinLowHigh = () => {
-    const dic = {
-      Normal: 1,
-      "Metallic Silver": 2,
-      "Cursed Black": 3,
-      "Shiny Gold": 4,
-      "Mythic Diamond": 5,
-    }
-    if (beasts != null) {
-      beasts.sort((a: any, b: any) => {
-        var aValue = 0
-        var bValue = 0
-        aValue = dic[a.skin as keyof typeof dic]
-        bValue = dic[b.skin as keyof typeof dic]
-        if (aValue < bValue) return -1
-        if (aValue > bValue) return 1
-        return 0
-      })
-    }
-  }
-
-  const sortBySkinHighLow = () => {
-    const dic = {
-      Normal: 1,
-      "Metallic Silver": 2,
-      "Cursed Black": 3,
-      "Shiny Gold": 4,
-      "Mythic Diamond": 5,
-    }
-    if (beasts != null) {
-      beasts.sort((a: any, b: any) => {
-        var aValue = 0
-        var bValue = 0
-        aValue = dic[a.skin as keyof typeof dic]
-        bValue = dic[b.skin as keyof typeof dic]
-        if (aValue < bValue) return 1
-        if (aValue > bValue) return -1
-        return 0
-      })
-    }
-  }
-  return (
-    <MenuWrapper>
-      <Menu as="div" className="relative inline-block text-left">
-        <div>
-          <MenuButton>
-            <SortByButton>
-              {sortBy}
-              <ChevronDownIcon
-                className="-mr-1 ml-2 h-5 w-5"
-                aria-hidden="true"
-              />
-            </SortByButton>
-          </MenuButton>
-        </div>
-
-        <Transition
-          as={Fragment}
-          enter="transition ease-out duration-100"
-          enterFrom="transform opacity-0 scale-95"
-          enterTo="transform opacity-100 scale-100"
-          leave="transition ease-in duration-75"
-          leaveFrom="transform opacity-100 scale-100"
-          leaveTo="transform opacity-0 scale-95"
-        >
-          <MenuItems className="origin-top-right absolute right-0 mt-2 w-56 rounded-md focus:outline-none">
-            <DropDownList>
-              <div className="py-1">
-                <Menu.Item>
-                  {({ active }) => (
-                    <A
-                      onClick={() => {
-                        sortByDexLowHigh()
-                        setSortBy("Dex No. (Low-High)")
-                      }}
-                      className={classNames(
-                        active ? "bg-gray-700" : "",
-                        "block px-4 py-2 text-sm",
-                      )}
-                    >
-                      Dex No. (Low-High)
-                    </A>
-                  )}
-                </Menu.Item>
-                <Menu.Item>
-                  {({ active }) => (
-                    <A
-                      onClick={() => {
-                        setSortBy("Dex No. (High-Low)")
-                        sortByDexHighLow()
-                      }}
-                      className={classNames(
-                        active ? "bg-gray-700" : "",
-                        "block px-4 py-2 text-sm",
-                      )}
-                    >
-                      Dex No. (High-Low)
-                    </A>
-                  )}
-                </Menu.Item>
-                <Menu.Item>
-                  {({ active }) => (
-                    <A
-                      onClick={() => {
-                        setSortBy("Nickname (A-Z)")
-                        sortByNicknameAZ()
-                      }}
-                      className={classNames(
-                        active ? "bg-gray-700" : "",
-                        "block px-4 py-2 text-sm",
-                      )}
-                    >
-                      Nickname A-Z
-                    </A>
-                  )}
-                </Menu.Item>
-                <Menu.Item>
-                  {({ active }) => (
-                    <A
-                      onClick={() => {
-                        setSortBy("Nickname (Z-A)")
-                        sortByNicknameZA()
-                      }}
-                      className={classNames(
-                        active ? "bg-gray-700" : "",
-                        "block px-4 py-2 text-sm",
-                      )}
-                    >
-                      Nickname Z-A
-                    </A>
-                  )}
-                </Menu.Item>
-                <Menu.Item>
-                  {({ active }) => (
-                    <A
-                      onClick={() => {
-                        setSortBy("Serial (Low-High)")
-                        sortBySerialLowHigh()
-                      }}
-                      className={classNames(
-                        active ? "bg-gray-700" : "",
-                        "block px-4 py-2 text-sm",
-                      )}
-                    >
-                      Serial (Low-High)
-                    </A>
-                  )}
-                </Menu.Item>
-                <Menu.Item>
-                  {({ active }) => (
-                    <A
-                      onClick={() => {
-                        setSortBy("Serial (High-Low)")
-                        sortBySerialHighLow()
-                      }}
-                      className={classNames(
-                        active ? "bg-gray-700" : "",
-                        "block px-4 py-2 text-sm",
-                      )}
-                    >
-                      Serial (High-Low)
-                    </A>
-                  )}
-                </Menu.Item>
-                <Menu.Item>
-                  {({ active }) => (
-                    <A
-                      onClick={() => {
-                        setSortBy("Skin (High-Low)")
-                        sortBySkinHighLow()
-                      }}
-                      className={classNames(
-                        active ? "bg-gray-700" : "",
-                        "block px-4 py-2 text-sm",
-                      )}
-                    >
-                      Skin (High-Low)
-                    </A>
-                  )}
-                </Menu.Item>
-                <Menu.Item>
-                  {({ active }) => (
-                    <A
-                      onClick={() => {
-                        setSortBy("Skin (Low-High)")
-                        sortBySkinLowHigh()
-                      }}
-                      className={classNames(
-                        active ? "bg-gray-700" : "",
-                        "block px-4 py-2 text-sm",
-                      )}
-                    >
-                      Skin (Low-High)
-                    </A>
-                  )}
-                </Menu.Item>
-                <Menu.Item>
-                  {({ active }) => (
-                    <A
-                      onClick={() => {
-                        setSortBy("Element Type")
-                        sortByElement()
-                      }}
-                      className={classNames(
-                        active ? "bg-gray-700" : "",
-                        "block px-4 py-2 text-sm",
-                      )}
-                    >
-                      Element Type
-                    </A>
-                  )}
-                </Menu.Item>
-              </div>
-            </DropDownList>
-          </MenuItems>
-        </Transition>
-      </Menu>
-    </MenuWrapper>
-  )
-}
 
 type Color = {
   bgColor: any
@@ -557,26 +292,40 @@ type Props = {
   allEvolutionPairs: any
   getPersonalDexicon: any
   walletAddress: any
+  eggs: any
 }
 
-const eggs = [
-  {
-    id: 1,
-    incubationDateEnding: 2,
-  },
-  {
-    id: 2,
-    incubationDateEnding: 2,
-  },
-  {
-    id: 3,
-    incubationDateEnding: 2,
-  },
-  {
-    id: 4,
-    incubationDateEnding: 0,
-  },
-]
+// const eggs = [
+//   {
+//     id: 1,
+//     incubationDateEnding: 2,
+//   },
+//   {
+//     id: 2,
+//     incubationDateEnding: 2,
+//   },
+//   {
+//     id: 3,
+//     incubationDateEnding: 2,
+//   },
+//   {
+//     id: 4,
+//     incubationDateEnding: 0,
+//   },
+// ]
+
+function EggTimerComponent({ egg }: any) {
+  const targetTimestamp = egg?.incubationTimer?.incubationDateEnding
+  const { hoursLeft, hasPassed } = useHoursLeft(
+    targetTimestamp ? targetTimestamp : 0,
+  )
+
+  if (!targetTimestamp || hasPassed) {
+    return null
+  }
+
+  return <EggTimer>{hoursLeft}h</EggTimer>
+}
 
 const EggTab: FC<Props> = ({
   beasts,
@@ -586,6 +335,7 @@ const EggTab: FC<Props> = ({
   allEvolutionPairs,
   getPersonalDexicon,
   walletAddress,
+  eggs,
 }) => {
   const [displayBeasts, setDisplayBeasts] = useState<any>(null)
   const [selectedBeast, setSelectedBeast] = useState<any>(null)
@@ -674,7 +424,7 @@ const EggTab: FC<Props> = ({
 
         {/* example buttons end */}
 
-        <EggViewModal open={open} setOpen={setOpen} />
+        <EggViewModal open={open} setOpen={setOpen} egg={selectedBeast} />
         <EvolutionModal
           handleClose={() => setEvolutionModalOpen(false)}
           RevealModalOpen={evolutionModalOpen}
@@ -696,71 +446,58 @@ const EggTab: FC<Props> = ({
                   setDisplayNickname(null)
                 }}
               >
-                {/* <div
-                  style={{
-                    borderRadius: "20px 20px 0 0",
-                  }}
-                  className="group block w-full aspect-w-9 aspect-h-7 bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden"
+                <EggDiv
+                  backgroundColor={
+                    egg?.elementType == "Electric"
+                      ? "#FFE595"
+                      : egg?.elementType == "Water"
+                      ? "#A4C2F4"
+                      : egg?.elementType == "Grass"
+                      ? "#B7D7A8"
+                      : egg?.elementType == "Fire"
+                      ? "#EA9999"
+                      : "#D5A6BD"
+                  }
                 >
-                  <BeastTabCard
-                    id={egg.id}
-                    className="object-cover group-hover:opacity-90"
-                    beastTemplateID={egg.beastTemplateID}
-                  />
-                </div>
-                <div>
-                  <ThumbnailDetails
-                    style={{ borderRadius: "0 0 20px 20px" }}
-                    bgColor={
-                      // beast.elements[0] == "Electric"
-                      //   ? "#FFD966"
-                      //   : beast.elements[0] == "Water"
-                      //   ? "#A4C2F4"
-                      //   : beast.elements[0] == "Grass"
-                      //   ? "#B7D7A8"
-                      //   : beast.elements[0] == "Fire"
-                      //   ? "#EA9999"
-                      //   : "#D5A6BD"
-                      "green"
-                    }
-                  >
-                    <ThumbnailLabel>hej</ThumbnailLabel>
-                    <ThumbnailLabel
-                      style={{
-                        float: "left",
-                        marginTop: "18px",
-                        marginLeft: "3px",
-                        opacity: "0.2",
-                      }}
-                    >
-                      <>{egg?.sex === "Male" ? "♂" : "♀"}</>
-                    </ThumbnailLabel>
-                    <StarLevel>
-                      {Array(egg.starLevel)
-                        .fill(0)
-                        .map((_, i) => (
-                          <StarImg key={i} src={star.src} />
-                        ))}
-                    </StarLevel>
-                  </ThumbnailDetails>
-                </div> */}
-                <EggDiv>
-                  <Light src={GoldLight.src} />
-                  <Img src={Egg.src} />
-                  {egg.incubationDateEnding != 0 ? (
-                    <EggTimer>
-                      {egg.incubationDateEnding}h{" "}
-                      {/* Insert Hourglass icon here */}
-                      {/* <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        xmlnsXlink="http://www.w3.org/1999/xlink"
-                        width="16.008"
-                        height="16.008"
-                        viewBox="0 0 16.008 16.008"
-                      /> */}
-                    </EggTimer>
+                  {/* <Light src={GoldLight.src} /> */}
+                  {egg?.incubationTimer != null ? (
+                    <Img
+                      src={
+                        egg?.elementType == "Electric"
+                          ? incubatorElectric.src
+                          : egg?.elementType == "Water"
+                          ? incubatorWater.src
+                          : egg?.elementType == "Grass"
+                          ? incubatorGrass.src
+                          : egg?.elementType == "Fire"
+                          ? incubatorFire.src
+                          : egg?.elementType == "Normal"
+                          ? incubatorNormal.src
+                          : incubatorDefault.src
+                      }
+                    />
                   ) : (
-                    <GradientDiv />
+                    <Img
+                      src={
+                        egg?.elementType == "Electric"
+                          ? eggElectric.src
+                          : egg?.elementType == "Water"
+                          ? eggWater.src
+                          : egg?.elementType == "Grass"
+                          ? eggGrass.src
+                          : egg?.elementType == "Fire"
+                          ? eggFire.src
+                          : egg?.elementType == "Normal"
+                          ? eggNormal.src
+                          : eggDefault.src
+                      }
+                    />
+                  )}
+
+                  {egg?.incubationTimer != null && (
+                    <EggTimer>
+                      <EggTimerComponent key={egg.id} egg={egg} />
+                    </EggTimer>
                   )}
                 </EggDiv>
               </li>
