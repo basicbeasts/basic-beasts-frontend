@@ -60,6 +60,7 @@ type Props = {
   sushiBalance: any
   emptyPotionBottleBalance: any
   poopBalance: any
+  lovePotionBalance: any
   newBeast: any
   setNewBeast: any
   newTokens: any
@@ -82,6 +83,7 @@ const ProfileTabs: FC<Props> = ({
   sushiBalance,
   emptyPotionBottleBalance,
   poopBalance,
+  lovePotionBalance,
   newBeast,
   setNewBeast,
   newTokens,
@@ -165,7 +167,7 @@ const ProfileTabs: FC<Props> = ({
                 notify={filter !== "packs" && hasPacks}
               />
             </TabButtonContainer>
-            {/* <TabButtonContainer>
+            <TabButtonContainer>
               <TabButton
                 onClick={() => {
                   selectFilter("eggs")
@@ -175,7 +177,7 @@ const ProfileTabs: FC<Props> = ({
                 buttonText={"Eggs"}
                 // notify={filter !== "eggs" && newTokens}
               />
-            </TabButtonContainer> */}
+            </TabButtonContainer>
           </>
         ) : (
           <></>
@@ -194,6 +196,7 @@ const ProfileTabs: FC<Props> = ({
           sushiBalance={sushiBalance}
           emptyPotionBottleBalance={emptyPotionBottleBalance}
           poopBalance={poopBalance}
+          lovePotionBalance={lovePotionBalance}
         />
       )}
       {user?.addr == walletAddress ? (

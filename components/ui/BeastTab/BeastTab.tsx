@@ -519,6 +519,7 @@ type Props = {
   sushiBalance: any
   emptyPotionBottleBalance: any
   poopBalance: any
+  lovePotionBalance: any
 }
 
 const BeastTab: FC<Props> = ({
@@ -532,6 +533,7 @@ const BeastTab: FC<Props> = ({
   sushiBalance,
   emptyPotionBottleBalance,
   poopBalance,
+  lovePotionBalance,
 }) => {
   //   const query = useQuery()
   //   const beasts =
@@ -658,6 +660,8 @@ const BeastTab: FC<Props> = ({
           sushiBalance={sushiBalance}
           emptyPotionBottleBalance={emptyPotionBottleBalance}
           poopBalance={poopBalance}
+          lovePotionBalance={lovePotionBalance}
+          beasts={beasts}
         />
         <EvolutionModal
           handleClose={() => setEvolutionModalOpen(false)}

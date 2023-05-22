@@ -23,6 +23,12 @@ import profilePictures from "data/profilePictures"
 import { toast } from "react-toastify"
 import beastTemplates from "data/beastTemplates"
 import { motion } from "framer-motion"
+import eggDefault from "public/eggs/default_shine.png"
+import eggElectric from "public/eggs/electric_shine.png"
+import eggWater from "public/eggs/water_shine.png"
+import eggGrass from "public/eggs/grass_shine.png"
+import eggFire from "public/eggs/fire_shine.png"
+import eggNormal from "public/eggs/normal_shine.png"
 
 const ActionItem = styled.div`
   padding: 10px 0;
@@ -140,7 +146,7 @@ const Notice = styled.div`
 
 const Img = styled.img<any>`
   z-index: 50;
-  max-width: 5rem;
+  max-width: 20rem;
   aspect-ratio: 1;
   border-radius: 10px;
   box-shadow: ${(props) => (props.selected ? `0px 0px 5px 4px #8F7A39` : `0`)};
@@ -197,9 +203,10 @@ const Backshine = styled.div`
 type Props = {
   open: boolean
   setOpen: any
+  beast: any
 }
 
-const EggObtainedModal: FC<Props> = ({ open, setOpen }) => {
+const EggObtainedModal: FC<Props> = ({ open, setOpen, beast }) => {
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setOpen}>
@@ -231,8 +238,22 @@ const EggObtainedModal: FC<Props> = ({ open, setOpen }) => {
                   <Title>Congratulations!</Title>
                   <Title>You have recieved an egg!</Title>
                   <div className="relative z-10">
-                    <Img src={eggImage.src} />
-                    <Backshine />
+                    <Img
+                      src={
+                        beast?.elements[0] == "Electric"
+                          ? eggElectric.src
+                          : beast?.elements[0] == "Water"
+                          ? eggWater.src
+                          : beast?.elements[0] == "Grass"
+                          ? eggGrass.src
+                          : beast?.elements[0] == "Fire"
+                          ? eggFire.src
+                          : beast?.elements[0] == "Normal"
+                          ? eggNormal.src
+                          : eggDefault.src
+                      }
+                    />
+                    {/* <Backshine /> */}
                   </div>
                   <Button>Go To Your Egg Collection</Button>
                 </div>

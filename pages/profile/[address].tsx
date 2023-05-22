@@ -26,6 +26,7 @@ const Profile: NextPage = () => {
   const [sushiBalance, setSushiBalance] = useState(0)
   const [emptyPotionBottleBalance, setEmptyPotionBottleBalance] = useState(0)
   const [poopBalance, setPoopBalance] = useState(0)
+  const [lovePotionBalance, setLovePotionBalance] = useState(0)
   const [newBeast, setNewBeast] = useState(false)
   const [newTokens, setNewTokens] = useState(false)
   const [hunterScore, setHunterScore] = useState(0)
@@ -67,6 +68,7 @@ const Profile: NextPage = () => {
     fetchSushi()
     fetchEmptyPotionBottle()
     fetchPoop()
+    fetchLovePotion()
     getHunterScore()
     getPersonalDexicon()
     getProfile()
@@ -347,7 +349,7 @@ const Profile: NextPage = () => {
           if let vaultRef = account.getCapability(Sushi.BalancePublicPath).borrow<&Sushi.Vault{FungibleToken.Balance}>() {
             return vaultRef.balance
           } 
-          return nil
+          return 0.0
           
         }
         `,
@@ -373,7 +375,7 @@ const Profile: NextPage = () => {
           if let vaultRef = account.getCapability(EmptyPotionBottle.BalancePublicPath).borrow<&EmptyPotionBottle.Vault{FungibleToken.Balance}>() {
             return vaultRef.balance
           } 
-          return nil
+          return 0.0
           
         }
         `,
@@ -399,7 +401,7 @@ const Profile: NextPage = () => {
           if let vaultRef = account.getCapability(Poop.BalancePublicPath).borrow<&Poop.Vault{FungibleToken.Balance}>() {
             return vaultRef.balance
           } 
-          return nil
+          return 0.0
           
         }
         `,
@@ -407,6 +409,39 @@ const Profile: NextPage = () => {
         args: (arg: any, t: any) => [arg(walletAddress, t.Address)],
       })
       setPoopBalance(res)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const fetchLovePotion = async () => {
+    try {
+      let res = await query({
+        cadence: `
+        import LovePotion from 0xLovePotion
+        import FungibleToken from 0xFungibleToken
+
+        pub fun main(address: Address): Int {
+            let account = getAccount(address)
+
+            let collectionRef = account.getCapability(LovePotion.CollectionPublicPath)
+            .borrow<&{LovePotion.LovePotionCollectionPublic}>()
+
+            var count: Int = 0
+            if (collectionRef != nil) {
+                let IDs = collectionRef!.getIDs()
+                count = IDs.length
+            }
+
+
+            return count
+          
+        }
+        `,
+
+        args: (arg: any, t: any) => [arg(walletAddress, t.Address)],
+      })
+      setLovePotionBalance(res)
     } catch (err) {
       console.log(err)
     }
@@ -624,6 +659,7 @@ const Profile: NextPage = () => {
         sushiBalance={sushiBalance}
         emptyPotionBottleBalance={emptyPotionBottleBalance}
         poopBalance={poopBalance}
+        lovePotionBalance={lovePotionBalance}
         newBeast={newBeast}
         setNewBeast={setNewBeast}
         newTokens={newTokens}

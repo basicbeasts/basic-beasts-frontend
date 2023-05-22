@@ -95,7 +95,7 @@ type Props = {
   beastName: any
 }
 
-const BeastModalView: FC<Props> = ({
+const ChangeNicknameModal: FC<Props> = ({
   beastID,
   open,
   setOpen,
@@ -252,4 +252,4 @@ const BeastModalView: FC<Props> = ({
     </Transition.Root>
   )
 }
-export default BeastModalView
+export default ChangeNicknameModal

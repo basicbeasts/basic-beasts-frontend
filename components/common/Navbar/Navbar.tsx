@@ -606,7 +606,7 @@ const Navbar: FC<FuncProps> = ({
       setProfile(res)
 
       //Resolve Profile Picture
-      let avatar = res.avatar
+      let avatar = res?.avatar
       for (let key in profilePictures) {
         let element =
           profilePictures[key as unknown as keyof typeof profilePictures]
@@ -659,7 +659,7 @@ const Navbar: FC<FuncProps> = ({
             setOpenMobileModal={setOpenMobileSearch}
           />
           <NavMenu>
-            {/* <NavItem>
+            <NavItem>
               <NextLink href={"/marketplace/"}>
                 <A
                   font={
@@ -671,7 +671,7 @@ const Navbar: FC<FuncProps> = ({
                   Explore
                 </A>
               </NextLink>
-            </NavItem> */}
+            </NavItem>
             <NavItem>
               <NextLink href={"/rankings/"}>
                 <A

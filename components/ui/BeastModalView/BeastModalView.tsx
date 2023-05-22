@@ -481,6 +481,8 @@ type Props = {
   sushiBalance: any
   emptyPotionBottleBalance: any
   poopBalance: any
+  lovePotionBalance: any
+  beasts: any
 }
 
 const tabs = [
@@ -510,6 +512,8 @@ const BeastModalView: FC<Props> = ({
   sushiBalance,
   emptyPotionBottleBalance,
   poopBalance,
+  lovePotionBalance,
+  beasts,
 }) => {
   const [open2, setOpen2] = useState(false)
   const [filter, setFilter] = useState("Info")
@@ -675,6 +679,46 @@ const BeastModalView: FC<Props> = ({
     }
   }
 
+  interface Beast {
+    beastTemplateID: number
+    starLevel: number
+    // other properties of the beast
+  }
+
+  function filterBeasts(beasts: any, starLevel: number): any {
+    return beasts
+      .filter((beast2: any) => {
+        const { beastTemplateID, starLevel: beastStarLevel } = beast2
+        if (beastStarLevel < starLevel) {
+          return false
+        }
+        if (beastStarLevel === 1) {
+          return (
+            beastTemplateID === beast?.beastTemplateID ||
+            beastTemplateID === beast?.beastTemplateID + 1 ||
+            beastTemplateID === beast?.beastTemplateID + 2
+          )
+        }
+        if (beastStarLevel === 2) {
+          return (
+            beastTemplateID === beast?.beastTemplateID - 1 ||
+            beastTemplateID === beast?.beastTemplateID ||
+            beastTemplateID === beast?.beastTemplateID + 1
+          )
+        }
+        if (beastStarLevel === 3) {
+          return (
+            beastTemplateID === beast?.beastTemplateID - 2 ||
+            beastTemplateID === beast?.beastTemplateID - 1 ||
+            beastTemplateID === beast?.beastTemplateID
+          )
+        }
+        return beastTemplateID === beast?.beastTemplateID
+      })
+      .filter((beast2: any) => beast?.id !== beast2.id)
+      .filter((beast2: any) => beast?.sex !== beast2.sex)
+  }
+
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setOpen}>
@@ -728,6 +772,7 @@ const BeastModalView: FC<Props> = ({
                 <EggObtainedModal
                   open={eggObtainedModalOpen}
                   setOpen={setEggObtainedModalOpen}
+                  beast={beast}
                 />
                 <div style={{ borderRadius: "20px" }}>
                   {beast != null ? (
@@ -1139,19 +1184,56 @@ const BeastModalView: FC<Props> = ({
                           <></>
                         )}
                         {filter === "Breeding" ? (
-                          <Breeding
-                            evolvableBeasts={evolvableBeasts}
-                            beast={beast}
-                            makeLovePotionModalOpen={makeLovePotionModalOpen}
-                            setMakeLovePotionModalOpen={
-                              setMakeLovePotionModalOpen
-                            }
-                            eggObtainedModalOpen={eggObtainedModalOpen}
-                            setEggObtainedModalOpen={setEggObtainedModalOpen}
-                            sushiBalance={sushiBalance}
-                            emptyPotionBottleBalance={emptyPotionBottleBalance}
-                            poopBalance={poopBalance}
-                          />
+                          <>
+                            {filterBeasts(beasts, beast?.starLevel).length >
+                            0 ? (
+                              <Breeding
+                                breedableBeasts={filterBeasts(
+                                  beasts,
+                                  beast?.starLevel,
+                                )}
+                                beast={beast}
+                                makeLovePotionModalOpen={
+                                  makeLovePotionModalOpen
+                                }
+                                setMakeLovePotionModalOpen={
+                                  setMakeLovePotionModalOpen
+                                }
+                                eggObtainedModalOpen={eggObtainedModalOpen}
+                                setEggObtainedModalOpen={
+                                  setEggObtainedModalOpen
+                                }
+                                sushiBalance={sushiBalance}
+                                emptyPotionBottleBalance={
+                                  emptyPotionBottleBalance
+                                }
+                                poopBalance={poopBalance}
+                                lovePotionBalance={lovePotionBalance}
+                              />
+                            ) : (
+                              <NotEnoughContainer>
+                                <Body
+                                  style={{
+                                    margin: "0px 0 20px",
+                                    textAlign: "center",
+                                    fontSize: "1em",
+                                  }}
+                                >
+                                  You need a beast of the opposite sex for
+                                  breeding
+                                </Body>
+                                <div>
+                                  <Link href="/marketplace">
+                                    <a>
+                                      <Button style={{ margin: "0 15px 0" }}>
+                                        Marketplace
+                                      </Button>
+                                    </a>
+                                  </Link>
+                                </div>
+                              </NotEnoughContainer>
+                            )}
+                          </>
                         ) : (
                           // <NotEnoughContainer>
                           //   <Body

@@ -27,6 +27,8 @@ import profilePictures from "data/profilePictures"
 import { toast } from "react-toastify"
 import beastTemplates from "data/beastTemplates"
 import { motion } from "framer-motion"
+import { useUser } from "@components/user/UserProvider"
+import { toastStatus } from "@framework/helpers/toastStatus"
 
 const ActionItem = styled.div`
   padding: 10px 0;
@@ -158,7 +160,7 @@ const ImgDiv = styled.div`
   padding: 0 1rem;
 `
 const LadyImg = styled.img`
-  --size: 10rem;
+  --size: 20rem;
   position: absolute;
   top: calc(var(--size) * -1);
   right: 0;
@@ -230,6 +232,95 @@ const MakeLovePotionModal: FC<Props> = ({
       poopBalance >= POOP_REQUIRED ? (poopColor = "white") : (poopColor = "red")
     }
     return { sushiColor, bottleColor, poopColor }
+  }
+
+  const { fetchHunterData } = useUser()
+
+  const mintLovePotion = async () => {
+    const id = toast.loading("Initializing...")
+
+    try {
+      const res = await send([
+        transaction(`
+        import LovePotionMinter from 0xLovePotionMinter
+        import LovePotion from 0xLovePotion
+        import Sushi from 0xSushi
+        import Poop from 0xPoop
+        import EmptyPotionBottle from 0xEmptyPotionBottle
+        import MetadataViews from 0xMetadataViews
+        import NonFungibleToken from 0xNonFungibleToken
+
+
+        transaction() {
+
+            prepare(acct: AuthAccount) {
+
+                if acct.borrow<&LovePotion.Collection{LovePotion.LovePotionCollectionPublic}>(from: LovePotion.CollectionStoragePath) == nil {
+                            acct.save(<- LovePotion.createEmptyCollection(), to: LovePotion.CollectionStoragePath)
+                            acct.unlink(LovePotion.CollectionPublicPath)
+                            acct.link<&LovePotion.Collection{NonFungibleToken.Receiver, 
+                                NonFungibleToken.CollectionPublic, 
+                                LovePotion.LovePotionCollectionPublic, 
+                                MetadataViews.ResolverCollection}>
+                                (LovePotion.CollectionPublicPath, target: LovePotion.CollectionStoragePath)
+                        }
+
+                //Get the love potion collection reference
+                let collectionRef = acct.borrow<&LovePotion.Collection>(from: LovePotion.CollectionStoragePath)
+                    ?? panic("Couldn't get a reference to the Love Potion collection")
+
+                let sushiRef = acct.borrow<&Sushi.Vault>(from: Sushi.VaultStoragePath)
+                    ?? panic("Couldn't get a reference to the suhsi vault")
+
+                let poopRef = acct.borrow<&Poop.Vault>(from: Poop.VaultStoragePath)
+                    ?? panic("Couldn't get a reference to the suhsi vault")
+                
+                let emptyPotionBottleRef = acct.borrow<&EmptyPotionBottle.Vault>(from: EmptyPotionBottle.VaultStoragePath)
+                    ?? panic("Couldn't get a reference to the suhsi vault")
+
+                let sushi <-sushiRef.withdraw(amount: 5.0) as! @Sushi.Vault
+
+                let poop <- poopRef.withdraw(amount: 5.0) as! @Poop.Vault
+
+                let emptyPotionBottle <- emptyPotionBottleRef.withdraw(amount: 1.0) as! @EmptyPotionBottle.Vault
+
+                let lovePotion <- LovePotionMinter.mintLovePotion(sushi: <-sushi, poop: <-poop, emptyPotionBottle: <-emptyPotionBottle)
+                
+                collectionRef.deposit(token: <-lovePotion)
+                
+            }
+
+        }`),
+        payer(authz),
+        proposer(authz),
+        authorizations([authz]),
+        limit(9999),
+      ]).then(decode)
+      tx(res).subscribe((res: any) => {
+        toastStatus(id, res.status)
+      })
+      await tx(res)
+        .onceSealed()
+        .then((result: any) => {
+          toast.update(id, {
+            render: "Transaction Sealed",
+            type: "success",
+            isLoading: false,
+            autoClose: 5000,
+          })
+        })
+      fetchHunterData()
+
+      setOpen(false)
+    } catch (err) {
+      toast.update(id, {
+        render: () => <div>Error, try again later...</div>,
+        type: "error",
+        isLoading: false,
+        autoClose: 5000,
+      })
+      console.log(err)
+    }
   }
 
   return (
@@ -309,6 +400,7 @@ const MakeLovePotionModal: FC<Props> = ({
                         emptyPotionBottleBalance < BOTTLE_REQUIRED ||
                         poopBalance < POOP_REQUIRED
                       }
+                      onClick={() => mintLovePotion()}
                     >
                       Make Love Potion
                     </Button>
@@ -317,7 +409,10 @@ const MakeLovePotionModal: FC<Props> = ({
                     <LadyImg src={picture.src} />
                     <TextDiv>
                       <H1>Mysterious Old Lady</H1>
-                      <p>Hey there, young adventurer! Want a love potion?</p>
+                      <p>
+                        Ah, love&apos;s alchemy you seek? Bring these items, and
+                        love&apos;s elixir is within your grasp.
+                      </p>
                     </TextDiv>
                   </div>
                 </div>

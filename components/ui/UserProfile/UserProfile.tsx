@@ -52,6 +52,7 @@ type FuncProps = {
   sushiBalance: any
   emptyPotionBottleBalance: any
   poopBalance: any
+  lovePotionBalance: any
   newBeast: any
   setNewBeast: any
   newTokens: any
@@ -78,6 +79,7 @@ const UserProfile: FC<FuncProps> = ({
   sushiBalance,
   emptyPotionBottleBalance,
   poopBalance,
+  lovePotionBalance,
   newBeast,
   setNewBeast,
   newTokens,
@@ -137,6 +139,7 @@ const UserProfile: FC<FuncProps> = ({
             sushiBalance={sushiBalance}
             emptyPotionBottleBalance={emptyPotionBottleBalance}
             poopBalance={poopBalance}
+            lovePotionBalance={lovePotionBalance}
             newBeast={newBeast}
             setNewBeast={setNewBeast}
             newTokens={newTokens}

@@ -649,7 +649,7 @@ const EggTab: FC<Props> = ({
 
   return (
     <>
-      <HeaderBeastCollection>
+      {/* <HeaderBeastCollection>
         <InputContainer>
           <FuncArgInput
             placeholder="Search"
@@ -662,7 +662,7 @@ const EggTab: FC<Props> = ({
           sortBy={sortBy}
           setSortBy={setSortBy}
         />
-      </HeaderBeastCollection>
+      </HeaderBeastCollection> */}
       <Wrapper>
         {/* example buttons start */}
         {/* <span>
