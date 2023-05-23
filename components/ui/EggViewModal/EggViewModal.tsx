@@ -172,10 +172,14 @@ type Props = {
 
 const EggViewModal: FC<Props> = ({ open, setOpen, egg }) => {
   const { fetchHunterData } = useUser()
-  const [openHatchingModal, setOpenHatchingModal] = useState(true)
+  const [openHatchingModal, setOpenHatchingModal] = useState(false)
 
   const eggTimer = egg?.incubationTimer?.incubationDateEnding
   const { hoursLeft, hasPassed } = useHoursLeft(eggTimer ? eggTimer : 0)
+
+  useEffect(() => {
+    setOpenHatchingModal(false)
+  }, [egg])
 
   const incubate = async () => {
     const id = toast.loading("Initializing...")
@@ -220,7 +224,80 @@ const EggViewModal: FC<Props> = ({ open, setOpen, egg }) => {
           })
         })
       fetchHunterData()
-      setOpen()
+      setOpen(false)
+    } catch (err) {
+      toast.update(id, {
+        render: () => <div>Error, try again later...</div>,
+        type: "error",
+        isLoading: false,
+        autoClose: 5000,
+      })
+      console.log(err)
+    }
+  }
+
+  const hatch = async () => {
+    const id = toast.loading("Initializing...")
+
+    try {
+      const res = await send([
+        transaction(`
+        import Egg from 0xEgg
+        import BasicBeasts from 0xBasicBeasts
+        import NonFungibleToken from 0xNonFungibleToken
+        import MetadataViews from 0xMetadataViews
+
+        transaction(eggID: UInt64) {
+
+            prepare(acct: AuthAccount) {
+
+                let eggCollectionRef = acct.borrow<&Egg.Collection>(from: Egg.CollectionStoragePath)
+                    ?? panic("Couldn't get a reference to the egg collection")
+
+                if acct.borrow<&BasicBeasts.Collection{BasicBeasts.BeastCollectionPublic}>(from: BasicBeasts.CollectionStoragePath) == nil {
+                            acct.save(<- BasicBeasts.createEmptyCollection(), to: BasicBeasts.CollectionStoragePath)
+                            acct.unlink(BasicBeasts.CollectionPublicPath)
+                            acct.link<&BasicBeasts.Collection{NonFungibleToken.Receiver, 
+                                NonFungibleToken.CollectionPublic, 
+                                BasicBeasts.BeastCollectionPublic, 
+                                MetadataViews.ResolverCollection}>
+                                (BasicBeasts.CollectionPublicPath, target: BasicBeasts.CollectionStoragePath)
+                        }
+
+                let beastCollectionRef = acct.borrow<&BasicBeasts.Collection>(from: BasicBeasts.CollectionStoragePath)
+                    ?? panic("Couldn't get a reference to the egg collection")
+                    
+                let eggRef = eggCollectionRef.borrowEntireEgg(id: eggID)
+                
+                let beast <- eggRef!.hatch()
+                
+                beastCollectionRef.deposit(token: <- beast) 
+                
+            }
+
+        }
+        `),
+        args([arg(egg?.id, t.UInt64)]),
+        payer(authz),
+        proposer(authz),
+        authorizations([authz]),
+        limit(9999),
+      ]).then(decode)
+      tx(res).subscribe((res: any) => {
+        toastStatus(id, res.status)
+      })
+      setOpenHatchingModal(true)
+      await tx(res)
+        .onceSealed()
+        .then((result: any) => {
+          toast.update(id, {
+            render: "Transaction Sealed",
+            type: "success",
+            isLoading: false,
+            autoClose: 5000,
+          })
+        })
+      fetchHunterData()
     } catch (err) {
       toast.update(id, {
         render: () => <div>Error, try again later...</div>,
@@ -324,8 +401,7 @@ const EggViewModal: FC<Props> = ({ open, setOpen, egg }) => {
                 <div className="flex flex-col items-center h-full">
                   {egg?.incubationTimer != null ? (
                     <>
-                      {/** TODO make opposite */}
-                      {Math.floor(Date.now() / 1000) >
+                      {Math.floor(Date.now() / 1000) <
                       egg?.incubationTimer?.incubationDateEnding ? (
                         <>
                           <P>Your egg is incubating</P>
@@ -336,11 +412,7 @@ const EggViewModal: FC<Props> = ({ open, setOpen, egg }) => {
                           <P>Your egg is ready to hatch!</P>
                           <Button
                             onClick={() => {
-                              setOpenHatchingModal(true)
-                              console.log(
-                                egg?.beast[Object.keys(egg?.beast ?? {})[0]]
-                                  ?.beastTemplate.beastTemplateID,
-                              )
+                              hatch()
                             }}
                             backgroundColor={
                               egg?.elementType == "Electric"

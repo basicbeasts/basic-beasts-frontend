@@ -390,13 +390,13 @@ const HatchingModal: FC<FuncProps> = ({
                         animate={{ opacity: [1, 0] }}
                         transition={{
                           duration: 0.5,
-                          delay: 4,
+                          delay: 6,
                         }}
                       >
                         <BeastContainer3 transition={{ delay: 2, duration: 2 }}>
                           <motion.div
                             animate={{ filter: "brightness(0) invert(1)" }}
-                            transition={{ delay: 3.3, duration: 1.5 }}
+                            transition={{ delay: 4.9, duration: 1.5 }}
                           >
                             <EggImg
                               src={
@@ -424,7 +424,7 @@ const HatchingModal: FC<FuncProps> = ({
                         scale: [0.5, 2, 1],
                         top: [150, -50, 150],
                       }}
-                      transition={{ duration: 1.2, delay: 4.2 }}
+                      transition={{ duration: 1.2, delay: 6.2 }}
                     >
                       <AnimationContainer>
                         <SpotLightAnimation />
@@ -433,7 +433,7 @@ const HatchingModal: FC<FuncProps> = ({
 
                     <EvolvedBeastContainer
                       animate={{ opacity: [0, 1], scale: [1.1, 0.8, 1] }}
-                      transition={{ duration: 0.8, delay: 4.6 }}
+                      transition={{ duration: 0.8, delay: 6.6 }}
                     >
                       <EvolvedBeastImg
                         src={evolvedBeast?.imageTransparentBgCenter}
@@ -443,7 +443,7 @@ const HatchingModal: FC<FuncProps> = ({
                     <EvolvedBeastContainer
                       style={{ filter: "brightness(0) invert(1)" }}
                       animate={{ opacity: [0, 1, 0], scale: [0.3, 1.5] }}
-                      transition={{ duration: 1, delay: 3.9 }}
+                      transition={{ duration: 1, delay: 5.9 }}
                     >
                       <EvolvedBeastImg
                         src={evolvedBeast?.imageTransparentBgCenter}
@@ -452,7 +452,7 @@ const HatchingModal: FC<FuncProps> = ({
                     <motion.div
                       animate={{ opacity: [0, 1] }}
                       transition={{
-                        delay: 4,
+                        delay: 6,
                       }}
                     >
                       {/* <Circle
@@ -466,7 +466,7 @@ const HatchingModal: FC<FuncProps> = ({
                       /> */}
                       <Circle
                         animate={{ opacity: [0, 0.8, 0], scale: [10, 2] }}
-                        transition={{ duration: 1.2, delay: 3.7 }}
+                        transition={{ duration: 1.2, delay: 5.7 }}
                       />
                     </motion.div>
                   </ContentRight>

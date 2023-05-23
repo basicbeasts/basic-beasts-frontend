@@ -269,8 +269,8 @@ const EggDiv = styled.div<any>`
 `
 const EggTimer = styled.div`
   position: absolute;
-  top: 0;
-  right: 8px;
+  top: -3px;
+  right: 6px;
 
   color: rgba(0, 0, 0, 65%);
   font-size: 1.5rem;
@@ -320,7 +320,11 @@ function EggTimerComponent({ egg }: any) {
     targetTimestamp ? targetTimestamp : 0,
   )
 
-  if (!targetTimestamp || hasPassed) {
+  if (hasPassed) {
+    return <EggTimer>Ready</EggTimer>
+  }
+
+  if (!targetTimestamp) {
     return null
   }
 

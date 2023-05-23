@@ -359,7 +359,9 @@ const Profile: NextPage = () => {
                     let token = collectionRef!.borrowEgg(id: IDs[i])
                     ?? panic("Couldn't borrow a reference to the specified egg")
 
-                    collection.append(token)
+                    if(!token.isEmpty()){
+                      collection.append(token)
+                    }
 
                     i = i + 1
                 }
