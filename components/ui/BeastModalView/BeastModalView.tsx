@@ -1188,56 +1188,67 @@ const BeastModalView: FC<Props> = ({
                           <></>
                         )}
                         {filter === "Breeding" ? (
-                          <>
-                            {filterBeasts(beasts, beast?.starLevel).length >
-                            0 ? (
-                              <Breeding
-                                breedableBeasts={filterBeasts(
-                                  beasts,
-                                  beast?.starLevel,
-                                )}
-                                beast={beast}
-                                makeLovePotionModalOpen={
-                                  makeLovePotionModalOpen
-                                }
-                                setMakeLovePotionModalOpen={
-                                  setMakeLovePotionModalOpen
-                                }
-                                eggObtainedModalOpen={eggObtainedModalOpen}
-                                setEggObtainedModalOpen={
-                                  setEggObtainedModalOpen
-                                }
-                                sushiBalance={sushiBalance}
-                                emptyPotionBottleBalance={
-                                  emptyPotionBottleBalance
-                                }
-                                poopBalance={poopBalance}
-                                lovePotionBalance={lovePotionBalance}
-                              />
-                            ) : (
-                              <NotEnoughContainer>
-                                <Body
-                                  style={{
-                                    margin: "0px 0 20px",
-                                    textAlign: "center",
-                                    fontSize: "1em",
-                                  }}
-                                >
-                                  You need a beast of the opposite sex for
-                                  breeding
-                                </Body>
-                                <div>
-                                  <Link href="/marketplace">
-                                    <a>
-                                      <Button style={{ margin: "0 15px 0" }}>
-                                        Marketplace
-                                      </Button>
-                                    </a>
-                                  </Link>
-                                </div>
-                              </NotEnoughContainer>
-                            )}
-                          </>
+                          // <>
+                          //   {filterBeasts(beasts, beast?.starLevel).length >
+                          //   0 ? (
+                          //     <Breeding
+                          //       breedableBeasts={filterBeasts(
+                          //         beasts,
+                          //         beast?.starLevel,
+                          //       )}
+                          //       beast={beast}
+                          //       makeLovePotionModalOpen={
+                          //         makeLovePotionModalOpen
+                          //       }
+                          //       setMakeLovePotionModalOpen={
+                          //         setMakeLovePotionModalOpen
+                          //       }
+                          //       eggObtainedModalOpen={eggObtainedModalOpen}
+                          //       setEggObtainedModalOpen={
+                          //         setEggObtainedModalOpen
+                          //       }
+                          //       sushiBalance={sushiBalance}
+                          //       emptyPotionBottleBalance={
+                          //         emptyPotionBottleBalance
+                          //       }
+                          //       poopBalance={poopBalance}
+                          //       lovePotionBalance={lovePotionBalance}
+                          //     />
+                          //   ) : (
+                          //     <NotEnoughContainer>
+                          //       <Body
+                          //         style={{
+                          //           margin: "0px 0 20px",
+                          //           textAlign: "center",
+                          //           fontSize: "1em",
+                          //         }}
+                          //       >
+                          //         You need a beast of the opposite sex for
+                          //         breeding
+                          //       </Body>
+                          //       <div>
+                          //         <Link href="/marketplace">
+                          //           <a>
+                          //             <Button style={{ margin: "0 15px 0" }}>
+                          //               Marketplace
+                          //             </Button>
+                          //           </a>
+                          //         </Link>
+                          //       </div>
+                          //     </NotEnoughContainer>
+                          //   )}
+                          // </>
+                          <NotEnoughContainer>
+                            <Body
+                              style={{
+                                margin: "0px 0 20px",
+                                textAlign: "center",
+                                fontSize: "1em",
+                              }}
+                            >
+                              Coming
+                            </Body>
+                          </NotEnoughContainer>
                         ) : (
                           // <NotEnoughContainer>
                           //   <Body
@@ -1247,7 +1258,7 @@ const BeastModalView: FC<Props> = ({
                           //       fontSize: "1em",
                           //     }}
                           //   >
-                          //     Coming soon
+                          //     Coming
                           //   </Body>
                           // </NotEnoughContainer>
                           <></>

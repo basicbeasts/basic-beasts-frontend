@@ -659,7 +659,7 @@ const Navbar: FC<FuncProps> = ({
             setOpenMobileModal={setOpenMobileSearch}
           />
           <NavMenu>
-            <NavItem>
+            {/* <NavItem>
               <NextLink href={"/marketplace/"}>
                 <A
                   font={
@@ -671,7 +671,7 @@ const Navbar: FC<FuncProps> = ({
                   Explore
                 </A>
               </NextLink>
-            </NavItem>
+            </NavItem> */}
             <NavItem>
               <NextLink href={"/rankings/"}>
                 <A
