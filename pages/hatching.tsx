@@ -11,12 +11,12 @@ const Hatching: NextPage = () => {
         title="Coming Soon!"
         description="Hatch a Basic Beast to complete your Dexicon"
       />
-      <HatchingModal
+      {/* <HatchingModal
         handleClose={() => setOpen(true)}
         RevealModalOpen={open}
         packId={"1" || "1"}
         evolvedBeastId={"2"}
-      />
+      /> */}
     </div>
   )
 }
