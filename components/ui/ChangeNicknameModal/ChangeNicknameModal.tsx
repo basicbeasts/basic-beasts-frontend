@@ -133,7 +133,7 @@ const ChangeNicknameModal: FC<Props> = ({
             }
         }
         `),
-        args([arg(nickname, t.String), arg(parseInt(beastID), t.UInt64)]),
+        args([arg(nickname, t.String), arg(beastID, t.UInt64)]),
         payer(authz),
         proposer(authz),
         authorizations([authz]),
