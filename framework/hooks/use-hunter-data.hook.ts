@@ -136,15 +136,16 @@ export default function useHunterData() {
       // First initiate name to shortened wallet address
       var name = address.slice(0, 6).concat("...").concat(address.slice(-4))
       var findName = ""
-
-      if (findProfiles[address] != null) {
-        if (findProfiles[address].name != "") {
-          name = findProfiles[address].name
-        }
-        if (findProfiles[address].findName != "") {
-          name = findProfiles[address].findName + ".find"
-          findName = name
-          findNames[findName] = address
+      if (findProfiles) {
+        if (findProfiles[address] != null) {
+          if (findProfiles[address].name != "") {
+            name = findProfiles[address].name
+          }
+          if (findProfiles[address].findName != "") {
+            name = findProfiles[address].findName + ".find"
+            findName = name
+            findNames[findName] = address
+          }
         }
       }
 
@@ -192,14 +193,15 @@ export default function useHunterData() {
       let data = hunterDataRanked[item]
       //check avatar
       var avatar = profilePictures[1].image
-
-      if (findProfiles[data.address] != null) {
-        for (let key in profilePictures) {
-          let picture =
-            profilePictures[key as unknown as keyof typeof profilePictures]
-              .image
-          if (findProfiles[data.address].avatar == picture) {
-            avatar = picture
+      if (findProfiles) {
+        if (findProfiles[data.address] != null) {
+          for (let key in profilePictures) {
+            let picture =
+              profilePictures[key as unknown as keyof typeof profilePictures]
+                .image
+            if (findProfiles[data.address].avatar == picture) {
+              avatar = picture
+            }
           }
         }
       }
