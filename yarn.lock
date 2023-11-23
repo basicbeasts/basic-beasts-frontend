@@ -181,6 +181,42 @@
     "@babel/helper-validator-identifier" "^7.14.9"
     to-fast-properties "^2.0.0"
 
+"@blocto/fcl@^1.6.1":
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/@blocto/fcl/-/fcl-1.6.1.tgz#1058561938c7a3762682e512ec1259ed7deead78"
+  integrity sha512-h1w83ZhcHty0RLMfzL9tS6oLfHUoJvnYHJ04ZJVAEwtz/yIXBV/d6A0RTu/23pwOYe94/SErKhNz+5nhrLTJ9Q==
+  dependencies:
+    "@babel/runtime" "^7.18.6"
+    "@blocto/flow-sdk" "^1.2.2"
+    "@onflow/config" "^1.1.2"
+    "@onflow/interaction" "0.0.11"
+    "@onflow/rlp" "^1.1.0"
+    "@onflow/types" "^1.1.0"
+    "@onflow/util-actor" "^1.2.0"
+    "@onflow/util-address" "^1.1.0"
+    "@onflow/util-invariant" "^1.1.0"
+    "@onflow/util-logger" "^1.2.2"
+    "@onflow/util-template" "^1.1.0"
+    "@onflow/util-uid" "^1.1.0"
+    cross-fetch "^3.1.6"
+
+"@blocto/flow-sdk@^1.2.2":
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/@blocto/flow-sdk/-/flow-sdk-1.2.2.tgz#a9918e42dcc0870f914af8caa23a760b033930d8"
+  integrity sha512-4frWTLTfyJmEgNyDWvsLs7ZuT41sSfyp8oulLHP4Li1wdPO9V2jYUWzMFISEyzovZedAwdX7sVmoD99tBPLTcg==
+  dependencies:
+    "@babel/runtime" "^7.18.6"
+    "@onflow/config" "^1.1.1"
+    "@onflow/rlp" "^1.1.0"
+    "@onflow/transport-http" "^1.7.1"
+    "@onflow/util-actor" "^1.2.0"
+    "@onflow/util-address" "^1.1.0"
+    "@onflow/util-invariant" "^1.1.0"
+    "@onflow/util-logger" "^1.2.1"
+    "@onflow/util-template" "^1.1.0"
+    deepmerge "^4.2.2"
+    sha3 "^2.1.4"
+
 "@emotion/is-prop-valid@^0.8.2", "@emotion/is-prop-valid@^0.8.8":
   version "0.8.8"
   resolved "https://registry.yarnpkg.com/@emotion/is-prop-valid/-/is-prop-valid-0.8.8.tgz#db28b1c4368a259b60a97311d6a952d4fd01ac1a"
@@ -469,6 +505,18 @@
     eslint "^8.34.0"
     eslint-plugin-jsdoc "^40.0.0"
 
+"@onflow/config@^1.1.2":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@onflow/config/-/config-1.2.1.tgz#35cc94183a12a7d88e42a1aa7c44e1c4515f96d6"
+  integrity sha512-V/yV5HcujnI6k1UjCwdh61a6Pun+gayPGR4EWZXqMe5lWQWDhKLZO0q6/sYbHF2kDQFjfBnG4ROyZE/NxYEs3A==
+  dependencies:
+    "@babel/runtime" "^7.18.6"
+    "@onflow/util-actor" "^1.3.1"
+    "@onflow/util-invariant" "^1.2.1"
+    "@onflow/util-logger" "^1.3.1"
+    eslint "^8.34.0"
+    eslint-plugin-jsdoc "^40.0.0"
+
 "@onflow/fcl@^1.5.1":
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/@onflow/fcl/-/fcl-1.5.1.tgz#3012c1013f8456a6119405023cd3f44a7c0bbcf6"
@@ -531,6 +579,19 @@
     abort-controller "^3.0.0"
     cross-fetch "^3.1.6"
 
+"@onflow/transport-http@^1.7.1":
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/@onflow/transport-http/-/transport-http-1.9.0.tgz#d948fd2d753e7e1d5d05a123ea8d1a02457bc62f"
+  integrity sha512-rfbvc1b8U4M8CXfJNRqu2ZvP63ciKkP7K2eNXn55bVt3CSdL9jChC+Ad5zLnrKJ2nCPm2IlPlZqfAV4JK8uICg==
+  dependencies:
+    "@babel/runtime" "^7.18.6"
+    "@onflow/util-address" "^1.2.1"
+    "@onflow/util-invariant" "^1.2.1"
+    "@onflow/util-logger" "^1.3.1"
+    "@onflow/util-template" "^1.2.1"
+    abort-controller "^3.0.0"
+    cross-fetch "^3.1.6"
+
 "@onflow/types@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@onflow/types/-/types-1.1.0.tgz#825b5ff38fc5163a646f8f48a5f25910c03a4e85"
@@ -546,6 +607,14 @@
     "@babel/runtime" "^7.18.6"
     queue-microtask "1.2.3"
 
+"@onflow/util-actor@^1.3.1":
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/@onflow/util-actor/-/util-actor-1.3.1.tgz#f4c185c0c1310028269be0733beacd41500fee37"
+  integrity sha512-nKOWb6UtAhJWz7YSveMdOJqNlpNdommWhkNVGYLvy7R+nI7hePCyQ4H1pNUc4AHjCjrCmXr2QPe/yyxNsfEvdg==
+  dependencies:
+    "@babel/runtime" "^7.18.6"
+    queue-microtask "1.2.3"
+
 "@onflow/util-address@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@onflow/util-address/-/util-address-1.1.0.tgz#5ee895669320f4d29e2fa2170ee256e7f52febb3"
@@ -553,10 +622,24 @@
   dependencies:
     "@babel/runtime" "^7.18.6"
 
+"@onflow/util-address@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@onflow/util-address/-/util-address-1.2.1.tgz#9520ba70cbf3017e510c16d3980d1b94804dbf2a"
+  integrity sha512-+pf8AlOsJoGsW5cJYFhJE0IOQZY6GvsvULK1MXMcIF6/4ROjjKUDkZM+1frMjxf2j9hY58UEgciEIVdzS+bIZA==
+  dependencies:
+    "@babel/runtime" "^7.18.6"
+
 "@onflow/util-invariant@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@onflow/util-invariant/-/util-invariant-1.1.0.tgz#9a3ef03f82b9777033d1b109dbad4caed08bc623"
   integrity sha512-5uxweKl5tqeqB1QLzs3dWWLtpNo7H4PgcmgnRIcC2oItAkELcnVCybDdlfYjKB4n/dlg3rIym8cJQE2tBeOpZQ==
+  dependencies:
+    "@babel/runtime" "^7.18.6"
+
+"@onflow/util-invariant@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@onflow/util-invariant/-/util-invariant-1.2.1.tgz#ef286ad3eaec651927484d9f597c79c2221ae91b"
+  integrity sha512-Xb0PQElfFjKiFFHVBZ3Fcu2BwTzF4+Gy5aOHVlJQt+IL+5ObEAxjDnFdFzl/IeRK9oVh/5R6wu0CiI3UYCw6Xg==
   dependencies:
     "@babel/runtime" "^7.18.6"
 
@@ -568,12 +651,27 @@
     "@babel/runtime" "^7.18.6"
     "@onflow/config" "^1.1.1"
 
+"@onflow/util-logger@^1.2.2", "@onflow/util-logger@^1.3.1":
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/@onflow/util-logger/-/util-logger-1.3.1.tgz#32239a93eb889df9d0191832f11c7a90eeb14240"
+  integrity sha512-LKsesUsrVFzaXO3K99Ifm8i+T1ofQNWixxiAei9WhbM2GlCBuaVj6OJ6ZF1eCnQOdwNGudYmxAx5mkFqHrOEEw==
+  dependencies:
+    "@babel/runtime" "^7.18.6"
+
 "@onflow/util-template@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@onflow/util-template/-/util-template-1.1.0.tgz#e3884bd31e0b95a86a18879f25d09b0244d22805"
   integrity sha512-gGqJJH5OTPPRmHk6YxMw4t5Ecy7iHnj00ZlCE7lnlOnpGUNdHrNNfoeE//hO8TBGNNVpOkEQERWiLDph+/oIxg==
   dependencies:
     "@babel/runtime" "^7.18.6"
+
+"@onflow/util-template@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@onflow/util-template/-/util-template-1.2.1.tgz#764f987429402f84a090b9610799c4f8b4664039"
+  integrity sha512-FVNS+ixYxC4+pBCc2Y20+GqCqeJP8KxMJy8VxcJoKs7hl6z1w8WV7yy9ITOGH1PUsI5ykDWSLTPNqolJaZW7Fg==
+  dependencies:
+    "@babel/runtime" "^7.18.6"
+    "@onflow/util-logger" "^1.3.1"
 
 "@onflow/util-uid@^1.1.0":
   version "1.1.0"

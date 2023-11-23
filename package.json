@@ -11,6 +11,7 @@
     "generate": "gqty generate"
   },
   "dependencies": {
+    "@blocto/fcl": "^1.6.1",
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
     "@fortawesome/free-brands-svg-icons": "^5.15.4",
     "@fortawesome/free-regular-svg-icons": "^6.2.0",
