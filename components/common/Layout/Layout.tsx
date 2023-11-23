@@ -2,7 +2,7 @@ import { FC, useState } from "react"
 import Navbar from "@components/common/Navbar"
 import Footer from "@components/common/Footer"
 import SideNavbar from "@components/common/SideNavbar"
-import * as fcl from "@onflow/fcl"
+import * as fcl from "@blocto/fcl"
 import Head from "next/head"
 import { useRouter } from "next/dist/client/router"
 import { ToastContainer, toast } from "react-toastify"
@@ -88,6 +88,10 @@ fcl
   )
 // .put("0xBeastMarket", process.env.NEXT_PUBLIC_BEAST_MARKET_ADDRESS)
 // .put("0xBeastOffers", process.env.NEXT_PUBLIC_BEAST_OFFERS_ADDRESS)
+// .put("0xLovePotion", process.env.NEXT_PUBLIC_BEAST_MARKET_ADDRESS)
+// .put("0xLovePotionMinter", process.env.NEXT_PUBLIC_BEAST_OFFERS_ADDRESS)
+// .put("0xEgg", process.env.NEXT_PUBLIC_BEAST_MARKET_ADDRESS)
+// .put("0xBreeding", process.env.NEXT_PUBLIC_BEAST_OFFERS_ADDRESS)
 
 const Layout: FC = ({ children }) => {
   const [isSideNavbarOpen, setIsSideNavbarOpen] = useState(false)
