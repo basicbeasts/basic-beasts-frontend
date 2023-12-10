@@ -305,6 +305,20 @@ const SlideOverNavbar: FC<Props> = ({
                             </LargeNavItem>
                           </a>
                         </Link>
+                        <a
+                          target="_blank"
+                          href="https://bbwonderland.com/"
+                          rel="noreferrer"
+                        >
+                          <SmallNavItem
+                            style={{ display: "flex", marginTop: "5px" }}
+                          >
+                            Wonderland
+                            <div>
+                              <ExternalLinkIcon src={externalLinkIcon.src} />
+                            </div>
+                          </SmallNavItem>
+                        </a>
                         {/* <Link href="/dexicon">
                           <a>
                             <LargeNavItem onClick={() => close()}>

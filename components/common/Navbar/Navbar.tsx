@@ -684,6 +684,18 @@ const Navbar: FC<FuncProps> = ({
                   Rankings
                 </A>
               </NextLink>
+              <a
+                target="_blank"
+                href="https://bbwonderland.com/"
+                rel="noreferrer"
+              >
+                <div>
+                  Wonderland
+                  <div>
+                    <ExternalLinkIcon src={externalLinkIcon.src} />
+                  </div>
+                </div>
+              </a>
             </NavItem>
             {loggedIn && (
               <NavItem>
