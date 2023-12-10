@@ -80,7 +80,7 @@ const Setup: NextPage = () => {
   }
 
   return (
-    <div>
+    <div onClick={() => setup()}>
       <DefaultHeroSection title="Setup Beastz" description="Setup collection" />
       <button onClick={() => setup()}>setup beastz collection</button>
     </div>
