@@ -684,7 +684,7 @@ const Navbar: FC<FuncProps> = ({
                   Rankings
                 </A>
               </NextLink>
-              <a
+              {/* <a
                 target="_blank"
                 href="https://bbwonderland.com/"
                 rel="noreferrer"
@@ -695,7 +695,7 @@ const Navbar: FC<FuncProps> = ({
                     <ExternalLinkIcon src={externalLinkIcon.src} />
                   </div>
                 </div>
-              </a>
+              </a> */}
             </NavItem>
             {loggedIn && (
               <NavItem>
