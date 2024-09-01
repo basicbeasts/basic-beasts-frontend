@@ -88,7 +88,7 @@ const InboxItemList: FC = () => {
     try {
       const res = await send([
         transaction(`
-        import Inbox from 0xInbox
+        import BasicBeastsInbox from 0xInbox
         import Pack from 0xPack
         import NonFungibleToken from 0xNonFungibleToken
         import FungibleToken from 0xFungibleToken
@@ -102,12 +102,12 @@ const InboxItemList: FC = () => {
         
         transaction(adminAcct: Address) {
         
-            let centralizedInboxRef: &Inbox.CentralizedInbox{Inbox.Public}
+            let centralizedInboxRef: &BasicBeastsInbox.CentralizedInbox{Inbox.Public}
             let packCollectionRef: &Pack.Collection{NonFungibleToken.Receiver}
         
             prepare(acct: AuthAccount) {
-                self.centralizedInboxRef = getAccount(adminAcct).getCapability(Inbox.CentralizedInboxPublicPath)
-                .borrow<&Inbox.CentralizedInbox{Inbox.Public}>()
+                self.centralizedInboxRef = getAccount(adminAcct).getCapability(BasicBeastsInbox.CentralizedInboxPublicPath)
+                .borrow<&BasicBeastsInbox.CentralizedInbox{BasicBeastsInbox.Public}>()
                 ?? panic("Could not get Centralized Inbox reference")
         
                 if !hasPackCollection(acct.address) {

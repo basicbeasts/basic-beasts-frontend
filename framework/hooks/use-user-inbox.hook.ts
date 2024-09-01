@@ -71,7 +71,7 @@ export default function useInbox(user: any) {
     try {
       const res = await send([
         transaction(`
-        import Inbox from 0xInbox
+        import BasicBeastsInbox from 0xInbox
         import Pack from 0xPack
         import NonFungibleToken from 0xNonFungibleToken
         import MetadataViews from 0xMetadataViews
@@ -85,7 +85,7 @@ export default function useInbox(user: any) {
           }
 
         transaction(adminAcct: Address, quantity: Int) {
-            let centralizedInboxRef: &Inbox.CentralizedInbox{Inbox.Public}
+            let centralizedInboxRef: &BasicBeastsInbox.CentralizedInbox{BasicBeastsInbox.Public}
             let packCollectionRef: &Pack.Collection{NonFungibleToken.Receiver}
             let length: Int
             let IDs: [UInt64]
@@ -112,8 +112,8 @@ export default function useInbox(user: any) {
                   )
               }
 
-                self.centralizedInboxRef = getAccount(adminAcct).getCapability(Inbox.CentralizedInboxPublicPath)
-                .borrow<&Inbox.CentralizedInbox{Inbox.Public}>()
+                self.centralizedInboxRef = getAccount(adminAcct).getCapability(BasicBeastsInbox.CentralizedInboxPublicPath)
+                .borrow<&BasicBeastsInbox.CentralizedInbox{BasicBeastsInbox.Public}>()
                 ?? panic("Could not get Centralized Inbox reference")
 
                 self.IDs = self.centralizedInboxRef.getIDs(wallet: acct.address)!
@@ -191,14 +191,14 @@ export default function useInbox(user: any) {
     try {
       let res = await query({
         cadence: `
-        import Inbox from 0xInbox
+        import BasicBeastsInbox from 0xInbox
         import NonFungibleToken from 0xNonFungibleToken
         import Pack from 0xPack
 
         pub fun main(adminAcct: Address, wallet: Address): [&Pack.NFT{Pack.Public}]? {
 
-            let centralizedInboxRef = getAccount(adminAcct).getCapability(Inbox.CentralizedInboxPublicPath)
-                .borrow<&Inbox.CentralizedInbox{Inbox.Public}>()
+            let centralizedInboxRef = getAccount(adminAcct).getCapability(BasicBeastsInbox.CentralizedInboxPublicPath)
+                .borrow<&BasicBeastsInbox.CentralizedInbox{BasicBeastsInbox.Public}>()
                 ?? panic("Could not get Centralized Inbox reference")
 
             let IDs = centralizedInboxRef.getIDs(wallet: wallet)
