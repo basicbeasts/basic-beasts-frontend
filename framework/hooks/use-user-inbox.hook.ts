@@ -78,7 +78,7 @@ export default function useInbox(user: any) {
         import FungibleToken from 0xFungibleToken
         import FUSD from 0xFUSD
 
-        pub fun hasPackCollection(_ address: Address): Bool {
+        access(all) fun hasPackCollection(_ address: Address): Bool {
             return getAccount(address)
               .getCapability<&Pack.Collection{NonFungibleToken.CollectionPublic, Pack.PackCollectionPublic}>(Pack.CollectionPublicPath)
               .check()
@@ -195,7 +195,7 @@ export default function useInbox(user: any) {
         import NonFungibleToken from 0xNonFungibleToken
         import Pack from 0xPack
 
-        pub fun main(adminAcct: Address, wallet: Address): [&Pack.NFT{Pack.Public}]? {
+        access(all) fun main(adminAcct: Address, wallet: Address): [&Pack.NFT{Pack.Public}]? {
 
             let centralizedInboxRef = getAccount(adminAcct).getCapability(BasicBeastsInbox.CentralizedInboxPublicPath)
                 .borrow<&BasicBeastsInbox.CentralizedInbox{BasicBeastsInbox.Public}>()

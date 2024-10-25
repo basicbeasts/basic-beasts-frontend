@@ -1,7 +1,7 @@
 export const GET_COLLECTION_OWNED_BEASTS = `
     import BasicBeasts from 0xBasicBeasts
 
-    pub fun main(account: Address): [&BasicBeasts.NFT{BasicBeasts.Public}] {
+    access(all) fun main(account: Address): [&BasicBeasts.NFT{BasicBeasts.Public}] {
         
         let acct = getAccount(account)
 

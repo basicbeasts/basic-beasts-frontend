@@ -38,7 +38,7 @@ export default function useFUSDChestRewards() {
         cadence: `
         import TreasureChestFUSDReward from 0xTreasureChestFUSDReward
         
-        pub fun main(adminAcct: Address): [UInt64] {
+        access(all) fun main(adminAcct: Address): [UInt64] {
           let centralizedInboxRef = getAccount(adminAcct).getCapability(TreasureChestFUSDReward.CentralizedInboxPublicPath)
         .borrow<&TreasureChestFUSDReward.CentralizedInbox{TreasureChestFUSDReward.Public}>()
         ?? panic("Could not get Centralized Inbox reference")

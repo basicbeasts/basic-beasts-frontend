@@ -167,27 +167,27 @@ const Profile: NextPage = () => {
         cadence: `
         import BasicBeasts from 0xBasicBeasts
         
-        pub struct Beast {
-            pub let id: UInt64
-            pub let serialNumber: UInt32
-            pub let beastTemplateID: UInt32
-            pub let nickname: String?
-            pub let firstOwner: Address?
-            pub let sex: String
-            pub let matron: BasicBeasts.BeastNftStruct?
-            pub let sire: BasicBeasts.BeastNftStruct?
-            pub let name: String
-            pub let starLevel: UInt32
-            pub let data: {String: String}
-            pub let skin: String
-            pub let evolvedFrom: [BasicBeasts.BeastNftStruct]?
-            pub let maxAdminMintAllowed: UInt32
-            pub let dexNumber: UInt32
-            pub let description: String
-            pub let elements: [String]
-            pub let basicSkills: [String]
-            pub let ultimateSkill: String
-            pub let breedableBeastTemplateID: UInt32
+        access(all) struct Beast {
+            access(all) let id: UInt64
+            access(all) let serialNumber: UInt32
+            access(all) let beastTemplateID: UInt32
+            access(all) let nickname: String?
+            access(all) let firstOwner: Address?
+            access(all) let sex: String
+            access(all) let matron: BasicBeasts.BeastNftStruct?
+            access(all) let sire: BasicBeasts.BeastNftStruct?
+            access(all) let name: String
+            access(all) let starLevel: UInt32
+            access(all) let data: {String: String}
+            access(all) let skin: String
+            access(all) let evolvedFrom: [BasicBeasts.BeastNftStruct]?
+            access(all) let maxAdminMintAllowed: UInt32
+            access(all) let dexNumber: UInt32
+            access(all) let description: String
+            access(all) let elements: [String]
+            access(all) let basicSkills: [String]
+            access(all) let ultimateSkill: String
+            access(all) let breedableBeastTemplateID: UInt32
 
         
             init(
@@ -235,7 +235,7 @@ const Profile: NextPage = () => {
             }
         }
         
-        pub fun main(acct: Address): [Beast] {
+        access(all) fun main(acct: Address): [Beast] {
             var beastCollection: [Beast] = []
         
             let collectionRef = getAccount(acct).getCapability(BasicBeasts.CollectionPublicPath)
@@ -345,7 +345,7 @@ const Profile: NextPage = () => {
         import Egg from 0xEgg
         import FungibleToken from 0xFungibleToken
 
-        pub fun main(address: Address): [&Egg.NFT{Egg.Public}] {
+        access(all) fun main(address: Address): [&Egg.NFT{Egg.Public}] {
             let account = getAccount(address)
 
             let collectionRef = account.getCapability(Egg.CollectionPublicPath)
@@ -388,7 +388,7 @@ const Profile: NextPage = () => {
         import Sushi from 0xSushi
         import FungibleToken from 0xFungibleToken
 
-        pub fun main(address: Address): UFix64? {
+        access(all) fun main(address: Address): UFix64? {
           let account = getAccount(address)
 
           if let vaultRef = account.getCapability(Sushi.BalancePublicPath).borrow<&Sushi.Vault{FungibleToken.Balance}>() {
@@ -414,7 +414,7 @@ const Profile: NextPage = () => {
         import EmptyPotionBottle from 0xEmptyPotionBottle
         import FungibleToken from 0xFungibleToken
 
-        pub fun main(address: Address): UFix64? {
+        access(all) fun main(address: Address): UFix64? {
           let account = getAccount(address)
 
           if let vaultRef = account.getCapability(EmptyPotionBottle.BalancePublicPath).borrow<&EmptyPotionBottle.Vault{FungibleToken.Balance}>() {
@@ -440,7 +440,7 @@ const Profile: NextPage = () => {
         import Poop from 0xPoop
         import FungibleToken from 0xFungibleToken
 
-        pub fun main(address: Address): UFix64? {
+        access(all) fun main(address: Address): UFix64? {
           let account = getAccount(address)
 
           if let vaultRef = account.getCapability(Poop.BalancePublicPath).borrow<&Poop.Vault{FungibleToken.Balance}>() {
@@ -466,7 +466,7 @@ const Profile: NextPage = () => {
         import LovePotion from 0xLovePotion
         import FungibleToken from 0xFungibleToken
 
-        pub fun main(address: Address): Int {
+        access(all) fun main(address: Address): Int {
             let account = getAccount(address)
 
             let collectionRef = account.getCapability(LovePotion.CollectionPublicPath)
@@ -498,7 +498,7 @@ const Profile: NextPage = () => {
         cadence: `
         import Pack from 0xPack
         
-        pub fun main(acct: Address): [&Pack.NFT{Pack.Public}] {
+        access(all) fun main(acct: Address): [&Pack.NFT{Pack.Public}] {
             var packCollection: [&Pack.NFT{Pack.Public}] = []
         
             let collectionRef = getAccount(acct).getCapability(Pack.CollectionPublicPath)
@@ -572,7 +572,7 @@ const Profile: NextPage = () => {
         cadence: `
         import HunterScore from 0xHunterScore
 
-        pub fun main(acct: Address): UInt32? {
+        access(all) fun main(acct: Address): UInt32? {
           return HunterScore.getHunterScore(wallet: acct)
         }
         `,
@@ -590,7 +590,7 @@ const Profile: NextPage = () => {
         cadence: `
         import HunterScore from 0xHunterScore
 
-        pub fun main(acct: Address): [UInt32]? {
+        access(all) fun main(acct: Address): [UInt32]? {
           return HunterScore.getBeastTemplatesCollected(wallet: acct)
         }
         `,
@@ -621,7 +621,7 @@ const Profile: NextPage = () => {
         cadence: `
         import Profile from 0xProfile
 
-        pub fun main(address: Address) :  Profile.UserProfile? {
+        access(all) fun main(address: Address) :  Profile.UserProfile? {
           return getAccount(address)
             .getCapability<&{Profile.Public}>(Profile.publicPath)
             .borrow()?.asProfile()
@@ -652,7 +652,7 @@ const Profile: NextPage = () => {
         cadence: `
         import Evolution from 0xEvolution
         
-        pub fun main(): {UInt32: UInt32} {
+        access(all) fun main(): {UInt32: UInt32} {
           return Evolution.getAllEvolutionPairs()
         }
         `,

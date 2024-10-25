@@ -46,7 +46,7 @@ export default function useBeastMarket() {
         import HunterScore from 0xHunterScore
         import BasicBeasts from 0xBasicBeasts
 
-        pub fun main(): [{String:AnyStruct}] {
+        access(all) fun main(): [{String:AnyStruct}] {
 
           let addresses = HunterScore.getHunterScores().keys
           var beasts: [{String: AnyStruct}] = []
@@ -154,7 +154,7 @@ export default function useBeastMarket() {
         import BasicBeasts from 0xBasicBeasts
         import BeastMarket from 0xBeastMarket
 
-        pub fun main(): [{String:AnyStruct}] {
+        access(all) fun main(): [{String:AnyStruct}] {
 
         //Get all addresses
         let addresses = BeastMarket.getSellers()
@@ -574,7 +574,7 @@ export default function useBeastMarket() {
         import BasicBeasts from 0xBasicBeasts
         import BeastOffers from 0xBeastOffers
         
-        pub fun main(): [{String:AnyStruct}] {
+        access(all) fun main(): [{String:AnyStruct}] {
         
             //Get all addresses
             let addresses = BeastOffers.getOfferors()
@@ -792,7 +792,7 @@ export default function useBeastMarket() {
       let res = await query({
         cadence: `
         import BeastMarket from 0xBeastMarket
-        pub fun main(): UFix64 {
+        access(all) fun main(): UFix64 {
             return BeastMarket.highestSale
         }
         `,

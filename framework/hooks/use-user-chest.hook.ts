@@ -29,7 +29,7 @@ export default function useUserChests(user: any) {
         cadence: `
         import NFTDayTreasureChest from 0xNFTDayTreasureChest
         
-        pub fun main(address: Address) : [UInt64] {
+        access(all) fun main(address: Address) : [UInt64] {
             let account = getAccount(address)
         
             var IDs: [UInt64] = []
@@ -61,7 +61,7 @@ export default function useUserChests(user: any) {
         cadence: `
         import BlackMarketplace from 0xBlackMarketplace
 
-        pub fun main(address: Address) : [UInt64] {
+        access(all) fun main(address: Address) : [UInt64] {
             let account = getAccount(address)
 
             var IDs: [UInt64] = []

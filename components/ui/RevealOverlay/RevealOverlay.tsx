@@ -285,19 +285,19 @@ const RevealOverlay: FC<Props> = ({
         import MetadataViews from 0xMetadataViews
         import FUSD from 0xFUSD
 
-        pub fun hasSushiVault(_ address: Address): Bool {
+        access(all) fun hasSushiVault(_ address: Address): Bool {
           return getAccount(address)
             .getCapability<&Sushi.Vault{FungibleToken.Balance}>(Sushi.BalancePublicPath)
             .check()
         }
         
-        pub fun hasPoopVault(_ address: Address): Bool {
+        access(all) fun hasPoopVault(_ address: Address): Bool {
           return getAccount(address)
             .getCapability<&Poop.Vault{FungibleToken.Balance}>(Poop.BalancePublicPath)
             .check()
         }
         
-        pub fun hasEmptyPotionBottleVault(_ address: Address): Bool {
+        access(all) fun hasEmptyPotionBottleVault(_ address: Address): Bool {
           return getAccount(address)
             .getCapability<&EmptyPotionBottle.Vault{FungibleToken.Balance}>(EmptyPotionBottle.BalancePublicPath)
             .check()

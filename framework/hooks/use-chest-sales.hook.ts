@@ -29,7 +29,7 @@ export default function useChestSales() {
         import NFTDayTreasureChest from 0xNFTDayTreasureChest
 
         // This script returns the available chest sales
-        pub fun main() : {Address:{UInt64: UFix64}} {
+        access(all) fun main() : {Address:{UInt64: UFix64}} {
 
             let addresses = BlackMarketplace.getSellers()
 

@@ -209,7 +209,7 @@ const Treasure: NextPage = () => {
         import MetadataViews from 0xMetadataViews
         import NFTDayTreasureChest from 0xNFTDayTreasureChest
 
-        pub fun hasChestCollection(_ address: Address): Bool {
+        access(all) fun hasChestCollection(_ address: Address): Bool {
           return getAccount(address)
             .getCapability<&NFTDayTreasureChest.Collection{NonFungibleToken.CollectionPublic, NFTDayTreasureChest.NFTDayTreasureChestCollectionPublic}>(NFTDayTreasureChest.CollectionPublicPath)
             .check()

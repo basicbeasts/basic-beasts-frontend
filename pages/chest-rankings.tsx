@@ -893,7 +893,7 @@ const ChestRankings: NextPage = () => {
       let res = await query({
         cadence: `
         import Profile from 0xProfile
-        pub fun main(addresses: [Address]) : {Address: Profile.UserProfile} {
+        access(all) fun main(addresses: [Address]) : {Address: Profile.UserProfile} {
             var profiles: {Address: Profile.UserProfile} = {}
             for address in addresses {
                 let user = getAccount(address)
@@ -920,7 +920,7 @@ const ChestRankings: NextPage = () => {
         cadence: `
         import NFTDayTreasureChest from 0xNFTDayTreasureChest
         
-        pub fun main(addresses: [Address]) : {Address:[UInt64]} {
+        access(all) fun main(addresses: [Address]) : {Address:[UInt64]} {
           var dict: {Address:[UInt64]} = {}
       
           for address in addresses {
@@ -958,7 +958,7 @@ const ChestRankings: NextPage = () => {
         cadence: `
         import BlackMarketplace from 0xBlackMarketplace
 
-        pub fun main(addresses: [Address]) : {Address:[UInt64]} {
+        access(all) fun main(addresses: [Address]) : {Address:[UInt64]} {
           var dict: {Address:[UInt64]} = {}
 
           for address in addresses {

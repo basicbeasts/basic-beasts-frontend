@@ -6,7 +6,7 @@ import Pack from 0xPack
 import NonFungibleToken from 0xNonFungibleToken
 import MetadataViews from 0xMetadataViews
 
-pub fun hasPackCollection(_ address: Address): Bool {
+access(all) fun hasPackCollection(_ address: Address): Bool {
     return getAccount(address)
       .getCapability<&Pack.Collection{NonFungibleToken.CollectionPublic, Pack.PackCollectionPublic}>(Pack.CollectionPublicPath)
       .check()

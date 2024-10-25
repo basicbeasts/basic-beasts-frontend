@@ -23,26 +23,26 @@ export default function useUserBeasts(user: any) {
         cadence: `
         import BasicBeasts from 0xBasicBeasts
         
-        pub struct Beast {
-            pub let id: UInt64
-            pub let serialNumber: UInt32
-            pub let beastTemplateID: UInt32
-            pub let nickname: String?
-            pub let firstOwner: Address?
-            pub let sex: String
-            pub let matron: BasicBeasts.BeastNftStruct?
-            pub let sire: BasicBeasts.BeastNftStruct?
-            pub let name: String
-            pub let starLevel: UInt32
-            pub let data: {String: String}
-            pub let skin: String
-            pub let evolvedFrom: [BasicBeasts.BeastNftStruct]?
-            pub let maxAdminMintAllowed: UInt32
-            pub let dexNumber: UInt32
-            pub let description: String
-            pub let elements: [String]
-            pub let basicSkills: [String]
-            pub let ultimateSkill: String
+        access(all) struct Beast {
+            access(all) let id: UInt64
+            access(all) let serialNumber: UInt32
+            access(all) let beastTemplateID: UInt32
+            access(all) let nickname: String?
+            access(all) let firstOwner: Address?
+            access(all) let sex: String
+            access(all) let matron: BasicBeasts.BeastNftStruct?
+            access(all) let sire: BasicBeasts.BeastNftStruct?
+            access(all) let name: String
+            access(all) let starLevel: UInt32
+            access(all) let data: {String: String}
+            access(all) let skin: String
+            access(all) let evolvedFrom: [BasicBeasts.BeastNftStruct]?
+            access(all) let maxAdminMintAllowed: UInt32
+            access(all) let dexNumber: UInt32
+            access(all) let description: String
+            access(all) let elements: [String]
+            access(all) let basicSkills: [String]
+            access(all) let ultimateSkill: String
 
         
             init(
@@ -88,7 +88,7 @@ export default function useUserBeasts(user: any) {
             }
         }
         
-        pub fun main(acct: Address): [Beast] {
+        access(all) fun main(acct: Address): [Beast] {
             var beastCollection: [Beast] = []
         
             let collectionRef = getAccount(acct).getCapability(BasicBeasts.CollectionPublicPath)

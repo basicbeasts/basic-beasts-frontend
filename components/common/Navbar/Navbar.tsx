@@ -593,7 +593,7 @@ const Navbar: FC<FuncProps> = ({
         cadence: `
         import Profile from 0xProfile
 
-        pub fun main(address: Address) :  Profile.UserProfile? {
+        access(all) fun main(address: Address) :  Profile.UserProfile? {
           return getAccount(address)
             .getCapability<&{Profile.Public}>(Profile.publicPath)
             .borrow()?.asProfile()

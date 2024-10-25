@@ -407,7 +407,7 @@ const Chests: FC = () => {
         cadence: `
         import NFTDayTreasureChest from 0xNFTDayTreasureChest
         
-        pub fun main(): [Address] {
+        access(all) fun main(): [Address] {
           return NFTDayTreasureChest.getWhitelist()
         }
         `,
@@ -424,7 +424,7 @@ const Chests: FC = () => {
         cadence: `
         import BlackMarketplace from 0xBlackMarketplace
         
-        pub fun main(): [Address] {
+        access(all) fun main(): [Address] {
           return BlackMarketplace.getWhitelistUsed()
         }
         `,

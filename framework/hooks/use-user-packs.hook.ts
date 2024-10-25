@@ -40,7 +40,7 @@ export default function useUserPacks(user: any) {
         cadence: `
         import Pack from 0xPack
         
-        pub fun main(acct: Address): [&Pack.NFT{Pack.Public}] {
+        access(all) fun main(acct: Address): [&Pack.NFT{Pack.Public}] {
             var packCollection: [&Pack.NFT{Pack.Public}] = []
         
             let collectionRef = getAccount(acct).getCapability(Pack.CollectionPublicPath)
