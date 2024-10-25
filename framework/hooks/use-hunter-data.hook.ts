@@ -40,7 +40,7 @@ export default function useHunterData() {
         cadence: `
         import HunterScore from 0xHunterScore
 
-        pub fun main(): {Address: UInt32} {
+        access(all) fun main(): {Address: UInt32} {
           return HunterScore.getHunterScores()
         }
         `,
@@ -60,7 +60,7 @@ export default function useHunterData() {
         cadence: `
         import HunterScore from 0xHunterScore
 
-        pub fun main(): {Address: [UInt64]} {
+        access(all) fun main(): {Address: [UInt64]} {
           return HunterScore.getAllBeastsCollected()
         }
         `,
@@ -79,7 +79,7 @@ export default function useHunterData() {
         cadence: `
         import Profile from 0xProfile
 
-        pub fun main(addresses: [Address]) : {Address: Profile.UserProfile} {
+        access(all) fun main(addresses: [Address]) : {Address: Profile.UserProfile} {
             var profiles: {Address: Profile.UserProfile} = {}
             for address in addresses {
                 let user = getAccount(address)
